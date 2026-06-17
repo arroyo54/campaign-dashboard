@@ -1,0 +1,25 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Attribution collections — only Cloud Functions can read/write
+    match /touchpoints/{doc} {
+      allow read, write: if false;
+    }
+    match /purchases/{doc} {
+      allow read, write: if false;
+    }
+    match /identities/{doc} {
+      allow read, write: if false;
+    }
+    match /raw_purchases/{doc} {
+      allow read, write: if false;
+    }
+    match /raw_identities/{doc} {
+      allow read, write: if false;
+    }
+    // Keep existing rules for other collections
+    match /{document=**} {
+      allow read, write: if true;
+    }
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "indexes": [
+    {
+      "collectionGroup": "touchpoints",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "cid", "order": "ASCENDING" },
+        { "fieldPath": "timestamp", "order": "ASCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "purchases",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "cid", "order": "ASCENDING" },
+        { "fieldPath": "timestamp", "order": "ASCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "touchpoints",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "cid", "order": "ASCENDING" },
+        { "fieldPath": "timestamp", "order": "DESCENDING" }
+      ]
+    }
+  ],
+  "fieldOverrides": []
+}

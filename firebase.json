@@ -1,0 +1,22 @@
+{
+  "hosting": {
+    "site": "heru-growth-dashboard",
+    "public": ".",
+    "ignore": [
+      "firebase.json",
+      "firestore.indexes.json",
+      "firestore.rules",
+      "functions/**",
+      "**/node_modules/**",
+      "**/.*"
+    ]
+  },
+  "functions": {
+    "source": "functions",
+    "runtime": "nodejs20"
+  },
+  "firestore": {
+    "indexes": "firestore.indexes.json",
+    "rules": "firestore.rules"
+  }
+}
