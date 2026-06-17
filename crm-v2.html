@@ -219,6 +219,7 @@
           <button class="sb-admin-only" onclick="autoAssign()" style="background:#1790EC;color:white;border:none;padding:8px 14px;border-radius:8px;cursor:pointer;font-size:12px;font-weight:600;">Asignar</button>
           <button onclick="openNewOpp()" style="background:#00C48C;color:white;border:none;padding:8px 14px;border-radius:8px;cursor:pointer;font-size:12px;font-weight:600;">+ Oportunidad</button>
           <button onclick="loadData(true)" style="background:white;border:1px solid var(--border);color:var(--muted);padding:8px 12px;border-radius:8px;cursor:pointer;font-size:12px;">🔄</button>
+          <button class="sb-admin-only" onclick="repairNamelessLeads()" title="Pone nombre a leads que quedaron sin nombre (se ven como id crudo)" style="background:white;border:1px solid var(--border);color:var(--muted);padding:8px 12px;border-radius:8px;cursor:pointer;font-size:12px;">🩹 Reparar nombres</button>
           <button id="btnClearAssign" onclick="clearAssignments()" style="display:none;background:#EF444422;color:#EF4444;border:1px solid #EF444444;padding:8px 12px;border-radius:8px;cursor:pointer;font-size:11px;">Limpiar</button>
         </div>
         <div id="b2bSourceFilter" style="display:none;margin-bottom:12px;gap:6px;">
@@ -227,7 +228,8 @@
           <button class="b2b-src-chip" data-src="apollo" onclick="setB2BSrc('apollo')" style="padding:6px 14px;border:1px solid var(--border);border-radius:99px;font-size:11px;cursor:pointer;background:white;color:var(--muted);font-weight:500;font-family:inherit;">Apollo</button>
         </div>
         <div id="kpis" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin-bottom:16px;"></div>
-        <div class="glass pipe-container"><div class="scroll-section" style="max-height:600px;"><table id="pipelineTable" style="width:100%;font-size:12px;border-collapse:collapse;"></table></div></div>
+        <div class="glass pipe-container" id="pipeTableWrap"><div class="scroll-section" style="max-height:600px;"><table id="pipelineTable" style="width:100%;font-size:12px;border-collapse:collapse;"></table></div></div>
+        <div id="pipelineCards" style="display:none;flex-direction:column;gap:8px;"></div>
         <div id="pagination" style="display:flex;justify-content:center;gap:8px;margin-top:16px;"></div>
       </div>
       <div id="subArchivo" style="display:none;">
@@ -295,7 +297,7 @@
     <button onclick="createManualOpp()" style="margin-top:16px;background:#1790EC;color:#fff;border:none;padding:10px 24px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;width:100%;">Crear Oportunidad</button>
     <div style="margin-top:20px;padding-top:16px;border-top:1px solid var(--border);">
       <div style="font-size:13px;font-weight:600;margin-bottom:8px;">O carga varias con CSV</div>
-      <div style="font-size:11px;color:var(--muted);margin-bottom:8px;">Columnas: nombre, email, telefono, empresa, potencial_venta</div>
+      <div style="font-size:11px;color:var(--muted);margin-bottom:8px;">Requeridas: <b>nombre</b> + (<b>email</b> o <b>telefono</b>). Opcionales: empresa, potencial, cargo, sector, linkedin, website. El orden no importa, pero los encabezados deben existir.</div>
       <div style="display:flex;gap:8px;align-items:center;"><input type="file" id="oppCsvInput" accept=".csv" style="font-size:12px;flex:1;"><button onclick="importOppCsv()" style="background:#00C48C;color:#fff;border:none;padding:8px 16px;border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;white-space:nowrap;">Importar CSV</button></div>
     </div>
     <div id="oppResult" style="margin-top:8px;font-size:12px;"></div>
@@ -409,14 +411,12 @@ const B2B_TAGS = [
 ];
 const B2B_ETAPAS = [
   {id:'investigacion',label:'Investigación'},
+  {id:'busqueda_contactos',label:'Búsqueda de contactos'},
   {id:'primer_contacto',label:'1er contacto'},
   {id:'segundo_contacto',label:'2do contacto'},
   {id:'primer_llamada',label:'1a llamada'},
   {id:'segunda_llamada',label:'2a llamada'},
   {id:'demo',label:'Demo'},
-  {id:'propuesta',label:'Propuesta'},
-  {id:'negociacion',label:'Negociación'},
-  {id:'firma',label:'Firma'},
   {id:'activa',label:'Alianza activa'},
   {id:'perdido',label:'Perdido'}
 ];
@@ -1437,12 +1437,12 @@ function openCompanyView(companyName) {
   if (!contacts.length) return;
   const best = contacts[0];
   const b = best._b2b || {};
-  const fc = {nuevo:'#3B82F6',contactado:'#F59E0B',seguimiento:'#8B5CF6',interesado:'#00C48C',perdido:'#EF4444',investigacion:'#94A3B8',primer_contacto:'#3B82F6',segundo_contacto:'#60A5FA',primer_llamada:'#F59E0B',segunda_llamada:'#FBBF24',demo:'#8B5CF6',propuesta:'#A78BFA',negociacion:'#F97316',firma:'#00C48C',activa:'#059669'};
+  const fc = {nuevo:'#3B82F6',contactado:'#F59E0B',seguimiento:'#8B5CF6',interesado:'#00C48C',perdido:'#EF4444',investigacion:'#94A3B8',busqueda_contactos:'#06B6D4',primer_contacto:'#3B82F6',segundo_contacto:'#60A5FA',primer_llamada:'#F59E0B',segunda_llamada:'#FBBF24',demo:'#8B5CF6',activa:'#059669'};
   const starsH = n=>'<span style="color:#F59E0B;letter-spacing:-1px;">'+'★'.repeat(n)+'</span><span style="color:var(--border);letter-spacing:-1px;">'+'☆'.repeat(5-n)+'</span>';
   const asg = assignments[compId]||{};
   const fase = asg.fase || contacts.reduce((bst,l) => {
     const f = assignments[l.userId]?.fase||'nuevo';
-    const order = ['nuevo','investigacion','primer_contacto','segundo_contacto','primer_llamada','segunda_llamada','demo','propuesta','negociacion','firma','activa'];
+    const order = ['nuevo','investigacion','busqueda_contactos','primer_contacto','segundo_contacto','primer_llamada','segunda_llamada','demo','activa'];
     return order.indexOf(f) > order.indexOf(bst) ? f : bst;
   }, 'nuevo');
   const vendedor = asg.vendedor ? (VENDEDORES[asg.vendedor]||asg.vendedor) : (assignments[contacts[0]?.userId]?.vendedor ? (VENDEDORES[assignments[contacts[0]?.userId]?.vendedor]||assignments[contacts[0]?.userId]?.vendedor) : 'Sin asignar');
@@ -1762,7 +1762,7 @@ function renderInvestigacionTab(entityId, fase) {
   const dec = assignments[entityId]?.decisor || {};
   const como = assignments[entityId]?.como_llegar || [];
   const tareas = assignments[entityId]?.tareas || [];
-  const faseLabels = {investigacion:'investigación',primer_contacto:'primer contacto',segundo_contacto:'segundo contacto',primer_llamada:'primera llamada',segunda_llamada:'segunda llamada',demo:'demo',propuesta:'propuesta',negociacion:'negociación',firma:'firma',activa:'activa'};
+  const faseLabels = {investigacion:'investigación',busqueda_contactos:'búsqueda de contactos',primer_contacto:'primer contacto',segundo_contacto:'segundo contacto',primer_llamada:'primera llamada',segunda_llamada:'segunda llamada',demo:'demo',activa:'activa'};
   const faseMsg = faseLabels[fase] || fase;
 
   let h = `<div class="lt-panel" id="ltInvestigacion_${entityId}" style="display:none;">`;
@@ -1997,10 +1997,10 @@ function renderPipeline() {
   // B2B phase filters
   else if (kf && kf.startsWith('f_')) {
     const phaseMap = {
-      f_investigacion:['investigacion'], f_contacto:['primer_contacto','segundo_contacto'],
+      f_investigacion:['investigacion'], f_busqueda:['busqueda_contactos'],
+      f_contacto:['primer_contacto','segundo_contacto'],
       f_llamada:['primer_llamada','segunda_llamada'], f_demo:['demo'],
-      f_propuesta:['propuesta'], f_negociacion:['negociacion'],
-      f_firma:['firma'], f_activa:['activa'], f_perdido:['perdido']
+      f_activa:['activa'], f_perdido:['perdido']
     };
     const phases = phaseMap[kf] || [];
     if (phases.length) pipeline = pipeline.filter(l => {
@@ -2035,7 +2035,7 @@ function renderPipeline() {
       const compId = 'company_' + name.replace(/[^a-zA-Z0-9]/g,'_').substring(0,60);
       const bestFase = contacts.reduce((best,l) => {
         const f = assignments[l.userId]?.fase||'nuevo';
-        const order = ['nuevo','investigacion','primer_contacto','segundo_contacto','primer_llamada','segunda_llamada','demo','propuesta','negociacion','firma','activa'];
+        const order = ['nuevo','investigacion','busqueda_contactos','primer_contacto','segundo_contacto','primer_llamada','segunda_llamada','demo','activa'];
         return order.indexOf(f) > order.indexOf(best) ? f : best;
       }, 'nuevo');
       return {
@@ -2090,17 +2090,15 @@ function renderPipeline() {
       const f = assignments[l.userId]?.fase || (l._isAlianza && l._alianza?.etapa ? l._alianza.etapa : 'investigacion');
       faseCount[f] = (faseCount[f]||0) + 1;
     });
-    const fc2 = {investigacion:'#94A3B8',primer_contacto:'#3B82F6',segundo_contacto:'#60A5FA',primer_llamada:'#F59E0B',segunda_llamada:'#FBBF24',demo:'#8B5CF6',propuesta:'#A78BFA',negociacion:'#F97316',firma:'#00C48C',activa:'#059669',perdido:'#EF4444'};
+    const fc2 = {investigacion:'#94A3B8',busqueda_contactos:'#06B6D4',primer_contacto:'#3B82F6',segundo_contacto:'#60A5FA',primer_llamada:'#F59E0B',segunda_llamada:'#FBBF24',demo:'#8B5CF6',activa:'#059669',perdido:'#EF4444'};
     document.getElementById('kpis').innerHTML =
       pipeKPI('Investigación',faseCount.investigacion||0,'sin contactar',fc2.investigacion,'f_investigacion') +
+      pipeKPI('Búsqueda de contactos',faseCount.busqueda_contactos||0,'localizando',fc2.busqueda_contactos,'f_busqueda') +
       pipeKPI('Contacto',((faseCount.primer_contacto||0)+(faseCount.segundo_contacto||0)),'1er + 2do',fc2.primer_contacto,'f_contacto') +
       pipeKPI('Llamada',((faseCount.primer_llamada||0)+(faseCount.segunda_llamada||0)),'1a + 2a',fc2.primer_llamada,'f_llamada') +
       pipeKPI('Demo',(faseCount.demo||0),'agendadas','#8B5CF6','f_demo') +
-      pipeKPI('Propuesta',(faseCount.propuesta||0),'enviadas','#A78BFA','f_propuesta') +
-      pipeKPI('Negociación',(faseCount.negociacion||0),'en proceso','#F97316','f_negociacion') +
-      pipeKPI('Firma',(faseCount.firma||0),'por cerrar','#00C48C','f_firma') +
-      pipeKPI('Activa',(faseCount.activa||0),'alianzas vivas','#059669','f_activa') +
-      pipeKPI('Perdido',(faseCount.perdido||0),'','#EF4444','f_perdido');
+      pipeKPI('Activo',(faseCount.activa||0),'alianzas vivas','#059669','f_activa') +
+      pipeKPI('Perdido',(faseCount.perdido||0),'descartados','#EF4444','f_perdido');
   } else {
     const statusCount = {nuevo:0, contactado:0, seguimiento:0, interesado:0, perdido:0};
     allP.forEach(l => { const f = assignments[l.userId]?.fase || 'nuevo'; if (statusCount[f] !== undefined) statusCount[f]++; });
@@ -2115,8 +2113,87 @@ function renderPipeline() {
   const start = currentPage * PER_PAGE;
   const page = pipeline.slice(start, start+PER_PAGE);
   const starsH = n=>'<span style="color:#F59E0B;letter-spacing:-1px;">'+'★'.repeat(n)+'</span><span style="color:var(--border);letter-spacing:-1px;">'+'☆'.repeat(5-n)+'</span>';
-  const fc = {nuevo:'#3B82F6',contactado:'#F59E0B',seguimiento:'#8B5CF6',interesado:'#00C48C',perdido:'#EF4444',investigacion:'#94A3B8',primer_contacto:'#3B82F6',segundo_contacto:'#60A5FA',primer_llamada:'#F59E0B',segunda_llamada:'#FBBF24',demo:'#8B5CF6',propuesta:'#A78BFA',negociacion:'#F97316',firma:'#00C48C',activa:'#059669'};
+  const fc = {nuevo:'#3B82F6',contactado:'#F59E0B',seguimiento:'#8B5CF6',interesado:'#00C48C',perdido:'#EF4444',investigacion:'#94A3B8',busqueda_contactos:'#06B6D4',primer_contacto:'#3B82F6',segundo_contacto:'#60A5FA',primer_llamada:'#F59E0B',segunda_llamada:'#FBBF24',demo:'#8B5CF6',activa:'#059669'};
   const thS = 'padding:10px 8px;text-align:left;font-size:10px;color:var(--muted);';
+  const initials = s => { const p=(s||'').trim().split(/\s+/).filter(Boolean); if(!p.length) return ''; return ((p[0][0]||'')+(p[1]?p[1][0]:(p[0][1]||''))).toUpperCase(); };
+
+  if (isB2B) {
+    // ── B2B: vista limpia en tarjetas ──
+    const GRID = 'grid-template-columns:22px minmax(0,1fr) 104px 110px 72px;';
+    let ch = `<div style="display:grid;${GRID}gap:10px;padding:2px 12px 6px;font-size:9px;letter-spacing:.05em;color:var(--muted);text-transform:uppercase;align-items:center;">`
+      + `<div><input type="checkbox" onchange="toggleSelectAll(this)" style="cursor:pointer;"></div><div>Lead</div><div>Fase</div><div>Resp.</div><div style="text-align:right;">Score</div></div>`;
+    for (const l of page) {
+      const asg = assignments[l.userId]||{};
+      const cool = coolingIcon(l.userId);
+      const lastAct = activities[l.userId]?.[0];
+      const lastActStr = lastAct ? getTimeAgo(new Date(lastAct.ts)) : '—';
+      const checked = selectedLeads.has(l.userId) ? 'checked' : '';
+      const rowTags = (asg.tags||[]).slice(0,3).map(tid => { const t = getTagInfo(tid,l.userId); return `<span style="background:${t.color}18;color:${t.color};padding:1px 6px;border-radius:6px;font-size:9px;font-weight:600;">${t.label}</span>`; }).join('');
+      const scoreColor = l.stars>=4?'#F59E0B':l.stars>=3?'#3B82F6':'var(--muted)';
+      let leadBlock, faseId, respName='—', respColor='#1790EC', activityStr, onclick;
+
+      if (l._isCompanyGroup) {
+        const cts = l._companyContacts||[]; const bb = l._b2b||{};
+        const conocidos = asg.conocidos || [];
+        const sub = `${bb.industry||''}${bb.employees?' · '+bb.employees+' emps':''}`;
+        const tags = `<span style="background:#F59E0B22;color:#854F0B;padding:1px 6px;border-radius:6px;font-size:9px;font-weight:600;">EMPRESA</span>`
+          + `<span style="background:#3B82F622;color:#185FA5;padding:1px 6px;border-radius:6px;font-size:9px;font-weight:600;">${cts.length} contactos</span>`
+          + (conocidos.length?`<span style="background:#8B5CF622;color:#534AB7;padding:1px 6px;border-radius:6px;font-size:9px;font-weight:600;">👤 ${conocidos.length}</span>`:'') + rowTags;
+        leadBlock = `<div style="font-weight:700;font-size:13px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">🏢 ${l._companyName}</div><div style="font-size:10px;color:var(--muted);margin:1px 0 4px;">${sub}</div><div style="display:flex;flex-wrap:wrap;gap:4px;">${tags}</div>`;
+        faseId = l._companyFase||'investigacion';
+        respName = l._companyVendedor ? (VENDEDORES[l._companyVendedor]||l._companyVendedor.split('@')[0]) : '—';
+        respColor = '#F59E0B';
+        activityStr = '—';
+        onclick = `if(!event.target.closest('input'))openCompanyView('${l._companyName.replace(/'/g,"\\'")}')`;
+      } else if (l._isAlianza) {
+        const al = l._alianza||{}; const secColor = ALIANZA_SECTORS[al.sector]||'#6B7280';
+        const respLabel = ALIANZA_RESP[al.resp]||al.resp||'';
+        const prBadge = al.prioridad==='quickwin'?`<span style="background:#00C48C22;color:#0F6E56;padding:1px 6px;border-radius:6px;font-size:9px;font-weight:600;">Quick win</span>`:al.prioridad==='apuesta'?`<span style="background:#8B5CF622;color:#534AB7;padding:1px 6px;border-radius:6px;font-size:9px;font-weight:600;">Apuesta</span>`:`<span style="background:#94A3B822;color:#5F5E5A;padding:1px 6px;border-radius:6px;font-size:9px;font-weight:600;">Radar</span>`;
+        const trBadge = al.track==='t1'?`<span style="background:#185FA522;color:#0C447C;padding:1px 6px;border-radius:6px;font-size:9px;font-weight:600;">Gremio</span>`:`<span style="background:#1790EC22;color:#185FA5;padding:1px 6px;border-radius:6px;font-size:9px;font-weight:600;">Plataforma</span>`;
+        leadBlock = `<div style="font-size:13px;font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${l._nombre} <span style="background:${secColor}22;color:${secColor};padding:1px 7px;border-radius:6px;font-size:10px;font-weight:600;">${al.sector||''}</span></div><div style="font-size:10px;color:var(--muted);margin:1px 0 4px;">${(al.usuarios||0).toLocaleString()} personas${respLabel?' · '+respLabel:''}</div><div style="display:flex;flex-wrap:wrap;gap:4px;">${prBadge}${trBadge}${rowTags}</div>`;
+        faseId = asg.fase || al.etapa || 'investigacion';
+        respName = respLabel || '—';
+        respColor = '#0F6E56';
+        activityStr = `${cool} ${lastActStr}`;
+        onclick = `if(!event.target.closest('input'))openLead('${l.userId}')`;
+      } else {
+        const b = l._b2b||{};
+        const esBadge = b.emailStatus==='Verified'?`<span style="background:rgba(0,196,140,0.15);color:#0F6E56;padding:1px 6px;border-radius:6px;font-size:9px;font-weight:600;">Email ✓</span>`:b.emailStatus==='Extrapolated'?`<span style="background:rgba(249,115,22,0.15);color:#993C1D;padding:1px 6px;border-radius:6px;font-size:9px;font-weight:600;">Email ~</span>`:'';
+        const senBadge = ['vp','director','c suite','founder','owner','partner','head'].some(s=>(b.seniority||'').toLowerCase().includes(s))?`<span style="background:rgba(139,92,246,0.15);color:#534AB7;padding:1px 6px;border-radius:6px;font-size:9px;font-weight:600;">${b.seniority}</span>`:'';
+        const srcBadge = l._isManual?`<span style="background:#8B5CF622;color:#534AB7;padding:1px 6px;border-radius:6px;font-size:9px;font-weight:600;">Manual</span>`:`<span style="background:#F59E0B22;color:#854F0B;padding:1px 6px;border-radius:6px;font-size:9px;font-weight:600;">Apollo</span>`;
+        leadBlock = `<div style="font-size:13px;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${l._nombre}</div><div style="font-size:10px;color:var(--muted);margin:1px 0 4px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${b.company||''}${b.title?' · '+b.title:''}</div><div style="display:flex;flex-wrap:wrap;gap:4px;">${srcBadge}${esBadge}${senBadge}${rowTags}</div>`;
+        faseId = asg.fase || 'investigacion';
+        respName = asg.vendedor ? (VENDEDORES[asg.vendedor]||asg.vendedor.split('@')[0]) : '—';
+        respColor = '#1790EC';
+        activityStr = `${cool} ${lastActStr}`;
+        onclick = `if(!event.target.closest('input'))openLead('${l.userId}')`;
+      }
+
+      const faseColor = fc[faseId]||'#6B7280';
+      const fasePill = `<span style="background:${faseColor}22;color:${faseColor};padding:3px 9px;border-radius:6px;font-size:10px;font-weight:600;white-space:nowrap;">${faseLabel(faseId)}</span>`;
+      const respHtml = (respName && respName!=='—')
+        ? `<div style="display:flex;align-items:center;gap:6px;min-width:0;"><span style="width:24px;height:24px;flex:none;border-radius:50%;background:${respColor}1A;color:${respColor};display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;">${initials(respName)}</span><span style="font-size:11px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${respName}</span></div>`
+        : `<span style="font-size:11px;color:var(--muted);">—</span>`;
+      const scoreBlock = `<div style="text-align:right;"><div style="font-size:15px;font-weight:800;color:${scoreColor};line-height:1;">${l.score}</div><div style="font-size:9px;letter-spacing:-1px;">${starsH(l.stars)}</div><div style="font-size:9px;color:var(--muted);margin-top:2px;white-space:nowrap;">${activityStr}</div></div>`;
+
+      ch += `<div onclick="${onclick}" style="background:#fff;border:1px solid var(--border);border-radius:10px;padding:9px 12px;display:grid;${GRID}gap:10px;align-items:center;cursor:pointer;">`
+        + `<div onclick="event.stopPropagation()"><input type="checkbox" class="lead-cb" value="${l.userId}" ${checked} onchange="toggleSelect('${l.userId}',this)" style="cursor:pointer;"></div>`
+        + `<div style="min-width:0;">${leadBlock}</div>`
+        + `<div>${fasePill}</div>`
+        + `<div style="min-width:0;">${respHtml}</div>`
+        + scoreBlock + `</div>`;
+    }
+    if (!page.length) ch += `<div style="padding:40px;text-align:center;color:var(--muted);background:#fff;border:1px solid var(--border);border-radius:10px;">No hay empresas con estos filtros</div>`;
+    document.getElementById('pipelineCards').innerHTML = ch;
+    document.getElementById('pipelineCards').style.display = 'flex';
+    document.getElementById('pipeTableWrap').style.display = 'none';
+    const tpB = Math.ceil(pipeline.length/PER_PAGE);
+    document.getElementById('pagination').innerHTML = tpB>1 ? `<button onclick="currentPage=0;renderPipeline()" style="background:var(--subtle);border:1px solid var(--border);padding:4px 10px;border-radius:6px;cursor:pointer;font-size:11px;" ${currentPage===0?'disabled':''}>«</button><span style="font-size:12px;color:var(--muted);padding:4px 8px;">Pag ${currentPage+1} de ${tpB} (${fmtInt(pipeline.length)})</span><button onclick="currentPage=Math.min(currentPage+1,${tpB-1});renderPipeline()" style="background:var(--subtle);border:1px solid var(--border);padding:4px 10px;border-radius:6px;cursor:pointer;font-size:11px;" ${currentPage>=tpB-1?'disabled':''}>Ver más empresas »</button>` : `<span style="font-size:12px;color:var(--muted);">${fmtInt(pipeline.length)} empresas</span>`;
+    return;
+  }
+
+  document.getElementById('pipeTableWrap').style.display = '';
+  document.getElementById('pipelineCards').style.display = 'none';
 
   let h = '<thead><tr style="border-bottom:2px solid var(--border);background:var(--subtle);">';
   h += '<th style="padding:10px 4px;width:30px;"><input type="checkbox" onchange="toggleSelectAll(this)" style="cursor:pointer;"></th>';
@@ -2224,7 +2301,7 @@ function renderPipeline() {
 }
 // ══ Lead Detail Modal ═════════════════════════════════════════
 function faseLabel(f) {
-  const map = {investigacion:'Investigación',primer_contacto:'1er contacto',segundo_contacto:'2do contacto',primer_llamada:'1a llamada',segunda_llamada:'2a llamada',demo:'Demo',propuesta:'Propuesta',negociacion:'Negociación',firma:'Firma',activa:'Alianza activa',nuevo:'Nuevo',contactado:'Contactado',seguimiento:'Seguimiento',interesado:'Ganado',perdido:'Perdido'};
+  const map = {investigacion:'Investigación',busqueda_contactos:'Búsqueda de contactos',primer_contacto:'1er contacto',segundo_contacto:'2do contacto',primer_llamada:'1a llamada',segunda_llamada:'2a llamada',demo:'Demo',activa:'Alianza activa',nuevo:'Nuevo',contactado:'Contactado',seguimiento:'Seguimiento',interesado:'Ganado',perdido:'Perdido'};
   return map[f] || f;
 }
 function openLead(userId) {
@@ -2235,7 +2312,7 @@ function openLead(userId) {
   const vendedor = asg.vendedor ? (VENDEDORES[asg.vendedor]||asg.vendedor) : 'Sin asignar';
   const acts = (activities[userId]||[]).slice(0,30);
   const starsH = n=>'<span style="color:#F59E0B;letter-spacing:-1px;">'+'★'.repeat(n)+'</span><span style="color:var(--border);letter-spacing:-1px;">'+'☆'.repeat(5-n)+'</span>';
-  const fc = {nuevo:'#3B82F6',contactado:'#F59E0B',seguimiento:'#8B5CF6',interesado:'#00C48C',perdido:'#EF4444',investigacion:'#94A3B8',primer_contacto:'#3B82F6',segundo_contacto:'#60A5FA',primer_llamada:'#F59E0B',segunda_llamada:'#FBBF24',demo:'#8B5CF6',propuesta:'#A78BFA',negociacion:'#F97316',firma:'#00C48C',activa:'#059669'};
+  const fc = {nuevo:'#3B82F6',contactado:'#F59E0B',seguimiento:'#8B5CF6',interesado:'#00C48C',perdido:'#EF4444',investigacion:'#94A3B8',busqueda_contactos:'#06B6D4',primer_contacto:'#3B82F6',segundo_contacto:'#60A5FA',primer_llamada:'#F59E0B',segunda_llamada:'#FBBF24',demo:'#8B5CF6',activa:'#059669'};
   const manualData = asg.manual_data || asg.csv_data;
   const leadName = manualData?.nombre || lead._nombre || '';
   const badge = (ok,label) => `<div style="display:flex;align-items:center;gap:4px;font-size:11px;color:${ok?'#00C48C':'#CBD5E1'};"><span style="font-size:13px;">${ok?'✓':'✗'}</span>${label}</div>`;
@@ -2655,7 +2732,7 @@ function renderMiDiaForVendedor(vendedorEmail, pipeline) {
 
   const vLeads = vendedorEmail ? pipeline.filter(l => assignments[l.userId]?.vendedor === vendedorEmail) : pipeline;
 
-  const fc = {nuevo:'#3B82F6',contactado:'#F59E0B',seguimiento:'#8B5CF6',interesado:'#00C48C',perdido:'#EF4444',investigacion:'#94A3B8',primer_contacto:'#3B82F6',segundo_contacto:'#60A5FA',primer_llamada:'#F59E0B',segunda_llamada:'#FBBF24',demo:'#8B5CF6',propuesta:'#A78BFA',negociacion:'#F97316',firma:'#00C48C',activa:'#059669'};
+  const fc = {nuevo:'#3B82F6',contactado:'#F59E0B',seguimiento:'#8B5CF6',interesado:'#00C48C',perdido:'#EF4444',investigacion:'#94A3B8',busqueda_contactos:'#06B6D4',primer_contacto:'#3B82F6',segundo_contacto:'#60A5FA',primer_llamada:'#F59E0B',segunda_llamada:'#FBBF24',demo:'#8B5CF6',activa:'#059669'};
 
   function miniRow(l) {
     const asg = assignments[l.userId]||{};
@@ -2877,7 +2954,7 @@ function renderDashboard() {
 function filterTop10(vendedor, btn) {
   if (btn) { btn.closest('.feed-tabs').querySelectorAll('.feed-tab').forEach(t=>t.classList.remove('active')); btn.classList.add('active'); }
   const pipeline = window._top10Pipeline || [];
-  const fc = {nuevo:'#3B82F6',contactado:'#F59E0B',seguimiento:'#8B5CF6',interesado:'#00C48C',perdido:'#EF4444',investigacion:'#94A3B8',primer_contacto:'#3B82F6',segundo_contacto:'#60A5FA',primer_llamada:'#F59E0B',segunda_llamada:'#FBBF24',demo:'#8B5CF6',propuesta:'#A78BFA',negociacion:'#F97316',firma:'#00C48C',activa:'#059669'};
+  const fc = {nuevo:'#3B82F6',contactado:'#F59E0B',seguimiento:'#8B5CF6',interesado:'#00C48C',perdido:'#EF4444',investigacion:'#94A3B8',busqueda_contactos:'#06B6D4',primer_contacto:'#3B82F6',segundo_contacto:'#60A5FA',primer_llamada:'#F59E0B',segunda_llamada:'#FBBF24',demo:'#8B5CF6',activa:'#059669'};
   let filtered = pipeline.filter(l => { const f=assignments[l.userId]?.fase||'nuevo'; return f!=='perdido'&&f!=='activa'; });
   if (vendedor !== 'all') filtered = filtered.filter(l => assignments[l.userId]?.vendedor === vendedor);
   filtered.sort((a,b) => b.score - a.score);
@@ -2944,6 +3021,42 @@ async function deleteLead(userId) {
   } catch(e) { console.error('Delete failed', e); }
   document.getElementById('leadModal').style.display = 'none';
   renderPipeline();
+}
+
+// repairNamelessLeads: arregla leads manual/CSV que quedaron sin nombre
+// (se mostraban como id crudo, ej. #csv_Clip_...). Deriva el nombre de la
+// empresa, o del usuario del email como respaldo.
+async function repairNamelessLeads() {
+  if (userRole !== 'admin') { alert('Solo un admin puede reparar nombres.'); return; }
+  const targets = Object.entries(assignments).filter(([id, a]) => {
+    const d = a.csv_data || a.manual_data;
+    if (!d) return false;
+    return !(d.nombre && String(d.nombre).trim());
+  });
+  if (!targets.length) { alert('✓ No hay leads sin nombre. Todo en orden.'); return; }
+  if (!confirm(`Se encontraron ${targets.length} leads sin nombre.\n\nSe les asignará el nombre de la empresa (o el email) para que dejen de verse como id crudo. ¿Continuar?`)) return;
+
+  let fixed = 0, unfixable = 0;
+  for (let i = 0; i < targets.length; i += 450) {
+    const chunk = targets.slice(i, i + 450);
+    const batch = db.batch();
+    chunk.forEach(([id, a]) => {
+      const key = a.csv_data ? 'csv_data' : 'manual_data';
+      const d = a[key] || {};
+      const nombre = (String(d.empresa || '').trim()) || (String(d.email || '').split('@')[0].trim());
+      if (!nombre) { unfixable++; return; }
+      const nd = { ...d, nombre };
+      batch.update(db.collection('crm_assignments').doc(id), { [key]: nd });
+      a[key] = nd;
+      if (leadsMap[id]) leadsMap[id]._nombre = nombre;
+      const lo = leads.find(l => l.userId === id);
+      if (lo) lo._nombre = nombre;
+      fixed++;
+    });
+    await batch.commit();
+  }
+  renderPipeline();
+  alert(`✓ ${fixed} leads reparados.${unfixable ? `\n${unfixable} no se pudieron reparar (sin empresa ni email) — edítalos o elimínalos a mano.` : ''}`);
 }
 
 // reviveLead: bring back from any archive state (perdido/frozen/manual)
@@ -3248,9 +3361,20 @@ async function importOppCsv() {
     const cN = findCol('nombre', 'name'), cE = findCol('email', 'correo', 'mail'), cT = findCol('telefono', 'tel', 'phone'), cEm = findCol('empresa', 'company', 'organizacion'), cP = findCol('potencial', 'valor', 'revenue');
     const cCargo = findCol('cargo', 'title', 'puesto', 'titulo'), cSector = findCol('sector', 'industry', 'industria', 'giro'), cLinkedin = findCol('linkedin'), cWeb = findCol('website', 'sitio', 'web', 'url');
 
-    rd.innerHTML = `<span style="color:var(--muted);">Columnas detectadas: ${[cN&&'nombre',cE&&'email',cT&&'tel',cEm&&'empresa',cP&&'potencial'].filter(Boolean).join(', ')||'ninguna'} — ${rows.length} filas</span>`;
+    // ── Validación de estructura del CSV (rechaza archivos mal armados) ──
+    // Obligatorias (en cualquier orden): nombre + al menos un medio de contacto (email o telefono).
+    const faltantes = [];
+    if (!cN) faltantes.push('nombre');
+    if (!cE && !cT) faltantes.push('email o telefono');
+    if (faltantes.length) {
+      const detectadas = [cN&&'nombre',cE&&'email',cT&&'telefono',cEm&&'empresa',cP&&'potencial',cCargo&&'cargo',cSector&&'sector'].filter(Boolean).join(', ') || 'ninguna reconocida';
+      rd.innerHTML = `<span style="color:#EF4444;">✗ CSV rechazado — faltan columnas obligatorias: <b>${faltantes.join(' y ')}</b>.<br>El archivo debe tener encabezados para <b>nombre</b> y <b>email o telefono</b> (en cualquier orden). Opcionales: empresa, potencial, cargo, sector, linkedin, website.<br>Detectadas en tu archivo: ${detectadas}.</span>`;
+      return;
+    }
 
-    let count = 0, dupes = 0;
+    rd.innerHTML = `<span style="color:var(--muted);">Columnas detectadas: ${[cN&&'nombre',cE&&'email',cT&&'tel',cEm&&'empresa',cP&&'potencial'].filter(Boolean).join(', ')} — ${rows.length} filas</span>`;
+
+    let count = 0, dupes = 0, sinNombre = 0;
     const batch = db.batch();
     const ve = Object.keys(tipo === 'b2b' ? VENDEDORES_B2B : VENDEDORES_B2C);
     let cfgDoc; try { cfgDoc = await db.collection('crm_config').doc('settings').get(); } catch (e) {}
@@ -3266,6 +3390,8 @@ async function importOppCsv() {
 
       // Skip completely empty rows
       if (!nombre && !email && !tel && !empresa) continue;
+      // Rechazar filas sin nombre de contacto (evita leads que se muestran como id crudo, ej. #csv_Clip_...)
+      if (!nombre) { sinNombre++; continue; }
 
       // Duplicate check (only if email is present)
       if (email) {
@@ -3308,7 +3434,7 @@ async function importOppCsv() {
     }
 
     const assignedTo = fixedVendedor ? (VENDEDORES[fixedVendedor] || fixedVendedor) : 'round-robin 50/50';
-    rd.innerHTML = `<span style="color:#00C48C;">✓ ${count} leads importados → ${assignedTo}</span>${dupes ? `<br><span style="color:#F59E0B;">${dupes} duplicados omitidos</span>` : ''}`;
+    rd.innerHTML = `<span style="color:#00C48C;">✓ ${count} leads importados → ${assignedTo}</span>${dupes ? `<br><span style="color:#F59E0B;">${dupes} duplicados omitidos</span>` : ''}${sinNombre ? `<br><span style="color:#F59E0B;">${sinNombre} filas omitidas por no tener nombre</span>` : ''}`;
     if (count) setTimeout(() => { document.getElementById('newOppModal').style.display = 'none'; renderPipeline(); }, 2000);
     } catch(e) {
       console.error('Error importando CSV:', e);
