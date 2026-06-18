@@ -55,6 +55,7 @@
   .bulk-bar { position: sticky; top: 0; z-index: 50; background: #1790EC; color: white; padding: 10px 28px; display: none; align-items: center; gap: 12px; font-size: 13px; }
   .bulk-bar button { background: rgba(255,255,255,0.2); color: white; border: none; padding: 6px 14px; border-radius: 6px; font-size: 12px; font-weight: 600; cursor: pointer; }
   .bulk-bar button:hover { background: rgba(255,255,255,0.3); }
+  #filtersBar select { padding: 6px 8px !important; font-size: 11px !important; max-width: 150px; }
   .modal-overlay { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.7); z-index:9999; overflow-y:auto; }
   .modal-box { max-width:700px; margin:40px auto; background:var(--card); border:1px solid var(--border); border-radius:16px; padding:0; overflow:hidden; }
   .modal-sm { max-width:460px; padding:24px; border-radius:14px; }
@@ -205,34 +206,48 @@
           <button class="pipe-tab" data-pipetab="b2b" onclick="switchPipeTab('b2b')" style="padding:10px 24px;font-size:13px;font-weight:600;background:none;border:none;color:var(--muted);cursor:pointer;border-bottom:3px solid transparent;margin-bottom:-2px;font-family:inherit;">B2B</button>
         </div>
         <input type="hidden" id="filterType" value="b2c">
-        <div id="filtersBar" style="display:flex;align-items:center;gap:8px;padding:12px 0;flex-wrap:wrap;">
+        <div id="filtersBar" style="display:flex;align-items:flex-start;gap:10px;padding:12px 0;flex-wrap:wrap;">
           <h2 id="pipeTitle" style="font-size:0;width:0;height:0;overflow:hidden;margin:0;"></h2>
-          <select id="filterVendedor" class="sb-admin-only" onchange="renderPipeline()" style="background:white;border:1px solid var(--border);color:var(--text);padding:8px 12px;border-radius:8px;font-size:12px;"><option value="all">Todos los vendedores</option></select>
-          <select id="filterStars" onchange="window._pipeKpiFilter=null;renderPipeline()" style="background:white;border:1px solid var(--border);color:var(--text);padding:8px 12px;border-radius:8px;font-size:12px;"><option value="0" selected>Todas ★</option><option value="5">5★</option><option value="4">4+★</option><option value="3">3+★</option></select>
-          <select id="filterFase" onchange="window._pipeKpiFilter=null;renderPipeline()" style="background:white;border:1px solid var(--border);color:var(--text);padding:8px 12px;border-radius:8px;font-size:12px;"><option value="all">Todas las fases</option><option value="nuevo">Nuevo</option><option value="contactado">Contactado</option><option value="seguimiento">Seguimiento</option><option value="interesado">Ganado</option><option value="perdido">Perdido</option></select>
-          <select id="filterAssign" onchange="window._pipeKpiFilter=null;renderPipeline()" style="background:white;border:1px solid var(--border);color:var(--text);padding:8px 12px;border-radius:8px;font-size:12px;"><option value="all">Todos</option><option value="assigned">Asignados</option><option value="unassigned">Sin asignar</option></select>
-          <select id="filterSort" onchange="window._pipeSort=this.value;renderPipeline()" title="Ordenar" style="background:white;border:1px solid var(--border);color:var(--text);padding:8px 12px;border-radius:8px;font-size:12px;"><option value="score">Orden: Score ↓</option><option value="cambio">Último cambio ↓</option><option value="nombre">Nombre A-Z</option></select>
-          <input id="searchInput" oninput="renderPipeline()" placeholder="🔍 Buscar..." style="background:white;border:1px solid var(--border);color:var(--text);padding:8px 12px;border-radius:8px;font-size:12px;width:200px;margin-left:auto;">
-          <button class="sb-admin-only" onclick="autoAssign()" style="background:#1790EC;color:white;border:none;padding:8px 14px;border-radius:8px;cursor:pointer;font-size:12px;font-weight:600;">Asignar</button>
-          <button onclick="openNewOpp()" style="background:#00C48C;color:white;border:none;padding:8px 14px;border-radius:8px;cursor:pointer;font-size:12px;font-weight:600;">+ Oportunidad</button>
-          <button onclick="loadData(true)" style="background:white;border:1px solid var(--border);color:var(--muted);padding:8px 12px;border-radius:8px;cursor:pointer;font-size:12px;">🔄</button>
-          <button class="sb-admin-only" onclick="repairNamelessLeads()" title="Pone nombre a leads que quedaron sin nombre (se ven como id crudo)" style="background:white;border:1px solid var(--border);color:var(--muted);padding:8px 12px;border-radius:8px;cursor:pointer;font-size:12px;">🩹 Reparar nombres</button>
-          <button id="btnClearAssign" onclick="clearAssignments()" style="display:none;background:#EF444422;color:#EF4444;border:1px solid #EF444444;padding:8px 12px;border-radius:8px;cursor:pointer;font-size:11px;">Limpiar</button>
+          <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;flex:1;min-width:0;">
+          <select id="filterVendedor" class="sb-admin-only" onchange="renderPipeline()" style="background:white;border:1px solid var(--border);color:var(--text);padding:8px 12px;border-radius:8px;font-size:12px;"><option value="all">Vendedores</option></select>
+          <select id="filterStars" onchange="window._pipeKpiFilter=null;renderPipeline()" style="background:white;border:1px solid var(--border);color:var(--text);padding:8px 12px;border-radius:8px;font-size:12px;"><option value="0" selected>★ Todas</option><option value="5">5★</option><option value="4">4+★</option><option value="3">3+★</option></select>
+          <select id="filterFase" onchange="window._pipeKpiFilter=null;renderPipeline()" style="background:white;border:1px solid var(--border);color:var(--text);padding:8px 12px;border-radius:8px;font-size:12px;"><option value="all">Fase</option><option value="nuevo">Nuevo</option><option value="contactado">Contactado</option><option value="seguimiento">Seguimiento</option><option value="interesado">Ganado</option><option value="perdido">Perdido</option></select>
+          <select id="filterAssign" onchange="window._pipeKpiFilter=null;renderPipeline()" style="background:white;border:1px solid var(--border);color:var(--text);padding:8px 12px;border-radius:8px;font-size:12px;"><option value="all">Asignación</option><option value="assigned">Asignados</option><option value="unassigned">Sin asignar</option></select>
+          <select id="filterSort" onchange="window._pipeSort=this.value;renderPipeline()" title="Ordenar" style="background:white;border:1px solid var(--border);color:var(--text);padding:8px 12px;border-radius:8px;font-size:12px;"><option value="score">Orden ↓</option><option value="cambio">Último cambio ↓</option><option value="nombre">Nombre A-Z</option></select>
+          </div>
+          <div style="display:flex;align-items:center;gap:8px;flex-shrink:0;">
+            <button onclick="openNewOpp()" title="Nueva oportunidad" aria-label="Nueva oportunidad" style="background:#00C48C;color:white;border:none;width:36px;height:36px;border-radius:8px;cursor:pointer;font-size:22px;font-weight:600;display:flex;align-items:center;justify-content:center;line-height:1;">+</button>
+            <button class="sb-admin-only" onclick="autoAssign()" style="background:#1790EC;color:white;border:none;padding:8px 14px;border-radius:8px;cursor:pointer;font-size:12px;font-weight:600;">Asignar</button>
+            <button class="sb-admin-only" onclick="window._archivoTab='b2b';switchSub('archivo')" title="Ver empresas archivadas" style="background:white;border:1px solid var(--border);color:var(--text);padding:8px 12px;border-radius:8px;cursor:pointer;font-size:12px;font-weight:500;display:flex;align-items:center;gap:6px;">🗄️ Archivados <span id="archCount" style="display:none;background:#F59E0B22;color:#854F0B;border-radius:10px;padding:0 6px;font-size:10px;font-weight:700;">0</span></button>
+            <button onclick="loadData(true)" title="Actualizar datos" aria-label="Actualizar" style="background:white;border:1px solid var(--border);color:var(--muted);width:36px;height:36px;border-radius:8px;cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center;">🔄</button>
+            <div style="position:relative;">
+              <button onclick="event.stopPropagation();var m=document.getElementById('moreMenu');m.style.display=(m.style.display==='block'?'none':'block');" title="Más acciones" aria-label="Más acciones" style="background:white;border:1px solid var(--border);color:var(--muted);width:36px;height:36px;border-radius:8px;cursor:pointer;font-size:18px;font-weight:700;display:flex;align-items:center;justify-content:center;line-height:1;">⋯</button>
+              <div id="moreMenu" style="display:none;position:absolute;right:0;top:42px;background:white;border:1px solid var(--border);border-radius:8px;box-shadow:0 4px 14px rgba(0,0,0,.12);z-index:120;min-width:210px;padding:4px;">
+                <button class="sb-admin-only" onclick="document.getElementById('moreMenu').style.display='none';repairNamelessLeads()" style="display:block;width:100%;text-align:left;background:transparent;border:none;padding:9px 10px;border-radius:6px;cursor:pointer;font-size:12px;color:var(--text);font-family:inherit;" onmouseover="this.style.background='var(--subtle)'" onmouseout="this.style.background='transparent'">🩹 Reparar nombres</button>
+                <button id="btnClearAssign" class="sb-admin-only" onclick="document.getElementById('moreMenu').style.display='none';clearAssignments()" style="display:block;width:100%;text-align:left;background:transparent;border:none;padding:9px 10px;border-radius:6px;cursor:pointer;font-size:12px;color:#EF4444;font-family:inherit;" onmouseover="this.style.background='var(--subtle)'" onmouseout="this.style.background='transparent'">🧹 Limpiar asignaciones</button>
+              </div>
+            </div>
+          </div>
         </div>
-        <div id="b2bSourceFilter" style="display:none;margin-bottom:12px;gap:6px;">
-          <button class="b2b-src-chip active" data-src="all" onclick="setB2BSrc('all')" style="padding:6px 14px;border:1px solid var(--border);border-radius:99px;font-size:11px;cursor:pointer;background:#1790EC;color:#fff;font-weight:600;font-family:inherit;">Todos</button>
-          <button class="b2b-src-chip" data-src="alianza" onclick="setB2BSrc('alianza')" style="padding:6px 14px;border:1px solid var(--border);border-radius:99px;font-size:11px;cursor:pointer;background:white;color:var(--muted);font-weight:500;font-family:inherit;">Alianzas</button>
-          <button class="b2b-src-chip" data-src="apollo" onclick="setB2BSrc('apollo')" style="padding:6px 14px;border:1px solid var(--border);border-radius:99px;font-size:11px;cursor:pointer;background:white;color:var(--muted);font-weight:500;font-family:inherit;">Apollo</button>
+        <div id="bottomBar" style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:12px;">
+          <div id="b2bSourceFilter" style="display:none;gap:6px;align-items:center;">
+            <span style="font-size:10px;color:var(--muted);">Origen:</span>
+            <button class="b2b-src-chip active" data-src="all" onclick="setB2BSrc('all')" style="padding:6px 14px;border:1px solid var(--border);border-radius:99px;font-size:11px;cursor:pointer;background:#1790EC;color:#fff;font-weight:600;font-family:inherit;">Todos</button>
+            <button class="b2b-src-chip" data-src="alianza" onclick="setB2BSrc('alianza')" style="padding:6px 14px;border:1px solid var(--border);border-radius:99px;font-size:11px;cursor:pointer;background:white;color:var(--muted);font-weight:500;font-family:inherit;">Alianzas</button>
+            <button class="b2b-src-chip" data-src="apollo" onclick="setB2BSrc('apollo')" style="padding:6px 14px;border:1px solid var(--border);border-radius:99px;font-size:11px;cursor:pointer;background:white;color:var(--muted);font-weight:500;font-family:inherit;">Apollo</button>
+          </div>
+          <input id="searchInput" oninput="renderPipeline()" placeholder="🔍 Buscar empresa, sector, responsable..." style="flex:1;min-width:200px;background:white;border:1px solid var(--border);color:var(--text);padding:9px 14px;border-radius:10px;font-size:13px;">
         </div>
-        <div id="kpis" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin-bottom:16px;"></div>
+        <div id="kpis" style="display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:7px;margin-bottom:12px;"></div>
         <div class="glass pipe-container" id="pipeTableWrap"><div class="scroll-section" style="max-height:600px;"><table id="pipelineTable" style="width:100%;font-size:12px;border-collapse:collapse;"></table></div></div>
         <div id="pipelineCards" style="display:none;flex-direction:column;gap:8px;"></div>
         <div id="pagination" style="display:flex;justify-content:center;gap:8px;margin-top:16px;"></div>
       </div>
       <div id="subArchivo" style="display:none;">
-        <div style="display:flex;align-items:center;gap:8px;margin-bottom:16px;">
-          <span style="font-size:12px;color:var(--muted);">Perdidos + congelados (>60d sin actividad)</span>
-          <input id="archivoSearch" oninput="renderArchivo()" placeholder="🔍 Buscar..." style="margin-left:auto;background:white;border:1px solid var(--border);color:var(--text);padding:8px 12px;border-radius:8px;font-size:12px;width:200px;">
+        <div style="display:flex;align-items:center;gap:0;border-bottom:2px solid var(--border);margin-bottom:14px;">
+          <button id="archTabB2C" onclick="setArchivoTab('b2c')" style="padding:10px 24px;font-size:13px;font-weight:600;background:none;border:none;color:var(--muted);cursor:pointer;border-bottom:3px solid transparent;margin-bottom:-2px;font-family:inherit;">B2C</button>
+          <button id="archTabB2B" onclick="setArchivoTab('b2b')" style="padding:10px 24px;font-size:13px;font-weight:600;background:none;border:none;color:var(--muted);cursor:pointer;border-bottom:3px solid transparent;margin-bottom:-2px;font-family:inherit;">B2B</button>
+          <input id="archivoSearch" oninput="renderArchivo()" placeholder="🔍 Buscar..." style="margin-left:auto;align-self:center;background:white;border:1px solid var(--border);color:var(--text);padding:8px 12px;border-radius:8px;font-size:12px;width:220px;">
         </div>
         <div id="archiveStats" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px;margin-bottom:16px;"></div>
         <div id="archivoBoxes" style="display:grid;grid-template-columns:1fr 1fr;gap:12px;"></div>
@@ -932,8 +947,12 @@ function updateBulkBar() {
     // Mover a uno de los 7 niveles del pipeline B2B
     const niveles = [['investigacion','Investigación'],['busqueda_contactos','Búsqueda de contactos'],['primer_contacto','Contacto'],['primer_llamada','Llamada'],['demo','Demo'],['activa','Activo'],['perdido','Perdido']];
     const selStyle = 'background:rgba(255,255,255,0.2);color:white;border:none;padding:6px 12px;border-radius:6px;font-size:12px;font-weight:600;cursor:pointer;font-family:inherit;';
+    const secOpts = allSectores().map(s=>`<option value="${s}" style="color:#1a2332;">${s}</option>`).join('');
+    const baseOpts = allBases().map(s=>`<option value="${s}" style="color:#1a2332;">${s}</option>`).join('');
     acts.innerHTML = `<select onchange="if(this.value){bulkChangeFase(this.value);this.value=''}" style="${selStyle}"><option value="">Mover a nivel…</option>`
       + niveles.map(([v,l])=>`<option value="${v}" style="color:#1a2332;">${l}</option>`).join('') + `</select>`
+      + `<select onchange="if(this.value){bulkSetClassif('sector',this.value);this.value=''}" style="${selStyle}"><option value="">Sector…</option>${secOpts}</select>`
+      + `<select onchange="if(this.value){bulkSetClassif('fuente',this.value);this.value=''}" style="${selStyle}"><option value="">Base…</option>${baseOpts}</select>`
       + `<button onclick="bulkReasignar()">🔄 Reasignar</button>`
       + `<button onclick="bulkDelete()">🗑️ Eliminar</button>`;
   } else {
@@ -1156,6 +1175,50 @@ async function setFuente(userId, value) {
   renderPipeline();
 }
 
+// ══ Clasificación editable: Sector / Base / Prioridad / Track ══
+const SECTORES_DEFAULT = ['Plataformas digitales','Inmobiliario','Influencers','Salud privada','Seguros','Construccion','Venta directa','Fintech','Educacion','Retail'];
+const BASES_DEFAULT = ['Apollo','Alianza','CSV','Manual','Referido','Evento','LinkedIn'];
+function allSectores() {
+  const s = new Set(SECTORES_DEFAULT);
+  Object.keys(ALIANZA_SECTORS).forEach(x => s.add(x));
+  Object.values(assignments).forEach(a => { if (a && a.sector) s.add(a.sector); });
+  B2B_ALIANZAS.forEach(e => { if (e.sector) s.add(e.sector); });
+  return [...s];
+}
+function allBases() {
+  const s = new Set(BASES_DEFAULT);
+  Object.values(assignments).forEach(a => { if (a && a.fuente) s.add(a.fuente); });
+  return [...s];
+}
+async function setClassif(id, key, value) {
+  if (userRole !== 'admin') { alert('Solo un admin puede clasificar'); return; }
+  if (!assignments[id]) assignments[id] = {};
+  assignments[id][key] = value;
+  try { await db.collection('crm_assignments').doc(id).set({[key]: value}, {merge:true}); }
+  catch (e) { console.error('Error clasificando:', e); alert('Error: ' + e.message); }
+  reopenEntity(id); renderPipeline();
+}
+function classifChip(id, key, current, options, allowNew) {
+  const cur = current || '';
+  const opts = options.map(o => `<option value="${String(o.v).replace(/"/g,'&quot;')}" ${o.v===cur?'selected':''}>${o.l}</option>`).join('');
+  const newOpt = allowNew ? `<option value="__new__">+ nuevo…</option>` : '';
+  const blank = `<option value="" ${!cur?'selected':''}>—</option>`;
+  const onch = `if(this.value==='__new__'){var v=prompt('Nuevo valor:');if(v){setClassif('${id}','${key}',v);}else{this.value='${String(cur).replace(/'/g,"\\'")}';}}else{setClassif('${id}','${key}',this.value);}`;
+  return `<select onchange="${onch}" title="${key}" style="font-size:10px;font-weight:600;border:1px solid var(--border);border-radius:6px;padding:3px 7px;background:var(--subtle);color:var(--navy);cursor:pointer;font-family:inherit;max-width:160px;">${blank}${opts}${newOpt}</select>`;
+}
+async function bulkSetClassif(key, value) {
+  if (userRole !== 'admin') { alert('Solo un admin puede clasificar'); return; }
+  if (!selectedLeads.size) return;
+  const n = selectedLeads.size;
+  for (const uid of selectedLeads) {
+    if (!assignments[uid]) assignments[uid] = {};
+    assignments[uid][key] = value;
+    try { await db.collection('crm_assignments').doc(uid).set({[key]: value}, {merge:true}); } catch (e) { console.error(e); }
+  }
+  bulkClear(); renderPipeline();
+  alert(`✓ ${n} empresas → ${key==='fuente'?'Base':'Sector'}: ${value}`);
+}
+
 // ══ Conocidos (conexiones personales) ════════════════════════
 function addConocido(entityId) {
   const fid = 'addConocido_' + entityId.replace(/[^a-zA-Z0-9]/g,'_');
@@ -1209,13 +1272,13 @@ function editContact(entityId, contactIdx) {
   const card = event.target.closest('.contact-card') || event.target.closest('div');
   const form = document.createElement('div');
   form.id = fid;
-  form.style.cssText = 'background:#f0f9ff;border:1px solid #1790EC33;border-radius:8px;padding:10px;margin:6px 0;';
+  form.style.cssText = 'background:#f0f9ff;border:1px solid #1790EC33;border-radius:8px;padding:10px;margin:6px 0;box-sizing:border-box;width:100%;';
   form.innerHTML = `<div style="font-size:10px;font-weight:700;color:#1790EC;margin-bottom:6px;">Editar contacto</div>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;">
-      <input id="${fid}_n" value="${(existing.nombre||'').replace(/"/g,'&quot;')}" placeholder="Nombre" style="padding:5px 8px;border:1px solid var(--border);border-radius:6px;font-size:11px;grid-column:1/-1;">
-      <input id="${fid}_p" value="${(existing.puesto||'').replace(/"/g,'&quot;')}" placeholder="Cargo/Título" style="padding:5px 8px;border:1px solid var(--border);border-radius:6px;font-size:11px;">
-      <input id="${fid}_e" value="${(existing.email||'').replace(/"/g,'&quot;')}" placeholder="Email" style="padding:5px 8px;border:1px solid var(--border);border-radius:6px;font-size:11px;">
-      <input id="${fid}_t" value="${(existing.telefono||'').replace(/"/g,'&quot;')}" placeholder="Teléfono" style="padding:5px 8px;border:1px solid var(--border);border-radius:6px;font-size:11px;">
+    <div style="display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:6px;">
+      <input id="${fid}_n" value="${(existing.nombre||'').replace(/"/g,'&quot;')}" placeholder="Nombre" style="padding:5px 8px;border:1px solid var(--border);border-radius:6px;font-size:11px;grid-column:1/-1;box-sizing:border-box;width:100%;">
+      <input id="${fid}_p" value="${(existing.puesto||'').replace(/"/g,'&quot;')}" placeholder="Cargo/Título" style="padding:5px 8px;border:1px solid var(--border);border-radius:6px;font-size:11px;box-sizing:border-box;width:100%;">
+      <input id="${fid}_e" value="${(existing.email||'').replace(/"/g,'&quot;')}" placeholder="Email" style="padding:5px 8px;border:1px solid var(--border);border-radius:6px;font-size:11px;box-sizing:border-box;width:100%;">
+      <input id="${fid}_t" value="${(existing.telefono||'').replace(/"/g,'&quot;')}" placeholder="Teléfono" style="padding:5px 8px;border:1px solid var(--border);border-radius:6px;font-size:11px;box-sizing:border-box;width:100%;">
       <div style="grid-column:1/-1;display:flex;gap:6px;justify-content:flex-end;margin-top:2px;">
         <button onclick="document.getElementById('${fid}').remove()" style="padding:4px 12px;border:1px solid var(--border);background:white;border-radius:6px;font-size:11px;cursor:pointer;">Cancelar</button>
         <button onclick="saveEditContact('${entityId}',${contactIdx})" style="padding:4px 12px;border:none;background:#1790EC;color:#fff;border-radius:6px;font-size:11px;font-weight:600;cursor:pointer;">Guardar</button>
@@ -1256,14 +1319,14 @@ function showAddContactForm(entityId) {
   const container = btn.parentElement;
   const form = document.createElement('div');
   form.id = formId;
-  form.style.cssText = 'background:#f0f9ff;border:1px solid #1790EC33;border-radius:8px;padding:12px;margin:8px 0;';
+  form.style.cssText = 'background:#f0f9ff;border:1px solid #1790EC33;border-radius:8px;padding:12px;margin:8px 0;box-sizing:border-box;width:100%;';
   form.innerHTML = `
     <div style="font-size:10px;font-weight:700;color:#1790EC;margin-bottom:8px;">Nuevo contacto</div>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;">
-      <input id="${formId}_nombre" placeholder="Nombre *" style="padding:6px 8px;border:1px solid var(--border);border-radius:6px;font-size:11px;grid-column:1/-1;">
-      <input id="${formId}_puesto" placeholder="Cargo/Título" style="padding:6px 8px;border:1px solid var(--border);border-radius:6px;font-size:11px;">
-      <input id="${formId}_email" placeholder="Email" style="padding:6px 8px;border:1px solid var(--border);border-radius:6px;font-size:11px;">
-      <input id="${formId}_tel" placeholder="Teléfono" style="padding:6px 8px;border:1px solid var(--border);border-radius:6px;font-size:11px;">
+    <div style="display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:6px;">
+      <input id="${formId}_nombre" placeholder="Nombre *" style="padding:6px 8px;border:1px solid var(--border);border-radius:6px;font-size:11px;grid-column:1/-1;box-sizing:border-box;width:100%;">
+      <input id="${formId}_puesto" placeholder="Cargo/Título" style="padding:6px 8px;border:1px solid var(--border);border-radius:6px;font-size:11px;box-sizing:border-box;width:100%;">
+      <input id="${formId}_email" placeholder="Email" style="padding:6px 8px;border:1px solid var(--border);border-radius:6px;font-size:11px;box-sizing:border-box;width:100%;">
+      <input id="${formId}_tel" placeholder="Teléfono" style="padding:6px 8px;border:1px solid var(--border);border-radius:6px;font-size:11px;box-sizing:border-box;width:100%;">
       <div style="grid-column:1/-1;display:flex;gap:6px;justify-content:flex-end;margin-top:4px;">
         <button onclick="this.closest('#${formId}').remove()" style="padding:4px 12px;border:1px solid var(--border);background:white;border-radius:6px;font-size:11px;cursor:pointer;">Cancelar</button>
         <button onclick="saveNewContact('${entityId}')" style="padding:4px 12px;border:none;background:#1790EC;color:#fff;border-radius:6px;font-size:11px;font-weight:600;cursor:pointer;">Guardar</button>
@@ -1387,19 +1450,21 @@ function renderContactCard(c, entityId, contactIdx, isExtra, conocidosHtml, extr
   const phone = c.telefono || extraOpts?.phone || '';
   const phoneCl = phone.replace(/\D/g,'');
 
-  let h = `<div style="background:white;border:1px solid var(--border);border-radius:10px;padding:14px 16px;margin-bottom:10px;font-size:11px;">`;
+  let h = `<div class="contact-card" style="background:white;border:1px solid var(--border);border-radius:10px;padding:11px 14px;margin-bottom:8px;font-size:11px;">`;
 
-  // Row 1: Avatar + Name/Title + Status + Edit
-  h += `<div style="display:flex;align-items:center;gap:12px;margin-bottom:10px;">`;
-  h += `<div style="width:40px;height:40px;border-radius:50%;background:${avColor};display:flex;align-items:center;justify-content:center;color:#fff;font-weight:800;font-size:14px;flex-shrink:0;">${initials}</div>`;
+  // Header colapsable (clic para expandir)
+  h += `<div onclick="toggleContactCard(this)" style="display:flex;align-items:center;gap:11px;cursor:pointer;">`;
+  h += `<div style="width:34px;height:34px;border-radius:50%;background:${avColor};display:flex;align-items:center;justify-content:center;color:#fff;font-weight:800;font-size:12px;flex-shrink:0;">${initials}</div>`;
   h += `<div style="flex:1;min-width:0;">`;
   h += `<div style="font-weight:700;font-size:13px;color:var(--navy);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${name}</div>`;
-  if (c.puesto) h += `<div style="font-size:10px;color:var(--muted);margin-top:1px;">${c.puesto}</div>`;
+  if (c.puesto) h += `<div style="font-size:10px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${c.puesto}</div>`;
   h += `</div>`;
   h += contactStatusBadge(entityId, contactIdx, isExtra);
-  h += `<span onclick="event.stopPropagation();${editFn}" style="cursor:pointer;font-size:13px;color:var(--muted);opacity:.6;flex-shrink:0;" title="Editar">✏️</span>`;
-  h += `<span onclick="event.stopPropagation();${delFn}" style="cursor:pointer;font-size:13px;color:#EF4444;opacity:.4;flex-shrink:0;" title="Eliminar">🗑️</span>`;
+  h += `<span class="cc-chevron" style="color:#94A3B8;font-size:11px;flex-shrink:0;">▾</span>`;
   h += `</div>`;
+
+  // Detalle (oculto hasta expandir)
+  h += `<div class="cc-detail" style="display:none;margin-top:10px;padding-top:10px;border-top:1px dashed var(--border);">`;
 
   // Row 2: Email
   if (c.email) {
@@ -1422,8 +1487,24 @@ function renderContactCard(c, entityId, contactIdx, isExtra, conocidosHtml, extr
   // Row 4: Conocidos tags + connection info
   if (conocidosHtml) h += conocidosHtml;
 
+  // Editar / eliminar (dentro del detalle)
+  h += `<div style="display:flex;gap:14px;justify-content:flex-end;margin-top:10px;">`;
+  h += `<span onclick="event.stopPropagation();${editFn}" style="cursor:pointer;font-size:12px;color:var(--muted);" title="Editar">✏️ Editar</span>`;
+  h += `<span onclick="event.stopPropagation();${delFn}" style="cursor:pointer;font-size:12px;color:#E24B4A;" title="Eliminar">🗑️ Eliminar</span>`;
   h += `</div>`;
+
+  h += `</div>`; // cierra .cc-detail
+  h += `</div>`; // cierra .contact-card
   return h;
+}
+function toggleContactCard(headerEl) {
+  const card = headerEl.parentElement;
+  const d = card.querySelector('.cc-detail');
+  const ch = headerEl.querySelector('.cc-chevron');
+  if (!d) return;
+  const open = d.style.display === 'none';
+  d.style.display = open ? 'block' : 'none';
+  if (ch) ch.textContent = open ? '▴' : '▾';
 }
 
 // Alianza contact-level conocidos (stored per contact index)
@@ -1485,8 +1566,29 @@ function renderConocidos(entityId) {
   return h;
 }
 
-// ══ Company View (Apollo B2B agrupado — tabbed) ══════════════
+// ══ Company View (Apollo B2B agrupado) — diseño unificado ════
 function openCompanyView(companyName) {
+  window._currentCompanyView = companyName;
+  const compId = 'company_' + companyName.replace(/[^a-zA-Z0-9]/g,'_').substring(0,60);
+  const contacts = leads.filter(l => l._isB2B && !l._isAlianza && (l._b2b?.company||'Sin empresa') === companyName);
+  contacts.sort((a,b) => b.score - a.score);
+  if (!contacts.length) return;
+  const best = contacts[0];
+  const order = ['nuevo','investigacion','busqueda_contactos','primer_contacto','segundo_contacto','primer_llamada','segunda_llamada','demo','activa'];
+  const fase = assignments[compId]?.fase || contacts.reduce((bst,l) => { const f = assignments[l.userId]?.fase||'nuevo'; return order.indexOf(f) > order.indexOf(bst) ? f : bst; }, 'nuevo');
+  const ent = {
+    userId: compId, _isB2B: true, _isCompanyGroup: true,
+    _companyName: companyName, _companyContacts: contacts, _companyFase: fase,
+    _nombre: companyName, _b2b: best._b2b || {},
+    email: best.email, phone: best.phone,
+    score: best.score, stars: best.stars, breakdown: best.breakdown || []
+  };
+  document.getElementById('leadModalContent').innerHTML = renderEmpresaDetail(compId, ent);
+  document.getElementById('leadModal').style.display = 'block';
+}
+
+// ══ (versión anterior con pestañas — ya no se usa) ════════════
+function openCompanyView_OLD(companyName) {
   window._currentCompanyView = companyName;
   const compId = 'company_' + companyName.replace(/[^a-zA-Z0-9]/g,'_').substring(0,60);
   const contacts = leads.filter(l => l._isB2B && !l._isAlianza && (l._b2b?.company||'Sin empresa') === companyName);
@@ -1960,7 +2062,7 @@ function updateVendedorFilter() {
   const list = ft === 'b2b' ? VENDEDORES_B2B : VENDEDORES_B2C;
   const sel = document.getElementById('filterVendedor');
   const prev = sel.value;
-  sel.innerHTML = '<option value="all">Todos los vendedores</option>';
+  sel.innerHTML = '<option value="all">Vendedores</option>';
   Object.entries(list).forEach(([e,n]) => { sel.innerHTML += `<option value="${e}">${n}</option>`; });
   // Also include any vendedores that have assignments in this pipeline
   const ft2 = ft;
@@ -1989,7 +2091,7 @@ function setB2BSrc(src) {
 
 function updateFaseFilter(tab) {
   const sel = document.getElementById('filterFase');
-  sel.innerHTML = '<option value="all">Todas las fases</option>';
+  sel.innerHTML = '<option value="all">Fase</option>';
   if (tab === 'b2b') {
     B2B_ETAPAS.forEach(e => { sel.innerHTML += `<option value="${e.id}">${e.label}</option>`; });
   } else {
@@ -2022,6 +2124,10 @@ function switchPipeTab(tab) {
 // ══ Render Pipeline ═══════════════════════════════════════════
 function renderPipeline() {
   const ft = document.getElementById('filterType')?.value||'b2c';
+  // Contador de empresas archivadas del tab actual (badge del botón Archivados)
+  const _archN = Object.values(assignments).filter(a => a && a.archived && ((ft === 'b2b') ? a.type === 'b2b' : a.type !== 'b2b')).length;
+  const _archEl = document.getElementById('archCount');
+  if (_archEl) { _archEl.textContent = _archN; _archEl.style.display = _archN ? 'inline-block' : 'none'; }
   // Vendedores ALWAYS see only their own leads — enforce filter
   let fv = document.getElementById('filterVendedor')?.value||'all';
   if (userRole === 'vendedor' && currentUser) {
@@ -2140,9 +2246,9 @@ function renderPipeline() {
 
   function pipeKPI(label,val,sub,color,filter) {
     const active = window._pipeKpiFilter===filter;
-    return `<div class="glass" style="padding:10px 12px;border-left:3px solid ${color};cursor:pointer;${active?'outline:2px solid '+color+';outline-offset:-2px;':''}user-select:none;min-width:0;" onclick="window._pipeKpiFilter=window._pipeKpiFilter==='${filter}'?null:'${filter}';currentPage=0;document.getElementById('filterStars').value='0';document.getElementById('filterFase').value='all';renderPipeline();">
-      <div style="font-size:8px;text-transform:uppercase;letter-spacing:.04em;color:var(--muted);margin-bottom:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${label}</div>
-      <div style="font-size:18px;font-weight:800;color:${color};">${val}</div>
+    return `<div class="glass" style="padding:7px 9px;border-left:3px solid ${color};cursor:pointer;${active?'outline:2px solid '+color+';outline-offset:-2px;':''}user-select:none;min-width:0;" onclick="window._pipeKpiFilter=window._pipeKpiFilter==='${filter}'?null:'${filter}';currentPage=0;document.getElementById('filterStars').value='0';document.getElementById('filterFase').value='all';renderPipeline();">
+      <div style="font-size:8px;text-transform:uppercase;letter-spacing:.04em;color:var(--muted);margin-bottom:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${label}</div>
+      <div style="font-size:16px;font-weight:800;color:${color};line-height:1;">${val}</div>
       <div style="font-size:9px;color:var(--muted);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${sub}</div></div>`;
   }
 
@@ -2164,6 +2270,7 @@ function renderPipeline() {
       pipeKPI('Demo',(faseCount.demo||0),'agendadas','#8B5CF6','f_demo') +
       pipeKPI('Activo',(faseCount.activa||0),'alianzas vivas','#059669','f_activa') +
       pipeKPI('Perdido',(faseCount.perdido||0),'descartados','#EF4444','f_perdido');
+    document.getElementById('kpis').style.gridTemplateColumns = 'repeat(7,minmax(0,1fr))';
   } else {
     const statusCount = {nuevo:0, contactado:0, seguimiento:0, interesado:0, perdido:0};
     allP.forEach(l => { const f = assignments[l.userId]?.fase || 'nuevo'; if (statusCount[f] !== undefined) statusCount[f]++; });
@@ -2173,6 +2280,7 @@ function renderPipeline() {
       pipeKPI('Seguimiento',fmtInt(statusCount.seguimiento),'activos','#8B5CF6','seguimiento') +
       pipeKPI('Ganado',fmtInt(statusCount.interesado),'cerrados','#00C48C','interesado') +
       pipeKPI('Perdido',fmtInt(statusCount.perdido),'descartados','#EF4444','perdido');
+    document.getElementById('kpis').style.gridTemplateColumns = 'repeat(5,minmax(0,1fr))';
   }
 
   const start = currentPage * PER_PAGE;
@@ -2376,9 +2484,282 @@ function faseLabel(f) {
   const map = {investigacion:'Investigación',busqueda_contactos:'Búsqueda de contactos',primer_contacto:'1er contacto',segundo_contacto:'2do contacto',primer_llamada:'1a llamada',segunda_llamada:'2a llamada',demo:'Demo',activa:'Alianza activa',nuevo:'Nuevo',contactado:'Contactado',seguimiento:'Seguimiento',interesado:'Ganado',perdido:'Perdido'};
   return map[f] || f;
 }
+// ══ Criterios Heru editables + Tier automático ════════════════
+function reopenEntity(id) {
+  if (id.startsWith('company_') && window._currentCompanyView) openCompanyView(window._currentCompanyView);
+  else openLead(id);
+}
+function critTier(total) {
+  if (total >= 20) return {n:1, label:'Must-win', color:'#0F6E56', bg:'#00C48C22'};
+  if (total >= 14) return {n:2, label:'Vale la pena', color:'#854F0B', bg:'#F59E0B22'};
+  return {n:3, label:'En radar', color:'#5F5E5A', bg:'#94A3B822'};
+}
+function getCrit(userId, def) {
+  const e = assignments[userId]?.crit;
+  if (Array.isArray(e) && e.length === 5) return e.map(x => +x || 0);
+  if (Array.isArray(def) && def.length === 5) return def.map(x => +x || 0);
+  return [0,0,0,0,0];
+}
+async function setCrit(userId, idx, val) {
+  val = Math.max(0, Math.min(5, val));
+  if (!assignments[userId]) assignments[userId] = {};
+  const cur = getCrit(userId, leadsMap[userId]?._alianza?.criterios).slice();
+  cur[idx] = val;
+  assignments[userId].crit = cur;
+  try { await db.collection('crm_assignments').doc(userId).set({crit: cur}, {merge:true}); }
+  catch (e) { console.error('Error guardando criterio:', e); alert('Error: ' + e.message); }
+  reopenEntity(userId); renderPipeline();
+}
+async function addTimelineNote(userId) {
+  const safe = userId.replace(/[^a-zA-Z0-9]/g,'_');
+  const type = document.getElementById('tlType_'+safe)?.value || 'note';
+  const txt = (document.getElementById('tlNote_'+safe)?.value || '').trim();
+  if (!txt) { alert('Escribe qué pasó para registrarlo'); return; }
+  await logAction(userId, type, txt);
+  reopenEntity(userId);
+}
+
+// ══ Lista de contactos inline (usada dentro del Info) ═════════
+function renderContactosBlock(userId, lead) {
+  const asg = assignments[userId] || {};
+  const isAlianza = !!lead._isAlianza;
+  const deleted = asg.deleted_contacts || [];
+  const extras = asg.extra_contacts || [];
+  const ccData = asg.contact_conocidos || {};
+  let base = [];
+  if (lead._isCompanyGroup) {
+    base = (lead._companyContacts||[]).map(l => ({nombre: l._nombre||'Contacto', puesto: l._b2b?.title||'', email: l.email||'', telefono: l.phone||'', linkedin: l._b2b?.linkedin||''}));
+  } else if (isAlianza) {
+    base = (lead._alianza?.contactos) || [];
+  } else {
+    const md = asg.csv_data || asg.manual_data || {}; const b = lead._b2b || {};
+    if (md.contacto1?.nombre || md.email || md.tel || md.cargo) {
+      base.push({nombre: md.contacto1?.nombre || lead._nombre || 'Contacto', puesto: md.cargo || '', email: md.email || lead.email || '', telefono: md.tel || lead.phone || ''});
+      if (md.contacto2?.nombre) base.push({nombre: md.contacto2.nombre, puesto:'', email:'', telefono:''});
+    } else {
+      base.push({nombre: lead._nombre || 'Contacto', puesto: b.title || '', email: lead.email || '', telefono: lead.phone || ''});
+    }
+  }
+  const cards = [];
+  base.forEach((c, ci) => {
+    if (deleted.includes(ci)) return;
+    const cd = getContactData(userId, ci, c);
+    let ccHtml = `<div style="display:flex;flex-wrap:wrap;align-items:center;gap:4px;margin-top:8px;">`;
+    (ccData[ci] || []).forEach((k, ki) => {
+      ccHtml += `<span style="display:inline-flex;align-items:center;gap:3px;background:#8B5CF618;color:#534AB7;padding:2px 8px;border-radius:12px;font-size:10px;font-weight:600;">${k.nombre} · ${k.relacion}<span onclick="event.stopPropagation();removeContactConocido('${userId}',${ci},${ki})" style="cursor:pointer;opacity:.7;">×</span></span>`;
+    });
+    ccHtml += `<button onclick="event.stopPropagation();addContactConocido('${userId}',${ci})" style="font-size:9px;background:#8B5CF611;border:1px solid #8B5CF633;padding:2px 8px;border-radius:12px;cursor:pointer;color:#8B5CF6;font-weight:600;">+ Conocido</button>`;
+    ccHtml += `</div>`;
+    cards.push(renderContactCard(cd, userId, ci, false, ccHtml));
+  });
+  extras.forEach((c, i) => { cards.push(renderContactCard(c, userId, i, true)); });
+
+  const safe = userId.replace(/[^a-zA-Z0-9]/g,'_');
+  let h = '';
+  if (cards.length <= 3) {
+    h += cards.join('');
+  } else {
+    // Más de 3 contactos → paginar de 3 en 3 con flechas
+    const pages = Math.ceil(cards.length / 3);
+    h += `<div id="contlist_${safe}" data-page="0" data-pages="${pages}">`;
+    cards.forEach((cardHtml, i) => { const pg = Math.floor(i/3); h += `<div class="cc-page" data-pg="${pg}" style="display:${pg===0?'block':'none'};">${cardHtml}</div>`; });
+    h += `</div>`;
+    h += `<div style="display:flex;align-items:center;justify-content:center;gap:14px;margin:4px 0 10px;">`;
+    h += `<button onclick="contactPage('${safe}',-1)" title="Anteriores" style="width:28px;height:28px;border:1px solid var(--border);border-radius:7px;background:#fff;cursor:pointer;color:var(--muted);font-size:14px;">‹</button>`;
+    h += `<span id="contpg_${safe}" style="font-size:11px;color:var(--muted);">1/${pages}</span>`;
+    h += `<button onclick="contactPage('${safe}',1)" title="Siguientes" style="width:28px;height:28px;border:1px solid var(--border);border-radius:7px;background:#fff;cursor:pointer;color:var(--muted);font-size:14px;">›</button>`;
+    h += `</div>`;
+  }
+  h += `<button onclick="showAddContactForm('${userId}')" style="width:100%;border:1px dashed var(--border);background:#fff;color:#1790EC;padding:9px;border-radius:9px;font-size:11px;font-weight:600;cursor:pointer;margin-top:2px;">+ Agregar contacto</button>`;
+  return h;
+}
+function contactPage(safe, dir) {
+  const c = document.getElementById('contlist_'+safe);
+  if (!c) return;
+  const pages = +c.dataset.pages; const p = (+c.dataset.page + dir + pages) % pages;
+  c.dataset.page = p;
+  c.querySelectorAll('.cc-page').forEach(el => el.style.display = (+el.dataset.pg === p) ? 'block' : 'none');
+  const lbl = document.getElementById('contpg_'+safe); if (lbl) lbl.textContent = (p+1)+'/'+pages;
+}
+
+// ══ Detalle de empresa (CRM de alianzas) — vista rediseñada ════
+function renderEmpresaDetail(userId, ent) {
+  const lead = ent || leadsMap[userId] || leads.find(l => l.userId === userId);
+  if (!lead) return '<div style="padding:40px;text-align:center;color:var(--muted);">Empresa no encontrada</div>';
+  const asg = assignments[userId] || {};
+  const isAlianza = !!lead._isAlianza;
+  const isCompany = !!lead._isCompanyGroup;
+  const al = lead._alianza || {};
+  const b = lead._b2b || {};
+  const md = asg.csv_data || asg.manual_data || {};
+  const safe = userId.replace(/[^a-zA-Z0-9]/g,'_');
+  const fase = asg.fase || (isAlianza && al.etapa ? al.etapa : (isCompany && lead._companyFase ? lead._companyFase : 'investigacion'));
+  const name = lead._companyName || lead._nombre || b.company || 'Empresa';
+  const sector = al.sector || b.industry || md.sector || '';
+  const usuarios = al.usuarios || b.employees || md.potencial || 0;
+  const respLabel = isAlianza ? (ALIANZA_RESP[al.resp] || al.resp || '') : (asg.vendedor ? (VENDEDORES[asg.vendedor] || asg.vendedor.split('@')[0]) : '');
+  const crit = getCrit(userId, al.criterios);
+  const critTotal = crit.reduce((a,c) => a + (+c || 0), 0);
+  const tier = critTier(critTotal);
+  let score = lead.score, breakdown = lead.breakdown || [];
+  if (isAlianza) { const sc = scoreAlianza({...al, criterios: crit}); score = sc.score; breakdown = sc.breakdown; }
+  const fc = {investigacion:'#94A3B8',busqueda_contactos:'#06B6D4',primer_contacto:'#3B82F6',segundo_contacto:'#60A5FA',primer_llamada:'#F59E0B',segunda_llamada:'#FBBF24',demo:'#8B5CF6',activa:'#059669',perdido:'#EF4444'};
+  const faseCol = fc[fase] || '#6B7280';
+  const txS = 'width:100%;font-size:12px;background:#F8FAFC;border:1px solid var(--border);border-radius:8px;padding:8px 10px;color:var(--text);font-family:inherit;resize:vertical;box-sizing:border-box;';
+  const esc = s => String(s||'').replace(/</g,'&lt;');
+  const field = (label, key, def, color, mh) => `<div><div style="font-size:10px;font-weight:600;color:${color||'var(--muted)'};margin-bottom:3px;">${label}</div><textarea onblur="saveAlianzaField('${userId}','${key}',this.value)" style="${txS}min-height:${mh||44}px;">${esc(getAF(userId,key,def))}</textarea></div>`;
+  const secHdr = t => `<div style="font-size:10px;font-weight:700;letter-spacing:.06em;color:#94A3B8;text-transform:uppercase;margin-bottom:12px;">${t}</div>`;
+  const card = inner => `<div style="background:#fff;border:1px solid var(--border);border-radius:12px;padding:16px 18px;">${inner}</div>`;
+
+  let h = `<div style="font-size:13px;">`;
+
+  // ── 1. HEADER ──
+  h += `<div style="padding:18px 22px;border-bottom:1px solid var(--border);">`;
+  h += `<div style="display:flex;justify-content:space-between;gap:14px;align-items:flex-start;">`;
+  h += `<div style="flex:1;min-width:0;">`;
+  const sectorVal = asg.sector || sector || '';
+  const baseVal = leadFuente(userId);
+  const prioVal = asg.prioridad || al.prioridad || '';
+  const trackVal = asg.track || al.track || '';
+  h += `<div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;">`;
+  h += `<span style="font-size:18px;font-weight:700;">🏢 ${name}</span>`;
+  h += `<span style="background:${tier.bg};color:${tier.color};padding:3px 9px;border-radius:6px;font-size:10px;font-weight:600;">Tier ${tier.n}</span>`;
+  h += `<span style="background:${faseCol}22;color:${faseCol};padding:3px 9px;border-radius:6px;font-size:10px;font-weight:600;">${faseLabel(fase)}</span>`;
+  if (isCompany) h += `<span style="font-size:11px;color:var(--muted);">· ${(lead._companyContacts||[]).length} contactos</span>`;
+  h += `</div>`;
+  h += `<div style="font-size:12px;color:var(--muted);margin-top:5px;">${sectorVal||'Sin sector'}${usuarios?' · '+fmtInt(usuarios)+' potenciales':''}${respLabel?' · Resp: '+respLabel:''}</div>`;
+  // Clasificación editable (sector / base / prioridad / track)
+  h += `<div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:9px;align-items:center;">`;
+  h += `<span style="font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;">Clasificar:</span>`;
+  if (userRole === 'admin') {
+    h += classifChip(userId,'sector', sectorVal, allSectores().map(s=>({v:s,l:s})), true);
+    h += classifChip(userId,'fuente', baseVal, allBases().map(s=>({v:s,l:s})), true);
+    h += classifChip(userId,'prioridad', prioVal, [{v:'quickwin',l:'Quick win'},{v:'apuesta',l:'Apuesta'},{v:'radar',l:'Radar'}], false);
+    h += classifChip(userId,'track', trackVal, [{v:'t1',l:'Gremio'},{v:'t2',l:'Plataforma'}], false);
+  } else {
+    const chip = (t,c) => t ? `<span style="background:${c}18;color:${c};padding:2px 9px;border-radius:10px;font-size:10px;font-weight:600;">${t}</span>` : '';
+    h += chip(sectorVal,'#534AB7') + chip(baseVal,'#854F0B') + chip(prioVal==='quickwin'?'Quick win':prioVal==='apuesta'?'Apuesta':prioVal?'Radar':'','#0F6E56') + chip(trackVal==='t1'?'Gremio':trackVal==='t2'?'Plataforma':'','#185FA5');
+  }
+  h += `</div>`;
+  // tags editables
+  h += `<div style="display:flex;flex-wrap:wrap;gap:5px;margin-top:9px;align-items:center;">`;
+  (asg.tags||[]).forEach(tid => { const t = getTagInfo(tid,userId); h += `<span style="background:${t.color}18;color:${t.color};padding:2px 9px;border-radius:10px;font-size:10px;font-weight:600;display:inline-flex;gap:4px;align-items:center;">${t.label}<span onclick="removeTag('${userId}','${tid}')" style="cursor:pointer;opacity:.7;">×</span></span>`; });
+  h += `<button onclick="var p=document.getElementById('tagPick_${safe}');p.style.display=p.style.display==='none'?'flex':'none'" style="font-size:10px;background:var(--subtle);border:1px solid var(--border);padding:2px 9px;border-radius:10px;cursor:pointer;color:var(--muted);">+ tag</button>`;
+  h += `</div>`;
+  const availTags = B2B_TAGS.filter(t => !(asg.tags||[]).includes(t.id));
+  h += `<div id="tagPick_${safe}" style="display:none;flex-wrap:wrap;gap:4px;margin-top:6px;">`;
+  availTags.forEach(t => { h += `<button onclick="addTag('${userId}','${t.id}')" style="background:${t.color}11;color:${t.color};border:1px solid ${t.color}33;padding:2px 8px;border-radius:10px;font-size:10px;font-weight:500;cursor:pointer;">${t.label}</button>`; });
+  h += `<button onclick="addCustomTag('${userId}')" style="background:var(--subtle);border:1px solid var(--border);padding:2px 8px;border-radius:10px;font-size:10px;cursor:pointer;color:var(--muted);">+ Custom</button>`;
+  h += `</div>`;
+  h += `</div>`;
+  h += `<div style="text-align:right;flex-shrink:0;"><div style="font-size:26px;font-weight:800;color:${score>=80?'#F59E0B':'#3B82F6'};line-height:1;">${score}</div><div style="font-size:10px;color:var(--muted);">score total</div><div style="font-size:11px;color:${tier.color};font-weight:600;margin-top:3px;">${critTotal}/25 criterios</div></div>`;
+  h += `</div></div>`;
+
+  // ── 2. MÉTRICAS RÁPIDAS ──
+  const mcard = (v,l) => `<div style="background:var(--subtle);border-radius:10px;padding:14px 16px;"><div style="font-size:22px;font-weight:700;line-height:1;">${v}</div><div style="font-size:11px;color:var(--muted);margin-top:5px;">${l}</div></div>`;
+  h += `<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;padding:16px 22px;">`;
+  h += mcard(fmtInt(usuarios||0), 'personas potenciales') + mcard(critTotal+'/25', 'criterios Heru') + mcard('Tier '+tier.n, tier.label);
+  h += `</div>`;
+
+  // ── Cuerpo (secciones 3-7) ──
+  h += `<div style="padding:0 22px 22px;display:flex;flex-direction:column;gap:16px;">`;
+
+  // 3. PROCESO + próxima acción
+  let proc = secHdr('Proceso de contacto');
+  proc += `<div style="display:flex;align-items:flex-start;gap:0;overflow-x:auto;padding-bottom:4px;">`;
+  const etapas = B2B_ETAPAS; const curIdx = Math.max(0, etapas.findIndex(e => e.id === fase));
+  etapas.forEach((et,i) => {
+    const done = i<curIdx, curr = i===curIdx, lost = et.id==='perdido';
+    const col = done?'#00C48C':curr?(lost?'#EF4444':'#1790EC'):'#CBD5E1';
+    const bg = done?'#00C48C':curr?(lost?'#EF4444':'#1790EC')+'22':'#fff';
+    const tx = done?'#fff':curr?(lost?'#EF4444':'#1790EC'):'#94A3B8';
+    proc += `<div style="display:flex;align-items:flex-start;${i<etapas.length-1?'flex:1;':''}">`;
+    proc += `<div onclick="changeFase('${userId}','${et.id}')" style="display:flex;flex-direction:column;align-items:center;cursor:pointer;min-width:54px;">`;
+    proc += `<div style="width:24px;height:24px;border-radius:50%;border:2px solid ${col};background:${bg};color:${tx};display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;">${done?'✓':i+1}</div>`;
+    proc += `<div style="font-size:8px;text-align:center;margin-top:3px;color:${curr?'var(--navy)':'#94A3B8'};font-weight:${curr?'700':'400'};line-height:1.1;max-width:60px;">${et.label}</div>`;
+    proc += `</div>`;
+    if (i<etapas.length-1) proc += `<div style="flex:1;height:2px;background:${done?'#00C48C':'#E2E8F0'};margin-top:11px;min-width:8px;"></div>`;
+    proc += `</div>`;
+  });
+  proc += `</div>`;
+  proc += `<div style="margin-top:14px;"><div style="font-size:10px;font-weight:600;color:#1790EC;margin-bottom:4px;">Próxima acción</div><textarea onblur="saveAlianzaField('${userId}','accion',this.value)" style="${txS}min-height:40px;">${esc(getAF(userId,'accion',al.accion))}</textarea></div>`;
+  h += card(proc);
+
+  // 4. DOS COLUMNAS: criterios | contactos
+  let critH = secHdr('5 Criterios Heru · '+critTotal+'/25');
+  ALIANZA_CRIT.forEach((cl,i) => {
+    const v = crit[i]||0; const bc = v>=4?'#00C48C':v>=3?'#F59E0B':v>0?'#EF4444':'#CBD5E1';
+    critH += `<div style="display:flex;align-items:center;gap:8px;margin-bottom:7px;">`;
+    critH += `<span style="font-size:11px;color:var(--muted);min-width:92px;">${cl}</span>`;
+    critH += `<div style="flex:1;display:flex;gap:3px;">`;
+    for (let n=1;n<=5;n++) critH += `<span onclick="setCrit('${userId}',${i},${v===n?n-1:n})" title="${n}/5" style="flex:1;height:8px;border-radius:3px;background:${n<=v?bc:'#E2E8F0'};cursor:pointer;"></span>`;
+    critH += `</div><b style="font-size:11px;color:${bc};min-width:24px;text-align:right;">${v}/5</b></div>`;
+  });
+  critH += `<div style="margin-top:10px;padding-top:10px;border-top:1px solid var(--border);"><div style="display:flex;justify-content:space-between;font-size:11px;margin-bottom:5px;"><b>Total criterios</b><b style="color:${tier.color};">${critTotal}/25 · Tier ${tier.n}</b></div>`;
+  if (breakdown.length) critH += `<div style="font-size:10px;color:var(--muted);line-height:1.5;">Score: ${breakdown.map(bk => bk.label+' '+(bk.pts>0?'+':'')+bk.pts).join(' · ')}</div>`;
+  critH += `</div>`;
+  const contH = secHdr('Contactos') + renderContactosBlock(userId, lead);
+  h += `<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:14px;">${card(critH)}${card(contH)}</div>`;
+
+  // 5. ESTRATEGIA
+  let estr = secHdr('Estrategia');
+  estr += `<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;">`;
+  estr += field('Oferta concreta','oferta', isAlianza?al.oferta:md.oferta, '#0F6E56',58);
+  estr += field('Por qué les conviene','porQue', isAlianza?al.porQue:md.porque, '#185FA5',58);
+  estr += `</div>`;
+  h += card(estr);
+
+  // 6. TIMELINE
+  const TLI = {note:'📝',llamada:'📞',email:'✉️',reunion:'🤝',whatsapp:'💬',message:'💬',call_answered:'📞',call_no_answer:'📞',interested:'✅',not_interested:'❌',scheduled:'📅',fase_change:'🔄'};
+  const TLL = {note:'Nota interna',llamada:'Llamada',email:'Email',reunion:'Reunión',whatsapp:'WhatsApp',message:'Mensaje',call_answered:'Llamada ✓',call_no_answer:'Llamada ✗',scheduled:'Agendado',fase_change:'Cambio de fase'};
+  let tl = secHdr('Timeline de actividad');
+  tl += `<div style="background:var(--subtle);border-radius:10px;padding:12px;margin-bottom:12px;display:flex;gap:8px;align-items:center;flex-wrap:wrap;">`;
+  tl += `<select id="tlType_${safe}" style="font-size:12px;padding:8px;border:1px solid var(--border);border-radius:8px;background:#fff;font-family:inherit;">`;
+  [['note','Nota interna'],['llamada','Llamada'],['email','Email'],['reunion','Reunión'],['whatsapp','WhatsApp']].forEach(([v,l]) => tl += `<option value="${v}">${l}</option>`);
+  tl += `</select>`;
+  tl += `<input id="tlNote_${safe}" placeholder="¿Qué pasó? (ej. envié propuesta a Marisol)" style="flex:1;min-width:160px;font-size:12px;padding:8px 10px;border:1px solid var(--border);border-radius:8px;font-family:inherit;">`;
+  tl += `<button onclick="addTimelineNote('${userId}')" style="background:#1790EC;color:#fff;border:none;padding:8px 14px;border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;white-space:nowrap;">+ Agregar</button>`;
+  tl += `</div>`;
+  let actsSrc;
+  if (isCompany) { actsSrc = []; (lead._companyContacts||[]).forEach(l => (activities[l.userId]||[]).forEach(a => actsSrc.push(a))); (activities[userId]||[]).forEach(a => actsSrc.push(a)); actsSrc.sort((x,y)=>(y.ts||0)-(x.ts||0)); }
+  else actsSrc = activities[userId]||[];
+  const acts = actsSrc.slice(0,40);
+  const actRow = a => {
+    const dt = a.ts ? new Date(a.ts).toLocaleDateString('es-MX',{day:'2-digit',month:'short',year:'numeric'}) : '';
+    const by = a.by ? (VENDEDORES[a.by]||a.by.split('@')[0]) : '';
+    const tlabel = TLL[a.action] || a.action;
+    return `<div style="display:flex;gap:10px;padding:9px 0;border-bottom:1px solid var(--border);"><span style="font-size:15px;flex-shrink:0;">${TLI[a.action]||'·'}</span><div style="flex:1;min-width:0;"><div style="font-size:12px;">${esc(a.note||tlabel)}</div><div style="font-size:10px;color:var(--muted);margin-top:2px;"><span style="background:var(--subtle);padding:1px 6px;border-radius:6px;">${tlabel}</span> ${dt}${by?' · '+by:''}</div></div></div>`;
+  };
+  if (!acts.length) tl += `<div style="color:var(--muted);font-size:12px;text-align:center;padding:18px;">Sin actividad registrada</div>`;
+  acts.slice(0,3).forEach(a => { tl += actRow(a); });
+  if (acts.length > 3) {
+    tl += `<div id="tlMore_${safe}" style="display:none;">${acts.slice(3).map(actRow).join('')}</div>`;
+    tl += `<button onclick="var m=document.getElementById('tlMore_${safe}');var sh=m.style.display==='none';m.style.display=sh?'block':'none';this.textContent=sh?'Ver menos':'Ver ${acts.length-3} más';" style="width:100%;margin-top:8px;border:1px solid var(--border);background:#fff;color:var(--muted);padding:7px;border-radius:8px;font-size:11px;cursor:pointer;">Ver ${acts.length-3} más</button>`;
+  }
+  h += card(tl);
+
+  // 7. INVESTIGACIÓN
+  let inv = secHdr('Investigación de la empresa');
+  inv += `<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;">`;
+  inv += field('Qué hace la empresa','inv_quehace','', 'var(--muted)',50);
+  inv += field('Por qué sus usuarios necesitan Heru','inv_porque','', 'var(--muted)',50);
+  inv += field('Programa de partners / afiliados','inv_partners','', 'var(--muted)',50);
+  inv += field('Evento próximo','evento', al.evento, '#EC4899',50);
+  inv += `</div>`;
+  h += card(inv);
+
+  h += `</div></div>`;
+  return h;
+}
+
 function openLead(userId) {
   const lead = leads.find(l=>l.userId===userId);
   if (!lead) return;
+  if (lead._isB2B) {
+    document.getElementById('leadModalContent').innerHTML = renderEmpresaDetail(userId);
+    document.getElementById('leadModal').style.display = 'block';
+    return;
+  }
   const asg = assignments[userId]||{};
   const fase = asg.fase || (lead._isAlianza && lead._alianza?.etapa ? lead._alianza.etapa : 'nuevo');
   const vendedor = asg.vendedor ? (VENDEDORES[asg.vendedor]||asg.vendedor) : 'Sin asignar';
@@ -2907,6 +3288,11 @@ function switchSub(sub) {
   if (sub==='pipeline') { document.getElementById('subPipeline').style.display='block'; renderPipeline(); }
   if (sub==='archivo') { document.getElementById('subArchivo').style.display='block'; renderArchivo(); }
 }
+// Cerrar el menú "⋯ Más" al hacer clic fuera de él
+document.addEventListener('click', function(e) {
+  const m = document.getElementById('moreMenu');
+  if (m && m.style.display === 'block' && !e.target.closest('#moreMenu')) m.style.display = 'none';
+});
 
 // ══ Archivo filter ═══════════════════════════════════════════
 window._archFilter = 'todos';
@@ -3176,9 +3562,14 @@ function renderArchivo() {
     allLeads.push({ userId: id, email: data.email || '', phone: data.tel || '', userType: data.empresa || asg.type || '', score: 0, stars: 0, channel: data.fuente || '', age: 0, _nombre: data.nombre || '', _isManual: true, _isB2B: asg.type === 'b2b' });
   });
 
-  const perdidos = allLeads.filter(l => assignments[l.userId]?.fase === 'perdido' && !assignments[l.userId]?.archived);
-  const congelados = allLeads.filter(l => { const asg = assignments[l.userId]; if (asg?.archived || asg?.fase === 'perdido') return false; return isAutoFrozen(l.userId); });
-  const manuales = allLeads.filter(l => assignments[l.userId]?.archived);
+  // Pestaña activa (B2C / B2B) y resaltado
+  const archTab = window._archivoTab || 'b2c';
+  ['b2c','b2b'].forEach(t => { const el = document.getElementById('archTab'+t.toUpperCase()); if (el) { const on = t===archTab; el.style.color = on?'var(--navy)':'var(--muted)'; el.style.borderBottomColor = on?'#1790EC':'transparent'; el.style.fontWeight = on?'700':'600'; } });
+  const typed = allLeads.filter(l => archTab==='b2b' ? !!l._isB2B : !l._isB2B);
+
+  const perdidos = typed.filter(l => assignments[l.userId]?.fase === 'perdido' && !assignments[l.userId]?.archived);
+  const congelados = typed.filter(l => { const asg = assignments[l.userId]; if (asg?.archived || asg?.fase === 'perdido') return false; return isAutoFrozen(l.userId); });
+  const manuales = typed.filter(l => assignments[l.userId]?.archived);
   const total = perdidos.length + congelados.length + manuales.length;
 
   const motivos = {};
@@ -3238,16 +3629,19 @@ function renderArchivo() {
   else fCongelados.forEach(l => { boxHtml += miniRow(l, false, false); });
   boxHtml += `</div></div>`;
 
-  // Archivados manualmente (full width below)
-  if (fManuales.length) {
-    boxHtml += `<div class="glass" style="padding:16px;border-top:3px solid #94A3B8;grid-column:1/-1;">`;
-    boxHtml += `<div style="font-size:11px;font-weight:700;color:#94A3B8;text-transform:uppercase;letter-spacing:.04em;margin-bottom:8px;display:flex;align-items:center;gap:6px;">Archivados <span style="background:#94A3B815;color:#94A3B8;padding:1px 8px;border-radius:10px;font-size:11px;font-weight:800;">${fManuales.length}</span></div>`;
-    boxHtml += `<div style="max-height:400px;overflow-y:auto;">`;
-    fManuales.forEach(l => { boxHtml += miniRow(l, true, false); });
-    boxHtml += `</div></div>`;
-  }
+  // Archivados manualmente (full width below) — siempre visible
+  boxHtml += `<div class="glass" style="padding:16px;border-top:3px solid #F59E0B;grid-column:1/-1;">`;
+  boxHtml += `<div style="font-size:11px;font-weight:700;color:#854F0B;text-transform:uppercase;letter-spacing:.04em;margin-bottom:8px;display:flex;align-items:center;gap:6px;">🗄️ Archivados (movidos a mano) <span style="background:#F59E0B22;color:#854F0B;padding:1px 8px;border-radius:10px;font-size:11px;font-weight:800;">${fManuales.length}</span></div>`;
+  boxHtml += `<div style="max-height:400px;overflow-y:auto;">`;
+  if (!fManuales.length) boxHtml += `<div style="text-align:center;color:var(--muted);font-size:11px;padding:16px;">Ninguno en ${archTab.toUpperCase()}</div>`;
+  else fManuales.forEach(l => { boxHtml += miniRow(l, true, false); });
+  boxHtml += `</div></div>`;
 
   document.getElementById('archivoBoxes').innerHTML = boxHtml;
+}
+function setArchivoTab(tab) {
+  window._archivoTab = tab;
+  renderArchivo();
 }
 // ══ Manual Opportunity Creation ═══════════════════════════════
 function toggleOppForm() {
@@ -3485,6 +3879,14 @@ async function importOppCsv() {
     const detList = Object.keys(C).filter(k => C[k]).join(', ');
     rd.innerHTML = `<span style="color:var(--muted);">Columnas detectadas: ${detList || 'ninguna'} — ${rows.length} filas</span>`;
 
+    // B2B: preguntar a qué base pertenece este CSV (permite escribir una nueva)
+    let csvBase = 'CSV';
+    if (isB2B) {
+      const r = prompt('¿A qué BASE pertenece este CSV?\n(ej. Apollo, Evento CIHAC, Lista LinkedIn — puedes escribir una nueva)', 'CSV');
+      if (r === null) { rd.innerHTML = '<span style="color:#94A3B8;">Importación cancelada.</span>'; return; }
+      csvBase = r.trim() || 'CSV';
+    }
+
     let count = 0, dupes = 0, invalid = 0;
     const batch = db.batch();
     const ve = Object.keys(tipo === 'b2b' ? VENDEDORES_B2B : VENDEDORES_B2C);
@@ -3544,6 +3946,7 @@ async function importOppCsv() {
       const rowKey = (rowKeySrc || 'r' + ri).replace(/[^a-zA-Z0-9]/g, '_');
       const id = 'csv_' + rowKey + '_' + batchTs + count;
       const asg = { vendedor, fase: isB2B ? 'investigacion' : 'nuevo', assigned_at: Date.now(), type: tipo, source: 'csv', csv_data: csvData };
+      if (isB2B) asg.fuente = csvBase;
       batch.set(db.collection('crm_assignments').doc(id), asg);
       assignments[id] = asg;
       count++;
