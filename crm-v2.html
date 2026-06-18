@@ -167,11 +167,7 @@
     </div>
     <div id="bulkBar" class="bulk-bar">
       <span id="bulkCount">0 seleccionados</span>
-      <button onclick="bulkChangeFase('contactado')">→ Contactado</button>
-      <button onclick="bulkChangeFase('seguimiento')">→ Seguimiento</button>
-      <button onclick="bulkChangeFase('perdido')">→ Perdido</button>
-      <button onclick="bulkReasignar()">🔄 Reasignar</button>
-      <button onclick="bulkArchive()">🗄️ Archivar</button>
+      <span id="bulkActions" style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;"></span>
       <button onclick="bulkClear()" style="margin-left:auto;background:rgba(255,255,255,0.1);">✕ Deseleccionar</button>
     </div>
     <div class="crm-content">
@@ -215,6 +211,7 @@
           <select id="filterStars" onchange="window._pipeKpiFilter=null;renderPipeline()" style="background:white;border:1px solid var(--border);color:var(--text);padding:8px 12px;border-radius:8px;font-size:12px;"><option value="0" selected>Todas ★</option><option value="5">5★</option><option value="4">4+★</option><option value="3">3+★</option></select>
           <select id="filterFase" onchange="window._pipeKpiFilter=null;renderPipeline()" style="background:white;border:1px solid var(--border);color:var(--text);padding:8px 12px;border-radius:8px;font-size:12px;"><option value="all">Todas las fases</option><option value="nuevo">Nuevo</option><option value="contactado">Contactado</option><option value="seguimiento">Seguimiento</option><option value="interesado">Ganado</option><option value="perdido">Perdido</option></select>
           <select id="filterAssign" onchange="window._pipeKpiFilter=null;renderPipeline()" style="background:white;border:1px solid var(--border);color:var(--text);padding:8px 12px;border-radius:8px;font-size:12px;"><option value="all">Todos</option><option value="assigned">Asignados</option><option value="unassigned">Sin asignar</option></select>
+          <select id="filterSort" onchange="window._pipeSort=this.value;renderPipeline()" title="Ordenar" style="background:white;border:1px solid var(--border);color:var(--text);padding:8px 12px;border-radius:8px;font-size:12px;"><option value="score">Orden: Score ↓</option><option value="cambio">Último cambio ↓</option><option value="nombre">Nombre A-Z</option></select>
           <input id="searchInput" oninput="renderPipeline()" placeholder="🔍 Buscar..." style="background:white;border:1px solid var(--border);color:var(--text);padding:8px 12px;border-radius:8px;font-size:12px;width:200px;margin-left:auto;">
           <button class="sb-admin-only" onclick="autoAssign()" style="background:#1790EC;color:white;border:none;padding:8px 14px;border-radius:8px;cursor:pointer;font-size:12px;font-weight:600;">Asignar</button>
           <button onclick="openNewOpp()" style="background:#00C48C;color:white;border:none;padding:8px 14px;border-radius:8px;cursor:pointer;font-size:12px;font-weight:600;">+ Oportunidad</button>
@@ -297,7 +294,7 @@
     <button onclick="createManualOpp()" style="margin-top:16px;background:#1790EC;color:#fff;border:none;padding:10px 24px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;width:100%;">Crear Oportunidad</button>
     <div style="margin-top:20px;padding-top:16px;border-top:1px solid var(--border);">
       <div style="font-size:13px;font-weight:600;margin-bottom:8px;">O carga varias con CSV</div>
-      <div style="font-size:11px;color:var(--muted);margin-bottom:8px;">Requeridas: <b>nombre</b> + (<b>email</b> o <b>telefono</b>). Opcionales: empresa, potencial, cargo, sector, linkedin, website. El orden no importa, pero los encabezados deben existir.</div>
+      <div style="font-size:11px;color:var(--muted);margin-bottom:8px;"><b>B2B</b> — obligatoria solo <b>empresa</b>. Recomendadas: empresa, contacto1, telefono, cargo, contacto2, linkedin, website, oferta, porque, proxima_accion, notas.<br><b>B2C</b> — obligatorias <b>nombre</b> + (email o telefono). El orden no importa, pero los encabezados deben existir.</div>
       <div style="display:flex;gap:8px;align-items:center;"><input type="file" id="oppCsvInput" accept=".csv" style="font-size:12px;flex:1;"><button onclick="importOppCsv()" style="background:#00C48C;color:#fff;border:none;padding:8px 16px;border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;white-space:nowrap;">Importar CSV</button></div>
     </div>
     <div id="oppResult" style="margin-top:8px;font-size:12px;"></div>
@@ -928,14 +925,54 @@ function updateBulkBar() {
   const bar = document.getElementById('bulkBar');
   bar.style.display = selectedLeads.size > 0 ? 'flex' : 'none';
   document.getElementById('bulkCount').textContent = selectedLeads.size + ' seleccionados';
+  const acts = document.getElementById('bulkActions');
+  if (!acts) return;
+  const isB2B = document.getElementById('filterType')?.value === 'b2b';
+  if (isB2B) {
+    // Mover a uno de los 7 niveles del pipeline B2B
+    const niveles = [['investigacion','Investigación'],['busqueda_contactos','Búsqueda de contactos'],['primer_contacto','Contacto'],['primer_llamada','Llamada'],['demo','Demo'],['activa','Activo'],['perdido','Perdido']];
+    const selStyle = 'background:rgba(255,255,255,0.2);color:white;border:none;padding:6px 12px;border-radius:6px;font-size:12px;font-weight:600;cursor:pointer;font-family:inherit;';
+    acts.innerHTML = `<select onchange="if(this.value){bulkChangeFase(this.value);this.value=''}" style="${selStyle}"><option value="">Mover a nivel…</option>`
+      + niveles.map(([v,l])=>`<option value="${v}" style="color:#1a2332;">${l}</option>`).join('') + `</select>`
+      + `<button onclick="bulkReasignar()">🔄 Reasignar</button>`
+      + `<button onclick="bulkDelete()">🗑️ Eliminar</button>`;
+  } else {
+    acts.innerHTML = `<button onclick="bulkChangeFase('contactado')">→ Contactado</button>`
+      + `<button onclick="bulkChangeFase('seguimiento')">→ Seguimiento</button>`
+      + `<button onclick="bulkChangeFase('perdido')">→ Perdido</button>`
+      + `<button onclick="bulkReasignar()">🔄 Reasignar</button>`
+      + `<button onclick="bulkArchive()">🗄️ Archivar</button>`;
+  }
 }
 function bulkClear() { selectedLeads.clear(); document.querySelectorAll('.lead-cb').forEach(c=>c.checked=false); updateBulkBar(); }
 
 async function bulkChangeFase(fase) {
   if (!selectedLeads.size) return;
+  const n = selectedLeads.size;
   for (const uid of selectedLeads) { await changeFase(uid, fase, true); }
   bulkClear(); renderPipeline();
-  alert(`${selectedLeads.size||'Todos los'} leads cambiados a ${fase}`);
+  alert(`${n} leads movidos a ${faseLabel(fase)}`);
+}
+
+async function bulkDelete() {
+  if (userRole !== 'admin') { alert('Solo un admin puede eliminar.'); return; }
+  if (!selectedLeads.size) return;
+  const ids = [...selectedLeads];
+  // Solo se pueden borrar leads manuales/CSV; los de Apollo (agrupados) y Alianzas vienen de hoja/código
+  const deletable = ids.filter(id => id.startsWith('manual_') || id.startsWith('csv_'));
+  const skipped = ids.length - deletable.length;
+  if (!deletable.length) { alert('Solo se pueden eliminar empresas cargadas manual/CSV. Las de Apollo y Alianzas no.'); return; }
+  if (!confirm(`Eliminar ${deletable.length} empresas permanentemente?${skipped ? `\n(${skipped} de Apollo/Alianza se omitirán)` : ''}`)) return;
+  for (const id of deletable) {
+    try {
+      await db.collection('crm_assignments').doc(id).delete();
+      delete assignments[id];
+      const idx = leads.findIndex(l => l.userId === id); if (idx >= 0) leads.splice(idx, 1);
+      delete leadsMap[id];
+    } catch (e) { console.error('Error eliminando', id, e); }
+  }
+  bulkClear(); renderPipeline();
+  alert(`✓ ${deletable.length} eliminadas${skipped ? `, ${skipped} omitidas` : ''}`);
 }
 async function bulkReasignar() {
   if (userRole !== 'admin') { alert('Solo admin puede reasignar'); return; }
@@ -1097,6 +1134,26 @@ async function saveAlianzaField(userId, field, value) {
 function getAF(userId, field, fallback) {
   const edit = assignments[userId]?.alianza_edits?.[field];
   return (edit !== undefined && edit !== null && edit !== '') ? edit : (fallback || '');
+}
+
+// ══ Fuente del lead (editable) ════════════════════════════════
+const FUENTE_OPCIONES = ['Apollo','CSV','Manual','Alianza','Referido','Evento','LinkedIn','Otro'];
+function leadFuente(userId) {
+  const a = assignments[userId] || {};
+  if (a.fuente) return a.fuente;
+  const lead = leadsMap[userId];
+  if (lead && lead._isAlianza) return 'Alianza';
+  if (a.source === 'csv') return 'CSV';
+  if (a.source === 'manual' || (lead && lead._isManual)) return 'Manual';
+  return 'Apollo';
+}
+async function setFuente(userId, value) {
+  if (userRole !== 'admin') return;
+  if (!assignments[userId]) assignments[userId] = {};
+  assignments[userId].fuente = value;
+  try { await db.collection('crm_assignments').doc(userId).set({fuente: value}, {merge: true}); }
+  catch (e) { console.error('Error guardando fuente:', e); alert('Error al guardar fuente: ' + e.message); }
+  renderPipeline();
 }
 
 // ══ Conocidos (conexiones personales) ════════════════════════
@@ -2063,7 +2120,15 @@ function renderPipeline() {
     }
   }
 
-  pipeline.sort((a,b)=>b.score-a.score);
+  const sortMode = window._pipeSort || 'score';
+  const lastChange = (l) => {
+    if (l._isCompanyGroup) return Math.max(0, ...((l._companyContacts||[]).map(c => activities[c.userId]?.[0]?.ts || assignments[c.userId]?.assigned_at || 0)));
+    return activities[l.userId]?.[0]?.ts || assignments[l.userId]?.assigned_at || 0;
+  };
+  const dispName = (l) => String(l._companyName || l._nombre || l.email || l.userId || '');
+  if (sortMode === 'nombre') pipeline.sort((a,b)=>dispName(a).localeCompare(dispName(b),'es',{sensitivity:'base'}));
+  else if (sortMode === 'cambio') pipeline.sort((a,b)=>lastChange(b)-lastChange(a));
+  else pipeline.sort((a,b)=>b.score-a.score);
 
   const allP = leads.filter(l => {
     if (!isInPipeline(l)) {
@@ -2160,8 +2225,15 @@ function renderPipeline() {
         const b = l._b2b||{};
         const esBadge = b.emailStatus==='Verified'?`<span style="background:rgba(0,196,140,0.15);color:#0F6E56;padding:1px 6px;border-radius:6px;font-size:9px;font-weight:600;">Email ✓</span>`:b.emailStatus==='Extrapolated'?`<span style="background:rgba(249,115,22,0.15);color:#993C1D;padding:1px 6px;border-radius:6px;font-size:9px;font-weight:600;">Email ~</span>`:'';
         const senBadge = ['vp','director','c suite','founder','owner','partner','head'].some(s=>(b.seniority||'').toLowerCase().includes(s))?`<span style="background:rgba(139,92,246,0.15);color:#534AB7;padding:1px 6px;border-radius:6px;font-size:9px;font-weight:600;">${b.seniority}</span>`:'';
-        const srcBadge = l._isManual?`<span style="background:#8B5CF622;color:#534AB7;padding:1px 6px;border-radius:6px;font-size:9px;font-weight:600;">Manual</span>`:`<span style="background:#F59E0B22;color:#854F0B;padding:1px 6px;border-radius:6px;font-size:9px;font-weight:600;">Apollo</span>`;
-        leadBlock = `<div style="font-size:13px;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${l._nombre}</div><div style="font-size:10px;color:var(--muted);margin:1px 0 4px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${b.company||''}${b.title?' · '+b.title:''}</div><div style="display:flex;flex-wrap:wrap;gap:4px;">${srcBadge}${esBadge}${senBadge}${rowTags}</div>`;
+        const fuente = leadFuente(l.userId);
+        const fmap = {Apollo:['#F59E0B22','#854F0B'],CSV:['#8B5CF622','#534AB7'],Manual:['#8B5CF622','#534AB7'],Alianza:['#0F6E5622','#0F6E56'],Referido:['#1790EC22','#185FA5'],Evento:['#06B6D422','#0E7490'],LinkedIn:['#0077B522','#0077B5']};
+        const fcol = fmap[fuente] || ['#94A3B822','#5F5E5A'];
+        const srcBadge = `<span style="background:${fcol[0]};color:${fcol[1]};padding:1px 6px;border-radius:6px;font-size:9px;font-weight:600;">${fuente}</span>`;
+        // Manual/CSV: el nombre ya es la empresa, así que la 2ª línea muestra el contacto; Apollo muestra empresa · puesto
+        const subInfo = l._isManual
+          ? ([asg.csv_data?.contacto1?.nombre, b.title].filter(Boolean).join(' · ') || b.industry || '')
+          : `${b.company||''}${b.title?' · '+b.title:''}`;
+        leadBlock = `<div style="font-size:13px;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${l._nombre}</div><div style="font-size:10px;color:var(--muted);margin:1px 0 4px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${subInfo}</div><div style="display:flex;flex-wrap:wrap;gap:4px;">${srcBadge}${esBadge}${senBadge}${rowTags}</div>`;
         faseId = asg.fase || 'investigacion';
         respName = asg.vendedor ? (VENDEDORES[asg.vendedor]||asg.vendedor.split('@')[0]) : '—';
         respColor = '#1790EC';
@@ -2336,7 +2408,14 @@ function openLead(userId) {
   h += `<div style="font-size:18px;font-weight:700;">${leadName || nexusLink(lead.userId, '#' + lead.userId)} ${coolingIcon(userId)}</div>`;
   h += `<span style="background:${(fc[fase]||'#6B7280')}22;color:${fc[fase]||'#6B7280'};padding:3px 12px;border-radius:6px;font-size:11px;font-weight:700;text-transform:uppercase;">${faseLabel(fase)}</span>`;
   if (lead._isAlianza) h += `<span style="background:#0F6E5622;color:#0F6E56;padding:3px 8px;border-radius:6px;font-size:10px;font-weight:700;">ALIANZA</span>`;
-  else if (isB2B) h += `<span style="background:#F59E0B22;color:#F59E0B;padding:3px 8px;border-radius:6px;font-size:10px;font-weight:700;">APOLLO</span>`;
+  else if (isB2B) {
+    const fuente = leadFuente(userId);
+    if (userRole === 'admin') {
+      h += `<select onchange="setFuente('${userId}',this.value)" title="Fuente — editable" style="font-size:10px;font-weight:700;border:1px solid var(--border);border-radius:6px;padding:3px 6px;background:#F59E0B22;color:#854F0B;cursor:pointer;font-family:inherit;text-transform:uppercase;">` + FUENTE_OPCIONES.map(o=>`<option value="${o}" ${o===fuente?'selected':''}>${o}</option>`).join('') + `</select>`;
+    } else {
+      h += `<span style="background:#F59E0B22;color:#854F0B;padding:3px 8px;border-radius:6px;font-size:10px;font-weight:700;text-transform:uppercase;">${fuente}</span>`;
+    }
+  }
   h += `</div>`;
   h += `<div style="text-align:right;"><div style="font-size:14px;">${starsH(lead.stars)}</div><div style="font-size:22px;font-weight:800;color:${lead.stars>=4?'#F59E0B':'#3B82F6'};line-height:1;">${lead.score}<span style="font-size:10px;font-weight:500;color:var(--muted);"> pts</span></div></div>`;
   h += `</div>`;
@@ -2445,6 +2524,8 @@ function openLead(userId) {
     if (b2b.revenue) h += `<div style="margin-bottom:6px;font-size:12px;color:#F59E0B;font-weight:600;">💰 ${b2b.revenue}</div>`;
     if (b2b.linkedin) h += `<div style="margin-bottom:6px;font-size:12px;"><a href="${b2b.linkedin}" target="_blank" style="color:#0077B5;text-decoration:none;">🔗 LinkedIn</a></div>`;
     if (b2b.website) h += `<div style="margin-bottom:6px;font-size:12px;"><a href="${b2b.website}" target="_blank" style="color:#1790EC;text-decoration:none;">🌐 ${b2b.website.replace(/https?:\/\//,'').substring(0,30)}</a></div>`;
+    if (manualData?.contacto1?.nombre) h += `<div style="margin-bottom:6px;font-size:12px;">👤 ${manualData.contacto1.nombre} <span style="color:var(--muted);font-size:10px;">(1er contacto)</span></div>`;
+    if (manualData?.contacto2?.nombre) h += `<div style="margin-bottom:6px;font-size:12px;">👤 ${manualData.contacto2.nombre} <span style="color:var(--muted);font-size:10px;">(2º contacto)</span></div>`;
     h += renderConocidos(userId);
   } else {
     h += `<div style="margin-bottom:6px;font-size:12px;color:var(--muted);">${lead.userType||'Sin tipo'}</div>`;
@@ -2512,14 +2593,14 @@ function openLead(userId) {
   h += `</div>`; // close right col
   h += `</div>`; // close grid
 
-  // Alianza strategy (inside Info tab)
-  if (lead._isAlianza) {
+  // Estrategia editable (alianzas y empresas cargadas por CSV/manual)
+  if (lead._isAlianza || (isB2B && manualData)) {
     const al = lead._alianza||{};
     const uid = userId;
-    const efOferta = getAF(uid,'oferta',al.oferta);
-    const efPorQue = getAF(uid,'porQue',al.porQue);
-    const efAccion = getAF(uid,'accion',al.accion);
-    const efNotas = getAF(uid,'notas',(al.notas||[]).join('\n'));
+    const efOferta = getAF(uid,'oferta', lead._isAlianza ? al.oferta : manualData.oferta);
+    const efPorQue = getAF(uid,'porQue', lead._isAlianza ? al.porQue : manualData.porque);
+    const efAccion = getAF(uid,'accion', lead._isAlianza ? al.accion : manualData.proxima_accion);
+    const efNotas = getAF(uid,'notas', lead._isAlianza ? (al.notas||[]).join('\n') : manualData.notas);
     const txS = 'width:100%;font-size:12px;background:var(--subtle);border:1px solid var(--border);border-radius:6px;padding:6px 8px;color:var(--text);font-family:inherit;resize:vertical;';
     h += `<div style="padding:14px 24px;border-bottom:1px solid var(--border);">`;
     h += `<div style="font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase;margin-bottom:10px;">Estrategia <span style="font-size:9px;font-weight:400;text-transform:none;">(editable)</span></div>`;
@@ -3357,24 +3438,54 @@ async function importOppCsv() {
     try {
     const rows = results.data;
     if (!rows.length) { rd.innerHTML = '<span style="color:#EF4444;">CSV vacio</span>'; return; }
-    const findCol = (...kws) => { for (const kw of kws) { const k = Object.keys(rows[0]).find(h => h.toLowerCase().includes(kw)); if (k) return k; } return null; };
-    const cN = findCol('nombre', 'name'), cE = findCol('email', 'correo', 'mail'), cT = findCol('telefono', 'tel', 'phone'), cEm = findCol('empresa', 'company', 'organizacion'), cP = findCol('potencial', 'valor', 'revenue');
-    const cCargo = findCol('cargo', 'title', 'puesto', 'titulo'), cSector = findCol('sector', 'industry', 'industria', 'giro'), cLinkedin = findCol('linkedin'), cWeb = findCol('website', 'sitio', 'web', 'url');
-
-    // ── Validación de estructura del CSV (rechaza archivos mal armados) ──
-    // Obligatorias (en cualquier orden): nombre + al menos un medio de contacto (email o telefono).
-    const faltantes = [];
-    if (!cN) faltantes.push('nombre');
-    if (!cE && !cT) faltantes.push('email o telefono');
-    if (faltantes.length) {
-      const detectadas = [cN&&'nombre',cE&&'email',cT&&'telefono',cEm&&'empresa',cP&&'potencial',cCargo&&'cargo',cSector&&'sector'].filter(Boolean).join(', ') || 'ninguna reconocida';
-      rd.innerHTML = `<span style="color:#EF4444;">✗ CSV rechazado — faltan columnas obligatorias: <b>${faltantes.join(' y ')}</b>.<br>El archivo debe tener encabezados para <b>nombre</b> y <b>email o telefono</b> (en cualquier orden). Opcionales: empresa, potencial, cargo, sector, linkedin, website.<br>Detectadas en tu archivo: ${detectadas}.</span>`;
-      return;
+    const isB2B = tipo === 'b2b';
+    const used = new Set();
+    const findCol = (...kws) => { for (const kw of kws) { const k = Object.keys(rows[0]).find(h => !used.has(h) && h.toLowerCase().includes(kw)); if (k) { used.add(k); return k; } } return null; };
+    const C = {};
+    if (isB2B) {
+      // Detección B2B — lo más específico primero para evitar colisiones de columnas
+      C.empresa  = findCol('empresa','company','organizacion','negocio');
+      C.c2nombre = findCol('contacto2','contacto 2','segundo contacto','segundo','contacto_2');
+      C.cargo    = findCol('cargo','puesto','titulo','title');
+      C.tel      = findCol('telefono','teléfono','tel','phone','celular','whatsapp');
+      C.email    = findCol('email','correo','mail');
+      C.linkedin = findCol('linkedin');
+      C.website  = findCol('website','sitio','pagina','página','url','web');
+      C.oferta   = findCol('oferta','propuesta');
+      C.porque   = findCol('porque','porqué','por_que','por qué','por que','razon','razón','motivo');
+      C.accion   = findCol('proxima','próxima','accion','acción','siguiente');
+      C.notas    = findCol('notas','nota','observac','comentario');
+      C.sector   = findCol('sector','industria','industry','giro','rubro');
+      C.potencial= findCol('potencial','usuarios','personas','valor','revenue','tamano','tamaño');
+      C.c1nombre = findCol('contacto1','contacto 1','primer contacto','primer','contacto','nombre','name');
+      if (!C.empresa) {
+        rd.innerHTML = `<span style="color:#EF4444;">✗ CSV B2B rechazado — falta la columna obligatoria <b>empresa</b> (nombre de la empresa).<br>Encabezados sugeridos (en cualquier orden): empresa, contacto1, telefono, cargo, contacto2, linkedin, website, oferta, porque, proxima_accion, notas.</span>`;
+        return;
+      }
+    } else {
+      C.nombre   = findCol('nombre','name');
+      C.email    = findCol('email','correo','mail');
+      C.tel      = findCol('telefono','teléfono','tel','phone');
+      C.empresa  = findCol('empresa','company','organizacion');
+      C.potencial= findCol('potencial','valor','revenue');
+      C.cargo    = findCol('cargo','title','puesto','titulo');
+      C.sector   = findCol('sector','industry','industria','giro');
+      C.linkedin = findCol('linkedin');
+      C.website  = findCol('website','sitio','web','url');
+      const faltantes = [];
+      if (!C.nombre) faltantes.push('nombre');
+      if (!C.email && !C.tel) faltantes.push('email o telefono');
+      if (faltantes.length) {
+        rd.innerHTML = `<span style="color:#EF4444;">✗ CSV B2C rechazado — faltan columnas obligatorias: <b>${faltantes.join(' y ')}</b>.<br>Requeridas: nombre + (email o telefono). Opcionales: empresa, potencial, cargo, sector, linkedin, website.</span>`;
+        return;
+      }
     }
 
-    rd.innerHTML = `<span style="color:var(--muted);">Columnas detectadas: ${[cN&&'nombre',cE&&'email',cT&&'tel',cEm&&'empresa',cP&&'potencial'].filter(Boolean).join(', ')} — ${rows.length} filas</span>`;
+    const val = (row, key) => key ? String(row[key] == null ? '' : row[key]).trim() : '';
+    const detList = Object.keys(C).filter(k => C[k]).join(', ');
+    rd.innerHTML = `<span style="color:var(--muted);">Columnas detectadas: ${detList || 'ninguna'} — ${rows.length} filas</span>`;
 
-    let count = 0, dupes = 0, sinNombre = 0;
+    let count = 0, dupes = 0, invalid = 0;
     const batch = db.batch();
     const ve = Object.keys(tipo === 'b2b' ? VENDEDORES_B2B : VENDEDORES_B2C);
     let cfgDoc; try { cfgDoc = await db.collection('crm_config').doc('settings').get(); } catch (e) {}
@@ -3383,43 +3494,56 @@ async function importOppCsv() {
 
     for (let ri = 0; ri < rows.length; ri++) {
       const row = rows[ri];
-      const nombre = cN ? (row[cN] || '').trim() : '';
-      const email = cE ? (row[cE] || '').trim() : '';
-      const tel = cT ? (row[cT] || '').trim() : '';
-      const empresa = cEm ? (row[cEm] || '').trim() : '';
+      let csvData, rowKeySrc;
 
-      // Skip completely empty rows
-      if (!nombre && !email && !tel && !empresa) continue;
-      // Rechazar filas sin nombre de contacto (evita leads que se muestran como id crudo, ej. #csv_Clip_...)
-      if (!nombre) { sinNombre++; continue; }
-
-      // Duplicate check (only if email is present)
-      if (email) {
-        const emailLower = email.toLowerCase();
-        if (leads.find(l => l.email && l.email.toLowerCase() === emailLower) ||
-            Object.values(assignments).find(a => ((a.csv_data?.email || a.manual_data?.email || '').toLowerCase() === emailLower))) {
+      if (isB2B) {
+        const empresa = val(row, C.empresa);
+        // En B2B lo único obligatorio es el nombre de la empresa
+        if (!empresa) { invalid++; continue; }
+        // Duplicado por nombre de empresa
+        const empLow = empresa.toLowerCase();
+        if (leads.find(l => (l._b2b?.company || '').toLowerCase() === empLow) ||
+            Object.values(assignments).find(a => ((a.csv_data?.empresa || a.manual_data?.empresa || '').toLowerCase() === empLow))) {
           dupes++; continue;
         }
+        const c1 = { nombre: val(row, C.c1nombre), telefono: val(row, C.tel), cargo: val(row, C.cargo), email: val(row, C.email) };
+        const c2 = { nombre: val(row, C.c2nombre) };
+        csvData = {
+          nombre: empresa, empresa,
+          email: c1.email, tel: c1.telefono, cargo: c1.cargo,
+          sector: val(row, C.sector),
+          linkedin: val(row, C.linkedin), website: val(row, C.website),
+          potencial: C.potencial ? (parseFloat(String(row[C.potencial]).replace(/[^0-9.]/g, '')) || 0) : 0,
+          contacto1: c1, contacto2: c2,
+          oferta: val(row, C.oferta), porque: val(row, C.porque),
+          proxima_accion: val(row, C.accion), notas: val(row, C.notas)
+        };
+        rowKeySrc = empresa;
+      } else {
+        const nombre = val(row, C.nombre), email = val(row, C.email), tel = val(row, C.tel), empresa = val(row, C.empresa);
+        if (!nombre && !email && !tel && !empresa) continue;
+        // Rechazar filas sin nombre de contacto (evita leads que se ven como id crudo, ej. #csv_Clip_...)
+        if (!nombre) { invalid++; continue; }
+        if (email) {
+          const emailLower = email.toLowerCase();
+          if (leads.find(l => l.email && l.email.toLowerCase() === emailLower) ||
+              Object.values(assignments).find(a => ((a.csv_data?.email || a.manual_data?.email || '').toLowerCase() === emailLower))) {
+            dupes++; continue;
+          }
+        }
+        csvData = { nombre, email, tel, empresa, potencial: C.potencial ? parseFloat(row[C.potencial]) || 0 : 0 };
+        if (C.cargo) csvData.cargo = val(row, C.cargo);
+        if (C.sector) csvData.sector = val(row, C.sector);
+        if (C.linkedin) csvData.linkedin = val(row, C.linkedin);
+        if (C.website) csvData.website = val(row, C.website);
+        rowKeySrc = email || tel || empresa || nombre;
       }
 
       const vendedor = fixedVendedor || ve[idx % ve.length];
       if (!fixedVendedor) idx = (idx + 1) % ve.length;
-
-      const rowKey = (email || tel || empresa || nombre || 'r' + ri).replace(/[^a-zA-Z0-9]/g, '_');
+      const rowKey = (rowKeySrc || 'r' + ri).replace(/[^a-zA-Z0-9]/g, '_');
       const id = 'csv_' + rowKey + '_' + batchTs + count;
-      const csvData = { nombre, email, tel, empresa, potencial: cP ? parseFloat(row[cP]) || 0 : 0 };
-      if (cCargo) csvData.cargo = (row[cCargo] || '').trim();
-      if (cSector) csvData.sector = (row[cSector] || '').trim();
-      if (cLinkedin) csvData.linkedin = (row[cLinkedin] || '').trim();
-      if (cWeb) csvData.website = (row[cWeb] || '').trim();
-      const asg = {
-        vendedor,
-        fase: tipo === 'b2b' ? 'investigacion' : 'nuevo',
-        assigned_at: Date.now(),
-        type: tipo,
-        source: 'csv',
-        csv_data: csvData
-      };
+      const asg = { vendedor, fase: isB2B ? 'investigacion' : 'nuevo', assigned_at: Date.now(), type: tipo, source: 'csv', csv_data: csvData };
       batch.set(db.collection('crm_assignments').doc(id), asg);
       assignments[id] = asg;
       count++;
@@ -3434,7 +3558,7 @@ async function importOppCsv() {
     }
 
     const assignedTo = fixedVendedor ? (VENDEDORES[fixedVendedor] || fixedVendedor) : 'round-robin 50/50';
-    rd.innerHTML = `<span style="color:#00C48C;">✓ ${count} leads importados → ${assignedTo}</span>${dupes ? `<br><span style="color:#F59E0B;">${dupes} duplicados omitidos</span>` : ''}${sinNombre ? `<br><span style="color:#F59E0B;">${sinNombre} filas omitidas por no tener nombre</span>` : ''}`;
+    rd.innerHTML = `<span style="color:#00C48C;">✓ ${count} ${isB2B ? 'empresas' : 'leads'} importados → ${assignedTo}</span>${dupes ? `<br><span style="color:#F59E0B;">${dupes} duplicados omitidos</span>` : ''}${invalid ? `<br><span style="color:#F59E0B;">${invalid} filas omitidas (sin ${isB2B ? 'empresa' : 'nombre'})</span>` : ''}`;
     if (count) setTimeout(() => { document.getElementById('newOppModal').style.display = 'none'; renderPipeline(); }, 2000);
     } catch(e) {
       console.error('Error importando CSV:', e);
