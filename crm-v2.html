@@ -149,6 +149,7 @@
       <div class="sb-item" data-sub="midia" onclick="switchSub('midia')"><span class="sb-icon">📋</span> Mi Dia</div>
       <div class="sb-item sb-admin-only" data-sub="equipo" onclick="switchSub('equipo')"><span class="sb-icon">👥</span> Equipo</div>
       <div class="sb-item" data-sub="pipeline" onclick="switchSub('pipeline')"><span class="sb-icon">🔄</span> Pipeline</div>
+      <div class="sb-item" data-sub="metas" onclick="switchSub('metas')"><span class="sb-icon">🎯</span> Metas del reto</div>
       <div class="sb-item sb-admin-only" data-sub="archivo" onclick="switchSub('archivo')"><span class="sb-icon">🗄️</span> Archivo</div>
       <!-- moved to pipeline filter bar -->
     </div>
@@ -252,6 +253,7 @@
         <div id="archiveStats" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px;margin-bottom:16px;"></div>
         <div id="archivoBoxes" style="display:grid;grid-template-columns:1fr 1fr;gap:12px;"></div>
       </div>
+      <div id="subMetas" style="display:none;"></div>
     </div>
   </div>
 </div>
@@ -1189,6 +1191,17 @@ function allBases() {
   const s = new Set(BASES_DEFAULT);
   Object.values(assignments).forEach(a => { if (a && a.fuente) s.add(a.fuente); });
   return [...s];
+}
+// Color por sector: usa los predefinidos; para sectores nuevos genera uno estable y lo cachea
+const SECTOR_PALETTE = ['#1790EC','#534AB7','#0F6E56','#993C1D','#185FA5','#854F0B','#06B6D4','#8B5CF6','#EC4899','#D85A30','#639922','#0EA5E9'];
+function sectorColor(sector) {
+  if (!sector) return '#6B7280';
+  if (ALIANZA_SECTORS[sector]) return ALIANZA_SECTORS[sector];
+  let hash = 0;
+  for (let i = 0; i < sector.length; i++) hash = (hash * 31 + sector.charCodeAt(i)) >>> 0;
+  const c = SECTOR_PALETTE[hash % SECTOR_PALETTE.length];
+  ALIANZA_SECTORS[sector] = c; // cachear para consistencia en la sesión
+  return c;
 }
 async function setClassif(id, key, value) {
   if (userRole !== 'admin') { alert('Solo un admin puede clasificar'); return; }
@@ -2178,7 +2191,12 @@ function renderPipeline() {
   const fa = document.getElementById('filterAssign')?.value||'all';
   if (fa==='assigned') pipeline=pipeline.filter(l=>!!assignments[l.userId]?.vendedor);
   else if (fa==='unassigned') pipeline=pipeline.filter(l=>!assignments[l.userId]?.vendedor);
-  if (sq) pipeline=pipeline.filter(l=>(l.email&&l.email.toLowerCase().includes(sq))||(l.phone&&l.phone.includes(sq))||(l.userId&&l.userId.includes(sq))||(l.userType&&l.userType.toLowerCase().includes(sq))||(l._nombre&&l._nombre.toLowerCase().includes(sq))||(l._b2b?.company&&l._b2b.company.toLowerCase().includes(sq)));
+  if (sq) pipeline=pipeline.filter(l=>{
+    const a = assignments[l.userId]||{};
+    const hay = [l.email, l.phone, l.userId, l.userType, l._nombre, l._b2b?.company, l._b2b?.industry, l._b2b?.title, l._alianza?.sector, a.sector, a.fuente]
+      .filter(Boolean).join(' ').toLowerCase();
+    return hay.includes(sq);
+  });
 
   // ── B2B: Group Apollo leads by company, keep manual/CSV individual ──
   if (isB2B) {
@@ -2303,13 +2321,15 @@ function renderPipeline() {
       const checked = selectedLeads.has(l.userId) ? 'checked' : '';
       const rowTags = (asg.tags||[]).slice(0,3).map(tid => { const t = getTagInfo(tid,l.userId); return `<span style="background:${t.color}18;color:${t.color};padding:1px 6px;border-radius:6px;font-size:9px;font-weight:600;">${t.label}</span>`; }).join('');
       const scoreColor = l.stars>=4?'#F59E0B':l.stars>=3?'#3B82F6':'var(--muted)';
+      const sectorEff = asg.sector || l._alianza?.sector || l._b2b?.industry || asg.csv_data?.sector || '';
+      const sectorTag = sectorEff ? `<span style="background:${sectorColor(sectorEff)}22;color:${sectorColor(sectorEff)};padding:1px 7px;border-radius:6px;font-size:9px;font-weight:600;">${sectorEff}</span>` : '';
       let leadBlock, faseId, respName='—', respColor='#1790EC', activityStr, onclick;
 
       if (l._isCompanyGroup) {
         const cts = l._companyContacts||[]; const bb = l._b2b||{};
         const conocidos = asg.conocidos || [];
         const sub = `${bb.industry||''}${bb.employees?' · '+bb.employees+' emps':''}`;
-        const tags = `<span style="background:#F59E0B22;color:#854F0B;padding:1px 6px;border-radius:6px;font-size:9px;font-weight:600;">EMPRESA</span>`
+        const tags = sectorTag + `<span style="background:#F59E0B22;color:#854F0B;padding:1px 6px;border-radius:6px;font-size:9px;font-weight:600;">EMPRESA</span>`
           + `<span style="background:#3B82F622;color:#185FA5;padding:1px 6px;border-radius:6px;font-size:9px;font-weight:600;">${cts.length} contactos</span>`
           + (conocidos.length?`<span style="background:#8B5CF622;color:#534AB7;padding:1px 6px;border-radius:6px;font-size:9px;font-weight:600;">👤 ${conocidos.length}</span>`:'') + rowTags;
         leadBlock = `<div style="font-weight:700;font-size:13px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">🏢 ${l._companyName}</div><div style="font-size:10px;color:var(--muted);margin:1px 0 4px;">${sub}</div><div style="display:flex;flex-wrap:wrap;gap:4px;">${tags}</div>`;
@@ -2319,11 +2339,10 @@ function renderPipeline() {
         activityStr = '—';
         onclick = `if(!event.target.closest('input'))openCompanyView('${l._companyName.replace(/'/g,"\\'")}')`;
       } else if (l._isAlianza) {
-        const al = l._alianza||{}; const secColor = ALIANZA_SECTORS[al.sector]||'#6B7280';
+        const al = l._alianza||{};
         const respLabel = ALIANZA_RESP[al.resp]||al.resp||'';
         const prBadge = al.prioridad==='quickwin'?`<span style="background:#00C48C22;color:#0F6E56;padding:1px 6px;border-radius:6px;font-size:9px;font-weight:600;">Quick win</span>`:al.prioridad==='apuesta'?`<span style="background:#8B5CF622;color:#534AB7;padding:1px 6px;border-radius:6px;font-size:9px;font-weight:600;">Apuesta</span>`:`<span style="background:#94A3B822;color:#5F5E5A;padding:1px 6px;border-radius:6px;font-size:9px;font-weight:600;">Radar</span>`;
-        const trBadge = al.track==='t1'?`<span style="background:#185FA522;color:#0C447C;padding:1px 6px;border-radius:6px;font-size:9px;font-weight:600;">Gremio</span>`:`<span style="background:#1790EC22;color:#185FA5;padding:1px 6px;border-radius:6px;font-size:9px;font-weight:600;">Plataforma</span>`;
-        leadBlock = `<div style="font-size:13px;font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${l._nombre} <span style="background:${secColor}22;color:${secColor};padding:1px 7px;border-radius:6px;font-size:10px;font-weight:600;">${al.sector||''}</span></div><div style="font-size:10px;color:var(--muted);margin:1px 0 4px;">${(al.usuarios||0).toLocaleString()} personas${respLabel?' · '+respLabel:''}</div><div style="display:flex;flex-wrap:wrap;gap:4px;">${prBadge}${trBadge}${rowTags}</div>`;
+        leadBlock = `<div style="font-size:13px;font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${l._nombre} ${sectorTag}</div><div style="font-size:10px;color:var(--muted);margin:1px 0 4px;">${(al.usuarios||0).toLocaleString()} personas${respLabel?' · '+respLabel:''}</div><div style="display:flex;flex-wrap:wrap;gap:4px;">${prBadge}${rowTags}</div>`;
         faseId = asg.fase || al.etapa || 'investigacion';
         respName = respLabel || '—';
         respColor = '#0F6E56';
@@ -2341,7 +2360,7 @@ function renderPipeline() {
         const subInfo = l._isManual
           ? ([asg.csv_data?.contacto1?.nombre, b.title].filter(Boolean).join(' · ') || b.industry || '')
           : `${b.company||''}${b.title?' · '+b.title:''}`;
-        leadBlock = `<div style="font-size:13px;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${l._nombre}</div><div style="font-size:10px;color:var(--muted);margin:1px 0 4px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${subInfo}</div><div style="display:flex;flex-wrap:wrap;gap:4px;">${srcBadge}${esBadge}${senBadge}${rowTags}</div>`;
+        leadBlock = `<div style="font-size:13px;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${l._nombre}</div><div style="font-size:10px;color:var(--muted);margin:1px 0 4px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${subInfo}</div><div style="display:flex;flex-wrap:wrap;gap:4px;">${sectorTag}${srcBadge}${esBadge}${senBadge}${rowTags}</div>`;
         faseId = asg.fase || 'investigacion';
         respName = asg.vendedor ? (VENDEDORES[asg.vendedor]||asg.vendedor.split('@')[0]) : '—';
         respColor = '#1790EC';
@@ -2635,10 +2654,9 @@ function renderEmpresaDetail(userId, ent) {
     h += classifChip(userId,'sector', sectorVal, allSectores().map(s=>({v:s,l:s})), true);
     h += classifChip(userId,'fuente', baseVal, allBases().map(s=>({v:s,l:s})), true);
     h += classifChip(userId,'prioridad', prioVal, [{v:'quickwin',l:'Quick win'},{v:'apuesta',l:'Apuesta'},{v:'radar',l:'Radar'}], false);
-    h += classifChip(userId,'track', trackVal, [{v:'t1',l:'Gremio'},{v:'t2',l:'Plataforma'}], false);
   } else {
     const chip = (t,c) => t ? `<span style="background:${c}18;color:${c};padding:2px 9px;border-radius:10px;font-size:10px;font-weight:600;">${t}</span>` : '';
-    h += chip(sectorVal,'#534AB7') + chip(baseVal,'#854F0B') + chip(prioVal==='quickwin'?'Quick win':prioVal==='apuesta'?'Apuesta':prioVal?'Radar':'','#0F6E56') + chip(trackVal==='t1'?'Gremio':trackVal==='t2'?'Plataforma':'','#185FA5');
+    h += chip(sectorVal,'#534AB7') + chip(baseVal,'#854F0B') + chip(prioVal==='quickwin'?'Quick win':prioVal==='apuesta'?'Apuesta':prioVal?'Radar':'','#0F6E56');
   }
   h += `</div>`;
   // tags editables
@@ -3268,7 +3286,7 @@ async function handleMidiaAction(userId, action) {
 
 // ══ Sub-tab Switching (Sidebar) ═══════════════════════════════
 function switchSub(sub) {
-  ['subDashboard','subMidia','subPipeline','subArchivo'].forEach(id => {
+  ['subDashboard','subMidia','subPipeline','subArchivo','subMetas'].forEach(id => {
     const el = document.getElementById(id);
     if (el) el.style.display = 'none';
   });
@@ -3278,7 +3296,7 @@ function switchSub(sub) {
   if (activeItem) activeItem.classList.add('active');
 
   // Update top header
-  const topTitles = {midia:'📋 Mi Día',equipo:'👥 Equipo',pipeline:'🔄 Pipeline',archivo:'🗄️ Archivo'};
+  const topTitles = {midia:'📋 Mi Día',equipo:'👥 Equipo',pipeline:'🔄 Pipeline',archivo:'🗄️ Archivo',metas:'🎯 Metas del reto'};
   const topEl = document.getElementById('topTitle');
   if (topEl) topEl.textContent = topTitles[sub] || sub;
 
@@ -3287,12 +3305,181 @@ function switchSub(sub) {
   if (sub==='midia') { document.getElementById('subMidia').style.display='block'; renderMiDia(); }
   if (sub==='pipeline') { document.getElementById('subPipeline').style.display='block'; renderPipeline(); }
   if (sub==='archivo') { document.getElementById('subArchivo').style.display='block'; renderArchivo(); }
+  if (sub==='metas') { document.getElementById('subMetas').style.display='block'; renderMetas(); }
 }
 // Cerrar el menú "⋯ Más" al hacer clic fuera de él
 document.addEventListener('click', function(e) {
   const m = document.getElementById('moreMenu');
   if (m && m.style.display === 'block' && !e.target.closest('#moreMenu')) m.style.display = 'none';
 });
+
+// ══════════════════════════════════════════════════════════════
+// ══ METAS DEL RETO ════════════════════════════════════════════
+// ══════════════════════════════════════════════════════════════
+const META_FASES = [
+  {n:1, label:'Fase 1 · Fundamentos', color:'#00C48C', goal:'Meta al día 30: pipeline construido con 100+ empresas y al menos 2 deals calientes cerca de firma.'},
+  {n:2, label:'Fase 2 · Tracción', color:'#1790EC', goal:'Meta al día 60: primer aliado firmado y embudo lleno con 15–20 empresas en distintas etapas.'},
+  {n:3, label:'Fase 3 · Cierre y sistema', color:'#F59E0B', goal:'Meta al día 90: aliado en vivo trayendo usuarios reales y playbook documentado para escalar.'}
+];
+const META_ESTADOS = {pendiente:['Pendiente','#94A3B8'], en_progreso:['En progreso','#1790EC'], completado:['Completado','#00C48C']};
+const META_RESP = ['Laura','Santiago','Pollo','Marketing'];
+const DEFAULT_METAS = [
+  {id:'m1',fase:1,titulo:'Sesión de equipo para completar contactos faltantes en LinkedIn (Arc.dev, Lemon.io, Turing, Kubo, Conekta, Facturama, Mifiel)',responsable:'Laura + Pollo + Santiago',estado:'pendiente',descripcion:'',fecha:'',notas:''},
+  {id:'m2',fase:1,titulo:'Definir las 20 cuentas Tier 1 must-win y asignar responsable final a cada una',responsable:'Santiago + Laura',estado:'pendiente',descripcion:'',fecha:'',notas:''},
+  {id:'m3',fase:1,titulo:'Preparar plantillas de outreach personalizadas por sector (seguros, inmobiliario, venta directa, plataformas digitales, IA)',responsable:'Laura',estado:'pendiente',descripcion:'',fecha:'',notas:''},
+  {id:'m4',fase:1,titulo:'Primer outreach a empresas con email confirmado: Workana, Hotmart, Talenteca, Upwork, Freelancer.com',responsable:'Santiago + Pollo',estado:'pendiente',descripcion:'',fecha:'',notas:''},
+  {id:'m5',fase:1,titulo:'Activar intros disponibles: Toptal vía Diego Villafuerte y Ontop vía Felipe Novoa',responsable:'Santiago',estado:'pendiente',descripcion:'',fecha:'',notas:''},
+  {id:'m6',fase:1,titulo:'Primer contacto con Banco Plata — alianza más natural del CRM, ya en el plan original',responsable:'Santiago',estado:'pendiente',descripcion:'',fecha:'',notas:''},
+  {id:'m7',fase:1,titulo:'Primer contacto con Clip y Facturama — Tier 1 sin contacto aún',responsable:'Laura',estado:'pendiente',descripcion:'',fecha:'',notas:''},
+  {id:'m8',fase:1,titulo:'Contacto con Rappi Ads usando el contacto existente de repartidores como puerta interna',responsable:'Santiago',estado:'pendiente',descripcion:'',fecha:'',notas:''},
+  {id:'m9',fase:1,titulo:'8–12 reuniones de discovery realizadas con las primeras respuestas del outreach',responsable:'Laura + Santiago + Pollo',estado:'pendiente',descripcion:'',fecha:'',notas:''},
+  {id:'m10',fase:1,titulo:'Banco Plata y Workana avanzan a propuesta — los dos deals más calientes',responsable:'Santiago',estado:'pendiente',descripcion:'',fecha:'',notas:''},
+  {id:'m11',fase:2,titulo:'5–8 propuestas formales enviadas a las empresas que respondieron en la Fase 1',responsable:'Laura + Santiago',estado:'pendiente',descripcion:'',fecha:'',notas:''},
+  {id:'m12',fase:2,titulo:'Hotmart Fire MX julio 2026 — sponsorship confirmado y propuesta de integración presentada en el evento',responsable:'Pollo',estado:'pendiente',descripcion:'',fecha:'Julio 2026',notas:''},
+  {id:'m13',fase:2,titulo:'Segundo lote de outreach a Tier 2: GNP Seguros, Qualitas, Century 21, Betterware, AMPI Nacional',responsable:'Laura',estado:'pendiente',descripcion:'',fecha:'',notas:''},
+  {id:'m14',fase:2,titulo:'Primer contacto con Deel — TOP del segmento IA, Tier 1 con 22/25 puntos',responsable:'Santiago',estado:'pendiente',descripcion:'',fecha:'',notas:''},
+  {id:'m15',fase:2,titulo:'1–2 alianzas firmadas (LOI o contrato). Candidatos: Banco Plata, Workana, Talenteca o Facturama',responsable:'Santiago + Laura',estado:'pendiente',descripcion:'',fecha:'',notas:''},
+  {id:'m16',fase:2,titulo:'Pipeline activo de 15–20 empresas en distintas etapas del proceso',responsable:'Laura',estado:'pendiente',descripcion:'',fecha:'',notas:''},
+  {id:'m17',fase:2,titulo:'Preparación para Convención AMASFAC septiembre — stand, ponencia y propuesta de beneficio gremial listos',responsable:'Laura',estado:'pendiente',descripcion:'',fecha:'Septiembre 2026',notas:''},
+  {id:'m18',fase:2,titulo:'Canal orgánico activo: contenido publicado en comunidades de Midjourney, Outlier y taskers de IA',responsable:'Marketing',estado:'pendiente',descripcion:'',fecha:'',notas:''},
+  {id:'m19',fase:3,titulo:'Convención AMASFAC septiembre — deal de beneficio gremial cerrado con agentes de seguros',responsable:'Laura',estado:'pendiente',descripcion:'',fecha:'Septiembre 2026',notas:''},
+  {id:'m20',fase:3,titulo:'2–4 alianzas acumuladas firmadas en total desde el inicio del reto',responsable:'Santiago + Laura + Pollo',estado:'pendiente',descripcion:'',fecha:'',notas:''},
+  {id:'m21',fase:3,titulo:'Primer aliado activo generando usuarios reales en Heru — North Star del reto',responsable:'Santiago',estado:'pendiente',descripcion:'',fecha:'',notas:''},
+  {id:'m22',fase:3,titulo:'Expo CIHAC octubre — Construrama y Comex: stand, propuesta y ponencia para maestros de obra ejecutados',responsable:'Laura',estado:'pendiente',descripcion:'',fecha:'Octubre 2026',notas:''},
+  {id:'m23',fase:3,titulo:'Congreso FedMVZ octubre — deal de beneficio gremial para veterinarios firmado',responsable:'Laura',estado:'pendiente',descripcion:'',fecha:'Octubre 2026',notas:''},
+  {id:'m24',fase:3,titulo:'Playbook documentado y replicable: qué funcionó, qué no, tiempos de ciclo por sector, argumentos que convierten',responsable:'Laura',estado:'pendiente',descripcion:'',fecha:'',notas:''},
+  {id:'m25',fase:3,titulo:'MRR de alianzas medido y atribuible — ingreso recurrente que entra por cada alianza activa',responsable:'Santiago',estado:'pendiente',descripcion:'',fecha:'',notas:''}
+];
+function loadMetas() {
+  try { const s = localStorage.getItem('crm_metas'); if (s) return JSON.parse(s); } catch (e) {}
+  const seed = JSON.parse(JSON.stringify(DEFAULT_METAS));
+  saveMetas(seed); return seed;
+}
+function saveMetas(arr) { try { localStorage.setItem('crm_metas', JSON.stringify(arr)); } catch (e) { console.error('Error guardando metas:', e); } }
+function getMetas() { if (!window._metas) window._metas = loadMetas(); return window._metas; }
+function persistMetas() { saveMetas(window._metas); }
+function metaEsc(s) { return String(s == null ? '' : s).replace(/</g,'&lt;'); }
+function metaEscAttr(s) { return String(s == null ? '' : s).replace(/"/g,'&quot;'); }
+function metaProgress(done, total, color) {
+  const pct = total ? Math.round(done/total*100) : 0;
+  return `<div style="height:7px;background:var(--border);border-radius:4px;overflow:hidden;"><div style="height:100%;width:${pct}%;background:${color};border-radius:4px;transition:width .2s;"></div></div>`;
+}
+function renderMetaCard(m, faseColor) {
+  if (window._editingMeta === m.id) return renderMetaForm(m);
+  const done = m.estado === 'completado';
+  const seg = (val, label, color) => {
+    const on = m.estado === val;
+    return `<button onclick="setMetaEstado('${m.id}','${val}')" style="border:none;${val!=='pendiente'?'border-left:1px solid var(--border);':''}padding:5px 11px;font-size:10px;font-weight:600;cursor:pointer;font-family:inherit;background:${on?color:'transparent'};color:${on?'#fff':'var(--muted)'};">${label}</button>`;
+  };
+  let h = `<div style="border:1px solid var(--border);border-radius:10px;padding:11px 13px;margin-bottom:8px;background:#fff;">`;
+  h += `<div style="display:flex;gap:8px;align-items:flex-start;">`;
+  h += `<div style="flex:1;min-width:0;font-size:12.5px;font-weight:600;line-height:1.35;color:${done?'var(--muted)':'var(--text)'};${done?'text-decoration:line-through;':''}">${metaEsc(m.titulo)}</div>`;
+  h += `<span onclick="editMeta('${m.id}')" title="Editar" style="cursor:pointer;font-size:12px;opacity:.5;flex-shrink:0;">✏️</span>`;
+  h += `<span onclick="deleteMeta('${m.id}')" title="Eliminar" style="cursor:pointer;font-size:12px;opacity:.4;flex-shrink:0;">🗑️</span>`;
+  h += `</div>`;
+  h += `<div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:10px;">`;
+  h += `<div style="display:inline-flex;border:1px solid var(--border);border-radius:8px;overflow:hidden;">${seg('pendiente','Pendiente','#94A3B8')}${seg('en_progreso','En progreso','#1790EC')}${seg('completado','Hecho','#00C48C')}</div>`;
+  h += `<span style="font-size:10px;color:var(--muted);white-space:nowrap;">👤 ${metaEsc(m.responsable)}</span>`;
+  if (m.fecha) h += `<span style="font-size:10px;color:var(--muted);white-space:nowrap;">📅 ${metaEsc(m.fecha)}</span>`;
+  h += `</div>`;
+  h += `</div>`;
+  return h;
+}
+function setMetaEstado(id, estado) {
+  const m = getMetas().find(x => x.id === id);
+  if (!m) return;
+  m.estado = estado;
+  persistMetas();
+  renderMetas();
+}
+function renderMetaForm(m) {
+  const sid = m.id;
+  const inp = 'box-sizing:border-box;width:100%;padding:7px 9px;border:1px solid var(--border);border-radius:7px;font-size:12px;font-family:inherit;margin-bottom:6px;';
+  const respOpts = [...new Set([m.responsable, ...META_RESP])];
+  let h = `<div style="border:1px solid #1790EC55;border-radius:10px;padding:12px;margin-bottom:8px;background:#1790EC08;">`;
+  h += `<input id="mt_${sid}" value="${metaEscAttr(m.titulo)}" placeholder="Título de la meta *" style="${inp}font-weight:600;">`;
+  h += `<textarea id="md_${sid}" placeholder="Descripción / detalle" style="${inp}min-height:42px;resize:vertical;">${metaEsc(m.descripcion)}</textarea>`;
+  h += `<div style="display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:6px;">`;
+  h += `<select id="mf_${sid}" style="${inp}">` + META_FASES.map(f=>`<option value="${f.n}" ${f.n===m.fase?'selected':''}>Fase ${f.n}</option>`).join('') + `</select>`;
+  h += `<select id="mr_${sid}" style="${inp}">` + respOpts.map(r=>`<option value="${metaEscAttr(r)}" ${r===m.responsable?'selected':''}>${metaEsc(r)}</option>`).join('') + `</select>`;
+  h += `<select id="me_${sid}" style="${inp}">` + Object.entries(META_ESTADOS).map(([k,v])=>`<option value="${k}" ${k===m.estado?'selected':''}>${v[0]}</option>`).join('') + `</select>`;
+  h += `<input id="mfe_${sid}" value="${metaEscAttr(m.fecha)}" placeholder="Fecha ref. (ej. Antes del 30 jun)" style="${inp}">`;
+  h += `</div>`;
+  h += `<textarea id="mn_${sid}" placeholder="Notas adicionales" style="${inp}min-height:38px;resize:vertical;">${metaEsc(m.notas)}</textarea>`;
+  h += `<div style="display:flex;gap:8px;justify-content:flex-end;margin-top:2px;">`;
+  h += `<button onclick="cancelMeta()" style="padding:6px 14px;border:1px solid var(--border);background:#fff;border-radius:7px;font-size:12px;cursor:pointer;">Cancelar</button>`;
+  h += `<button onclick="saveMetaEdit('${sid}')" style="padding:6px 14px;border:none;background:#1790EC;color:#fff;border-radius:7px;font-size:12px;font-weight:600;cursor:pointer;">Guardar</button>`;
+  h += `</div></div>`;
+  return h;
+}
+function renderMetas() {
+  const metas = getMetas();
+  const cont = document.getElementById('subMetas');
+  if (!cont) return;
+  const doneAll = metas.filter(m => m.estado === 'completado').length;
+  const pct = metas.length ? Math.round(doneAll/metas.length*100) : 0;
+  let h = '';
+  // Resumen general
+  h += `<div style="background:#fff;border:1px solid var(--border);border-radius:12px;padding:16px 18px;margin-bottom:16px;">`;
+  h += `<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;"><div><div style="font-size:16px;font-weight:700;">🎯 Metas del reto</div><div style="font-size:12px;color:var(--muted);">${doneAll} de ${metas.length} metas completadas en total</div></div><div style="font-size:26px;font-weight:800;color:#00C48C;line-height:1;">${pct}%</div></div>`;
+  h += metaProgress(doneAll, metas.length, '#00C48C');
+  h += `</div>`;
+  // Columnas por fase
+  h += `<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:14px;align-items:start;">`;
+  META_FASES.forEach(f => {
+    const fm = metas.filter(m => m.fase === f.n);
+    const fd = fm.filter(m => m.estado === 'completado').length;
+    h += `<div style="background:#fff;border:1px solid var(--border);border-top:3px solid ${f.color};border-radius:12px;padding:14px;">`;
+    h += `<div style="font-size:13px;font-weight:700;color:${f.color};">${f.label}</div>`;
+    h += `<div style="font-size:11px;color:var(--muted);margin:5px 0 9px;line-height:1.45;">${f.goal}</div>`;
+    h += metaProgress(fd, fm.length, f.color);
+    h += `<div style="font-size:10px;color:var(--muted);margin:5px 0 11px;">${fd}/${fm.length} completadas</div>`;
+    fm.forEach(m => h += renderMetaCard(m, f.color));
+    h += `<button onclick="addMeta(${f.n})" style="width:100%;border:1px dashed var(--border);background:#fff;color:${f.color};padding:9px;border-radius:9px;font-size:12px;font-weight:600;cursor:pointer;margin-top:2px;">+ Agregar meta</button>`;
+    h += `</div>`;
+  });
+  h += `</div>`;
+  // Panel de referencia (KPIs + regla de oro) — colapsable
+  h += `<div style="margin-top:16px;">`;
+  h += `<button onclick="var r=document.getElementById('metaRef');var sh=r.style.display==='none';r.style.display=sh?'grid':'none';this.firstChild.textContent=sh?'▴':'▾';" style="background:none;border:none;color:var(--muted);font-size:11px;cursor:pointer;font-weight:600;padding:4px 0;"><span>▾</span> KPIs semanales y guía de outreach</button>`;
+  h += `<div id="metaRef" style="display:none;background:var(--subtle);border:1px solid var(--border);border-radius:12px;padding:16px 18px;margin-top:8px;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:18px;">`;
+  h += `<div><div style="font-size:11px;font-weight:700;color:var(--navy);text-transform:uppercase;letter-spacing:.04em;margin-bottom:8px;">KPIs de actividad semanal</div><ul style="margin:0;padding-left:18px;font-size:12px;color:var(--text);line-height:1.7;"><li><b>10–15</b> empresas nuevas calificadas / semana</li><li><b>40–60</b> mensajes de outreach personalizados / semana</li><li><b>2–4</b> reuniones de discovery, demo o follow-up / semana</li></ul></div>`;
+  h += `<div><div style="font-size:11px;font-weight:700;color:var(--navy);text-transform:uppercase;letter-spacing:.04em;margin-bottom:8px;">Regla de oro del outreach</div><div style="font-size:12px;color:var(--muted);margin-bottom:6px;line-height:1.5;">Casi nadie responde al primer mensaje — el seguimiento gana las reuniones.</div><div style="font-size:11px;color:var(--text);line-height:1.8;">Día 0 → LinkedIn (corto, valor primero)<br>Día 2 → Valor adicional<br>Día 4 → Email directo<br>Día 7 → Nuevo ángulo<br>Día 10 → Recordatorio<br>Día 14 → Break-up</div></div>`;
+  h += `</div></div>`;
+  cont.innerHTML = h;
+}
+function editMeta(id) { window._editingMeta = id; renderMetas(); }
+function cancelMeta() { window._editingMeta = null; renderMetas(); }
+function addMeta(fase) {
+  const id = 'm_' + Date.now();
+  getMetas().push({id, fase, titulo:'', responsable:'Laura', estado:'pendiente', descripcion:'', fecha:'', notas:''});
+  persistMetas();
+  window._editingMeta = id;
+  renderMetas();
+}
+function saveMetaEdit(id) {
+  const g = (p) => document.getElementById(p + '_' + id)?.value || '';
+  const titulo = g('mt').trim();
+  if (!titulo) { alert('El título de la meta es obligatorio'); return; }
+  const m = getMetas().find(x => x.id === id);
+  if (!m) return;
+  m.titulo = titulo;
+  m.descripcion = g('md').trim();
+  m.fase = parseInt(g('mf')) || m.fase;
+  m.responsable = g('mr');
+  m.estado = g('me');
+  m.fecha = g('mfe').trim();
+  m.notas = g('mn').trim();
+  persistMetas();
+  window._editingMeta = null;
+  renderMetas();
+}
+function deleteMeta(id) {
+  if (!confirm('¿Eliminar esta meta?')) return;
+  window._metas = getMetas().filter(m => m.id !== id);
+  persistMetas();
+  renderMetas();
+}
 
 // ══ Archivo filter ═══════════════════════════════════════════
 window._archFilter = 'todos';
