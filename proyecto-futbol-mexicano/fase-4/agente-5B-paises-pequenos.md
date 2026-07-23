@@ -335,5 +335,160 @@ Cumple: clubes/ligas comunitarias masivas de facto; sistema escolar con cobertur
 | Club comunitario masivo como academia élite (modelo BP) | **Aplicable con adaptación** | Requiere personalidad jurídica y certificación de ligas existentes |
 | Certificación operada por la asociación de clubes | **No recomendable** | En México equivale a autocalificación de los 18 (R2) |
 
+---
+
+## 5. FICHA T-3 · CROACIA
+
+**Síntesis:** el caso incómodo y por eso indispensable: un país de <4 M con federación pobre y **capturada con corrupción penalmente probada** (caso Mamić) produjo dos podios mundialistas (2018, 2022) y una élite continua. Los mecanismos reales: la academia-exportadora de Dinamo Zagreb, una tradición formativa técnica heredada de la escuela yugoslava, la diáspora, y —clave para R4 mexicana— **COMET, el registro digital nacional creado en Croacia que hoy usan 40+ federaciones y toda CONCACAF**. Croacia prueba qué puede lograrse *a pesar* de mala gobernanza, y enumera con precisión sus costos.
+
+### 5.1 Problema inicial
+[HECHO, A/B] Estado nuevo (independencia 1991, guerra hasta 1995): infraestructura destruida o soviética-decadente, economía de posguerra, federación (HNS) pobre. Sin embargo, no partía de cero futbolístico: heredó la escuela técnica yugoslava (entrenadores, metodología, cultura de calle) y clubes centenarios (Dinamo 1945/Hajduk 1911).
+
+### 5.2 Contexto
+[HECHO, A] Población 3.85 M (decreciente por emigración). PIB medio-alto europeo reciente (UE 2013). Liga doméstica (HNL) económicamente marginal: ingresos totales inferiores a un club medio de Bundesliga [ESTIMACIÓN, B]. Diáspora enorme (Alemania, Austria, Suiza, Australia, Canadá): varios internacionales formados fuera o hijos de emigrados. Cultura futbolística intensa y politizada (ultras como actor político).
+
+### 5.3 Reforma implementada (qué exactamente, no el mito)
+Aquí el "qué exactamente" es incómodo: **no hubo reforma virtuosa nacional**. Hubo cuatro mecanismos [INFERENCIA sobre A/B, alta]:
+1. **El modelo Dinamo Zagreb (club-academia-exportador):** academia Hitrec-Kacijan de élite continental, primer equipo como escaparate europeo (Champions/Europa League), venta sistemática del producto: **+334 M€ de saldo positivo en traspasos desde 2000, 9º club del mundo en beneficio por transferencias del siglo XXI** [HECHO, B — Croatia Week/CIES]. La venta anual de canteranos ES el modelo de negocio (30–50% adicional del presupuesto viene de premios UEFA); el año que no vendió un juvenil (2011-12) tuvo balance negativo [HECHO, B — Statathlon]. Productos: Modrić (formado en Dinamo tras desplazamiento de guerra desde Zadar), Kovačić, Ćorluka, Kranjčar, Halilović, Gvardiol...
+2. **La captura documentada:** Zdravko Mamić, ejecutivo de facto de Dinamo **y vicepresidente de la HNS simultáneamente**, condenado (2018) a 6.5 años por desviar >15 M€ del club y 1.5 M€ al fisco mediante contratos ficticios sobre traspasos, incluidos contratos privados que le daban a él porcentajes de las ventas futuras de jugadores (el caso Modrić-Tottenham 2008 fue pieza del juicio; Modrić fue acusado de perjurio) [HECHO, A — sentencias; France24, ESPN, The Guardian]. Mamić huyó a Bosnia; su hermano Zoran (DT) también condenado. La federación funcionó años como extensión de esa red (árbitros, selección usada como escudo político; boicots masivos de aficionados a la selección como protesta) [HECHO, B].
+3. **COMET (relevancia directa para R4):** la HNS implementó desde ~2007–2010 el registro digital integral —jugadores, contratos, traspasos, licencias de entrenadores, árbitros, partidos, disciplina— desarrollado por la empresa croata Analyticom. Hoy COMET opera en **40+ países en 5 continentes, en CONMEBOL, OFC y toda CONCACAF (adopción confederativa 2021)**, y es el sistema de gestión federativa más adoptado del mundo [HECHO, B — Analyticom, Concacaf]. Es decir: **una federación pobre y capturada logró en ~2 años el registro único que México no tiene desde 2006 (R4). El costo no es la barrera; la voluntad y el diseño sí.** [INFERENCIA, alta]
+4. **Diáspora + pipeline de selecciones juveniles** que sobrevivió a la política porque el estamento técnico (entrenadores formadores) es un gremio profesional independiente de la directiva [HIPÓTESIS con soporte C].
+
+### 5.4 Capacidades existentes aprovechadas
+Escuela técnica yugoslava; clubes-academia históricos; cultura de calle/futsal; diáspora; una empresa tecnológica local (Analyticom) — el registro nacional fue *aprovechar industria doméstica*, no comprar consultoría cara [HECHO/INFERENCIA, B].
+
+### 5.5 Capacidades nuevas creadas
+COMET; la maquinaria de venta de Dinamo (scouting de salida, relaciones con compradores, uso de clubes satélite como NK Lokomotiva para dar minutos — práctica en zona gris de multipropiedad [HECHO, B]); campamentos de identificación para la diáspora [HECHO/C].
+
+### 5.6 Instituciones y roles
+HNS (selecciones, registro, licencias — capturada durante el periodo clave); Dinamo/Hajduk/Osijek/Rijeka (formación real); Estado: marginal en fútbol, decisivo en tribunales (la corrección vino del sistema penal, no del deportivo) [HECHO, B]. Lección de gobernanza para R2: **la corrección de una federación capturada llegó por la fiscalía y los jueces —palanca externa— nunca por reforma interna** — coherente con el patrón mexicano de F3 (COFECE/TAS como únicos reformadores efectivos).
+
+### 5.7 Financiamiento
+[ESTIMACIÓN, B/C] HNS: presupuesto modesto (decenas de M€, dependiente de UEFA/FIFA y premios de selección). Dinamo: autofinanciado por ventas + UEFA. COMET: costo de licenciamiento no público [DATO INCOMPLETO — entrada Q]; los contratos confederativos (Concacaf) sugieren costos accesibles para federaciones medianas [INFERENCIA, C]. No hubo inversión pública significativa en fútbol base comparable a los nórdicos.
+
+### 5.8 Tiempo
+No aplica el ciclo reforma→resultado clásico: la producción fue continua desde los 90 (3º lugar WC 1998 con formados en Yugoslavia). El ciclo relevante: generación formada en Dinamo/Hajduk 1998–2010 → final WC 2018, 3º WC 2022. Para COMET: implementación nacional ~2 años; adopción CONCACAF: 1–3 años por federación [HECHO/ESTIMACIÓN, B].
+
+### 5.9 Resultados medibles
+[HECHO, A/B] Subcampeón mundial 2018, tercero 2022, subcampeón Nations League 2023 — con 3.85 M de habitantes. Dinamo: +334 M€ en traspasos desde 2000. Exportación per cápita entre las mayores de Europa (CIES). COMET: 40+ federaciones clientes.
+
+### 5.10 Fracasos y errores (los costos de la mala gobernanza)
+[HECHO, A/B] — Este apartado es el corazón de la ficha para México:
+- **Saqueo cuantificado:** >15 M€ desviados de un solo club; jugadores firmando cesiones privadas de sus derechos económicos a directivos (Modrić, Lovren como testigos/imputados de perjurio).
+- **Alienación social:** boicots de hinchas a la selección, bengalas arrojadas en partidos propios (Euro 2016) como protesta anti-HNS; años de guerra hinchada-federación.
+- **Fuga institucionalizada de valor:** parte del dinero de las ventas nunca llegó al sistema formativo; los formadores de base croatas siguen pauperizados.
+- **Infraestructura estancada:** estadios decrépitos (Maksimir), sin legado material del éxito deportivo.
+- **Riesgo de sucesión:** el sistema depende de que Dinamo siga vendiendo; sin reforma, no hay segundo motor.
+**Lectura para México [INFERENCIA, alta]:** Croacia NO demuestra que la gobernanza no importa; demuestra que **una academia-exportadora con incentivos correctos (vender para vivir) puede producir élite aun bajo captura — pero el país entero paga el costo y el modelo no se expande ni se hereda**. Es el contraejemplo exacto del uso complaciente que los defensores del statu quo mexicano podrían darle.
+
+### 5.11 Efectos secundarios no previstos
+La exportación del software (COMET) se volvió industria nacional más duradera que cualquier política federativa; el éxito deportivo blindó políticamente a los capturadores durante años (el "éxito" como escudo — paralelo directo con CTR-001 posición B) [INFERENCIA, B].
+
+### 5.12 Transferibles directamente
+- **COMET o equivalente como registro único FMF:** máxima prioridad de esta ficha. México pertenece a CONCACAF, **cuya confederación ya adoptó COMET**: la integración es natural, probada en 40 países, y ataca R4 de raíz (jugadores, entrenadores, academias, traspasos, minutos juveniles en un solo sistema auditable). Tiempo probado: 18–36 meses.
+- **La contabilidad del costo de la captura** como herramienta de comunicación: el caso Mamić permite cuantificar ante la opinión pública qué cuesta una federación capturada (palanca para la ventana cerrada de CTR-001).
+
+### 5.13 Adaptables
+- **El modelo club-academia-exportador (Dinamo)**: México ya lo tiene embrionario en Pachuca (E1). La adaptación no es crearlo sino **hacer rentable venderlo** (R1): mientras el sobreprecio interno pague más que exportar, ningún Dinamo mexicano emergerá. Elemento condicionado a la reforma de incentivos de Fase 5.
+- **Programa de diáspora** (campamentos de identificación binacionales) — conecta con SUP-004 y con la ficha Marruecos/EUA del Agente 5D; la fricción art. 19 debe resolverse primero.
+
+### 5.14 NO replicables
+- La escuela técnica yugoslava (herencia histórica específica).
+- La intensidad de diáspora futbolizada en países top-5.
+- El monopolio formativo de un club (Dinamo concentró el talento nacional; en México la concentración en 3–5 clubes ya existe y es parte del problema de acceso, no de la solución — la escala mexicana exige multipolaridad).
+
+### 5.15 Condiciones previas México cumple / no cumple
+Cumple: pertenencia a CONCACAF-COMET; industria tecnológica capaz; academias élite existentes; fiscalías y COFECE como palancas externas probadas (precedente 2021). No cumple: incentivo de venta (R1, sobreprecio interno); separación estamento técnico/directivas (los DTs mexicanos duran 6 meses y dependen de los dueños).
+
+### 5.16 Riesgos de importar
+(i) **El riesgo principal es narrativo:** que Croacia se use para argumentar "la gobernanza no importa, dejemos R2 intacta" — la ficha 5.10 es la vacuna; (ii) registro único sin gobernanza de datos = base de datos capturada (el marco de datos 2025 mexicano, E2, debe gobernar el acceso); (iii) clubes satélite estilo Lokomotiva legitimarían la multipropiedad mexicana (ya problemática).
+
+### Clasificación por elemento (Croacia)
+| Elemento | Clasificación | Justificación |
+|---|---|---|
+| Registro digital único integral (COMET/equivalente) | **Aplicable directamente** | R4; CONCACAF ya lo adoptó; 18–36 meses probados; costo no prohibitivo |
+| Cuantificación pública del costo de la captura | **Aplicable directamente** | Palanca de opinión (CTR-001 ventana cerrada); usa el caso penal croata como espejo |
+| Club-academia-exportador | **Aplicable con adaptación** | Ya existe (Pachuca E1); condicionado a resolver R1 (rentabilidad de vender) |
+| Programa de diáspora | **Aplicable con adaptación** | Coordinación con A5D; fricción art. 19 (SUP-004) |
+| Concentración formativa en un club dominante | **No recomendable** | Escala 130M exige multipolaridad; agravaría acceso (R3) |
+| Tolerar captura porque "el talento sale igual" | **No recomendable** | Costos documentados: saqueo, alienación, no-herencia del modelo |
+
+---
+
+## 6. FICHA T-3 · URUGUAY
+
+**Síntesis:** el contraejemplo latinoamericano exacto de México: 3.4 M de habitantes, mayor exportador de futbolistas per cápita del mundo, con un mecanismo de dos piezas: (1) **baby fútbol (ONFI): registro y competencia federada masiva de los 6 a los 13 años** —cerca de uno de cada cuatro niños—, y (2) **una economía de clubes que viven de vender**, donde formar es el negocio y no el gasto. Más la pieza de gobernanza técnica más citada del continente: el proceso Tabárez (2006–2021), quince años de continuidad metodológica entre selecciones. Uruguay responde directamente a R1 y al precipicio F2→F4.
+
+### 6.1 Problema inicial
+[HECHO, B] A fines de los 90–2000s Uruguay vivía crisis: economía quebrada (2002), liga insolvente, violencia en estadios, selección fuera de los Mundiales 94, 98 (y eliminada pronto en 02... clasificando por repechajes), fuga caótica de menores a bajo precio controlada por terceros/empresarios. El talento existía; el sistema lo malvendía y la selección no lo capitalizaba.
+
+### 6.2 Contexto
+[HECHO, A] Población 3.4 M. Ingreso medio-alto latinoamericano. Cultura futbolística total: dos Mundiales (1930, 1950), 15 Copas América; el fútbol como identidad nacional ("nacemos gritando gol"). Densidad de canchas de barrio altísima en Montevideo e interior. AUF (federación, 1900) y —pieza clave— **ONFI (Organización Nacional de Fútbol Infantil)**: nacida como Comisión Nacional de Baby Fútbol en **1968**, renombrada en 2000, órgano específico para el fútbol 6–13 años con reconocimiento estatal, paralelo y coordinado con la AUF [HECHO, A/B — Wikipedia/ONFI].
+
+### 6.3 Reforma implementada (qué exactamente, no el mito)
+Tres piezas de épocas distintas [HECHO/INFERENCIA, A/B]:
+1. **Baby fútbol (1968→, masificado por décadas):** competencia federada infantil universal y barata: hoy **~60,000 niños/as de 6–13 años, en 67 ligas y ~700 clubes, con ~2,000 partidos cada fin de semana**; ~25% de los niños de 5–12 juega federado [HECHO, B — ONFI/CNN 2026: 51,437 registrados + crecimiento femenil]. Los clubes de baby son comunitarios (comisiones de padres, canchas de barrio, cuota simbólica). **Todo niño queda registrado con ficha desde los 6 años** — el F2→F4 uruguayo no tiene precipicio: la base ES federada.
+2. **El proceso de institucionalización de selecciones (Tabárez, 2006–2021):** documento-proyecto aprobado por la AUF ("Institucionalización de los procesos de las selecciones nacionales y de la formación de sus futbolistas"): un solo responsable técnico del proyecto por 15 años, metodología única desde U15 a mayor, criterios de convocatoria estables, Complejo Celeste como sede unificada. Resultados: 4º WC 2010, Copa América 2011, clasificación a todos los mundiales 2010–2026, y camadas continuas (Suárez/Cavani/Godín → Valverde/Araújo/Núñez → Ugarte...) [HECHO, A/B].
+3. **La economía de vender + regulación de terceros:** los clubes uruguayos asumen la venta como modelo de negocio explícito (Nacional, Peñarol, Defensor Sporting, Danubio, hoy también clubes-proyecto como Liverpool FC uruguayo). El Estado y la AUF intervinieron el mercado: legislación (2009→) que obliga porcentajes mínimos al club vendedor, prohíbe a empresarios ser dirigentes simultáneamente, exige declaraciones juradas de derechos económicos y bloquea traspasos-puente; más la aplicación de los mecanismos CONMEBOL/FIFA de solidaridad y derechos de formación, que los clubes chicos y de baby cobran activamente [HECHO/B — scielo, Yahoo Finanzas; detalles normativos marcados DATO INCOMPLETO para verificación jurídica del A5/A3].
+
+### 6.4 Capacidades existentes aprovechadas
+La cultura futbolística total y las canchas de barrio; los clubes centenarios con identidad; la ONFI ya existente (Tabárez no la creó: se montó sobre ella); la diáspora técnica (entrenadores uruguayos por todo el mundo que retornan conocimiento) [HECHO/INFERENCIA, B].
+
+### 6.5 Capacidades nuevas
+El Complejo Celeste (2002, sede unificada de selecciones — financiado con fondos FIFA Goal y AUF [HECHO, B]); el corpus metodológico Tabárez; los sistemas de registro AUF/ONFI (hoy digitalizados; la AUF usa COMET desde ~2019 [HECHO, B — Analyticom/CONMEBOL]); estructuras de scouting de salida en clubes.
+
+### 6.6 Instituciones y roles
+ONFI: fútbol 6–13 (autónoma, reconocida por el Estado vía Secretaría Nacional del Deporte, coordinación creciente con AUF). AUF: 14+ y selecciones. Clubes: formación juvenil 13–19 y venta. Estado: reconocimiento legal de ONFI, regulación del mercado de pases, infraestructura municipal básica. Empresarios/agentes: actores poderosos y parcialmente regulados (tensión permanente) [HECHO/B].
+
+### 6.7 Financiamiento
+[ESTIMACIÓN, B/C] Baby fútbol: casi autofinanciado por comunidades (cuotas simbólicas, rifas, cantinas) + apoyos municipales menores — **es el sistema de registro masivo más barato del benchmark: costo público por niño registrado cercano a cero** [INFERENCIA, media]. Selecciones: AUF + FIFA/CONMEBOL + premios. Clubes: viven literalmente de las ventas — ingreso por traspasos per cápita nacional: **~164 USD por habitante por década vs. 28 de Argentina y 13 de Brasil** [HECHO, B — FIFA/ESPN]; 1,414 futbolistas exportados en una década; uno de cada ~485 varones uruguayos jugó fuera [HECHO, B — estudio FIFA citado por prensa].
+
+### 6.8 Tiempo
+Baby fútbol: décadas (1968→) — es condición estructural, no reforma. Proceso Tabárez: 2006 → 4º lugar mundial 2010 (**4 años**, pero sobre base preexistente completa) → consolidación 2011–2014 → herencia institucional puesta a prueba post-2021 (Bielsa contratado sobre la misma estructura). **Lección de tiempos: cuando la base registrada y la cultura existen, una reforma de élite bien diseñada rinde en 4–6 años; construir la base tomó generaciones** [INFERENCIA, alta].
+
+### 6.9 Resultados medibles
+[HECHO, A/B] Nº 1 mundial en exportación per cápita (FIFA 2011–2020); 216 expatriados activos en un corte CIES (3º de América en absoluto, con 3.4 M hab.); clasificación a 5 mundiales consecutivos 2010–2026; semifinal 2010, título Copa América 2011; producción élite continua (Valverde y Araújo titulares en Real Madrid/Barcelona; Núñez, Ugarte, Bentancur...); ~60,000 registrados 6–13 (≈1.8% de la población total — el equivalente mexicano serían ~2.3 M de niños registrados).
+
+### 6.10 Fracasos y errores
+[HECHO/B — literatura y prensa uruguaya crítica]:
+- **El baby fútbol tiene lado oscuro documentado:** hipercompetitividad adulta a los 8 años (tablas, descensos, presión de padres, violencia en canchas infantiles), especialización temprana, y captación de menores por empresarios desde los 11–12 — exactamente lo que la norma noruega prohíbe. ONFI ha reformado reglamentos (todos juegan, límites de tablas en categorías menores) con avance parcial.
+- **Malvender sigue ocurriendo:** clubes en crisis venden barato y temprano; los fondos/terceros reaparecen bajo formas nuevas pese a la prohibición FIFA de TPO.
+- **La liga doméstica es inviable como espectáculo** (estadios vacíos, violencia recurrente): el modelo exportador convive con un producto local pobre — la advertencia para México: exportar más no arregla la liga por sí solo, y la liga mexicana rica no debe empobrecerse para exportar; son óptimos distintos [INFERENCIA, alta].
+- Dependencia histórica de 1–2 clubes formadores grandes mitigada solo parcialmente por la red de baby.
+
+### 6.11 Efectos secundarios no previstos
+La marca-país futbolística como activo diplomático/comercial; drenaje demográfico deportivo (los mejores se van a los 18–20 y la liga pierde a sus ídolos jóvenes); el éxito del mecanismo de formación presiona salarios formativos a la baja (los formadores cobran poco pese a generar el valor — reclamo gremial permanente) [HECHO/C].
+
+### 6.12 Transferibles directamente
+- **Registro federado universal 6–13 años con ficha única y cuota simbólica (modelo ONFI):** ataca frontalmente el precipicio F2→F4. México tiene el vehículo: el binomio Mundialito/Copa CONADE (1.18 M niños ya en calendario, DEC-010) + portal FMF; convertir la inscripción escolar en ficha federada (con consentimiento de datos, marco 2025) es integración T3, no creación.
+- **Cobro activo de solidaridad/derechos de formación por clubes y ligas de base:** el instrumento FIFA ya funciona (E1 mexicano: Clearing House); lo que falta es el registro que acredite la formación — se resuelve con el punto anterior + COMET (ficha Croacia). En Uruguay hasta el club de baby puede rastrear su contribución.
+- **Continuidad técnica plurianual entre selecciones juveniles y mayor (proceso Tabárez):** contrato-proyecto de 8–12 años aprobado por asamblea, blindado de cambios de directiva — es exactamente P5 del manual (sistema, no generación).
+
+### 6.13 Adaptables
+- **Regulación del mercado de pases y terceros (leyes 2009→):** México tiene el vacío R5; la vía uruguaya (ley estatal sobre actos comerciales de traspasos + incompatibilidades dirigente/agente + declaraciones juradas) cae en el perímetro de riesgo FIFA nulo/bajo del mapa A3 (regula comercio, no gobernanza federativa) — adaptable con análisis del A3.
+- **Clubes que viven de vender:** condicionado a R1 como en la ficha croata; el matiz uruguayo es que la *necesidad* (pobreza de la liga) creó el incentivo. México no puede ni debe empobrecer su liga: debe crear el incentivo por diseño (mecanismo de solidaridad doméstica onerosa, ventas con participación del formador) — trabajo de Fase 5 con A4.
+
+### 6.14 NO replicables
+- La cultura futbolística totalizante y la densidad simbólica (2 mundiales, identidad nacional) — México tiene cultura futbolística masiva pero no la ecuación "exportar = orgullo nacional"; en México irse "es fracasar en la Liga MX" (narrativa a revertir, no estructura a copiar).
+- La escala que permite que UN proyecto técnico (Tabárez) toque todo el sistema personalmente.
+- La pobreza de la liga como motor del incentivo exportador.
+
+### 6.15 Condiciones previas que México cumple / no cumple
+Cumple: masa infantil jugando (F1–F2 enormes); torneo escolar nacional con presupuesto; Clearing House operativa; canchas de barrio (aunque deterioradas). No cumple: ficha federada temprana (F4 ciego); incentivo de venta (R1 invertido); regulación de agentes aplicada (E9); formadores remunerados por resultados de formación.
+
+### 6.16 Riesgos de importar
+(i) Importar el baby fútbol con su patología competitiva adulta — la versión mexicana debe adoptar el registro uruguayo CON las salvaguardas noruegas (sin tablas <12, todos juegan); (ii) registro temprano masivo sin protección de datos ni de menores = insumo para captación irregular (R5 primero o simultáneo); (iii) "vender más" leído como precarizar la liga; (iv) el proceso-selecciones puede degenerar en caudillismo técnico si no es institucional (el blindaje es del *proyecto*, no de la persona).
+
+### Clasificación por elemento (Uruguay)
+| Elemento | Clasificación | Justificación |
+|---|---|---|
+| Registro federado universal 6–13 (ficha única, cuota simbólica) | **Aplicable directamente** | Ataca F2→F4; vehículo existente (binomio escolar + portal FMF); T3 |
+| Cobro activo de solidaridad/formación hasta el club de base | **Aplicable directamente** | Clearing House ya E1; falta registro acreditante (liga con COMET) |
+| Proyecto técnico plurianual de selecciones blindado | **Aplicable con adaptación** | P5; requiere aprobación de asamblea FMF (R2: viable por ser de interés de los dueños) |
+| Ley de mercado de pases/incompatibilidades/terceros | **Aplicable con adaptación** | R5; perímetro estatal de riesgo FIFA bajo (validar con A3) |
+| Clubes que viven de vender | **Difícil de aplicar** | Requiere invertir R1; no replicar la vía "pobreza" uruguaya |
+| Baby fútbol hipercompetitivo (tablas y descensos a los 8) | **No recomendable** | Evidencia de daño; combinar registro uruguayo con norma noruega |
+
 <!-- CONTINUA -->
+
 
