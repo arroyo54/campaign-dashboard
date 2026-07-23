@@ -13,10 +13,10 @@ Los cuatro casos de este grupo comparten una condición que México **no** tiene
 
 La lectura conjunta produce cuatro tesis que orientan las fichas:
 
-1. **[INFERENCIA, confianza alta]** Ninguno de los cuatro financió la formación de élite con pago familiar. Los cuatro modelos son gratuitos para el jugador y se financian contra **valor futuro de transferencia, mecenazgo (real o filantrópico) o capital de clubes europeos**. Esto ataca directamente la restricción mexicana R3 (pay-to-play): países mucho más pobres que México resolvieron el acceso sin cobrar a las familias — el problema mexicano no es de recursos sino de modelo de negocio.
-2. **[INFERENCIA, confianza alta]** El art. 19 RSTP (prohibición de transferir menores) no es en estos países una fricción: es el **fundamento del modelo de negocio de la academia africana**. Como el menor no puede exportarse, se forma en el país hasta los 18 y se vende mayor de edad. Marruecos invierte la lógica para la diáspora: como el menor binacional ya vive en Europa, no se le mueve — se mueve el *scouting* y la relación, y la captura ocurre en el plano de la elegibilidad de selección (art. 9 del Reglamento de Aplicación de los Estatutos FIFA), no en el del traspaso de club. Esta doble mecánica es la respuesta directa a SUP-004.
-3. **[INFERENCIA, confianza alta]** La academia excelente sin federación funcional no produce sistema (Ghana); la academia excelente dependiente de una persona no produce continuidad (Costa de Marfil); la academia excelente **más** federación capaz **más** estrategia de diáspora produce la semifinal (Marruecos). La variable que separa los casos no es el talento ni la academia: es la **capacidad federativa** — exactamente la restricción mexicana R2, vista desde el otro lado.
-4. **[HECHO/ESTIMACIÓN]** Tiempos (SUP-008): en los cuatro casos, primeros productos exportables a los 7–12 años del arranque; impacto pleno en selección mayor a los 12–23 años. La banda mexicana de "efectos en 6–10 años" es realista para primeros productos y **optimista** para consolidación.
+1. **[INFERENCIA, confianza alta]** Ninguno de los cuatro financió la formación de élite con pago familiar: los cuatro modelos son gratuitos para el jugador y se financian contra **valor futuro de transferencia, mecenazgo o capital de clubes europeos**. Ataca directamente R3 (pay-to-play): el problema mexicano no es de recursos sino de modelo de negocio.
+2. **[INFERENCIA, confianza alta]** El art. 19 RSTP no es en estos países una fricción: es el **fundamento del modelo de negocio de la academia africana** (el menor no puede exportarse → se forma en casa hasta los 18 y se vende adulto). Marruecos invierte la lógica para la diáspora: el menor binacional ya vive en Europa, no se le mueve — se mueve el *scouting* y la relación, y la captura ocurre en el plano de la elegibilidad de selección (art. 9 del Reglamento de Aplicación de los Estatutos FIFA), no en el del traspaso de club. Esta doble mecánica responde a SUP-004.
+3. **[INFERENCIA, confianza alta]** Academia excelente sin federación funcional no produce sistema (Ghana); academia excelente dependiente de una persona no produce continuidad (Costa de Marfil); academia + federación capaz + estrategia de diáspora produce la semifinal (Marruecos). La variable que separa los casos es la **capacidad federativa** — la restricción mexicana R2 vista desde el otro lado.
+4. **[HECHO/ESTIMACIÓN]** Tiempos (SUP-008): primeros productos exportables a los 7–12 años del arranque; impacto pleno en selección a los 12–23. La banda "6–10 años" es realista para primeros productos y **optimista** para consolidación.
 
 **Advertencia metodológica:** buena parte de la evidencia disponible sobre estos casos es periodística (nivel B) o narrativa institucional de las propias academias/federaciones (B con riesgo de autopromoción). Se etiqueta cada cifra. Las cifras financieras africanas casi nunca provienen de estados auditados públicos; ninguna recomendación estructural de este informe descansa en una cifra de nivel C/D sin declararlo.
 
@@ -404,20 +404,11 @@ Los órdenes de magnitud son la noticia: una academia de élite continental oper
 
 ## 7. Fuentes principales (selección; nivel entre corchetes)
 
-- Médias24, "L'Académie Mohammed VI, pépinière du football marocain" (2022) y "La FRMF dans la cour des fédérations à 100 millions $" (jul-2026); "Football: d'où vient l'argent de la fédération" (2019). [B]
-- Atlasinfo / Telquel / Aujourd'hui le Maroc sobre AMVI (costo 140 MDH, financiadores privados, promoción 2009). [B]
-- Telquel, "Comment le Maroc séduit les talents binationaux" (ene-2022); Yabiladi, "Morocco tracks nearly 3,000 diaspora players across Europe" (2025). [B]
-- COMPAS (Univ. de Oxford), "Pride of Place: the story behind Morocco's World Cup squad" (2022); Forbes, "How Foreign-Born Player Recruitment Is Reshaping The World Cup" (jun-2026). [B]
-- Wikipedia/Le Matin/La Vie Éco sobre Complexe Mohammed VI de Salé (630–650 MDH, 29.3 ha, 2019). [B]
-- FIFA, Reglamento de Aplicación de los Estatutos (art. 9, reforma sept-2020); RSTP arts. 19/19bis; FIFA "Guide to Submitting a Minor Application" (2020); análisis LawInSport y Football Legal. [A/B]
-- Al Jazeera, "How Senegal became genuine World Cup 2026 contenders — at a cost" (may-2026): datos de captura de valor (€100k vs €81.2 M vs €411 M; caso Jackson/Casa Sports). [B]
-- Get French Football News, "Metz extend partnership with Génération Foot" (2023); Citizen Digital/BeSoccer, "Inside Senegal's Premier League incubator". [B]
-- CNN, "From Diambars to Europe? Senegal's football dream house" (2016). [B]
-- Forbes, "Inside Right To Dream" (2021); Sky Sports sobre Kudus y RTD (2022); righttodream.com y sandiegofc.com (autorreporte). [B/C]
-- Citinewsroom/Africanews/ESPN/Graphic Online sobre el exposé Anas, disolución de la GFA y Comité de Normalización (2018-19). [B]
-- CAF Online/ESPN, no clasificación de Ghana a la CAN 2025 (nov-2025). [A/B]
-- These Football Times / Breaking The Lines / blog oficial de historia del Arsenal sobre MimoSifcom, Guillou y Beveren. [B/C]
-- Franceinfo / EMC Magazine sobre inversión estatal CAN 2023 (~500,000 M FCFA ≈ US$1,000 M). [B]
+- **Marruecos [B]:** Médias24 (AMVI 2022; presupuesto FRMF 2019 y jul-2026); Atlasinfo/Telquel/Aujourd'hui le Maroc (AMVI: 140 MDH, financiadores, promoción 2009); Telquel ene-2022 y Yabiladi 2025 (red de scouting, ~3,000 monitoreados); COMPAS-Oxford 2022 y Forbes jun-2026 (composición diaspórica de planteles); Le Matin/La Vie Éco/Wikipedia (Complejo de Salé: 630–650 MDH, 29.3 ha, 2019).
+- **Marco FIFA [A/B]:** Reglamento de Aplicación de los Estatutos (art. 9, reforma sept-2020); RSTP arts. 19/19bis; "Guide to Submitting a Minor Application" (2020); análisis LawInSport y Football Legal.
+- **Senegal [B]:** Al Jazeera may-2026 (captura de valor €100k/€81.2 M/€411 M; caso Jackson–Casa Sports); Get French Football News 2023 (renovación Metz–GF a 2033; >€10 M); Citizen Digital/BeSoccer (GF); CNN 2016 (Diambars).
+- **Ghana [A/B/C]:** Citinewsroom/Africanews/ESPN/Graphic (exposé Anas, disolución GFA, normalización 2018-19); CAF/ESPN nov-2025 (no clasificación CAN 2025); Forbes 2021 y Sky Sports 2022 (RTD, Kudus); righttodream.com/sandiegofc.com (autorreporte).
+- **Costa de Marfil [B/C]:** These Football Times / Breaking The Lines / historia oficial del Arsenal (MimoSifcom, Guillou, Beveren); Franceinfo/EMC (CAN 2023: ~500,000 M FCFA ≈ US$1,000 M).
 
 **Limitaciones declaradas:** cifras operativas anuales de AMVI, términos exactos del contrato Guillou–ASEC y de la renovación Metz–GF, y presupuesto del programa de centros regionales marroquíes: no públicos [DATO INCOMPLETO]. La atribución fina "academia vs. diáspora vs. coyuntura" del plantel marroquí 2022 es análisis propio [INFERENCIA]. Ninguna clasificación de la matriz §6 depende de esos vacíos.
 
