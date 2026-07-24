@@ -489,6 +489,113 @@ Cumple: masa infantil jugando (F1–F2 enormes); torneo escolar nacional con pre
 | Clubes que viven de vender | **Difícil de aplicar** | Requiere invertir R1; no replicar la vía "pobreza" uruguaya |
 | Baby fútbol hipercompetitivo (tablas y descensos a los 8) | **No recomendable** | Evidencia de daño; combinar registro uruguayo con norma noruega |
 
-<!-- CONTINUA -->
+---
+
+## 7. Matriz de transferibilidad por elemento (consolidada)
+
+Criterio de escala aplicado: un elemento "escala" si su unidad operativa es local (club, liga, municipio, escuela, academia) y su costo crece ~linealmente con la población; "no escala" si depende de densidad social nacional, de que un actor toque todo el sistema, o de condiciones geográficas/culturales específicas.
+
+| # | Elemento | País(es) fuente | Clasificación | Restricción MX que ataca | Unidad de escala | Nota de adaptación |
+|---|----------|-----------------|---------------|--------------------------|------------------|--------------------|
+| 1 | Registro digital único integral (COMET o equivalente) | Croacia (+Uruguay usuario) | **Aplicable directamente** | R4 | Federación (única pieza nacional barata) | CONCACAF ya opera COMET; 18–36 meses; gobernanza de datos previa |
+| 2 | Registro federado universal 6–13 con ficha única | Uruguay (ONFI) | **Aplicable directamente** | R3, R4, F2→F4 | Escuela/liga municipal | Montar sobre Mundialito/Copa CONADE; salvaguardas noruegas |
+| 3 | Sin tablas/trofeos publicados <12 + "todos juegan" | Noruega (NIF), Suecia | **Aplicable directamente** | R3 (retención) | Reglamento de torneo | Primero en competiciones públicas; costo cero |
+| 4 | Certificación/clasificación de academias con estrellas ligada a recursos, con informe público anual | Dinamarca, Suecia, Noruega | **Aplicable directamente** | R4, R5, R2 (transparencia) | Academia/club | Ancla: portal FMF (DEC-010) + Fondo de Mejoras; evaluador independiente |
+| 5 | Cursos de entrenadores locales, baratos, masivos, en horario laboralmente compatible | Islandia | **Aplicable directamente** | R3, E6 | Sede estatal/municipal | Unificar ENDIT/SICCED antes de masificar; padrón L4 |
+| 6 | Cobro activo de solidaridad/derechos de formación hasta el club de base | Uruguay | **Aplicable directamente** | R1 (parcial) | Club/liga | Depende del elemento 1–2 (registro acreditante) |
+| 7 | Talent coaches federativos bisagra + protocolos de maduración | Dinamarca | **Aplicable directamente / con adaptación** | R4, calidad | Región funcional | 20–40 enlaces; requiere datos de cohortes (L5) |
+| 8 | Mini-canchas escolares estandarizadas | Islandia | **Aplicable directamente** | R3 | Escuela | Prioridad: 1/3 de primarias sin cancha; jerarquía T4 |
+| 9 | Landslagsskolen (identificación descentralizada 12–16 sin desarraigo) | Noruega | **Aplicable con adaptación** | R3, calidad élite | Distrito/asociación estatal | Piloto 2–3 regiones (~40–60 TC); precondición: limpiar asociaciones estatales (E7) |
+| 10 | Lotería estatal → instalaciones deportivas municipales (spillemidler) | Noruega, Suecia | **Aplicable con adaptación** | R3, capacidad ociosa | Nacional→municipal | México tiene Pronósticos; reforma de destino de recursos; condicionado a L3 |
+| 11 | Acceso garantizado de asociaciones formativas a instalaciones públicas | Dinamarca (Folkeoplysning) | **Aplicable con adaptación** | R3, CTR-003 | Municipio | Vía LGCFD/convenios; requiere rehabilitación del parque (no construcción) |
+| 12 | Bachillerato deportivo público dual | Suecia (NIU/RIG) | **Aplicable con adaptación** | R3 | Estado/SEP | Escala el modelo Pachuca (E1) al sistema público |
+| 13 | Proyecto técnico plurianual de selecciones blindado | Uruguay (Tabárez) | **Aplicable con adaptación** | P5, discontinuidad | Federación | Blindar el proyecto, no a la persona |
+| 14 | Ley de mercado de pases: % mínimos al formador, incompatibilidades dirigente-agente, anti-puente | Uruguay | **Aplicable con adaptación** | R5, R1 | Congreso/regulador | Perímetro A3 de riesgo FIFA bajo; validar con A3 |
+| 15 | Club comunitario masivo certificado como academia (modelo Brommapojkarna) | Suecia | **Aplicable con adaptación** | R3, F2→F4 | Liga municipal | Personalidad jurídica a ligas existentes; no crear clubes nuevos |
+| 16 | Club-academia-exportador | Croacia (Dinamo), Uruguay | **Aplicable con adaptación** | R1 | Club | Ya existe (Pachuca E1); condicionado a invertir R1 |
+| 17 | Programa de identificación en diáspora | Croacia | **Aplicable con adaptación** | SUP-004 | Federación + consulados | Coordinar con A5D; resolver fricción art. 19 |
+| 18 | Voluntariado tipo dugnad como pilar operativo | Noruega, Islandia, Dinamarca | **Difícil de aplicar** | R3 | Social | No decretable; formalizar el voluntariado real de ligas llaneras (estatus jurídico, seguro, capacitación) |
+| 19 | "Punto dulce" amateur-profesional | Islandia (Halldórsson) | **Difícil de aplicar** | — | Social | Proteger ligas comunitarias de sobre-comercialización; no operacionalizable como programa |
+| 20 | Exportación a los 16–17 a ligas vecinas | Dinamarca, Suecia, Noruega | **Difícil de aplicar / No recomendable** | R1 | — | Art. 19 RSTP; preferir exportación post-18 con formación dual completa |
+| 21 | Domos indoor como eje de infraestructura | Islandia | **No recomendable** | — | — | Clima distinto; violaría P2 con 50–70% del parque ocioso; el equivalente funcional es rehabilitación climática ligera |
+| 22 | Certificación operada por la asociación de clubes élite | Suecia (SEF) | **No recomendable** | — | — | En México = autocalificación de los 18 dueños (R2) |
+| 23 | Concentración formativa en un club dominante | Croacia | **No recomendable** | — | — | 130M exige multipolaridad; agravaría R3 |
+| 24 | Baby fútbol hipercompetitivo adulto (tablas/descensos a los 8) | Uruguay | **No recomendable** | — | — | Evidencia de daño y captación temprana; combinar con elemento 3 |
+| 25 | Tolerar captura de gobernanza "porque el talento sale igual" | Croacia | **No recomendable** | — | — | Costos documentados (5.10); vacuna narrativa obligatoria |
+
+### 7.1 Lectura transversal: qué escala y qué no
+
+[INFERENCIA sobre el conjunto, confianza alta]
+
+1. **Escalan las reglas y los sistemas de información** (elementos 1–6): su costo es casi invariante o lineal y su unidad es local. Son además los que atacan R3/R4/R5 — exactamente el perímetro de riesgo FIFA nulo donde F3 declaró abierta la ventana.
+2. **Escalan con federalización los programas de personal** (7, 9): la proporción noruega/danesa de técnicos por habitante es replicable por región, no de golpe nacional. México debe pensarse como 32 "Dinamarcas" desiguales, y pilotear en 2–3.
+3. **No escala el capital social por decreto** (18, 19): el sustituto mexicano no es crear voluntariado sino **reconocer y equipar el que ya existe** (ligas llaneras, comisiones de padres, torneos de barrio — hoy invisibles para el sistema; conexión directa con la lectura E7 de F3).
+4. **El financiamiento nórdico tiene un análogo mexicano dormido:** lotería estatal (Pronósticos) + gasto municipal ya existente pero mal dirigido (SUP-006). Ningún caso exitoso del módulo financió la base desde la federación; todos desde municipio/Estado/estructuras permanentes. Esto valida la línea F3: la reorientación es municipal/estatal tanto como federal.
+5. **La pieza élite sin la pieza base fracasa, y viceversa** — demostrado en espejo por Noruega (base perfecta, 20 años sin élite hasta 2015) e Islandia (pico sin profundidad poblacional). México, con 130M, es el único que puede tener ambas SI conecta F2→F4: su "varianza poblacional" es la opuesta a la islandesa — el talento sobra, lo invisible es el registro.
+
+---
+
+## 8. Calibración de tiempos reforma→resultados (SUP-008)
+
+| País | Reforma (año) | Primeros efectos medibles | Resultados mayores | Total |
+|------|---------------|---------------------------|--------------------|----|
+| Islandia | Domos 2000 / cursos 2003 | Sub-21 Euro 2011 (~8–10 años) | Euro 2016, WC 2018 | **13–16 años** |
+| Noruega | Landslagsskolen 2015 / ACM 2017 | Explosión exportadora 2019–20 (~4–5 años) | WC 2026 (1ª desde 1998) | **9–11 años** |
+| Dinamarca | Licencias 2008 | Cohortes juveniles 2011–2015 | Semifinal Euro 2020 | **8–12 años** |
+| Suecia | Giro metodológico/certificación 2013–2017 | Cohorte Isak/Kulusevski 2016–19 | Generación 2023–26 | **6–10 años** |
+| Croacia | (Sin reforma; continuidad formativa) | — | — | n/a (contraejemplo) |
+| Uruguay | Proceso Tabárez 2006 (sobre base completa preexistente) | 4º lugar WC 2010 | Copa América 2011; 5 mundiales seguidos | **4–6 años** (élite) / generaciones (base) |
+
+**Conclusiones para las metas mexicanas [INFERENCIA, confianza alta]:**
+- **SUP-008 (6–10 años) se confirma con matiz bimodal:** reformas de *capa élite sobre base ya registrada y culturalmente densa* rinden en 4–6 años (Uruguay 2006–2010; Noruega 2015–2020 en exportación). Reformas que deben *construir o conectar la base* rinden en 8–16 años (Islandia, Dinamarca).
+- México está en el segundo caso para la base (F2→F4 roto) y en el primero para la élite (fuerzas básicas y liga ya existen). Traducción a horizontes del manual: **2030 = efectos de registro, certificación y acceso (indicadores de sistema, no de selección); 2034 = primeras cohortes formadas bajo el nuevo sistema exportándose; 2038–2046 = efectos plenos en élite y selección.** Prometer resultados de selección para 2030 contradice toda la evidencia del módulo.
+- El registro digital (elemento 1) es la excepción rápida: 18–36 meses, y es prerequisito de la medición de todo lo demás — refuerza DEC-008 (levantamientos ya).
+
+---
+
+## 9. Limitaciones, supuestos y preguntas pendientes (registro Q)
+
+**Limitaciones del módulo:** (i) presupuestos federativos KSÍ/NFF/DBU/SvFF/HNS/AUF no consolidados públicamente — órdenes de magnitud [ESTIMACIÓN C]; (ii) el costo agregado de la infraestructura islandesa es reconstrucción propia [confianza baja]; (iii) el detalle normativo uruguayo (leyes de pases 2009→) requiere verificación jurídica primaria; (iv) sesgo de supervivencia: se estudian 6 países con resultados — el módulo lo mitiga documentando reflujos y costos, pero no incluye países chicos que hicieron lo mismo y fracasaron (p. ej. Gales/Finlandia en fútbol — se recomienda nota comparativa al Agente 0).
+
+**Nuevas entradas Q propuestas:**
+- Q-5B-001: Costo real de licenciamiento e implementación de COMET para una federación del tamaño de la FMF (fuente probable: Analyticom/Concacaf; vía: solicitud comercial directa).
+- Q-5B-002: Texto y aplicación efectiva de la legislación uruguaya de traspasos/incompatibilidades (fuente: IMPO/AUF; destinatario: A3).
+- Q-5B-003: Presupuesto anual de Landslagsskolen y costo por jugador identificado (fuente: NFF/informes anuales; para costeo del piloto mexicano).
+- Q-5B-004: Evaluaciones de las reformas ONFI post-2015 (todos juegan/límites de tablas): ¿redujeron abandono y captación temprana? (fuente: ONFI/academia uruguaya).
+- Q-5B-005: Ocupación y costos operativos reales de los domos islandeses (fuente: municipios ISL; relevante solo si Fase 5 considera techados en el norte de México).
+
+**Hallazgos transferidos:**
+- Al **Agente 5D** (diáspora): campamentos croatas de diáspora; fricción art. 19 confirmada en todos los nórdicos como razón de exportación post-18.
+- Al **Agente 6** (embudo/academias): estándares de clasificación danés (entorno, no resultados), sueco (10,000 pts) y noruego (11 áreas, financiamiento condicionado) como insumo directo del estándar de academia certificada.
+- Al **Agente 4/A0** (economía): mecanismo uruguayo de participación del formador en ventas como candidato para el rediseño de R1; per cápita 164 USD/hab como benchmark de techo.
+- Al **Agente 3** (derecho): vía uruguaya de regulación estatal del mercado de pases dentro del perímetro de riesgo FIFA bajo.
+
+---
+
+## 10. Fuentes principales (selección, con nivel)
+
+| Fuente | Nivel | Uso |
+|---|---|---|
+| Sentencias y crónica judicial caso Mamić (France24, ESPN, The Guardian, 2016–2021) | A/B | Croacia §5.3, 5.10 |
+| Halldórsson, V., *Sport in Iceland* (Routledge, 2017); "National sport success and the emergent social atmosphere" (IRSS/SAGE, 2021); "The Black Swan of Elite Football" | A | Islandia §1.3, 1.10 |
+| Avery Review, "Icelandic Fields of Dreams" (n. 32) | B | Financiamiento municipal de domos |
+| KSÍ (datos de licencias y desarrollo, vía Goal/Sport360/FIFA.com) | B | Ratios de entrenadores |
+| UEFA.com, "How Norway built their way back to the World Cup" (2025) | B | Landslagsskolen, cifras 20+700 |
+| NIF, Derechos del Niño en el Deporte (1987/2007, vía The Guardian/AOL 2026) | A/B | Norma sin tablas |
+| Taylor & Francis: "Designing talent development in football – document analysis of the Norwegian academy classification model" (2024); análisis foucaultiano ACM (2025); Cogent Social Sciences (2024) | A | ACM noruego y efectos |
+| FIFA Training Centre, "Denmark – a unique example of how to maximise talent" | B | Sistema danés completo |
+| Svensk Elitfotboll, "Certification system"; resultados 2023/2024 | A/B | Certificación sueca |
+| PLOS One, "Developmental pathways of senior international soccer players… Swedish men's team" (2025) | A | Trayectorias suecas |
+| Analyticom (COMET), Concacaf.com (adopción confederativa) | B | Registro croata/mundial |
+| Croatia Week / CIES (beneficio de traspasos Dinamo); Statathlon (modelo Dinamo) | B | Economía Dinamo |
+| ONFI (es.wikipedia/ONFI oficial); CNN en Español, "Nacemos gritando gol" (jun-2026); ESPN Uruguay; estudio FIFA de exportación per cápita (vía El Tiempo/prensa) | B | Baby fútbol y exportación uruguaya |
+| Scielo Colombia (transferencias y terceros); Yahoo Finanzas (per cápita transfers) | B | Regulación uruguaya |
+
+*(URLs completas en el registro de fuentes del proyecto; todas consultadas 2026-07-23.)*
+
+---
+
+*Fin del entregable del Agente 5B. Ningún commit realizado, conforme a instrucciones.*
+
 
 
