@@ -210,3 +210,166 @@ Tramo de **escala con el sistema ya reglamentado**. Ya no hay eventos de negocia
 | 8 | PIL-2027-08 (ex CUL-01) | **Mundialito en pantalla** · *medios/narrativa (sin huella territorial)* | Fase nacional + 2 fases regionales de contraste (usa sedes de pilotos 1 y 3) | 6–10/edición (máx. 2) | 1–2 ediciones | ≥1.5 M espectadores multiplataforma; ≥80% cumplimiento de estándares formativos; ≥1 oferta comercial sin subsidio | <500 mil espectadores en 2 ediciones; violación grave de estándares con menores | → paquete plurianual REC-CUL-003 (≥40% horas femeniles) |
 
 **Verificación de cobertura:** R6 (pilotos 2, 4) ✅ · R7 (3) ✅ · femenil (5 + cortes ≥35–40% en 1, 2, 3 y metas propias en 6) ✅ · frontera (7) ✅ · metrópoli (1) ✅ · datos (2, con 1 como prueba de volumen) ✅. **Presupuesto de cartera 2027–2030: ~600–950 MDP** (parcialmente subsumido en los REC de origen — doble conteo a depurar por A14). **Regla común:** evaluador externo por piloto, criterios ex ante publicados ANTES del arranque, decisión de escala/cierre documentada en el Informe anual (la cancelación de un piloto es un éxito del método, no un fracaso del plan — se comunica así por A12).
+
+---
+
+## 7. Matriz RACI completa (Parte XI del mandato)
+
+**Roles:** **L** = Lidera · **A** = Aprueba · **F** = Financia · **E** = Ejecuta · **S** = Supervisa/Evalúa · **Au** = Audita. Un actor puede tener varios roles; ninguna fila puede tener al mismo actor en E y Au (separación operador/auditor — lección A2: sin separación regulador/operador no hay sistema). La FMF nunca vota la asignación de recursos públicos (regla A9 §17); el evaluador/auditor externo nunca es financiado por el evaluado.
+
+| Componente mayor | FMF | Liga MX (asamblea) | Clubes | Divisiones inferiores (Expansión/Premier/TDP) | Gobierno federal (SHCP/SE/Anticorrupción/STPS) | SEP | CONADE | COM | Estados | Municipios | Universidades | Escuelas | Patrocinadores | Televisoras/plataformas | FIFA | Concacaf | Jugadores/as (AMFpro) | Entrenadores/as | Familias |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| **1. Registro único / ficha / Data Box** (REC-DAT-001/002/005/008) | **L**, E | A (obligatoriedad RL) | E (reporte) | E (reporte) | S (tutela de datos) | E (puerta escolar), F | F (condicionada a Data Box), **custodia serie pública** | — | E (adhesión 32) | — | S (dictamen INEGI-metodológico vía panel) | E (captura) | — | — | S (FIFA Connect) | E (facilitador COMET) | S | — | A (consentimiento) |
+| **2. Sistema escolar-comunitario** (REC-ESC-001/003/009/010) | E (técnica, fichas) | — | — | E (destino TDP) | F | **L**, A, F | L (RENADE, convocante), F | — | E (operación), F | E (sedes), F | S (evaluación externa) | E | F (complementario) | — | F (Football for Schools) | — | — | E | S (código de conducta; canal de denuncia) |
+| **3. Formación / academias / RTD** (REC-FOR-001–004) | **L** (estándar, portal) | A (licencia 4★) | E (academias) | E | F (PP condicionado) | E (verif. escolaridad) | F, E (institutos) | — | E | E (sedes) | **E/S (consorcio evaluador independiente)** | E (puerta) | F (derechos de certificación) | — | F (Forward) | — | S | E | S (información obligatoria) |
+| **4. Competiciones / paquete estructural** (REC-FOR-005–008) | L (cámara de compensación) | **A** (votación única) | E | E (liga de maduración; estatus formador) | S (CNA vigila flujos) | — | — | — | — | — | S (auditoría de métricas vía panel) | — | — | — | S (RSTP espejo) | — | S (validación GAM deseable) | — | — |
+| **5. Entrenadores / MUCEF** (REC-ENT-001–009) | **L** (ENDIT) | — | E (demanda 4★) | E | E (CONOCER) | E | **L** (SICCED/ENED), F | — | E (sedes) | — | E (sedes, red ciencia), S | E (docentes EF) | F (becas) | — | F (Forward educación) | — | — | **E** (destinatarios), S (padrón) | — |
+| **6. Infraestructura / FIDC** (REC-INF-001–008) | E (solo certificadora; **sin voto en recursos**) | — | E (estadios 2026 en especie) | — | **A/F** (SHCP: reforma Lotería), Au (ASF) | E (planteles) | **L** (FIDC, comité mixto) | — | E, F | **E** (obra y gestión), F | S (evaluación), E (sedes) | E (canchas) | F (complementario) | — | F (Forward/legado 2026) | — | — | — | E (gestores comunitarios), S (contraloría social) |
+| **7. Protección de menores** (NOM/MIS, REC-PRO-001–007) | E (certificación, padrones) | A (licencia) | E | E | **L** (SE: NOM; Profeco: verificación; STPS: contratos 15–17) | E | E | — | E (**Procuradurías NNA: S con visitas sin aviso**) | E | S (evaluación MIS) | E | — | S (estándares de pantalla) | S (Guardians) | — | E (ventanilla asesoría) | E (módulo obligatorio) | **S** (canal de denuncia; consentimiento) |
+| **8. Femenil e inclusión** (REC-FEM-001–007; E-1) | L (Liga MX Femenil) | A (cláusula espejo en paquete) | E | E | S (CNA: vigilancia salarial) | E | F (FIDC horas femeniles) | — | E | E | S (evaluación) | E | F (ESG: el activo reputacional natural) | E (≥40% horas del paquete) | F (Forward femenil) | — | **E/S** (AMFpro: contrato-tipo) | E (metas de entrenadoras) | S |
+| **9. Selecciones / exportación / diáspora** (REC-SEL/EXP) | **L** (célula, unidad jurídica, manual) | A (calendario) | E (convenio-tipo, préstamos) | E | E (SRE: enlace consular) | — | — | S (multideporte/COM en ciclos olímpicos femeniles) | — | — | S (evaluación pública por ciclo) | — | F | S (transmisión) | S (arts. 9/19) | S | E (apoyo al exportado) | E | **A** (contacto inicial siempre vía familia — E-4) |
+| **10. Cultura / medios / Informe anual / Carta** (REC-CUL-001–007) | E (redacción técnica) | A (adhesión) | E | — | — | E (campaña a familias) | E (custodia) | — | — | — | **S** (panel: dictamen independiente con disidencia publicable) | E | F | E (licitación de derechos con estándares) | — | — | E (voceros sin guion) | E (premio formador) | **Destinatarias** (campaña "Lo que nadie te dice") |
+| **11. Gobernanza e integridad** (REC-GOB-001–006, REC-INT-001–004) | E (registro de conflictos) | A (Velocidad 2: unbundling) | E | E (voz real en revisión tipo Crawford) | **L** (condicionalidad financiera; regulador de juegos) | — | E (COVED: elecciones amateur) | — | E (asociaciones estatales saneadas) | — | E (consejo técnico consultivo) | — | S (condicionalidad ESG) | S | **S** (palanca externa; examen de auditoría) | S | E (voz en revisión) | — | — |
+| **12. Financiamiento / pacto / cámara** (bolsas consolidadas → A14) | E (cámara) | F (aportación de liga) | F | — | **A/F** (SHCP), Au (ASF) | F | F | — | F | F | S | — | F (bolsa del pacto) | F (derechos) | F (Forward) | — | S | — | — |
+| **Auditoría transversal del plan** (REC-INT-003) | — | — | — | — | Au (ASF sobre recursos públicos) | — | — | — | — | — | Au (panel/consorcio) | — | — | — | Au (Comité de Auditoría FIFA, en su ámbito) | — | S | — | S (contraloría social) |
+
+**Notas de diseño:** (i) el COM aparece deliberadamente poco: su papel es el ciclo olímpico femenil y el multideporte de base (ET1–ET2) — se le invita al pacto como firmante de segunda ola; (ii) las **familias** tienen roles reales (aprobación por consentimiento, supervisión por canal de denuncia, ejecución como gestores comunitarios), no decorativos — es la traducción operativa de E-5; (iii) las **televisoras** solo ejecutan bajo contrato con estándares (regla anti-propaganda de A12): jamás aprueban ni auditan; (iv) **FIFA/Concacaf** son supervisores y financiadores parciales, nunca ejecutores domésticos — la palanca externa se usa, no se invoca.
+
+---
+
+## 8. El pacto nacional (Parte XI §47): diseño del instrumento
+
+El pacto es **el vehículo jurídico-político de la Carta 2026–2046** (REC-CUL-002) y del custodio multi-actor. No es una ley ni un decreto (P4/DEC-007): es un **convenio marco multi-firma con anexos vinculantes por componente**, del tipo que México ya usa (convenios SEP–CONADE–FMF), elevado de escala.
+
+**Arquitectura de firmas (tres círculos):**
+
+| Círculo | Quiénes | Qué firman | Cuándo |
+|---|---|---|---|
+| **Núcleo (día 1)** | Gobierno federal (SEP, CONADE, SE, con SHCP como anexo financiero), 6–10 universidades, AMFpro, FMF (Comisionado — las piezas federativas de Velocidad 1 no requieren asamblea), 2–4 clubes formadores fundadores (tipo Pachuca), patrocinadores ESG fundadores, institutos estatales cohorte 1 | Carta + convenio marco + anexos de datos (REC-DAT-008), escolar, MUCEF y transparencia condicionada | T0+60 |
+| **Segunda ola (2027–2028)** | Asamblea Liga MX (tras la votación del paquete), Liga de Expansión/Premier/TDP, COM, más estados y municipios, televisoras/plataformas (vía contratos de derechos con estándares), Concacaf (facilitador técnico) | Anexos de competencia (paquete 2027), femenil, derechos mediáticos, FIDC | Post-asamblea |
+| **Condicionales** | FIFA (memorándum de entendimiento, no firma del pacto — evita toda apariencia de injerencia recíproca), Congreso (solo para las piezas LGA: Lotería, y contingencias L2/ley del formador) | Instrumentos propios paralelos | Según ventana |
+
+**Contenido obligatorio del instrumento (10 cláusulas):**
+
+1. **Metas:** los hitos 2030/2034/2038/2046 de la Carta, con la declaración expresa de lo que NO va a pasar (gestión de expectativas como cláusula, no como discurso).
+2. **Presupuesto:** anexo financiero por firmante (quién pone qué, cuándo, condicionado a qué), reconciliado con A14; la **bolsa del pacto** consolida las fuentes multi-actor y financia lo que ningún actor financiaría solo (evaluación independiente, MIS, revisión tipo Crawford si la ventana abre).
+3. **Datos compartidos:** el convenio marco de interoperabilidad (REC-DAT-008) como anexo técnico; el Data Box anual como obligación de publicación de TODOS los firmantes.
+4. **Auditorías:** auditoría externa anual de todos los flujos del pacto, publicada en el Informe anual (REC-INT-003 — el plan se aplica a sí mismo el estándar que exige); ASF sobre el componente público.
+5. **Incentivos:** el acceso a los beneficios del sistema (fondos FIDC y de Desarrollo, certificación, derechos mediáticos, GAM, Forward gestionado) está reservado a firmantes en cumplimiento — el pacto no castiga a quien no firma: lo excluye de lo que el pacto construye.
+6. **Sanciones:** graduales y reputacionales antes que económicas: publicación de incumplimiento en el Informe anual → suspensión de beneficios específicos → salida del padrón del componente. Nunca sanción deportiva por vía estatal (perímetro DEC-007).
+7. **Gobernanza del pacto:** consejo de custodios multi-actor (ningún sector con mayoría; presidencia rotativa anual; asiento para AMFpro y para las divisiones inferiores con voz real), con el panel universitario como secretaría técnica. El consejo NO administra dinero (lo administran los fondos con sus comités): custodia el cumplimiento.
+8. **Revisión:** protocolo de fallo/éxito de la Carta (revisión pública ≤90 días al incumplirse un hito); revisión quinquenal del instrumento completo alineada a las re-auditorías del sistema (2032, 2037, 2042); renegociación integral en 2046.
+9. **Condiciones de salida:** cualquier firmante puede salir con aviso de 12 meses; la salida no es retroactiva (lo pagado no se devuelve; lo comprometido del ciclo corriente se liquida); los beneficios cesan con la salida; los datos aportados permanecen en la serie pública (la historia no se va con el firmante).
+10. **Continuidad:** vigencia de 6 años renovable escalonadamente por anexo (nunca todos los anexos vencen el mismo año, y ninguno vence en año de transición sexenal); cláusula de supervivencia: la muerte de un anexo no arrastra al pacto.
+
+**Por qué esta forma funciona en México (adaptación):** el pacto replica la mecánica que sí ha funcionado domésticamente — el convenio con condicionalidad financiera (precedente del binomio escolar) — y evita las dos formas que han fracasado: la ley-panacea (P4) y el acuerdo de caballeros sin instrumento (que la asamblea ha demostrado bloquear o diluir, A2 §5.7).
+
+---
+
+## 9. Coalición mínima viable y gestión del cambio
+
+### 9.1 Quién firma el día 1 (y por qué le conviene)
+
+Con el mapa de poder de A2 (matriz §5.2): la coalición del día 1 se construye con los actores de disposición **promotora** y poder suficiente agregado, sin pedirle nada a los bloqueadores:
+
+| Actor | Qué aporta | Qué gana (precio de cooperación) |
+|---|---|---|
+| Gobierno federal (SEP/CONADE/SE/Anticorrupción) | Puerta escolar (1.18 M), PP condicionado, NOM, verificación | Programa social masivo medible; legado 2026 con contenido; rédito de transparencia |
+| Universidades (consorcio + red de ciencia) | Evaluación independiente, legitimidad técnica, sedes | Matrícula, investigación financiada, papel institucional permanente (la vía belga) |
+| AMFpro / jugadores y jugadoras | Legitimidad máxima (5/5 en A2), voz de vestidor | Asiento real en custodios; contrato-tipo; fin de la zona gris 15–17; ventanilla del exportado |
+| Clubes formadores (Pachuca como ancla; Chivas estructuralmente favorecida por el GAM) | Prueba viviente de que formar es rentable; academias 5★ inaugurales | Compensación doméstica, puntos de desarrollo, prestigio del Informe anual — el paquete les paga primero |
+| Patrocinadores ESG | Financiamiento de bolsa del pacto y becas | Activo reputacional limpio (femenil, protección, base) lejos del patrocinio de apuestas |
+| Concacaf | COMET, facilitación técnica | Región más fuerte; México como caso de éxito confederativo |
+| FIFA (MOU paralelo) | Forward, Football for Schools, estándar Guardians, presión de cumplimiento | Legado 2026 verificable en el mercado #2 de afición |
+| Institutos estatales + municipios cohorte 1 | Operación territorial, sedes | FIDC, pólizas, capacitación — dinero y capacidad que hoy no tienen |
+| Plataformas de streaming | Demanda de derechos formativos y de centralización futura | Inventario barato y audiencia familiar (promotoras naturales según A2) |
+
+**Qué se hace sin la asamblea (Velocidad 1, ya en curso el día 1):** todo el perímetro CONV/NOM/PP/LGA — escolar, MUCEF, NOM, FIDC, datos (con la puerta escolar como plan B si la FMF dilata — RG-FOR-001), transparencia condicionada, padrón amateur, censo de diáspora, unidad art. 19, Informe anual, Carta. **Es deliberadamente el 80% del gasto y el 100% de la línea base.**
+
+**Qué se negocia con la asamblea (el paquete-moneda de F6 §3.1):** compensación 5%, regla de menores con castigo deportivo, GAM, Expansión-maduración, 4★=licencia, convenio-tipo, doble registro, cláusulas espejo — más el precio previsto (SUP-002): revalorización vía centralización con reparto favorable, flexibilidad GAM, monetización de la formación, e inmunidad práctica (no reabrir el pasado). **Qué NO se le pide a la asamblea:** transparencia de sus finanzas privadas (se compra con condicionalidad pública, no se exige), reapertura del ascenso (diferida a ventana), gobernanza (Velocidad 2).
+
+### 9.2 Secuencia de negociación del paquete de asamblea 2027
+
+1. **T0–D+60 · Expediente y mapa de votos.** La Oficina construye el expediente técnico (línea base L1–L8 preliminar, simulaciones de la cámara con datos L7, calibración GAM con Q-FOR-010) y el mapa de votos club por club: formadores (favorecidos: núcleo del sí), clubes de chequera (compran flexibilidad GAM), televisoras-clubes (neutralizables si la liguilla no se toca), Caliente (aislable en materia de integridad, no de formación).
+2. **D+60–D+120 · Bilaterales (pre-negociación).** Nunca en plenaria: bilateral con cada grupo propietario, presentando el paquete como lo que es — un intercambio donde las plazas 7–9 y la compensación les pagan por hacer lo que el plan necesita. El precedente citado en cada mesa: los dueños ya aceptaron una regla con precio (regla de menores 2021); se les cambia el precio, no el instrumento.
+3. **D+120 · Declaración de votación única.** El Comisionado presenta el paquete como indivisible (garrote+zanahoria+tubería; RG-FOR-003): se vota todo o nada, con calendario público de vigencias escalonadas (2027-28 métrica; 2028-29 GAM y maduración; 2029-30 licencia 4★+espejo femenil). La cláusula espejo (E-1) viaja DENTRO del paquete — el costo femenil (~3–6 MDP/club/año) es marginal frente al valor de las plazas.
+4. **Q2–Q3 2027 · Votación (UN evento).** Si se aprueba: ejecución según §5.2. Si se mutila o bloquea: **la contingencia ya declarada se activa a la vista** — la vía de ley general de derechos del formador (precedente Brasil art. 29 + precedente COFECE) entra al calendario legislativo si el bloqueo de la compensación supera 24 meses (F6 §3.2 capa 4). La contingencia se anuncia ANTES de la votación, no después: su función es encarecer el bloqueo, no castigarlo.
+5. **2028 · Renovación SUM** como segunda mesa, separada de la primera (nunca empaquetar asamblea y SUM: actores distintos, monedas distintas). Regla: sustitutos de ingreso identificados y cuantificados ANTES de sentarse (centralización parcial, plataformas, premios FIFA) — no se negocia con hambre.
+6. **Permanente · Lo que la asamblea ve funcionar la ablanda.** Cada trimestre entre T0 y la votación, el sistema escolar/datos/NOM avanza sin ellos: el costo de quedarse fuera (perder el censo, perder la acreditación EPP, perder el GAM) crece solo.
+
+### 9.3 Velocidad 2: señales, gatillos y protocolo
+
+La reforma de gobernanza (Crawford mexicano + unbundling invertido, REC-GOB-005/006) **no se calendariza: se prepara**. Monitoreo trimestral por la Oficina (tablero reservado del consejo de custodios):
+
+| Señal (RG-GOB-004/005) | Indicador observable | Gatillo de activación |
+|---|---|---|
+| Escándalo de integridad | Avance del expediente FIFA 2025 (amaños/apuestas); resoluciones del examen del Comité de Auditoría; judicialización | Resolución pública adversa o crisis mediática sostenida >4 semanas |
+| Crisis deportiva | Fracaso en ciclo mundialista 2030 con la base en meta (el Informe anual desarma el linchamiento y dirige la presión a la gobernanza) | Eliminación + Informe anual mostrando sistema en meta |
+| Presión FIFA post-2026 | Condicionamientos Forward; requerimientos de gobernanza; normalización | Requerimiento formal FIFA a la FMF |
+| Recambio generacional de dueños | Ventas de clubes; entrada de capital institucional; nuevos propietarios sin pasado que proteger | ≥3 cambios de propiedad en 24 meses |
+| Laudo TAS Expansión | Nuevo recurso contra la eliminación del ascenso (Q-GOB-015) | Laudo favorable a Expansión |
+
+**Protocolo al gatillo:** (1) el consejo de custodios convoca la revisión independiente multi-firma (no gubernamental unilateral — DEC-007), financiada con la bolsa del pacto; (2) la mesa lleva el paquete de intercambio ya diseñado: autonomía comercial formal de la Liga MX A CAMBIO de devolver regulación (certificación, registro, cuotas de formación, calendario de selecciones, integridad) a un ente con contrapesos; (3) el ascenso certificado entra a la mesa SOLO aquí; (4) recomendaciones votadas públicamente por todos los sectores, incluido el amateur saneado (por eso REC-GOB-003 corre desde el año 1: el votante amateur de la ventana se construye con una década de anticipación).
+
+### 9.4 Gestión del cambio (las personas, no solo las reglas)
+
+- **Narrativa:** propiedad de A12 — la Carta gestiona expectativas ex ante; el Informe anual es el árbitro; regla anti-propaganda absoluta (RG-CUL-004); la cancelación de pilotos se comunica como éxito del método.
+- **Capacidades:** la implementación temprana depende de ~200–400 personas clave (gestores de convenio, evaluadores, coordinadores de piloto, responsables de salvaguarda). El MUCEF y la capacitación de gestores (A8/A9) son también el programa de formación del propio plan.
+- **Resistencias previsibles y respuesta:** sindicatos/RC del vespertino (paquete estándar + conserjería pagada: el convenio convierte al opositor en beneficiario); constructoras/ciclo de inauguraciones (candado franja B: cabildeo en contra esperado — se responde con el padrón público); academias comerciales contra la NOM (gradualidad y razonabilidad anti-amparo, A3 §5.10); asociaciones estatales E7 (elecciones supervisadas + condicionar programas a cuentas); FMF media (cada pieza que dilate tiene plan B estatal declarado).
+- **Anti-dependencia de personas (RG-NAC-010):** todo cargo del plan con mandato, suplencia y manual; ningún componente lleva nombre propio; la Oficina documenta para poder ser reemplazada.
+
+---
+
+## 10. Continuidad antisexenio: los 5 candados generalizados
+
+Los cinco candados de A7 (REC-ESC-001) se elevan a **norma de diseño de TODO componente del plan con dinero o decisión pública**:
+
+1. **Reglas de operación en DOF** ancladas a ciclos técnicos (escolar, deportivo), nunca al ciclo político; toda modificación con evaluación pública previa.
+2. **Convenios de 6 años con renovación escalonada:** ningún convenio coincide entero con un sexenio ni vence en año de transición (prohibido vencer en 2030, 2036, 2042). Calendario maestro de vencimientos administrado por la Oficina.
+3. **Financiamiento multi-fuente por diseño:** ninguna parte puede matar sola un componente (PP federal + estatal + federativo + FIFA + privado); las fuentes permanentes (etiquetado de Lotería, derechos de certificación, cámara de compensación, fracción de giras) se priorizan sobre las presupuestales — dictamen de permanencia por A14 (IND-INF-007b generalizado: % del gasto del plan con base legal permanente, meta ≥60% en 2034).
+4. **Series públicas de datos:** un programa con serie medible publicada (Data Box, tablero, padrones) es más caro de cancelar; la serie se custodia fuera del Ejecutivo (CONADE-datos.gob.mx + espejo universitario + dictamen INEGI).
+5. **Operación descentralizada multi-llave:** la federación convoca, los estados y municipios operan, la FMF certifica, las universidades evalúan — la captura de una llave no captura el conjunto.
+
+**Calendario electoral como restricción de diseño:** intermedias jun-2027 (veda en el tramo final de los 100 días: actos públicos fuera de veda; firma técnica continúa) · presidencial 2030 (regla: paquete de transición documentado y entregado a los equipos de campaña ANTES de la elección — el plan se presenta a todos los candidatos como activo heredable, no como bandera del saliente; presupuesto 2031 dictaminado con fuentes no sexenales en 2029) · trienios municipales (contratos Cancha Viva con garantía FIDC cruzando deliberadamente las elecciones — el piloto 3 lo prueba) · 2036 (segunda transición: para entonces ≥60% del gasto debe ser de fuente permanente y la segunda generación de convenios debe vencer 2035/2037, nunca 2036).
+
+---
+
+## 11. Riesgos de implementación (T-7 abreviada; consolida y prioriza)
+
+| ID | Riesgo | Prob. | Impacto | Señal temprana | Mitigación | Contingencia |
+|---|---|---|---|---|---|---|
+| RG-IMP-001 | **Paquete de asamblea 2027 mutilado o bloqueado** (hereda RG-FOR-003/RG-NAC-005) — el riesgo #1 del plan | Media-alta | Alto | Bilaterales pidiendo "votar por partes"; aprobación "en principio" sin calendario (patrón A2) | Votación única declarada; GAM como moneda; expediente de 100 días; mapa de votos | Vía ley del formador a 24 meses (declarada ex ante); la Velocidad 1 sigue intacta |
+| RG-IMP-002 | **Discontinuidad sexenal 2030** (RG-NAC-003) | Alta | Alto | PEF 2031 sin partidas; convenios sin renovar en 2029 | 5 candados §10; blindaje pre-2030 (§5.2 última fila) | El núcleo federativo+FIDC permanente sobreviven; reconstrucción escolar en el ciclo siguiente (RG-DAT-007) |
+| RG-IMP-003 | Incidente grave con menores en un programa del plan (RG-NAC-008) | Media | Crítico | Hallazgos de auditoría MIS; compuertas E-3 reportadas "en verde" sin verificación | Compuertas duras en cronograma; salvaguarda ANTES de escala; MIS independiente | Suspensión inmediata del componente; protocolo Procuradurías; revisión pública ≤90 días |
+| RG-IMP-004 | Los levantamientos L1–L8 fallan o llegan tarde (RG-INV-001) y el año 1 diseña a ciegas | Media | Alto | <50% de avance a D+100 | Contratación D+30; supuestos SUP declarados con bandas | Metas recalibradas en el Informe anual 1; ninguna obra sin L3 (candado CTR-003 inamovible) |
+| RG-IMP-005 | Captura de la Oficina/consejo por los mismos grupos (RG-GOB-003/RG-NAC-001) | Media | Crítico | Composición de comités anunciados sin independientes; agenda dictada por un sector | Multi-llave; presidencia rotativa; sin manejo directo de dinero; padrones y dictámenes públicos | Rotación forzada por protocolo del pacto; disidencia publicable del panel |
+| RG-IMP-006 | Simulación de cumplimiento en cascada (fichas fantasma, estrellas de papel, horas femeniles de papel) (RG-NAC-004) | Alta | Alto | Indicadores de actividad creciendo sin indicadores de resultado | Métricas anti-basura por diseño; auditoría muestral; doble publicación | Sanciones de nivel/licencia; el Informe anual publica la brecha actividad/resultado |
+| RG-IMP-007 | Sobrecarga de la ola 1 (demasiados frentes simultáneos con ~200–400 personas clave) | Media | Medio | Convenios firmados sin operación a 6 meses | Priorización estricta (solo lo del §4); pilotos como escuela de cuadros; MUCEF temprano | Diferir la ola 2 (escala 2028) sin tocar los relojes largos (NOM, COMET, asamblea) |
+| RG-IMP-008 | Inseguridad/extorsión en sedes piloto del sur y la frontera (RG-NAC-012) | Media | Alto | Incidentes en sedes; gestores extorsionados | Criterios de seguridad en selección de sedes; alianzas comunitarias; no publicar datos que faciliten extorsión (A9) | Reubicación de sedes (previsto en PIL-FOR/INF); protocolo con autoridades locales |
+| RG-IMP-009 | La reconciliación A14–A15 no cierra (RG-INV-004) | Media | Alto (para el Control 6) | Diferencias de >20% entre costo del cronograma y presupuesto en el ciclo 1 | Mínimo 2 ciclos (regla F1-09); costos unitarios ancla de A8/A9 como lengua común | El Control 6 bloquea hasta cerrar; se recorta por prioridad T-8, nunca prorrateado |
+| RG-IMP-010 | Triunfalismo post-2026 congela la agenda antes de T0 (RG-GOB-005) | Alta | Medio | "El proceso funciona" como respuesta oficial al plan | La Velocidad 1 no pide permiso a esa narrativa; la Carta fija el árbitro antes del primer ciclo | Las señales de ventana (§9.3) se siguen monitoreando; el plan no depende de la ventana |
+
+**Verificación de la regla del 70% en el cronograma (mandato P2):** el paquete 2027–2030 programado en §5.1–5.2 mantiene la proporción verificada en F6 §6 (~84% de acciones y ~78% del gasto en T1–T4); las piezas T6/T7 (GAM, licencia, NOM, célula, MIS, psicología) son <10% del gasto programado y viajan dentro de instrumentos existentes. **Cumple. Verificación definitiva con el costeo A14 (Control 6).**
+
+## 12. Reconciliación con A14 (protocolo Control 6)
+
+1. **Ciclo 1 (S15–S16):** A15 entrega a A14 el cronograma costeado por rangos (este documento §5–6); A14 devuelve escenarios (conservador = prioridad inmediata; intermedio = +estructural; transformador = +pilotos escalados y Velocidad 2) con fuentes por año.
+2. **Ciclo 2 (S17):** ajuste conjunto — toda acción sin fuente se difiere por prioridad T-8 (nunca recorte prorrateado); toda fuente sin acción se asigna a la reserva del pacto; los dobles conteos declarados (etiquetados A13 en A8/A9/A11/A12; pilotos subsumidos en REC) se depuran a una sola bolsa por componente (instrucción F6 §4: el diseño financiero consolidado es de A14).
+3. **Puntos que A15 marca como innegociables en la reconciliación:** presupuesto de operación y mantenimiento junto a toda obra (RG-NAC-009); fondos de evaluación y auditoría protegidos (no son recortables: son el sistema inmune); el costo de los 100 días (~57–101 MDP) pre-aprobado con T0.
+
+## 13. Preguntas pendientes (nuevas entradas al registro Q)
+
+| ID | Pregunta | Quién posee / vía |
+|---|---|---|
+| Q-IMP-001 | ¿Cuál es la fecha real de T0 (aprobación del plan) y quién la decreta — el pacto del núcleo o un acto de gobierno? | Coordinación PNTFM; definir en el diseño final del pacto (A17) |
+| Q-IMP-002 | Mapa de votos real de la asamblea 2027: posición de cada grupo propietario frente al paquete indivisible | Bilaterales D+60–120; Oficina (reservado) |
+| Q-IMP-003 | Capacidad instalada real de las 32 Procuradurías NNA para las visitas y canalizaciones del volumen proyectado | Procuraduría Federal; protocolo piloto 2 |
+| Q-IMP-004 | ¿Los congresos locales permiten compromisos plurianuales municipales en los estados piloto? (hereda Q-INF-103) | Análisis A3/estados; antes de la cohorte 1 FIDC |
+| Q-IMP-005 | Costo y plazo administrativo real del proceso NOM en CONAMER post-reforma regulatoria (¿12 o 24 meses?) | SE/CONAMER; determina si la vigencia es 2028 o 2029 |
+| Q-IMP-006 | ¿Quién es jurídicamente el "empleador" de la Oficina de Implementación y cómo se financia sin capturarse? | Diseño del pacto; A14 (bolsa) + A3 |
+| Q-IMP-007 | Resultado del nuevo recurso TAS de Expansión (hereda Q-GOB-015): reordena la mesa de la asamblea 2027 | Monitoreo TAS; Oficina |
+| Q-IMP-008 | Disponibilidad real de los 6–10 scouts residentes con perfil (fútbol+jurídico+familias) para la célula en 2027 | FMF selecciones; mercado |
+
+---
+
+*Fin del entregable del Agente 15. Extensión ~7,600 palabras. Cronograma con dependencias reales y compuertas E-3; cartera de pilotos 10→8 sin traslape; RACI de 19 actores × 13 componentes; pacto de 10 cláusulas y 3 círculos; coalición y secuencia 2027; 5 candados antisexenio generalizados; regla del 70% verificada en el cronograma. Pendiente: reconciliación A14 (2 ciclos, Control 6). Sin commit del agente.*
