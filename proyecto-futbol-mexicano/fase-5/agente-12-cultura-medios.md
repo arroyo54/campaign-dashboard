@@ -16,10 +16,10 @@ El fútbol mexicano padece una **doble patología narrativa** que este pilar deb
 
 **La vacuna es la misma para ambas patologías: transparencia de indicadores de proceso, con expectativas pactadas ex ante y en público.** Un sistema que publica cada año sus números duros (cuántos debutan, cuánto se exporta, cuánto cuesta jugar, cuántos entrenadores certificados activos hay) hace **refutable** tanto el triunfalismo ("el 9º lugar no movió ninguno de los 12 indicadores del embudo") como el catastrofismo ("la eliminación de la Mayor no tocó los indicadores de base, que van en meta"). No es comunicación: es arquitectura de rendición de cuentas con función narrativa.
 
-**Las tres piezas centrales del diseño** (todas T1–T3 sobre activos existentes; ninguna requiere crear instituciones):
+**Las tres piezas centrales** (todas T1–T3 sobre activos existentes; ninguna crea instituciones):
 
-- **REC-CUL-001 — Informe público anual del Estado del Sistema**, con autodiagnóstico técnico duro (práctica KNVB *Winnaars van Morgen*, clasificada AD por 5A) montado sobre el Data Box del Pilar 9/A10 y la Estrategia Nacional de Formación (E7), presentado en fecha fija, con dictamen de un panel universitario independiente (elemento belga-Lovaina, AD).
-- **REC-CUL-002 — Carta pública de expectativas 2026–2046**, multi-firma, con hitos revisables a la japonesa: dice ex ante, con firmas, que **2030 NO trae resultados de Selección Mayor** (regla de metas vinculante de la matriz §4) y qué SÍ debe medirse en 2030; incluye un protocolo pre-escrito de fallo (qué se revisa y qué no se desmantela cuando un hito se incumple — Japón falló "top-10 en 2015" y el marco siguió).
+- **REC-CUL-001 — Informe público anual del Estado del Sistema**, con autodiagnóstico técnico duro (práctica KNVB *Winnaars van Morgen*, AD según 5A) montado sobre el Data Box del Pilar 9/A10 y la Estrategia Nacional de Formación (E7), en fecha fija, con dictamen de un panel universitario independiente (elemento belga-Lovaina, AD).
+- **REC-CUL-002 — Carta pública de expectativas 2026–2046**, multi-firma, con hitos revisables a la japonesa: dice ex ante, con firmas, que **2030 NO trae resultados de Selección Mayor** (regla de metas de la matriz §4) y qué SÍ debe medirse en 2030; incluye protocolo pre-escrito de fallo (Japón falló "top-10 en 2015" y el marco siguió).
 - **REC-CUL-003 — El fútbol formativo como propiedad mediática**: aprovechar (T1) el binomio Mundialito/Copa CONADE (1.18 M de niños, DEC-010) y las ligas juveniles como contenido barato y masivo para televisoras y plataformas, con estándares de transmisión formativa como condición de acceso a los derechos. Es el único incentivo realista que alinea a Televisa/TUDN y TV Azteca con el largo plazo: no se les pide convicción, se les ofrece inventario de bajo costo con audiencia familiar.
 
 Se complementa con: campaña permanente hacia padres y familias —la audiencia más importante y menos atendida— anclada en el registro del Mundialito y en la vía Profeco contra fraudes de visorías (REC-CUL-004, conecta con R5); dignificación del entrenador formador con A8 (REC-CUL-005); red de voceros del proceso sin guion federativo (REC-CUL-006); y una **identidad de proceso** explícitamente separada de cualquier dogma táctico, porque la estandarización de perfil único es NR unánime del benchmark (REC-CUL-007).
@@ -285,10 +285,10 @@ Nota: la campaña de padres (REC-004) es el rubro mayor y se comparte con R5/A13
 
 ## 22. Bloqueadores políticos/jurídicos/económicos
 
-1. **Televisa/TUDN y TV Azteca** (bloqueador identificado por A2): sin interés en narrar el largo plazo de Liga MX/Selección; interés transaccional posible en contenido formativo. El diseño no les pide lo primero y les vende lo segundo.
-2. **FMF/asamblea de dueños:** resistencia previsible al autodiagnóstico duro y al capítulo de incumplimientos de clubes. Precio de cooperación (SUP-002): el informe anual también documenta y publicita lo que los clubes hacen bien (Pachuca E1, minutos juveniles) — reputación como moneda, no dinero.
-3. **Riesgo FIFA:** nulo en todo el paquete (informes, convenios, derechos, protección al consumidor — perímetro CONV/NOM/PP de DEC-007). Ninguna recomendación toca gobernanza federativa ni competiciones.
-4. **Ciclo sexenal:** la campaña de padres y el Mundialito dependen de CONADE/SEP; mitigación: convenio multianual y anclaje del material en el reglamento del torneo y la certificación (que sobreviven al programa presupuestal).
+1. **Televisa/TUDN y TV Azteca** (bloqueador según A2): sin interés en narrar el largo plazo de Liga MX/Selección; interés transaccional posible en contenido formativo. El diseño no les pide lo primero y les vende lo segundo.
+2. **FMF/asamblea de dueños:** resistencia previsible al autodiagnóstico duro. Precio de cooperación (SUP-002): el informe también publicita lo que los clubes hacen bien (Pachuca E1, minutos juveniles) — reputación como moneda.
+3. **Riesgo FIFA:** nulo en todo el paquete (perímetro CONV/NOM/PP de DEC-007); nada toca gobernanza federativa ni competiciones.
+4. **Ciclo sexenal:** campaña de padres y Mundialito dependen de CONADE/SEP; mitigación: convenio multianual y anclaje del material en el reglamento del torneo y la certificación.
 
 ## 23. Indicadores (fichas T-6)
 
