@@ -214,7 +214,7 @@ Escalar el premio/perfil del entrenador formador (con A8) de iniciativa puntual 
 ### REC-CUL-007 · Decálogo de identidad de proceso (no de pizarrón)
 
 - **Tipo:** T6 (regla ligera: define qué puede y qué no puede llamarse "identidad" en documentos del sistema).
-- **Qué:** documento breve anexo a la Carta (REC-CUL-002) con los 8 valores de proceso (§5.3), **cada uno mapeado a un mecanismo auditable de otro pilar** (disciplina→licencias A7; creatividad→formatos A6; autocrítica→REC-CUL-001; transparencia→A10…), y con una **prohibición expresa**: ningún documento técnico del sistema puede imponer un esquema táctico único a academias o selecciones menores como condición de certificación (blindaje contra el NR alemán). La ENF puede recomendar principios de juego; no puede uniformar perfiles. La identidad mexicana es cómo se forma y compite, no un dibujo.
+- **Qué:** anexo breve de la Carta con los 8 valores de proceso (§5.3), **cada uno mapeado a un mecanismo auditable de otro pilar** (disciplina→licencias A7; creatividad→formatos A6; autocrítica→REC-CUL-001; transparencia→A10…), y una **prohibición expresa**: ningún documento técnico del sistema puede imponer un esquema táctico único a academias o selecciones menores como condición de certificación (blindaje contra el NR alemán). La ENF puede recomendar principios de juego; no puede uniformar perfiles. La identidad mexicana es cómo se forma y compite, no un dibujo.
 - **Instrumento:** anexo normativo de la Carta + criterio de certificación (en negativo).
 - **Responsable:** dirección técnica FMF + panel. **Costo:** incluido en REC-CUL-002. **Tiempo:** con la Carta.
 - **Indicador:** auditoría anual del criterio en el informe (IND-CUL-001, componente).
@@ -320,7 +320,7 @@ Nota: la campaña de padres (REC-004) es el rubro mayor y se comparte con R5/A13
 
 ## 24. Casos internacionales citados
 
-Países Bajos (autodiagnóstico *Winnaars van Morgen* votado por clubes — AD, 5A) · Japón (Declaración 2050 con hitos revisables que sobreviven al fallo; Data Box público; alta deferencia a planes: no importable por decreto → adaptación multi-firma — 5E) · Alemania (declive 2018–2026 por complacencia y estandarización; re-auditoría periódica como vacuna; caso Özil como anti-modelo de gestión de crisis — 5A) · Bélgica (universidades como autoridad técnica que compra legitimidad — AD, 5A) · Corea (la advertencia: crisis 2026 sin plan → intervención estatal abrupta con riesgo FIFA; el torneo-atajo como corruptor de incentivos — 5E) · Australia (Crawford: la crisis se aprovecha con el plan listo, no se espera — 5E).
+Países Bajos (autodiagnóstico votado por clubes — AD, 5A) · Japón (hitos revisables que sobreviven al fallo; Data Box; deferencia a planes no importable → adaptación multi-firma — 5E) · Alemania (declive por complacencia y estandarización; re-auditoría como vacuna; Özil como anti-modelo de crisis — 5A) · Bélgica (universidades como autoridad técnica — AD, 5A) · Corea (crisis 2026 sin plan → intervención estatal abrupta con riesgo FIFA; torneo-atajo como corruptor de incentivos — 5E) · Australia (Crawford: la crisis se aprovecha con el plan listo — 5E).
 
 ## 25. Adaptación a México (por qué funciona aquí)
 
