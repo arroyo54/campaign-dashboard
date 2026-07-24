@@ -82,11 +82,11 @@ Diseño sobre diagnóstico existente (A2 §5.2, anexo de limitaciones #3 y #4) y
 
 | Nivel | Piezas |
 |---|---|
-| A/B | RG-GOB-005 y matriz de poder (A2, sobre estatutos y resoluciones); concentración mediática y FIFAgate-Televisa (A2 §5.3, DOJ/acuerdo 95 MUSD); autodiagnóstico KNVB votado por clubes 24-may-2016 (5A, KNVB.nl); declive alemán 2018–2026 y complacencia DFB (5A, DFL/Al Jazeera); JFA Declaration 2005 con hito fallido y marco vigente + Data Box serie 1979–2025 (5E, JFA); regla de metas de 24 países (matriz §4); precedente Profeco visorías 2026 (línea base R3) |
-| C | Estimaciones de consumo de audiencia joven vía creadores; interés ESG de televisoras; disposición de anunciantes familiares |
-| D | Ninguna pieza D como base |
+| A/B | RG-GOB-005 y matriz de poder (A2); concentración mediática y FIFAgate-Televisa (A2 §5.3); autodiagnóstico KNVB votado por clubes 24-may-2016 (5A); declive alemán 2018–2026 y complacencia DFB (5A); JFA Declaration 2005 con hito fallido y marco vigente + Data Box 1979–2025 (5E); regla de metas de 24 países (matriz §4); precedente Profeco visorías 2026 (R3) |
+| C | Consumo de audiencia joven vía creadores; interés ESG de televisoras; disposición de anunciantes familiares |
+| D | Ninguna como base |
 
-**Regla cumplida:** toda recomendación estructural cita al menos una fuente A/B (vía informes fuente de Fases 2–4).
+**Regla cumplida:** toda recomendación estructural cita al menos una fuente A/B (vía informes de Fases 2–4).
 
 ## 7. Fuentes
 
@@ -94,10 +94,10 @@ Las de los informes citados (A2 §7; 5A §0; 5E §0), más: registro de riesgos 
 
 ## 8. Limitaciones del análisis
 
-1. **No existe línea base medida de narrativa ni de expectativas** (ninguna encuesta con diseño muestral sobre expectativas de afición/padres; ningún análisis de contenido sistemático de cobertura). Todos los indicadores parten de línea base "a construir en año 1" — el pilar financia su propia medición basal.
-2. Los incentivos comerciales de televisoras/plataformas se infieren de comportamiento y de la matriz A2 (B/C); no hay acceso a sus datos de audiencia ni a sus contratos.
-3. Riesgo de sesgo del diseñador: sobreestimar el efecto de la transparencia sobre la opinión pública. Mitigación: los indicadores T-6 miden efectos (expectativas, cobertura, denuncias), no actividades (boletines emitidos).
-4. La viabilidad de REC-CUL-003 depende de decisiones de derechos que gobierna la FMF/CONADE-SEP (Mundialito) y los clubes (juvenil): este pilar diseña la oferta, no puede forzar la demanda.
+1. **No existe línea base medida de narrativa ni de expectativas** (ni encuesta muestral de expectativas ni análisis de contenido sistemático). Todos los indicadores parten de línea base "a construir en año 1" — el pilar financia su propia medición basal.
+2. Los incentivos de televisoras/plataformas se infieren de comportamiento y de la matriz A2 (B/C); sin acceso a sus datos de audiencia ni contratos.
+3. Sesgo posible del diseñador: sobreestimar el efecto de la transparencia. Mitigación: los indicadores miden efectos (expectativas, cobertura, denuncias), no actividades.
+4. REC-CUL-003 depende de decisiones de derechos de FMF/CONADE-SEP y clubes: este pilar diseña la oferta, no puede forzar la demanda.
 
 ## 9. Activos existentes relevantes
 
@@ -261,16 +261,16 @@ Nota: la campaña de padres (REC-004) es el rubro mayor y se comparte con R5/A13
 
 ## 19. Tiempo estimado
 
-0–6 meses: Carta (REC-002) + decálogo (REC-007) + arranque de línea base de expectativas. 6–12: acreditaciones (REC-006); diseño de licitación. 12: primer Informe del Estado del Sistema (REC-001, con vacíos declarados). 12–18: piloto de transmisión; paquete padres en ciclo escolar completo (REC-004). 18–36: premio formador y padrón (REC-005); paquete plurianual de derechos (REC-003).
+0–6 meses: Carta + decálogo + línea base de expectativas. 6–12: acreditaciones; diseño de licitación. 12: primer Informe del Estado del Sistema (con vacíos declarados). 12–18: piloto de transmisión; paquete padres en ciclo escolar completo. 18–36: premio formador y padrón; paquete plurianual de derechos.
 
 ## 20. Dependencias
 
-- **A10/Pilar 9 (datos):** el Data Box es el insumo del informe anual; sin L1–L8 (DEC-008) el primer informe sale con bandas anchas (aceptable y declarado).
-- **A8 (entrenadores):** padrón y certificación para REC-CUL-005.
-- **A6 (formación) y DEC-010:** formatos infantiles y binomio escolar que la campaña de padres comunica.
-- **A13 (femenil/protección):** estándares de protección de menores en pantalla y en visorías; desagregación de género de todos los indicadores.
-- **A11 (selecciones):** regla de separación Selección/sistema en la rendición de cuentas.
-- **A14 (finanzas):** estructura de la licitación de derechos; A15: calendario.
+- **A10/Pilar 9:** el Data Box es el insumo del informe anual; sin L1–L8 (DEC-008) el primer informe sale con bandas anchas (aceptable y declarado).
+- **A8:** padrón y certificación para REC-CUL-005.
+- **A6 y DEC-010:** formatos infantiles y binomio escolar que la campaña de padres comunica.
+- **A13:** protección de menores en pantalla y visorías; desagregación de género de todos los indicadores.
+- **A11:** regla de separación Selección/sistema.
+- **A14:** estructura de la licitación de derechos; **A15:** calendario.
 
 ## 21. Riesgos (fichas T-7 abreviadas)
 
