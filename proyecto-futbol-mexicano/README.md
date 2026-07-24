@@ -1,9 +1,25 @@
-# Proyecto Nacional de Transformación del Fútbol Mexicano (PNTFM)
+# Cantera 2046 — Proyecto Nacional de Transformación del Fútbol Mexicano (PNTFM)
 
 **Horizonte:** 2026–2046 (20 años)
-**Estado actual:** Fase 1 completada — pendiente de aprobación para iniciar Fase 2
-**Fecha de entrega Fase 1:** 2026-07-23
-**Responsable de esta fase:** Agente 0 — Director General de Investigación
+**Estado:** ✅ PROYECTO COMPLETO — las 11 fases ejecutadas, las 8 puertas de control aprobadas (2026-07-24)
+**Entregable final:** [`fase-10/documento-final.md`](fase-10/documento-final.md) (Cantera 2046, 37 secciones, ~14,000 palabras)
+**Acta de cierre:** [`fase-11/acta-control-8.md`](fase-11/acta-control-8.md)
+
+## Mapa del corpus (33 documentos)
+
+| Fase | Contenido | Carpeta |
+|---|---|---|
+| 1 | Metodología, taxonomía, plantillas, registros, controles (Agente 0) | `fase-1/` (12 docs) |
+| 2 | Línea base: inventario, gobernanza, derecho, economía (Agentes 1–4) | `fase-2/` (4 informes) |
+| 3 | Línea base integrada + Control 2 | `fase-3/` |
+| 4 | Benchmark de 24 países (Agentes 5A–5E) + matriz de transferibilidad + Control 3 | `fase-4/` (6 docs) |
+| 5 | Diseño de pilares (Agentes 6–13, incluido dictamen transversal femenil/protección) | `fase-5/` (8 informes) |
+| 6 | Integración preliminar, pilares de gobernanza/jurídico/integridad, Control 4 y 5 | `fase-6/` |
+| 7 | Presupuesto de 20 años (A14) + hoja de ruta (A15) + reconciliación Control 6 | `fase-7/` (3 docs) |
+| 8 | Red team: 32 críticas (A16) | `fase-8/` |
+| 9 | Respuesta al red team: correcciones vinculantes + Control 7 | `fase-9/` |
+| 10 | **Documento final Cantera 2046** (A17) | `fase-10/` |
+| 11 | Revisión final + Control 8 | `fase-11/` |
 
 ---
 
