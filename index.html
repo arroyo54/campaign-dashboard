@@ -735,6 +735,10 @@
       <span class="sb-icon">📣</span> Campaigns
     </div>
 
+    <div class="sb-item" data-tab="comunicaciones" onclick="switchTab('comunicaciones');sbAct(this)">
+      <span class="sb-icon">✉️</span> Comunicaciones
+    </div>
+
     <div class="sb-item" data-tab="content" onclick="switchTab('content');sbAct(this)">
       <span class="sb-icon">✏️</span> Content
     </div>
@@ -925,6 +929,16 @@ document.querySelectorAll('.sb-item,.sb-sub-item').forEach(function(el){
 
   <!-- tabDashboard removed — replaced by tabCampaignsBeta -->
   <div id="tabDashboard" style="display:none;"></div>
+
+  <!-- ══════════════════════════════════════════════════════════
+       COMUNICACIONES (página autocontenida en iframe)
+  ═══════════════════════════════════════════════════════════ -->
+  <div id="tabComunicaciones" style="display:none;">
+    <div style="margin:-20px -28px 0; height:calc(100vh - 53px); overflow:hidden;">
+      <iframe id="comunicacionesFrame" data-src="comunicaciones.html" title="Comunicaciones"
+              style="width:100%; height:100%; border:0; display:block;"></iframe>
+    </div>
+  </div>
 
 
   <!-- ══════════════════════════════════════════════════════════
@@ -5540,7 +5554,7 @@ document.querySelectorAll('.sb-item,.sb-sub-item').forEach(function(el){
   }
 
   // ── Tab switching ───────────────────────────────────────────
-  const TAB_IDS = ['ventasHeru','growth','adquisiciones','campaignsBeta','sales','content','paidmedia','calculadora','bots','automations'];
+  const TAB_IDS = ['ventasHeru','growth','adquisiciones','campaignsBeta','comunicaciones','sales','content','paidmedia','calculadora','bots','automations'];
   function switchTab(tab) {
     TAB_IDS.forEach(id => {
       const el = document.getElementById('tab' + id.charAt(0).toUpperCase() + id.slice(1));
@@ -5562,6 +5576,10 @@ document.querySelectorAll('.sb-item,.sb-sub-item').forEach(function(el){
     if (tab === 'bots')        { loadBotsData(); }
     if (tab === 'automations') { loadAutomationsData(); }
     if (tab === 'campaignsBeta') { loadBetaData(); }
+    if (tab === 'comunicaciones') {
+      const f = document.getElementById('comunicacionesFrame');
+      if (f && !f.src) f.src = f.dataset.src; // lazy-load: solo carga la primera vez
+    }
   }
 
   // ── Sub-tab switching ───────────────────────────────────────
