@@ -90,12 +90,14 @@ table.tbl tr:hover td{background:#fafbfc}
     <button class="tab" data-view="recorrido"><svg viewBox="0 0 24 24"><circle cx="6" cy="19" r="2"/><circle cx="18" cy="5" r="2"/><path d="M8 19h6a4 4 0 0 0 0-8H9a4 4 0 0 1 0-8h3"/></svg>Cómo llegan los correos</button>
     <button class="tab" data-view="cohortes"><svg viewBox="0 0 24 24"><path d="M16 20v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="3.2"/><path d="M22 20v-2a4 4 0 0 0-3-3.87"/></svg>Quién sigue el camino</button>
     <button class="tab" data-view="brevo"><svg viewBox="0 0 24 24"><path d="M3 11v2a1 1 0 0 0 1 1h3l4 4V6L7 10H4a1 1 0 0 0-1 1z"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/></svg>Campañas</button>
+    <button class="tab" data-view="whatsapp"><svg viewBox="0 0 24 24"><path d="M21 11.5a8.5 8.5 0 0 1-12.5 7.5L3 21l1.9-5.1A8.5 8.5 0 1 1 21 11.5z"/></svg>WhatsApp</button>
   </div>
 
   <div class="view active" id="view-resumen"><div id="resumenBody"><div class="loading">Cargando…</div></div></div>
   <div class="view" id="view-recorrido"><div id="recorridoBody"><div class="loading">Cargando…</div></div></div>
   <div class="view" id="view-cohortes"><div id="cohortesBody"><div class="loading">Cargando…</div></div></div>
   <div class="view" id="view-brevo"><div id="brevoBody"><div class="loading">Cargando…</div></div></div>
+  <div class="view" id="view-whatsapp"><div id="waBody"><div class="loading">Cargando…</div></div></div>
 </div>
 
 <div class="modal" id="tplModal"><div class="modal-card">
@@ -245,11 +247,40 @@ function drawTrend(){
   const rows=trendRows,scale=scaleLog?'logarithmic':'linear';
   const dias=[...new Set(rows.map(r=>r.dia))].sort();const cfg={Email:C.email,Push:C.push,Llamadas:C.calls};
   const ds=Object.keys(cfg).map(c=>({label:c,data:dias.map(d=>{const h=rows.find(r=>r.dia===d&&r.canal===c);return h?+h.total:(scaleLog?null:0)}),borderColor:cfg[c],backgroundColor:cfg[c],fill:false,tension:.3,borderWidth:2,pointRadius:0,pointHoverRadius:4,spanGaps:true}));
+  try{var __WAt=(window.__WA&&window.__WA.trend)||[];if(__WAt.length){var __wam={};__WAt.forEach(function(r){__wam[r.dia]=(__wam[r.dia]||0)+(+r.n||0);});ds.push({label:'WhatsApp',data:dias.map(function(d){var v=__wam[d];return v!=null?v:(scaleLog?null:0);}),borderColor:'#25D366',backgroundColor:'#25D366',fill:false,tension:.3,borderWidth:2,pointRadius:0,pointHoverRadius:4,spanGaps:true});}}catch(e){}
   if(charts.trend)charts.trend.destroy();
   charts.trend=new Chart(document.getElementById('trendChart'),{type:'line',data:{labels:dias.map(d=>d.slice(5)),datasets:ds},options:{responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},plugins:{legend:{position:'top',align:'start'},tooltip:{callbacks:{label:c=>`${c.dataset.label}: ${fmt(c.parsed.y)}`}}},scales:{x:GX,y:{type:scale,...GY,ticks:{callback:v=>fmt(v)}}}}});
   const lk=document.getElementById('scaleLink');if(lk)lk.textContent=scaleLog?'ver en escala lineal':'ver en escala logarítmica';
 }
 let resDone=false;
+function loadWhatsApp(){
+  var b=document.getElementById('waBody'); var WA=window.__WA||{};
+  function waNum(v){return +String(v==null?'':v).replace(/[^0-9.\-]/g,'')||0;}
+  if((!WA.kpi)&&(!WA.trend||!WA.trend.length)){b.innerHTML='<div class="err" style="margin:16px">Aún no hay datos de WhatsApp en el Sheet. Corre el n8n para poblar waKpi/waTrend/waLabels/waDetail.</div>';return;}
+  var k=WA.kpi||{};
+  var kpis=[['Conversaciones (30d)',fmt(waNum(k.total))],['Ventas',fmt(waNum(k.ventas))],['Soporte',fmt(waNum(k.soporte))],['Personas',fmt(waNum(k.personas))],['Mediana 1ª respuesta',waNum(k.prim_resp_mediana_min)+' min']];
+  var kpiHtml=kpis.map(function(x){return '<div class="kpi"><div class="l">'+x[0]+'</div><div class="v">'+x[1]+'</div></div>';}).join('');
+  var labels=(WA.labels||[]).slice(0,12);
+  var maxL=Math.max.apply(null,labels.map(function(l){return waNum(l.n);}).concat([1]));
+  var labHtml=labels.map(function(l){var w=Math.round(waNum(l.n)/maxL*100);return '<div style="margin-bottom:10px"><div style="display:flex;justify-content:space-between;font-size:12.5px;margin-bottom:3px"><span>'+(l.tema||'(sin tema)')+'</span><span class="num">'+fmt(waNum(l.n))+'</span></div><div style="height:7px;background:#eef0f4;border-radius:4px"><div style="height:7px;width:'+w+'%;background:#25D366;border-radius:4px"></div></div></div>';}).join('');
+  var ag=WA.agent||[]; var agHtml='';
+  if(ag.length){agHtml='<div class="section"><h2>¿Quién atiende?</h2><p class="sub">Agentes en WhatsApp (últimos 30 días).</p><div class="card"><div class="scroll"><table class="tbl"><thead><tr><th>Agente</th><th class="num">Convs</th><th class="num">Ventas</th><th class="num">Soporte</th><th class="num">1ª resp (min)</th><th class="num">Rating</th></tr></thead><tbody>'+ag.map(function(a){return '<tr><td>'+(a.agente||'—')+'</td><td class="num">'+fmt(waNum(a.total))+'</td><td class="num">'+fmt(waNum(a.ventas))+'</td><td class="num">'+fmt(waNum(a.soporte))+'</td><td class="num">'+(a.prim_resp_prom_min||'—')+'</td><td class="num">'+(a.rating_prom||'—')+'</td></tr>';}).join('')+'</tbody></table></div></div></div>';}
+  var det=WA.detail||[];
+  var detHtml=det.map(function(d){return '<tr><td>'+String(d.fecha||'').slice(0,16)+'</td><td>'+(d.agente||'—')+'</td><td>'+(d.tag||'')+'</td><td class="mrc">'+(d.tema||'')+'</td><td>'+(d.status||'')+'</td><td class="num">'+(d.prim_resp_min||'—')+'</td></tr>';}).join('');
+  b.innerHTML=
+    '<div class="section" style="margin-top:28px"><h2>WhatsApp · conversaciones</h2><p class="sub">Conversaciones de ventas y soporte atendidas por agentes (Treble), últimos 30 días · por fecha real de la conversación.</p>'+
+      '<div class="grid g5" style="margin-bottom:18px">'+kpiHtml+'</div>'+
+      '<div class="card"><div class="chart-box"><canvas id="waDailyChart"></canvas></div><p class="note">Conversaciones por día, separadas por tipo. Los "otros" incluyen campañas y flujos con bot.</p></div></div>'+
+    '<div class="grid g2">'+
+      '<div class="section" style="margin:0"><h2>De qué hablan</h2><p class="sub">Temas más frecuentes (etiquetas de Treble).</p><div class="card">'+(labHtml||'<div class="note">Sin temas.</div>')+'</div></div>'+
+      '<div class="section" style="margin:0"><h2>Conversaciones recientes</h2><p class="sub">Últimas 60 · sin datos personales.</p><div class="card"><div class="scroll"><table class="tbl"><thead><tr><th>Fecha</th><th>Agente</th><th>Tipo</th><th>Tema</th><th>Estado</th><th class="num">1ª resp</th></tr></thead><tbody>'+detHtml+'</tbody></table></div></div></div>'+
+    '</div>'+agHtml;
+  try{var T=WA.trend||[];var dias=[...new Set(T.map(function(r){return r.dia;}))].sort();var cats={Ventas:'#1790EC',Soporte:'#8b5cf6',Otros:'#98a2b3'};
+    var ds=Object.keys(cats).map(function(c){return {label:c,data:dias.map(function(d){var h=T.find(function(r){return r.dia===d&&r.canal===c;});return h?waNum(h.n):0;}),backgroundColor:cats[c],stack:'wa',borderWidth:0};});
+    if(charts.waDaily)charts.waDaily.destroy();
+    charts.waDaily=new Chart(document.getElementById('waDailyChart'),{type:'bar',data:{labels:dias.map(function(d){return String(d).slice(5);}),datasets:ds},options:{responsive:true,maintainAspectRatio:false,scales:{x:{stacked:true,grid:{display:false}},y:{stacked:true,beginAtZero:true}},plugins:{legend:{position:'top'}}}});
+  }catch(e){console.warn('waDaily',e);}
+}
 async function loadResumen(){if(resDone)return;resDone=true;const b=document.getElementById('resumenBody');
   try{
     const dur=s=>{s=+s||0;const m=Math.floor(s/60),ss=s%60;return m+':'+String(ss).padStart(2,'0')};
@@ -257,7 +288,7 @@ async function loadResumen(){if(resDone)return;resDone=true;const b=document.get
     const em=m.email||{total:0,extra:0},pu=m.push||{total:0,extra:0},ca=m.calls||{total:0};const tot=+em.total+ +pu.total+ +ca.total;
     document.getElementById('ctx').innerHTML=`<span><b>${fmt(tot)}</b> comunicaciones (30d)</span><span class="s">|</span><span><b>${fmt(em.total)}</b> emails</span><span class="s">|</span><span><b>${fmt(pu.total)}</b> push</span><span class="s">|</span><span><b>${fmt(ca.total)}</b> llamadas</span>`;
     b.innerHTML=`
-      <div class="section" style="margin-top:28px"><h2>Cómo se mueve cada canal</h2><p class="sub">Correos, notificaciones push y llamadas enviados por día, últimos 30 días.</p>
+      <div class="section" style="margin-top:28px"><h2>Cómo se mueve cada canal</h2><p class="sub">Correos, push, llamadas y WhatsApp por día, últimos 30 días.</p>
         <div class="card"><div class="chart-box"><canvas id="trendChart"></canvas></div><div class="right"><span class="linklike" id="scaleLink"></span></div></div></div>
       <div class="grid g2">
         <div class="section" style="margin:0"><h2>¿Cuántos correos están llegando?</h2><p class="sub">Enviados correctamente frente a los que fallaron.</p>
@@ -541,7 +572,7 @@ async function loadBrevo(){if(brDone)return;brDone=true;const body=document.getE
 document.querySelector('.tabs').addEventListener('click',e=>{const b=e.target.closest('.tab');if(!b)return;
   document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));document.querySelectorAll('.view').forEach(x=>x.classList.remove('active'));
   b.classList.add('active');const v=b.dataset.view;document.getElementById('view-'+v).classList.add('active');
-  if(v==='resumen')loadResumen();if(v==='recorrido'){loadRecorrido();precargarPlantillas();}if(v==='cohortes')loadCohortes();if(v==='brevo'){loadBrevo();precargarPlantillas();}});
+  if(v==='resumen')loadResumen();if(v==='whatsapp')loadWhatsApp();if(v==='recorrido'){loadRecorrido();precargarPlantillas();}if(v==='cohortes')loadCohortes();if(v==='brevo'){loadBrevo();precargarPlantillas();}});
 /* ==== Datos en vivo desde Google Sheet (pestaña "datos") ==== */
 const SHEET_URL='https://docs.google.com/spreadsheets/d/1l7TAy5I2MBBvsYVifTRpQy_u1ey-KNZnLRKCqSKyLIA/gviz/tq?tqx=out:csv&sheet=datos';
 function __parseCSV(t){var R=[],f='',row=[],q=false,i=0,c;for(;i<t.length;i++){c=t[i];if(q){if(c=='"'){if(t[i+1]=='"'){f+='"';i++;}else{q=false;}}else{f+=c;}}else{if(c=='"'){q=true;}else if(c==','){row.push(f);f='';}else if(c=='\n'){row.push(f);R.push(row);row=[];f='';}else if(c=='\r'){}else{f+=c;}}}if(f.length||row.length){row.push(f);R.push(row);}return R;}
@@ -550,6 +581,7 @@ async function loadFromSheet(){var res=await fetch(SHEET_URL,{cache:'no-store'})
   if(M.timing)TIMING=M.timing;
   var B=__STATIC_DATA.brevo;if(M.brevo){if(M.brevo.senders)B['senders_get_senders']=M.brevo.senders;if(M.brevo.lists)B['lists_get_lists']=M.brevo.lists;if(M.brevo.segments)B['segments_get_segments']=M.brevo.segments;if(M.brevo.templatesCount!=null)B['templates_get_smtp_templates']={count:M.brevo.templatesCount};}
   if(M.brevo&&M.brevo.campaigns)B['email_campaign_management_get_email_campaigns']=M.brevo.campaigns;
+  window.__WA={kpi:M.waKpi||null,trend:M.waTrend||[],agent:M.waAgent||[],labels:M.waLabels||[],detail:M.waDetail||[]};
   if(M.generado){try{var u=document.getElementById('upd');if(u)u.textContent='Datos al '+M.generado+' · en vivo desde Google Sheet';}catch(e){}}
 }
 (async function(){try{await loadFromSheet();}catch(e){console.warn('Sheet no disponible; uso datos incrustados',e);}loadResumen();})();
