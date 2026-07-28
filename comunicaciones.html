@@ -302,9 +302,10 @@ const FASES=[
  {n:'Fase 5',nom:'Declaración',col:'#8b5cf6',desc:'Estados y entrega — ronda y regularización',mails:[
    {tpls:['1248','1249','1250','1251'],nom:'Estados P0→P3',asu:'“Preparando → Trabajando → ¡Lista!”',cn:'Durante el proceso (ronda y regu)',ch:['Email']},
    {tpls:['976'],nom:'Declaración_lista_all',asu:'“Tu declaración esta lista”',cn:'Al presentar la declaración',ch:['Email']},
-   {tpls:['1359'],nom:'actualización_declaración_lista',asu:'“Tu declaración esta lista ✅”',cn:'Actualización de declaración',ch:['Email']}]},
+   {tpls:['1359'],nom:'actualización_declaración_lista',asu:'“Tu declaración esta lista ✅”',cn:'Actualización de declaración',ch:['Email']},
+   {tpls:['1075'],nom:'Aprobación 72h (revisar y aprobar)',asu:'“Tienes un valor a favor/en contra en el SAT”',cn:'Antes del envío automático (72h)',ch:['Email']}]},
  {n:'Fase 6',nom:'Facturación',col:'#f59e0b',desc:'Recordatorios y solicitudes de factura',mails:[
-   {tpls:['1217','1219'],nom:'Recordatorio facturar (d5)',asu:'“5 días para cerrar el mes…”',cn:'5 días antes del cierre',ch:['Email','WA']},
+   {tpls:['1217','1218','1219'],nom:'Recordatorio facturar (d5)',asu:'“5 días para cerrar el mes…”',cn:'5 días antes del cierre',ch:['Email','WA']},
    {tpls:['1354','1355','1353'],nom:'Solicitud de factura (QR)',asu:'“Factura aceptada / rechazada / con correcciones”',cn:'Al solicitar factura por QR',ch:['Email']}]},
  {n:'Fase 7',nom:'Renovación',col:'#ec4899',desc:'Mantener la suscripción activa',mails:[
    {tpls:['1239','1236','1237'],nom:'Aviso de renovación',asu:'“Tu Plan se renueva en 5/15 días”',cn:'Antes de renovar',ch:['Email','SMS']},
@@ -382,7 +383,7 @@ document.getElementById('tplClose').addEventListener('click',()=>document.getEle
 document.getElementById('tplModal').addEventListener('click',e=>{if(e.target.id==='tplModal')e.target.style.display='none'});
 function tplRender(t,tplId){const body=document.getElementById('tplBody'),ttl=document.getElementById('tplTitle');
   ttl.innerHTML=`<b>${t.name||('tpl '+tplId)}</b> <span style="color:#9599a8">— ${t.subject||''}</span>`;
-  body.innerHTML='';const f=document.createElement('iframe');f.style.width='100%';f.style.height='100%';f.style.border='0';f.style.background='#fff';body.appendChild(f);f.srcdoc=t.html||'<p style="font-family:sans-serif;padding:20px">Sin contenido HTML.</p>';}
+  body.innerHTML='';const f=document.createElement('iframe');f.style.width='100%';f.style.height='100%';f.style.border='0';f.style.background='#fff';body.appendChild(f);f.srcdoc=t.html||('<div style="font-family:sans-serif;padding:24px;color:#6b7280;line-height:1.6">Vista previa del dise\u00f1o no incrustada para esta plantilla (<b>'+tplId+'</b>).<br>El env\u00edo s\u00ed se contabiliza en las m\u00e9tricas.</div>');}
 function verPlantillaMulti(csv){var ids=String(csv||'').split(',').map(function(x){return x.trim();}).filter(Boolean);var pk=document.getElementById('tplPicker');if(!ids.length)return;if(!pk){verPlantilla(ids[0]);return;}if(ids.length===1){pk.style.display='none';pk.innerHTML='';verPlantilla(ids[0]);return;}pk.style.display='flex';pk.innerHTML='';function setActive(id){Array.prototype.forEach.call(pk.children,function(c){var on=c.dataset.id===String(id);c.style.background=on?'#4f46e5':'#fff';c.style.color=on?'#fff':'#5b6070';c.style.borderColor=on?'#4f46e5':'var(--sep)';});}ids.forEach(function(id){var t=(window.__STATIC_DATA&&__STATIC_DATA.tpl&&__STATIC_DATA.tpl[id])||{};var b=document.createElement('button');b.textContent=t.name||('tpl '+id);b.dataset.id=id;b.style.cssText='font-size:11px;padding:5px 10px;border:1px solid var(--sep);border-radius:999px;background:#fff;color:#5b6070;cursor:pointer;font-family:inherit';b.addEventListener('click',function(){setActive(id);verPlantilla(id);});pk.appendChild(b);});setActive(ids[0]);verPlantilla(ids[0]);}
 async function verPlantilla(tplId){const ov=document.getElementById('tplModal'),body=document.getElementById('tplBody'),ttl=document.getElementById('tplTitle');
   ov.style.display='flex';const key='heruTpl_'+tplId;
@@ -553,5 +554,6 @@ async function loadFromSheet(){var res=await fetch(SHEET_URL,{cache:'no-store'})
 }
 (async function(){try{await loadFromSheet();}catch(e){console.warn('Sheet no disponible; uso datos incrustados',e);}loadResumen();})();
 </script>
+<script>try{if(window.__STATIC_DATA&&__STATIC_DATA.tpl){if(!__STATIC_DATA.tpl['1218'])__STATIC_DATA.tpl['1218']={name:'facturacion 5 dias empresarial',subject:'5 d\u00edas para cerrar el mes, factura tus gastos y paga menos impuestos',htmlContent:''};if(!__STATIC_DATA.tpl['1075'])__STATIC_DATA.tpl['1075']={name:'Aprobaci\u00f3n _flujo72h',subject:'Tienes un valor en el SAT (revisar y aprobar)',htmlContent:''};}}catch(e){}</script>
 </body>
 </html>
