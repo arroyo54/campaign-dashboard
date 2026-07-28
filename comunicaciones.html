@@ -100,6 +100,7 @@ table.tbl tr:hover td{background:#fafbfc}
 
 <div class="modal" id="tplModal"><div class="modal-card">
   <div class="modal-head"><span class="ti" id="tplTitle">Plantilla</span><button class="modal-x" id="tplClose">×</button></div>
+  <div id="tplPicker" style="display:none;gap:6px;flex-wrap:wrap;padding:10px 20px;border-bottom:1px solid var(--sep)"></div>
   <div class="modal-body" id="tplBody"></div>
 </div></div>
 
@@ -343,7 +344,7 @@ async function loadRecorrido(){if(recDone)return;recDone=true;const body=documen
         let covCell='<span style="color:#c0c4d0">—</span>';
         const cvk=COV[m.tpls[0]];
         if(cvk&&cvk[1]>0){const cp=pct(cvk[0],cvk[1]);const ccls=cp>=60?'good':cp>=30?'warn':'bad';covCell=sem(cp.toFixed(0)+'%',ccls)+`<span class="mrt">${fmt(cvk[0])} de ${fmt(cvk[1])}</span>`;}
-        return `<tr class="mailrow" data-tpl="${m.tpls[0]}">
+        return `<tr class="mailrow" data-tpl="${m.tpls[0]}" data-tpls="${m.tpls.join(',')}">
           <td><span class="mrn">${m.nom}<svg class="mreye" viewBox="0 0 24 24"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7S1 12 1 12z"/><circle cx="12" cy="12" r="3"/></svg></span><span class="mrt">tpl ${m.tpls.join('/')}</span></td>
           <td class="mra">${m.asu}</td>
           <td class="mrc">${m.cn}</td>
@@ -376,12 +377,13 @@ async function loadRecorrido(){if(recDone)return;recDone=true;const body=documen
     setUpd();
   }catch(e){body.innerHTML='<div class="err">Error: '+(e.message||e)+'</div>';recDone=false}
 }
-document.getElementById('recorridoBody').addEventListener('click',e=>{const c=e.target.closest('.mailrow');if(c)verPlantilla(c.dataset.tpl)});
+document.getElementById('recorridoBody').addEventListener('click',e=>{const c=e.target.closest('.mailrow');if(c)verPlantillaMulti(c.dataset.tpls||c.dataset.tpl)});
 document.getElementById('tplClose').addEventListener('click',()=>document.getElementById('tplModal').style.display='none');
 document.getElementById('tplModal').addEventListener('click',e=>{if(e.target.id==='tplModal')e.target.style.display='none'});
 function tplRender(t,tplId){const body=document.getElementById('tplBody'),ttl=document.getElementById('tplTitle');
   ttl.innerHTML=`<b>${t.name||('tpl '+tplId)}</b> <span style="color:#9599a8">— ${t.subject||''}</span>`;
   body.innerHTML='';const f=document.createElement('iframe');f.style.width='100%';f.style.height='100%';f.style.border='0';f.style.background='#fff';body.appendChild(f);f.srcdoc=t.html||'<p style="font-family:sans-serif;padding:20px">Sin contenido HTML.</p>';}
+function verPlantillaMulti(csv){var ids=String(csv||'').split(',').map(function(x){return x.trim();}).filter(Boolean);var pk=document.getElementById('tplPicker');if(!ids.length)return;if(!pk){verPlantilla(ids[0]);return;}if(ids.length===1){pk.style.display='none';pk.innerHTML='';verPlantilla(ids[0]);return;}pk.style.display='flex';pk.innerHTML='';function setActive(id){Array.prototype.forEach.call(pk.children,function(c){var on=c.dataset.id===String(id);c.style.background=on?'#4f46e5':'#fff';c.style.color=on?'#fff':'#5b6070';c.style.borderColor=on?'#4f46e5':'var(--sep)';});}ids.forEach(function(id){var t=(window.__STATIC_DATA&&__STATIC_DATA.tpl&&__STATIC_DATA.tpl[id])||{};var b=document.createElement('button');b.textContent=t.name||('tpl '+id);b.dataset.id=id;b.style.cssText='font-size:11px;padding:5px 10px;border:1px solid var(--sep);border-radius:999px;background:#fff;color:#5b6070;cursor:pointer;font-family:inherit';b.addEventListener('click',function(){setActive(id);verPlantilla(id);});pk.appendChild(b);});setActive(ids[0]);verPlantilla(ids[0]);}
 async function verPlantilla(tplId){const ov=document.getElementById('tplModal'),body=document.getElementById('tplBody'),ttl=document.getElementById('tplTitle');
   ov.style.display='flex';const key='heruTpl_'+tplId;
   // 1) cache local (persiste aunque Brevo se desconecte)
