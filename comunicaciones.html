@@ -91,6 +91,7 @@ table.tbl tr:hover td{background:#fafbfc}
     <button class="tab" data-view="cohortes"><svg viewBox="0 0 24 24"><path d="M16 20v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="3.2"/><path d="M22 20v-2a4 4 0 0 0-3-3.87"/></svg>Quién sigue el camino</button>
     <button class="tab" data-view="brevo"><svg viewBox="0 0 24 24"><path d="M3 11v2a1 1 0 0 0 1 1h3l4 4V6L7 10H4a1 1 0 0 0-1 1z"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/></svg>Campañas</button>
     <button class="tab" data-view="whatsapp"><svg viewBox="0 0 24 24"><path d="M21 11.5a8.5 8.5 0 0 1-12.5 7.5L3 21l1.9-5.1A8.5 8.5 0 1 1 21 11.5z"/></svg>WhatsApp</button>
+    <button class="tab" data-view="multicanal"><svg viewBox="0 0 24 24"><path d="M4 5h16v11H6l-2 2z"/><path d="M8 9h8M8 12h5"/></svg>Multicanal</button>
   </div>
 
   <div class="view active" id="view-resumen"><div id="resumenBody"><div class="loading">Cargando…</div></div></div>
@@ -98,6 +99,7 @@ table.tbl tr:hover td{background:#fafbfc}
   <div class="view" id="view-cohortes"><div id="cohortesBody"><div class="loading">Cargando…</div></div></div>
   <div class="view" id="view-brevo"><div id="brevoBody"><div class="loading">Cargando…</div></div></div>
   <div class="view" id="view-whatsapp"><div id="waBody"><div class="loading">Cargando…</div></div></div>
+  <div class="view" id="view-multicanal"><div id="mlBody"><div class="loading">Cargando…</div></div></div>
 </div>
 
 <div class="modal" id="tplModal"><div class="modal-card">
@@ -253,6 +255,21 @@ function drawTrend(){
   const lk=document.getElementById('scaleLink');if(lk)lk.textContent=scaleLog?'ver en escala lineal':'ver en escala logarítmica';
 }
 let resDone=false;
+function loadMulticanal(){
+  var b=document.getElementById('mlBody'); var ML=window.__ML||{};
+  function n(v){return +String(v==null?'':v).replace(/[^0-9.\-]/g,'')||0;}
+  var kpi=ML.kpi||[], flows=ML.flows||[];
+  if(!kpi.length && !flows.length){b.innerHTML='<div class="err" style="margin:16px">Aún no hay datos multicanal en el Sheet. Corre el n8n para poblar mlKpi/mlFlows (growth.message_log).</div>';return;}
+  var chC={whatsapp:'#25D366',email:'#4f46e5',sms:'#f59e0b',push:'#0ea5e9'};
+  var flowLbl={SIGN_UP:'Registro',SUBSCRIPTION_RENEW_ATTEMPT:'Renovación · cobranza',SUBSCRIPTIONRENEWED:'Renovó',LINK_EXTRACTIONS_FINISHED:'Extracción lista'};
+  var kpiHtml=kpi.map(function(k){var t=n(k.total),f=n(k.fallidos),pf=t?Math.round(f/t*100):0;
+    return '<div class="kpi"><div class="l"><span class="kdot" style="background:'+(chC[k.channel]||'#98a2b3')+'"></span>'+(k.channel||'-')+'</div><div class="v">'+fmt(t)+'</div><div class="s">'+fmt(n(k.enviados))+' enviados · '+(f?('<span style="color:#f04438">'+f+' fallidos ('+pf+'%)</span>'):'0 fallidos')+'</div></div>';}).join('');
+  var rowsHtml=flows.map(function(fl){var t=n(fl.total),f=n(fl.fallidos),lbl=flowLbl[fl.flujo]||fl.flujo;
+    return '<tr><td>'+lbl+'</td><td><span class="kdot" style="background:'+(chC[fl.channel]||'#98a2b3')+'"></span>'+(fl.channel||'-')+'</td><td class="num">'+fmt(t)+'</td><td class="num">'+fmt(n(fl.enviados))+'</td><td class="num">'+fmt(n(fl.entregados))+'</td><td class="num">'+fmt(n(fl.leidos))+'</td><td class="num">'+(f?('<span style="color:#f04438">'+f+'</span>'):'0')+'</td><td class="num">'+fmt(n(fl.usuarios))+'</td></tr>';}).join('');
+  b.innerHTML='<div class="section" style="margin-top:28px"><h2>Mensajes multicanal · por flujo</h2><p class="sub">Envíos del log unificado (growth.message_log): WhatsApp, email y SMS por flujo, últimos 30 días. "Entregados" y "leídos" se llenan cuando lleguen los webhooks.</p>'
+    +'<div class="grid g4" style="margin-bottom:18px">'+(kpiHtml||'<div class="note">Sin datos.</div>')+'</div>'
+    +'<div class="card"><div class="scroll"><table class="tbl"><thead><tr><th>Flujo</th><th>Canal</th><th class="num">Total</th><th class="num">Enviados</th><th class="num">Entregados</th><th class="num">Leídos</th><th class="num">Fallidos</th><th class="num">Usuarios</th></tr></thead><tbody>'+rowsHtml+'</tbody></table></div></div></div>';
+}
 function loadWhatsApp(){
   var b=document.getElementById('waBody'); var WA=window.__WA||{};
   function waNum(v){return +String(v==null?'':v).replace(/[^0-9.\-]/g,'')||0;}
@@ -572,7 +589,7 @@ async function loadBrevo(){if(brDone)return;brDone=true;const body=document.getE
 document.querySelector('.tabs').addEventListener('click',e=>{const b=e.target.closest('.tab');if(!b)return;
   document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));document.querySelectorAll('.view').forEach(x=>x.classList.remove('active'));
   b.classList.add('active');const v=b.dataset.view;document.getElementById('view-'+v).classList.add('active');
-  if(v==='resumen')loadResumen();if(v==='whatsapp')loadWhatsApp();if(v==='recorrido'){loadRecorrido();precargarPlantillas();}if(v==='cohortes')loadCohortes();if(v==='brevo'){loadBrevo();precargarPlantillas();}});
+  if(v==='resumen')loadResumen();if(v==='whatsapp')loadWhatsApp();if(v==='multicanal')loadMulticanal();if(v==='recorrido'){loadRecorrido();precargarPlantillas();}if(v==='cohortes')loadCohortes();if(v==='brevo'){loadBrevo();precargarPlantillas();}});
 /* ==== Datos en vivo desde Google Sheet (pestaña "datos") ==== */
 const SHEET_URL='https://docs.google.com/spreadsheets/d/1l7TAy5I2MBBvsYVifTRpQy_u1ey-KNZnLRKCqSKyLIA/gviz/tq?tqx=out:csv&sheet=datos';
 function __parseCSV(t){var R=[],f='',row=[],q=false,i=0,c;for(;i<t.length;i++){c=t[i];if(q){if(c=='"'){if(t[i+1]=='"'){f+='"';i++;}else{q=false;}}else{f+=c;}}else{if(c=='"'){q=true;}else if(c==','){row.push(f);f='';}else if(c=='\n'){row.push(f);R.push(row);row=[];f='';}else if(c=='\r'){}else{f+=c;}}}if(f.length||row.length){row.push(f);R.push(row);}return R;}
@@ -582,6 +599,7 @@ async function loadFromSheet(){var res=await fetch(SHEET_URL,{cache:'no-store'})
   var B=__STATIC_DATA.brevo;if(M.brevo){if(M.brevo.senders)B['senders_get_senders']=M.brevo.senders;if(M.brevo.lists)B['lists_get_lists']=M.brevo.lists;if(M.brevo.segments)B['segments_get_segments']=M.brevo.segments;if(M.brevo.templatesCount!=null)B['templates_get_smtp_templates']={count:M.brevo.templatesCount};}
   if(M.brevo&&M.brevo.campaigns)B['email_campaign_management_get_email_campaigns']=M.brevo.campaigns;
   window.__WA={kpi:M.waKpi||null,trend:M.waTrend||[],agent:M.waAgent||[],labels:M.waLabels||[],detail:M.waDetail||[]};
+  window.__ML={kpi:M.mlKpi||[],flows:M.mlFlows||[]};
   if(M.generado){try{var u=document.getElementById('upd');if(u)u.textContent='Datos al '+M.generado+' · en vivo desde Google Sheet';}catch(e){}}
 }
 (async function(){try{await loadFromSheet();}catch(e){console.warn('Sheet no disponible; uso datos incrustados',e);}loadResumen();})();
