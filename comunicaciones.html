@@ -477,8 +477,13 @@ const COH={
 const cohCache={};let cohActive='registro';
 async function loadCohortes(){if(document.getElementById('cohSel'))return;
   const body=document.getElementById('cohortesBody');
-  body.innerHTML=`<div class="subtabs" id="cohSel">${Object.keys(COH).map(k=>`<button class="subtab ${k==='registro'?'active':''}" data-k="${k}">${COH[k].label}</button>`).join('')}</div><div id="cohContent"><div class="loading">Cargando…</div></div>`;
+  body.innerHTML=`<div id="cohFilter" style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin:2px 0 4px;font-size:13px"><span style="color:var(--muted2)">Periodo:</span><select id="cohMonth" style="padding:7px 10px;border:1px solid var(--line);border-radius:8px;font-size:13px;background:#fff;font-family:inherit"><option value="">Todo (30 días)</option></select><span style="color:var(--muted2)">o rango</span><input id="cohFrom" type="date" style="padding:6px 10px;border:1px solid var(--line);border-radius:8px;font-size:13px;font-family:inherit"><span style="color:var(--muted2)">→</span><input id="cohTo" type="date" style="padding:6px 10px;border:1px solid var(--line);border-radius:8px;font-size:13px;font-family:inherit"><button id="cohClear" style="padding:7px 12px;border:1px solid var(--line);border-radius:8px;font-size:13px;background:#fff;cursor:pointer;font-family:inherit">Limpiar</button></div><div id="cohNote" style="font-size:12px;color:var(--meta);margin:0 0 14px"></div><div class="subtabs" id="cohSel">${Object.keys(COH).map(k=>`<button class="subtab ${k==='registro'?'active':''}" data-k="${k}">${COH[k].label}</button>`).join('')}</div><div id="cohContent"><div class="loading">Cargando…</div></div>`;
   document.getElementById('cohSel').addEventListener('click',e=>{const bt=e.target.closest('button');if(!bt)return;cohActive=bt.dataset.k;document.querySelectorAll('#cohSel .subtab').forEach(x=>x.classList.toggle('active',x===bt));renderCohorte(cohActive)});
+  var _cA=function(){renderCohorte(cohActive);};
+  document.getElementById('cohMonth').addEventListener('change',function(){var m=this.value;if(m){var pp=m.split('-');window.__cohFrom=m+'-01';var ld=new Date(+pp[0],+pp[1],0);window.__cohTo=m+'-'+String(ld.getDate()).padStart(2,'0');document.getElementById('cohFrom').value=window.__cohFrom;document.getElementById('cohTo').value=window.__cohTo;}else{window.__cohFrom='';window.__cohTo='';document.getElementById('cohFrom').value='';document.getElementById('cohTo').value='';}_cA();});
+  document.getElementById('cohFrom').addEventListener('change',function(){window.__cohFrom=this.value;document.getElementById('cohMonth').value='';_cA();});
+  document.getElementById('cohTo').addEventListener('change',function(){window.__cohTo=this.value;document.getElementById('cohMonth').value='';_cA();});
+  document.getElementById('cohClear').addEventListener('click',function(){window.__cohFrom='';window.__cohTo='';document.getElementById('cohFrom').value='';document.getElementById('cohTo').value='';document.getElementById('cohMonth').value='';_cA();});
   renderCohorte('registro');
 }
 function cohCell(r,c,anchor){const[h,f,mode]=c;
@@ -505,7 +510,7 @@ function renderTiming(key){const T=TIMING[key];if(!T)return '';
 }
 async function renderCohorte(key){const cfg=COH[key],cont=document.getElementById('cohContent');cont.innerHTML='<div class="loading">Cargando…</div>';
   try{
-    if(!cohCache[key])cohCache[key]=await q(SQL[cfg.sql]);const rows=cohCache[key];
+    if(!cohCache[key])cohCache[key]=await q(SQL[cfg.sql]);const _all=cohCache[key];const _cf=window.__cohFrom||'',_ct=window.__cohTo||'';const rows=(_cf||_ct)?_all.filter(function(r){return (!_cf||r.dia>=_cf)&&(!_ct||r.dia<=_ct);}):_all;try{var _msel=document.getElementById('cohMonth');if(_msel&&_msel.options.length<=1){[...new Set(_all.map(function(r){return String(r.dia).slice(0,7);}))].sort().reverse().forEach(function(m){var o=document.createElement('option');o.value=m;var _p=m.split('-');o.textContent=['','Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'][+_p[1]]+' '+_p[0];_msel.appendChild(o);});}var _nt=document.getElementById('cohNote');if(_nt)_nt.textContent=(_cf||_ct)?('Mostrando '+(_cf||'inicio')+' → '+(_ct||'hoy')+' · KPIs, tabla y gráfica filtrados (tiempos y cobertura de registro siguen a 30 días).'):'';}catch(e){}
     const tot={};cfg.kpis.forEach(k=>tot[k[1]]=0);rows.forEach(r=>cfg.kpis.forEach(k=>tot[k[1]]+=+r[k[1]]));
     const anchor=cfg.anchor,aSum=tot[anchor];
     let cov='';
