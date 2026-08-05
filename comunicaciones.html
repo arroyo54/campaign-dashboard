@@ -87,7 +87,7 @@ table.tbl tr:hover td{background:#fafbfc}
   <div class="ctx" id="ctx"><span style="color:#b0b4c3">Cargando…</span></div>
   <div class="tabs">
     <button class="tab active" data-view="resumen"><svg viewBox="0 0 24 24"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg>Resumen</button>
-    <button class="tab" data-view="recorrido"><svg viewBox="0 0 24 24"><circle cx="6" cy="19" r="2"/><circle cx="18" cy="5" r="2"/><path d="M8 19h6a4 4 0 0 0 0-8H9a4 4 0 0 1 0-8h3"/></svg>Cómo llegan los correos</button>
+    <button class="tab" data-view="recorrido"><svg viewBox="0 0 24 24"><circle cx="6" cy="19" r="2"/><circle cx="18" cy="5" r="2"/><path d="M8 19h6a4 4 0 0 0 0-8H9a4 4 0 0 1 0-8h3"/></svg>Flujo de comunicaciones</button>
     <button class="tab" data-view="cohortes"><svg viewBox="0 0 24 24"><path d="M16 20v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="3.2"/><path d="M22 20v-2a4 4 0 0 0-3-3.87"/></svg>Quién sigue el camino</button>
     <button class="tab" data-view="brevo"><svg viewBox="0 0 24 24"><path d="M3 11v2a1 1 0 0 0 1 1h3l4 4V6L7 10H4a1 1 0 0 0-1 1z"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/></svg>Campañas</button>
     <button class="tab" data-view="whatsapp"><svg viewBox="0 0 24 24"><path d="M21 11.5a8.5 8.5 0 0 1-12.5 7.5L3 21l1.9-5.1A8.5 8.5 0 1 1 21 11.5z"/></svg>WhatsApp</button>
@@ -315,7 +315,6 @@ async function loadResumen(){if(resDone)return;resDone=true;const b=document.get
 
 /* ============ RECORRIDO ============ */
 const FASES=[
- {n:'Fase 0',nom:'Extracción SAT',col:'#64748b',desc:'Conexión de credenciales · e.firma y sellos',mails:[{tpls:['1130','1125','1129','1131'],nom:'Avisos de extracción',asu:'Estatus de e.firma / sellos',cn:'Durante la extracción SAT',ch:['Email']}]},
  {n:'Fase 1',nom:'Registro',col:'#12b76a',desc:'El usuario crea su cuenta',mails:[
    {tpls:['1245'],nom:'bienvenida_heru1',asu:'“Qué bueno tenerte aquí”',cn:'Apenas deja su correo',ch:['Email','App']},
    {tpls:['1340'],nom:'verify_email_otp',asu:'“🔑 Tu código de acceso”',cn:'Verificación de correo',ch:['Email']}]},
@@ -335,6 +334,9 @@ const FASES=[
    {tpls:['976'],nom:'Declaración_lista_all',asu:'“Tu declaración esta lista”',cn:'Al presentar la declaración',ch:['Email']},
    {tpls:['1359'],nom:'actualización_declaración_lista',asu:'“Tu declaración esta lista ✅”',cn:'Actualización de declaración',ch:['Email']},
    {tpls:['1075'],nom:'Aprobación 72h (revisar y aprobar)',asu:'“Tienes un valor a favor/en contra en el SAT”',cn:'Antes del envío automático (72h)',ch:['Email']}]},
+ {n:'Fase 5b',nom:'Línea de captura y pago',col:'#64748b',desc:'Generar línea de captura o verificar el pago de la declaración (solo Plataformas Digitales)',mails:[
+   {tpls:['1125','1129'],nom:'Nueva línea de captura',asu:'“Tu nueva línea ya está lista” · “No pudimos generar tu línea”',cn:'Botón “Generar nueva línea” (declaración vencida sin pagar)',ch:['Email']},
+   {tpls:['1131','1130'],nom:'Verificación de pago (“Ya pagué”)',asu:'“Tu acuse de pago está listo” · “No encontramos tu pago”',cn:'Botón “Ya pagué”',ch:['Email']}]},
  {n:'Fase 6',nom:'Facturación',col:'#f59e0b',desc:'Recordatorios y solicitudes de factura',mails:[
    {tpls:['1217','1218','1219'],nom:'Recordatorio facturar (d5)',asu:'“5 días para cerrar el mes…”',cn:'5 días antes del cierre',ch:['Email','WA']},
    {tpls:['1354','1355','1353'],nom:'Solicitud de factura (QR)',asu:'“Factura aceptada / rechazada / con correcciones”',cn:'Al solicitar factura por QR',ch:['Email']}]},
@@ -385,20 +387,20 @@ async function loadRecorrido(){if(recDone)return;recDone=true;const body=documen
           <td class="num">${covCell}</td>
           <td class="num">${rebCell}</td></tr>`;
       }).join('');
-      var __waRow='';try{var __wf={'Registro':'SIGN_UP','Renovación':'SUBSCRIPTION_RENEW_ATTEMPT','Postcompra':'PURCHASE_PAYMENT_SUCCESS','Extracción SAT':'LINK_EXTRACTIONS_FINISHED'}[f.nom];if(__wf&&window.__ML&&__ML.flows){var __ww=__ML.flows.find(function(x){return x.flujo===__wf&&x.channel==='whatsapp';});if(__ww&&(+__ww.total>0)){var __wfl=+__ww.fallidos||0;__waRow='<tr style="background:#f6fdf9"><td><span class="mrn">💬 WhatsApp</span><span class="mrt">growth.message_log</span></td><td class="mra">Mensaje del flujo por WhatsApp</td><td class="mrc">—</td><td class="mrch">WhatsApp</td><td class="num">'+fmt(+__ww.total)+'</td><td class="num">—</td><td class="num">'+(__wfl>0?sem(pct(__wfl,+__ww.total).toFixed(1)+'%','bad'):'—')+'</td></tr>';}}}catch(e){}
+      var __waRow='';try{var __wf={'Registro':'SIGN_UP','Renovación':'SUBSCRIPTION_RENEW_ATTEMPT','Postcompra':'PURCHASE_PAYMENT_SUCCESS','Extracción SAT':'LINK_EXTRACTIONS_FINISHED'}[f.nom];if(__wf&&window.__ML&&__ML.flows){var __ww=__ML.flows.find(function(x){return x.flujo===__wf&&x.channel==='whatsapp';});if(__ww&&(+__ww.total>0)){var __wfl=+__ww.fallidos||0;__waRow='<tr style="background:#f6fdf9"><td><span class="mrn">💬 WhatsApp</span><span class="mrt">growth.message_log</span></td><td class="mra">Mensaje de WhatsApp · '+f.nom+'</td><td class="mrc">—</td><td class="mrch">WhatsApp</td><td class="num">'+fmt(+__ww.total)+'</td><td class="num">—</td><td class="num">'+(__wfl>0?sem(pct(__wfl,+__ww.total).toFixed(1)+'%','bad'):'—')+'</td></tr>';}}}catch(e){}
       pv.push([f.nom,vol,f.col]);
       return `<div class="phase-title"><span class="fdot" style="background:${f.col}"></span><span class="ph">${f.nom}</span><span class="pd">${f.desc}</span><span class="pv">${fmt(vol)} enviados · 30d</span></div>
-        <div class="card" style="padding:6px 4px"><table class="tbl ftbl"><thead><tr><th>Correo</th><th>Asunto</th><th>Cuándo</th><th>Canal</th><th class="num">Enviados</th><th class="num">Cobertura</th><th class="num">Rebote</th></tr></thead><tbody>${rows}${__waRow}</tbody></table></div>`;
+        <div class="card" style="padding:6px 4px"><table class="tbl ftbl"><thead><tr><th>Comunicación</th><th>Asunto</th><th>Cuándo</th><th>Canal</th><th class="num">Enviados</th><th class="num">Cobertura</th><th class="num">Rebote</th></tr></thead><tbody>${rows}${__waRow}</tbody></table></div>`;
     }).join('');
     body.innerHTML=`
       <div class="eyebrow first">Transaccional</div>
-      <div class="section" style="margin-top:2px"><h2>Cuánto correo sale cada día, y de qué flujo</h2><p class="sub">Correos automáticos disparados por eventos del usuario. Pasa el cursor por un día para ver el desglose. El churn se manda en lotes masivos aparte.</p>
+      <div class="section" style="margin-top:2px"><h2>Cuánta comunicación sale cada día, y por qué flujo</h2><p class="sub">Comunicaciones automáticas disparadas por eventos del usuario. Pasa el cursor por un día para ver el desglose. El churn se manda en lotes masivos aparte.</p>
         <div class="card"><div class="chart-box"><canvas id="dailyPhaseChart"></canvas></div></div></div>
       <div class="section"><h2>Cómo viaja una comunicación</h2><p class="sub">Del disparador hasta el usuario y su registro.</p>
         <div class="card"><pre class="mermaid">${DIAGRAM}</pre></div></div>
       <div class="section"><h2>Peso de cada etapa del ciclo</h2><p class="sub">Volumen de correo por fase en los últimos 30 días.</p>
         <div class="card"><div class="chart-box sm"><canvas id="phaseChart"></canvas></div></div></div>
-      <div class="section"><h2>Cada correo del recorrido</h2><p class="sub">Una tabla por fase. Toca cualquier fila para ver la plantilla real. Cobertura = a qué % de su público objetivo le llegó (mismo número que Cohortes); Rebote = de lo que se envió, cuánto no entregó.</p>${phases}
+      <div class="section"><h2>Cada comunicación del recorrido</h2><p class="sub">Una tabla por fase. Toca cualquier fila para ver la plantilla real. Cobertura = a qué % de su público objetivo le llegó (mismo número que Cohortes); Rebote = de lo que se envió, cuánto no entregó.</p>${phases}
         <p class="note">Ojo: "Rebote 0%" no significa que le llegó a todos — significa que lo que salió no rebotó. Cuánta gente lo recibe de la que debería es la columna Cobertura. "—" en Cobertura = correos sin un público objetivo único (recordatorios, secuencias, educativos).</p></div>`;
     const pvf=pv.filter(p=>p[1]>0);hBar('phaseChart',pvf.map(p=>p[0]),pvf.map(p=>p[1]),pvf.map(p=>p[2]),false);
     const PC={'Extracción':'#64748b','Registro':'#12b76a','Vincular SAT':'#0ea5e9','Conversión':'#6366f1','Postcompra':'#a855f7','Declaración':'#8b5cf6','Facturación':'#f59e0b','Renovación':'#ec4899','Encuestas':'#14b8a6','Otros':'#c7ccd8'};
