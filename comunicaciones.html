@@ -567,19 +567,37 @@ async function loadBrevo(){if(brDone)return;brDone=true;const body=document.getE
     const crows=cs.slice(0,25).map(c=>{const or=pct(c.opens,c.delivered),cr=pct(c.clicks,c.delivered),br=pct(c.soft+c.hard,c.sent);const cls=or>=25?'good':or>=12?'warn':'bad';const d=c.sentDate?new Date(c.sentDate).toLocaleDateString('es-MX',{day:'2-digit',month:'2-digit',year:'2-digit'}):'';
       return `<tr><td>${d}</td><td>${(c.subject||c.name||'').replace(/</g,'&lt;')}</td><td>${c.sender.replace(/</g,'&lt;')}</td><td class="num">${fmt(c.delivered)}</td><td class="num">${sem(or.toFixed(1)+'%',cls)}</td><td class="num">${cr.toFixed(1)}%</td><td class="num">${br.toFixed(1)}%</td><td class="num">${fmt(c.unsub)}</td></tr>`}).join('');
     const topLists=(lists.lists||[]).slice().sort((a,b)=>(b.uniqueSubscribers||0)-(a.uniqueSubscribers||0)).slice(0,10);
+    const __MES=['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
+    function campMonKey(d){if(!d)return '';var x=new Date(d);return x.getFullYear()+'-'+String(x.getMonth()+1).padStart(2,'0');}
+    function campMonLbl(m){var q=String(m).split('-');return (__MES[(+q[1])-1]||'')+' '+q[0];}
+    const __campMonths=[...new Set(cs.map(function(c){return campMonKey(c.sentDate);}).filter(Boolean))].sort().reverse();
+    const __campMonthOpts=__campMonths.map(function(m){return '<option value="'+m+'">'+campMonLbl(m)+'</option>';}).join('');
+    const __campFilterBar='<div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin:6px 0 16px"><input id="campSearch" type="text" placeholder="Buscar campaña (asunto o remitente)…" style="flex:1;min-width:220px;padding:8px 12px;border:1px solid var(--line);border-radius:8px;font-size:13px;font-family:inherit"><select id="campMonth" style="padding:8px 12px;border:1px solid var(--line);border-radius:8px;font-size:13px;font-family:inherit;background:#fff"><option value="">Todos los meses</option>'+__campMonthOpts+'</select></div>';
     body.innerHTML=`
       <div class="eyebrow first">Campañas</div>
       <div class="section" style="margin-top:2px"><h2>Envíos manuales a listas y segmentos</h2><p class="sub">Promos, A/B tests y anuncios (broadcast). Aperturas, clics y rebotes vienen directo de Brevo.</p>
-        <div class="grid g5">${kpi('Campañas',C.email,fmt(cs.length),'enviadas · 30d')}${kpi('Apertura',C.green,pct1(tot.opens,tot.delivered),`${fmt(tot.opens)} de ${fmt(tot.delivered)}`)}${kpi('Clic',C.push,pct1(tot.clicks,tot.delivered),`${fmt(tot.clicks)} únicos`)}${kpi('Rebotes',C.amber,pct1(tot.soft+tot.hard,tot.sent),fmt(tot.soft+tot.hard))}${kpi('Bajas',C.red,fmt(tot.unsub),'desuscripciones')}</div></div>
+        ${__campFilterBar}<div class="grid g5" id="campKpis">${kpi('Campañas',C.email,fmt(cs.length),'enviadas · 30d')}${kpi('Apertura',C.green,pct1(tot.opens,tot.delivered),`${fmt(tot.opens)} de ${fmt(tot.delivered)}`)}${kpi('Clic',C.push,pct1(tot.clicks,tot.delivered),`${fmt(tot.clicks)} únicos`)}${kpi('Rebotes',C.amber,pct1(tot.soft+tot.hard,tot.sent),fmt(tot.soft+tot.hard))}${kpi('Bajas',C.red,fmt(tot.unsub),'desuscripciones')}</div></div>
       <div class="section"><h2>La cuenta en números</h2><p class="sub">Configuración de Brevo detrás de las comunicaciones.</p>
         <div class="grid g4">${kpi('Remitentes',C.grey,fmt(senderCount),'senders activos')}${kpi('Listas',C.grey,fmt(listCount),'de contactos')}${kpi('Segmentos',C.grey,fmt(segCount),'dinámicos')}${kpi('Plantillas',C.grey,fmt(tmpl),'transaccionales')}</div></div>
       <div class="section"><h2>Campañas recientes</h2><p class="sub">Apertura en verde si ≥25%, ámbar si ≥12%.</p>
-        <div class="card"><div class="scroll"><table class="tbl"><thead><tr><th>Fecha</th><th>Asunto</th><th>Remitente</th><th class="num">Entregados</th><th class="num">Apertura</th><th class="num">Clic</th><th class="num">Rebote</th><th class="num">Bajas</th></tr></thead><tbody>${crows||'<tr><td>Sin campañas.</td></tr>'}</tbody></table></div></div></div>
+        <div class="card"><div class="scroll"><table class="tbl"><thead><tr><th>Fecha</th><th>Asunto</th><th>Remitente</th><th class="num">Entregados</th><th class="num">Apertura</th><th class="num">Clic</th><th class="num">Rebote</th><th class="num">Bajas</th></tr></thead><tbody id="campRows">${crows||'<tr><td>Sin campañas.</td></tr>'}</tbody></table></div></div></div>
       <div class="grid g2">
         <div class="section" style="margin:0"><h2>Listas más grandes</h2><p class="sub">Top 10 de ${fmt(listCount)} por suscriptores.</p><div class="card"><div class="chart-box sm"><canvas id="listsChart"></canvas></div></div></div>
         <div class="section" style="margin:0"><h2>Correo transaccional por origen</h2><p class="sub">Qué flujo automático dispara más correos (30d).</p><div class="card"><div class="chart-box sm"><canvas id="sourceChart"></canvas></div></div></div>
       </div>
       <p class="note">Cuenta Brevo: KUARTO APARTE · plan Business · dominio news.somosheru.com.</p>`;
+    function renderCamp(){
+      var qv=(document.getElementById('campSearch').value||'').toLowerCase().trim();
+      var mo=document.getElementById('campMonth').value;
+      var f=cs.filter(function(c){var hay=((c.subject||'')+' '+(c.name||'')+' '+(c.sender||'')).toLowerCase();return (!qv||hay.indexOf(qv)>=0)&&(!mo||campMonKey(c.sentDate)===mo);});
+      var t=f.reduce(function(a,c){a.sent+=c.sent;a.delivered+=c.delivered;a.opens+=c.opens;a.clicks+=c.clicks;a.soft+=c.soft;a.hard+=c.hard;a.unsub+=c.unsub;return a;},{sent:0,delivered:0,opens:0,clicks:0,soft:0,hard:0,unsub:0});
+      document.getElementById('campKpis').innerHTML=kpi('Campañas',C.email,fmt(f.length),mo?('en '+campMonLbl(mo)):'enviadas · 30d')+kpi('Apertura',C.green,pct1(t.opens,t.delivered),fmt(t.opens)+' de '+fmt(t.delivered))+kpi('Clic',C.push,pct1(t.clicks,t.delivered),fmt(t.clicks)+' únicos')+kpi('Rebotes',C.amber,pct1(t.soft+t.hard,t.sent),fmt(t.soft+t.hard))+kpi('Bajas',C.red,fmt(t.unsub),'desuscripciones');
+      document.getElementById('campRows').innerHTML=f.slice(0,100).map(function(c){var or=pct(c.opens,c.delivered),cr=pct(c.clicks,c.delivered),br=pct(c.soft+c.hard,c.sent);var cls=or>=25?'good':or>=12?'warn':'bad';var d=c.sentDate?new Date(c.sentDate).toLocaleDateString('es-MX',{day:'2-digit',month:'2-digit',year:'2-digit'}):'';return '<tr><td>'+d+'</td><td>'+(c.subject||c.name||'').replace(/</g,'&lt;')+'</td><td>'+c.sender.replace(/</g,'&lt;')+'</td><td class="num">'+fmt(c.delivered)+'</td><td class="num">'+sem(or.toFixed(1)+'%',cls)+'</td><td class="num">'+cr.toFixed(1)+'%</td><td class="num">'+br.toFixed(1)+'%</td><td class="num">'+fmt(c.unsub)+'</td></tr>';}).join('')||'<tr><td>Sin campañas.</td></tr>';
+    }
+    document.getElementById('campSearch').addEventListener('input',renderCamp);
+    document.getElementById('campMonth').addEventListener('change',renderCamp);
+    renderCamp();
+    
     hBar('listsChart',topLists.map(l=>l.name.length>24?l.name.slice(0,22)+'…':l.name),topLists.map(l=>l.uniqueSubscribers||0),topLists.map((_,i)=>C.bars[i%C.bars.length]));
     const ts=dbSrc.slice(0,12);hBar('sourceChart',ts.map(s=>s.source.length>24?s.source.slice(0,22)+'…':s.source),ts.map(s=>+s.total),ts.map((_,i)=>C.bars[i%C.bars.length]));
     setUpd();
