@@ -564,7 +564,7 @@ async function loadBrevo(){if(brDone)return;brDone=true;const body=document.getE
     const cs=(camp.campaigns||[]).map(c=>({name:c.name,subject:c.subject,sender:(c.sender&&c.sender.name)||'',sentDate:c.sentDate||c.scheduledAt,...aggStats(c.statistics&&c.statistics.campaignStats)}));
     const tot=cs.reduce((a,c)=>{a.sent+=c.sent;a.delivered+=c.delivered;a.opens+=c.opens;a.clicks+=c.clicks;a.soft+=c.soft;a.hard+=c.hard;a.unsub+=c.unsub;return a},{sent:0,delivered:0,opens:0,clicks:0,soft:0,hard:0,unsub:0});
     const listCount=lists.count||(lists.lists||[]).length,segCount=segs.count||(segs.segments||[]).length,senderCount=(senders.senders||[]).length;
-    const crows=cs.slice(0,25).map(c=>{const or=pct(c.opens,c.delivered),cr=pct(c.clicks,c.delivered),br=pct(c.soft+c.hard,c.sent);const cls=or>=25?'good':or>=12?'warn':'bad';const d=c.sentDate?new Date(c.sentDate).toLocaleDateString('es-MX',{day:'2-digit',month:'2-digit'}):'';
+    const crows=cs.slice(0,25).map(c=>{const or=pct(c.opens,c.delivered),cr=pct(c.clicks,c.delivered),br=pct(c.soft+c.hard,c.sent);const cls=or>=25?'good':or>=12?'warn':'bad';const d=c.sentDate?new Date(c.sentDate).toLocaleDateString('es-MX',{day:'2-digit',month:'2-digit',year:'2-digit'}):'';
       return `<tr><td>${d}</td><td>${(c.subject||c.name||'').replace(/</g,'&lt;')}</td><td>${c.sender.replace(/</g,'&lt;')}</td><td class="num">${fmt(c.delivered)}</td><td class="num">${sem(or.toFixed(1)+'%',cls)}</td><td class="num">${cr.toFixed(1)}%</td><td class="num">${br.toFixed(1)}%</td><td class="num">${fmt(c.unsub)}</td></tr>`}).join('');
     const topLists=(lists.lists||[]).slice().sort((a,b)=>(b.uniqueSubscribers||0)-(a.uniqueSubscribers||0)).slice(0,10);
     body.innerHTML=`
