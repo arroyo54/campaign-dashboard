@@ -189,6 +189,7 @@ const SQL={
        WHEN template_id IN ('1239','1236','1237','1262','1280','1173','1174','1175') THEN 'Renovación'
        WHEN template_id IN ('1223','1224','1225','1226','1227','1228','1234') THEN 'Churn'
        WHEN template_id IN ('945','1160','1184') THEN 'Encuestas'
+       WHEN template_id IN ('1371') THEN 'Referidos'
        ELSE 'Otros' END fase, count(*) n
      FROM marketing.email_log WHERE sent_at>=now()-interval '30 days' GROUP BY 1,2 ORDER BY 1`,
   source:`SELECT COALESCE(source,'(sin origen)') source,count(*) total,count(*) FILTER (WHERE status='failed') fallidos FROM marketing.email_log WHERE sent_at>=now()-interval '30 days' GROUP BY 1 ORDER BY 2 DESC`,
@@ -351,7 +352,9 @@ const FASES=[
  {n:'Fase 9',nom:'Encuestas',col:'#14b8a6',desc:'Medir satisfacción y lealtad',mails:[
    {tpls:['945'],nom:'CSAT_Declaración_presentada',asu:'“¿Qué te pareció la experiencia heru?”',cn:'24h después de la declaración (solo ronda)',ch:['Email','App']},
    {tpls:['1160'],nom:'CSAT anual',asu:'Encuesta tras la declaración anual',cn:'Post-declaración anual',ch:['Email']},
-   {tpls:['1184'],nom:'NPS',asu:'“¿Nos recomendarías? Solo una pregunta 👋”',cn:'Encuesta mensual',ch:['Email','WA']}]}
+   {tpls:['1184'],nom:'NPS',asu:'“¿Nos recomendarías? Solo una pregunta 👋”',cn:'Encuesta mensual',ch:['Email','WA']}]},
+ {n:'Fase 10',nom:'Referidos',col:'#059669',desc:'Programa de referidos + heru-cash: cuando un invitado compra, se le avisa al referidor que ganó heru-cash',mails:[
+   {tpls:['1371'],nom:'Referido nueva compra',asu:'“¡Tu referido ya compró!”',cn:'Cuando el referido hace su primera compra — le avisa al referidor que ganó heru-cash',ch:['Email']}]}
 ];
 const DIAGRAM=`flowchart LR
   A["Disparador"] --> M["Motor / Journey"]
@@ -403,9 +406,9 @@ async function loadRecorrido(){if(recDone)return;recDone=true;const body=documen
       <div class="section"><h2>Cada comunicación del recorrido</h2><p class="sub">Una tabla por fase. Toca cualquier fila para ver la plantilla real. Cobertura = a qué % de su público objetivo le llegó (mismo número que Cohortes); Rebote = de lo que se envió, cuánto no entregó.</p>${phases}
         <p class="note">Ojo: "Rebote 0%" no significa que le llegó a todos — significa que lo que salió no rebotó. Cuánta gente lo recibe de la que debería es la columna Cobertura. "—" en Cobertura = correos sin un público objetivo único (recordatorios, secuencias, educativos).</p></div>`;
     const pvf=pv.filter(p=>p[1]>0);hBar('phaseChart',pvf.map(p=>p[0]),pvf.map(p=>p[1]),pvf.map(p=>p[2]),false);
-    const PC={'Extracción':'#64748b','Registro':'#12b76a','Vincular SAT':'#0ea5e9','Conversión':'#6366f1','Postcompra':'#a855f7','Declaración':'#8b5cf6','Facturación':'#f59e0b','Renovación':'#ec4899','Encuestas':'#14b8a6','Otros':'#c7ccd8'};
+    const PC={'Extracción':'#64748b','Registro':'#12b76a','Vincular SAT':'#0ea5e9','Conversión':'#6366f1','Postcompra':'#a855f7','Declaración':'#8b5cf6','Facturación':'#f59e0b','Renovación':'#ec4899','Encuestas':'#14b8a6','Referidos':'#059669','Otros':'#c7ccd8'};
     const fdias=[...new Set(fd.map(r=>r.dia))].sort();
-    const fds=Object.keys(PC).map(ph=>({label:ph,backgroundColor:PC[ph],data:fdias.map(d=>{const h=fd.find(r=>r.dia===d&&r.fase===ph);return h?+h.n:0}),borderWidth:0}));
+    const fds=Object.keys(PC).map(ph=>({label:ph,backgroundColor:PC[ph],data:fdias.map(d=>{const h=fd.find(r=>r.dia===d&&r.fase===ph);return h?+h.n:0}),borderWidth:0})).filter(ds=>ds.data.some(v=>v>0));
     if(charts.dailyPhaseChart)charts.dailyPhaseChart.destroy();
     charts.dailyPhaseChart=new Chart(document.getElementById('dailyPhaseChart'),{type:'bar',data:{labels:fdias.map(d=>d.slice(5)),datasets:fds},options:{responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},plugins:{legend:{position:'top',align:'start'},tooltip:{callbacks:{label:c=>c.parsed.y>0?`${c.dataset.label}: ${fmt(c.parsed.y)}`:null,footer:i=>'Total: '+fmt(i.reduce((s,x)=>s+x.parsed.y,0))}}},scales:{x:{stacked:true,...GX},y:{stacked:true,...GY,ticks:{callback:v=>fmt(v)}}}}});
     if(window.mermaid){mermaid.initialize({startOnLoad:false,securityLevel:'strict',theme:'neutral'});await mermaid.run({querySelector:'.mermaid'})}
