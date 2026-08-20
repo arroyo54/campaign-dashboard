@@ -189,7 +189,7 @@ const SQL={
        WHEN template_id IN ('1239','1236','1237','1262','1280','1173','1174','1175') THEN 'Renovación'
        WHEN template_id IN ('1223','1224','1225','1226','1227','1228','1234') THEN 'Churn'
        WHEN template_id IN ('945','1160','1184') THEN 'Encuestas'
-       WHEN template_id IN ('1371') THEN 'Referidos'
+       WHEN template_id IN ('1371','1406') THEN 'Referidos'
        ELSE 'Otros' END fase, count(*) n
      FROM marketing.email_log WHERE sent_at>=now()-interval '30 days' GROUP BY 1,2 ORDER BY 1`,
   source:`SELECT COALESCE(source,'(sin origen)') source,count(*) total,count(*) FILTER (WHERE status='failed') fallidos FROM marketing.email_log WHERE sent_at>=now()-interval '30 days' GROUP BY 1 ORDER BY 2 DESC`,
@@ -353,7 +353,8 @@ const FASES=[
    {tpls:['945'],nom:'CSAT_Declaración_presentada',asu:'“¿Qué te pareció la experiencia heru?”',cn:'24h después de la declaración (solo ronda)',ch:['Email','App']},
    {tpls:['1160'],nom:'CSAT anual',asu:'Encuesta tras la declaración anual',cn:'Post-declaración anual',ch:['Email']},
    {tpls:['1184'],nom:'NPS',asu:'“¿Nos recomendarías? Solo una pregunta 👋”',cn:'Encuesta mensual',ch:['Email','WA']}]},
- {n:'Fase 10',nom:'Referidos',col:'#059669',desc:'Programa de referidos + heru-cash: cuando un invitado compra, se le avisa al referidor que ganó heru-cash',mails:[
+ {n:'Fase 10',nom:'Referidos',col:'#059669',desc:'Programa de referidos + heru-cash: los dos correos que dispara el programa',mails:[
+   {tpls:['1406'],nom:'Referrals · Linking Up',asu:'“¡Recibiste heru cash!”',cn:'Al conectar tu cuenta del SAT — se acredita el heru-cash en tu saldo',ch:['Email']},
    {tpls:['1371'],nom:'Referido nueva compra',asu:'“¡Tu referido ya compró!”',cn:'Cuando el referido hace su primera compra — le avisa al referidor que ganó heru-cash',ch:['Email']}]}
 ];
 const DIAGRAM=`flowchart LR
