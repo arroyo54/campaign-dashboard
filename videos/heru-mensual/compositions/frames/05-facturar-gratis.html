@@ -54,9 +54,16 @@
     #root .f05-cursor { position:absolute; left:534.3px; top:690.2px; width:116px; height:145px;
                         z-index:30; pointer-events:none; will-change:transform;
                         filter:drop-shadow(0 4px 6px rgba(0,0,0,.3)); }
-  </style>
+      /* El banner promocional del sitio entra cortado a media palabra en las tres capturas.
+       Se cubre con una franja del propio color del header de la app (#E8EBF2, medido en
+       la fila 130 de las tres imágenes). Se tapa en vez de recortar la fuente porque
+       recortarla cambiaría la escala de la imagen y movería los overlays ya medidos.
+       116px de banner en un fuente de 2108 -> 42px a la escala de pantalla de este frame. */
+    #root .f05-banner-mask { position:absolute; left:0; top:0; width:100%; height:42px;
+                            background:#E8EBF2; pointer-events:none; }
+</style>
 
-  <div id="root" data-composition-id="05-facturar-gratis" data-width="1920" data-height="1080">
+  <div id="root" data-composition-id="05-facturar-gratis" data-width="1920" data-height="1080" data-duration="4.4">
 
     <!-- suelo a sangre completa -->
     <div id="f05-ground" class="clip" data-start="0" data-duration="99" data-track-index="0"
@@ -70,6 +77,7 @@
         <div class="f05-screen">
           <img id="f05-shot" class="f05-shot" src="assets/04-facturacion.jpg"
                alt="Pantalla de Facturación de heru" />
+            <div class="f05-banner-mask"></div>
           <div id="f05-btn-burst" class="f05-btn-burst"></div>
           <div id="f05-btn" class="f05-btn">Nueva factura</div>
         </div>
@@ -87,10 +95,10 @@
 
       <!-- racimo de píldoras: centro = el punto exacto del clic (544, 695) -->
       <div id="f05-burst-wrap" style="position:absolute;left:544px;top:695px;width:0;height:0;z-index:6">
-        <div id="f05-pill-1" class="f05-pill" style="width:156px" data-target-x="434" data-target-y="-5">Ingreso</div>
-        <div id="f05-pill-2" class="f05-pill" style="width:142px" data-target-x="599" data-target-y="-5">Egreso</div>
-        <div id="f05-pill-3" class="f05-pill" style="width:112px" data-target-x="742" data-target-y="-5">Pago</div>
-        <div id="f05-pill-4" class="f05-pill" style="width:130px" data-target-x="879" data-target-y="-5">Comp.</div>
+        <div id="f05-pill-1" data-layout-allow-overlap class="f05-pill" style="width:156px" data-target-x="434" data-target-y="-5">Ingreso</div>
+        <div id="f05-pill-2" data-layout-allow-overlap class="f05-pill" style="width:142px" data-target-x="599" data-target-y="-5">Egreso</div>
+        <div id="f05-pill-3" data-layout-allow-overlap class="f05-pill" style="width:112px" data-target-x="742" data-target-y="-5">Pago</div>
+        <div id="f05-pill-4" data-layout-allow-overlap class="f05-pill" style="width:130px" data-target-x="879" data-target-y="-5">Comp.</div>
       </div>
     </div>
 
@@ -156,7 +164,7 @@
       tl.to(BTN, {
         scale: 1,
         boxShadow: "0 10px 26px rgba(43,126,254,.38)",
-        duration: 0.52, ease: "back.out(1.9)"
+        duration: 0.52, ease: "back.out(1.6)"
       }, CLICK_AT + 0.10);
 
       // resplandor detrás del botón en la suelta

@@ -33,13 +33,13 @@
                          letter-spacing:-.02em; color:#1A1A1A; }
   </style>
 
-  <div id="root" data-composition-id="06-cincuenta-mil" data-width="1920" data-height="1080">
+  <div id="root" data-composition-id="06-cincuenta-mil" data-width="1920" data-height="1080" data-duration="4.5">
 
     <div id="f06-ground" class="f06-ground clip"
-         data-start="0" data-duration="4" data-track-index="0"></div>
+         data-start="0" data-duration="4.5" data-track-index="0"></div>
 
     <div id="f06-stage" class="f06-stage clip"
-         data-start="0" data-duration="4" data-track-index="1">
+         data-start="0" data-duration="4.5" data-track-index="1">
 
       <div id="f06-accent-line" class="f06-accent-line"></div>
 
@@ -100,9 +100,12 @@
         onUpdate: function () { value.textContent = fmt(state.value); }
       }, COUNT_AT);
 
+      /* línea base estable: un seek anterior al primer tween no debe heredar
+         los from-values de la última fromTo autorizada */
+      tl.set(counter, { scale: START_SCALE }, 0);
       tl.fromTo(counter,
         { scale: START_SCALE },
-        { scale: 1, duration: COUNT_DUR, ease: COUNT_EASE }, COUNT_AT);
+        { scale: 1, duration: COUNT_DUR, ease: COUNT_EASE, immediateRender: false }, COUNT_AT);
 
       // Scene 3 (2.4–4.0s) — la línea de respaldo se revela debajo y el cuadro se queda quieto
       tl.fromTo(subline,

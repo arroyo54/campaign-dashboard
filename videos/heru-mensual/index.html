@@ -47,8 +47,8 @@
         data-composition-id="01-cada-mes-vuelve"
         data-composition-src="compositions/frames/01-cada-mes-vuelve.html"
         data-start="0"
-        data-duration="5"
-        data-track-index="1"
+        data-duration="5.4"
+        data-track-index="0"
       ></div>
 
       <div
@@ -57,7 +57,7 @@
         data-composition-id="02-heru-mes-a-mes"
         data-composition-src="compositions/frames/02-heru-mes-a-mes.html"
         data-start="5"
-        data-duration="4"
+        data-duration="4.5"
         data-track-index="1"
       ></div>
 
@@ -67,8 +67,8 @@
         data-composition-id="03-conectas-una-vez"
         data-composition-src="compositions/frames/03-conectas-una-vez.html"
         data-start="9"
-        data-duration="5"
-        data-track-index="1"
+        data-duration="5.5"
+        data-track-index="0"
       ></div>
 
       <div
@@ -77,7 +77,7 @@
         data-composition-id="04-cada-mes-solo"
         data-composition-src="compositions/frames/04-cada-mes-solo.html"
         data-start="14"
-        data-duration="5"
+        data-duration="5.5"
         data-track-index="1"
       ></div>
 
@@ -87,8 +87,8 @@
         data-composition-id="05-facturar-gratis"
         data-composition-src="compositions/frames/05-facturar-gratis.html"
         data-start="19"
-        data-duration="4"
-        data-track-index="1"
+        data-duration="4.4"
+        data-track-index="0"
       ></div>
 
       <div
@@ -97,7 +97,7 @@
         data-composition-id="06-cincuenta-mil"
         data-composition-src="compositions/frames/06-cincuenta-mil.html"
         data-start="23"
-        data-duration="4"
+        data-duration="4.5"
         data-track-index="1"
       ></div>
 
@@ -108,7 +108,7 @@
         data-composition-src="compositions/frames/07-heru-app.html"
         data-start="27"
         data-duration="4.5"
-        data-track-index="1"
+        data-track-index="0"
       ></div>
 
     </div>
@@ -116,6 +116,22 @@
     <script>
       window.__timelines = window.__timelines || {};
       window.__timelines["main"] = gsap.timeline({ paused: true });
+      // ── frame transitions (injected by transitions.mjs) ──
+      (function () { var tl = window.__timelines["main"];
+        tl.to("#el-01-cada-mes-vuelve", { scale: 2.5, opacity: 0, filter: "blur(8px)", duration: 0.4, ease: "power3.in" }, 5);
+        tl.fromTo("#el-02-heru-mes-a-mes", { scale: 0.5, opacity: 0, filter: "blur(8px)" }, { scale: 1, opacity: 1, filter: "blur(0px)", duration: 0.4, ease: "power3.out" }, 5);
+        tl.to("#el-02-heru-mes-a-mes", { opacity: 0, duration: 0.5, ease: "power2.inOut" }, 9);
+        tl.fromTo("#el-03-conectas-una-vez", { opacity: 0 }, { opacity: 1, duration: 0.5, ease: "power2.inOut" }, 9);
+        tl.to("#el-03-conectas-una-vez", { x: -1920, duration: 0.5, ease: "power3.inOut" }, 14);
+        tl.fromTo("#el-04-cada-mes-solo", { x: 1920, opacity: 1 }, { x: 0, duration: 0.5, ease: "power3.inOut" }, 14);
+        tl.to("#el-04-cada-mes-solo", { x: -1920, duration: 0.5, ease: "power3.inOut" }, 19);
+        tl.fromTo("#el-05-facturar-gratis", { x: 1920, opacity: 1 }, { x: 0, duration: 0.5, ease: "power3.inOut" }, 19);
+        tl.to("#el-05-facturar-gratis", { scale: 2.5, opacity: 0, filter: "blur(8px)", duration: 0.4, ease: "power3.in" }, 23);
+        tl.fromTo("#el-06-cincuenta-mil", { scale: 0.5, opacity: 0, filter: "blur(8px)" }, { scale: 1, opacity: 1, filter: "blur(0px)", duration: 0.4, ease: "power3.out" }, 23);
+        tl.to("#el-06-cincuenta-mil", { opacity: 0, duration: 0.5, ease: "power2.inOut" }, 27);
+        tl.fromTo("#el-07-heru-app", { opacity: 0 }, { opacity: 1, duration: 0.5, ease: "power2.inOut" }, 27);
+        tl.to({}, { duration: 31.5 }, 0); // full-span anchor — main.duration() == composition total (Studio master duration)
+      })();
     </script>
   </body>
 </html>

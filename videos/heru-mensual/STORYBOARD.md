@@ -19,8 +19,11 @@ Tarjetas: relleno cobalto 4%, borde cobalto 20% de 1.5px, radio 10–14px, **sin
 Chrome en píldora (100px). Tipografía Lexend Deca en los dos roles, por token, nunca por px.
 
 **Gramática de movimiento** — asentamiento largo `power3` por defecto; suave le gana a rebotón.
-Prohibidos `back.out`, `bounce.out`, `elastic.out`. Toda entrada es `fromTo` con el estado inicial
-explícito. Nada de `repeat`/`yoyo`, `Math.random` ni reloj de pared: el render es determinista.
+Prohibidos `bounce.out` y `elastic.out` en todo el video, y `back.out` como entrada por defecto.
+Única excepción, y es causal: la recuperación por muelle del botón al recibir el clic en el Frame 5
+(`press-release-spring`) usa `back.out(1.6)`, dentro del rango 1.4–1.7 que la doctrina sanciona —
+un botón que se hunde y no rebota se lee roto. Ningún otro elemento del video sobrepasa.
+Toda entrada es `fromTo` con el estado inicial explícito. Nada de `repeat`/`yoyo`, `Math.random` ni reloj de pared: el render es determinista.
 
 **Modelo de revelado — adaptado a un video mudo.** No hay voz que marque el pulso, así que las
 revelaciones se pacen a la **cadencia de lectura**: cada línea en español entra, aterriza y sostiene

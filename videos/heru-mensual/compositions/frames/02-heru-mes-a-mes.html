@@ -51,18 +51,18 @@
                 color:#1D8FF3; }
   </style>
 
-  <div id="root" data-composition-id="02-heru-mes-a-mes" data-width="1920" data-height="1080">
+  <div id="root" data-composition-id="02-heru-mes-a-mes" data-width="1920" data-height="1080" data-duration="4.5">
 
     <div id="f02-ground" class="f02-ground clip"
-         data-start="0" data-duration="4" data-track-index="0"></div>
+         data-start="0" data-duration="4.5" data-track-index="0"></div>
 
-    <div id="f02-atmo" class="f02-atmo clip"
-         data-start="0" data-duration="4" data-track-index="0">
-      <div id="f02-atmo-fill" class="f02-atmo-fill"></div>
+    <div id="f02-atmo" data-layout-allow-overflow class="f02-atmo clip"
+         data-start="0" data-duration="4.5" data-track-index="0">
+      <div id="f02-atmo-fill" data-layout-allow-overflow class="f02-atmo-fill"></div>
     </div>
 
     <div id="f02-dots" class="f02-dots clip"
-         data-start="0" data-duration="4" data-track-index="0">
+         data-start="0" data-duration="4.5" data-track-index="0">
       <span class="f02-dot"></span><span class="f02-dot"></span><span class="f02-dot"></span>
       <span class="f02-dot"></span><span class="f02-dot"></span><span class="f02-dot"></span>
       <span class="f02-dot"></span><span class="f02-dot"></span><span class="f02-dot"></span>
@@ -76,16 +76,16 @@
     </defs></svg>
 
     <div id="f02-mark" class="f02-mark clip"
-         data-start="0" data-duration="4" data-track-index="1"><img class="f02-mark-img" src="assets/07-logo-heru-white.png" alt="heru"></div>
+         data-start="0" data-duration="4.5" data-track-index="1"><img class="f02-mark-img" data-layout-allow-overflow src="assets/07-logo-heru-white.png" alt="heru"></div>
 
     <div id="f02-rule" class="f02-rule clip"
-         data-start="0" data-duration="4" data-track-index="1"></div>
+         data-start="0" data-duration="4.5" data-track-index="1"></div>
 
     <div id="f02-promise" class="f02-promise clip"
-         data-start="0" data-duration="4" data-track-index="2"><span class="f02-w">Hacemos</span> <span class="f02-w">tus</span> <span class="f02-w">impuestos</span><br><span class="f02-w">ante</span> <span class="f02-w">el</span> <span class="f02-w">SAT.</span></div>
+         data-start="0" data-duration="4.5" data-track-index="2"><span class="f02-w">Hacemos</span> <span class="f02-w">tus</span> <span class="f02-w">impuestos</span><br><span class="f02-w">ante</span> <span class="f02-w">el</span> <span class="f02-w">SAT.</span></div>
 
     <div id="f02-emph" class="f02-emph clip"
-         data-start="0" data-duration="4" data-track-index="3">Mes a mes.</div>
+         data-start="0" data-duration="4.5" data-track-index="3">Mes a mes.</div>
 
   </div>
 
@@ -103,13 +103,6 @@
       var words   = root.querySelectorAll(".f02-w");
       var emph    = root.querySelector("#f02-emph");
 
-      /* Estados iniciales sembrados en t=0 — seek-safe, sin ocultar en CSS. */
-      tl.set(atmo, { opacity: 0 }, 0);
-      tl.set(dots, { opacity: 0 }, 0);
-      tl.set(mark, { opacity: 0 }, 0);
-      tl.set(rule, { opacity: 0, scaleX: 0, transformOrigin: "left center" }, 0);
-      tl.set(words, { opacity: 0 }, 0);
-      tl.set(emph, { opacity: 0 }, 0);
 
       /* ——— Scene 1 (0.0–1.2s) — el lockup llega con UN solo movimiento ——— */
 
