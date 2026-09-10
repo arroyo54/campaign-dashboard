@@ -1,66 +1,211 @@
-<!doctype html>
-<html lang="es">
-  <head><meta charset="UTF-8" /><title>05-facturar-gratis</title></head>
-  <body>
-    <template>
-      <style>
+<template>
+  <style>
     @font-face { font-family:'Lexend Deca'; src:url('assets/fonts/lexend-deca.woff2') format('woff2');
                  font-weight:100 900; font-style:normal; font-display:block; }
+
     #root { position:absolute; inset:0; width:1920px; height:1080px; overflow:hidden;
             font-family:'Lexend Deca', ui-sans-serif, system-ui, sans-serif;
             color:#1A1A1A; background:transparent; }
-    #root .ground { position:absolute; inset:0; }
-    #root .pad { position:absolute; inset:0; padding:96px 120px; box-sizing:border-box; }
-    #root .eyebrow { font-size:19px; font-weight:600; letter-spacing:.08em; text-transform:uppercase; color:#1D8FF3; }
-    #root .accent-line { width:60px; height:4px; border-radius:2px; background:#1D8FF3; }
-    #root .h1 { font-size:96px; font-weight:700; line-height:1.08; letter-spacing:-.02em; }
-    #root .h2 { font-size:60px; font-weight:600; line-height:1.1; letter-spacing:-.02em; }
-    #root .body { font-size:24px; font-weight:400; line-height:1.6; color:#5A5A5A; }
-    #root .pill { display:inline-block; padding:10px 24px; border-radius:100px;
-                  background:rgba(29,143,243,.06); color:#1772C2; font-size:18px; font-weight:500; }
-    #root .card { background:rgba(29,143,243,.04); border:1.5px solid rgba(29,143,243,.2);
-                  border-radius:14px; }
-    /* marcas de boceto */
-    #root .stand-in { display:flex; align-items:center; justify-content:center; text-align:center;
-                      border:2px dashed rgba(29,143,243,.55); background:rgba(29,143,243,.05);
-                      color:#1772C2; font-size:20px; font-weight:500; padding:24px; box-sizing:border-box;
-                      border-radius:14px; line-height:1.4; }
-    #root .motion-note { position:absolute; right:40px; bottom:28px; font-size:16px; font-weight:500;
-                         color:#767676; letter-spacing:.02em; }
-    #root .anim-slot { outline:2px dashed rgba(29,143,243,.6); outline-offset:6px; border-radius:8px; }
-</style>
-      <div id="root" data-composition-id="05-facturar-gratis" data-width="1920" data-height="1080">
-        <div id="ground-05-facturar-gratis" class="ground clip" data-start="0" data-duration="99" style="background:#FFFFFF"></div>
-        
-        <div class="pad" style="display:flex;align-items:center;justify-content:center;gap:150px;padding:96px 150px">
-          <div style="position:relative;flex:0 0 auto">
-            
-          <div style="position:relative">
-            <div style="width:440px;height:858px;border-radius:44px;border:10px solid #1A1A1A;
-                        box-sizing:border-box;overflow:hidden;background:#fff">
-              <div class="stand-in" style="width:100%;height:100%;border:none;border-radius:0">captura 04<br>Facturación<br>botón “Nueva factura”</div>
-            </div>
-          </div>
-            
-            <div class="anim-slot" style="position:absolute;left:330px;top:560px;width:62px;height:78px">
-              <svg viewBox="0 0 24 30" width="56" height="70">
-                <path d="M2 1 L2 24 L8 18.5 L12 28 L16 26 L12 17 L20 17 Z"
-                      fill="#1A1A1A" stroke="#fff" stroke-width="1.6" stroke-linejoin="round"/>
-              </svg>
-            </div>
-          </div>
-          <div style="flex:0 0 620px">
-            <div class="h2" style="max-width:680px">Y facturar,<br>gratis.</div>
-            <div class="body" style="margin-top:26px">en menos de 1 minuto</div>
-            <div style="display:flex;margin-top:40px"><div class="pill" style="margin-right:12px">Ingreso</div><div class="pill" style="margin-right:12px">Egreso</div><div class="pill" style="margin-right:12px">Pago</div><div class="pill" style="margin-right:12px">Comp.</div></div>
-          </div>
+
+    #root .clip { position:absolute; inset:0; }
+
+    /* ————— tipografía / átomos (frame.md) ————— */
+    #root .f05-accent-line { position:absolute; width:60px; height:4px; border-radius:2px;
+                             background:#1D8FF3; will-change:transform; }
+    #root .f05-h { position:absolute; font-size:88px; font-weight:600; line-height:1.08;
+                   letter-spacing:-.02em; color:#1A1A1A; }
+    #root .f05-w { display:inline-block; will-change:transform; }
+    #root .f05-micro { position:absolute; font-size:28px; font-weight:400; line-height:1.5;
+                       color:#5A5A5A; will-change:transform; }
+
+    /* ————— píldoras (tag-pill) ————— */
+    #root .f05-pill { position:absolute; left:0; top:0; height:58px; box-sizing:border-box;
+                      display:flex; align-items:center; justify-content:center;
+                      border-radius:100px; background:rgba(29,143,243,.08);
+                      color:#1772C2; font-size:26px; font-weight:500; letter-spacing:-.005em;
+                      white-space:nowrap; will-change:transform; }
+
+    /* ————— maqueta de teléfono ————— */
+    #root .f05-phone { position:absolute; left:340px; top:105px; width:408px; height:777px;
+                       box-sizing:border-box; border:10px solid #1A1A1A; border-radius:46px;
+                       background:#FFFFFF; overflow:hidden; will-change:transform; }
+    #root .f05-screen { position:absolute; inset:0; overflow:hidden; }
+    #root .f05-shot { position:absolute; inset:0; width:100%; height:100%;
+                      object-fit:cover; object-position:50% 0%; display:block; }
+
+    /* botón real "Nueva factura" recalcado sobre la captura */
+    #root .f05-btn-burst { position:absolute; left:101px; top:550.8px; width:186px; height:58px;
+                           border-radius:100px; z-index:1; opacity:0; pointer-events:none;
+                           background:radial-gradient(closest-side, rgba(43,126,254,.85), rgba(43,126,254,0));
+                           filter:blur(22px); }
+    #root .f05-btn { position:absolute; left:101px; top:550.8px; width:186px; height:58px;
+                     z-index:2; box-sizing:border-box; display:flex; align-items:center;
+                     justify-content:center; border-radius:100px; background:#2B7EFE;
+                     color:#FFFFFF; font-size:19px; font-weight:600; letter-spacing:-.005em;
+                     box-shadow:0 10px 26px rgba(43,126,254,.38); transform-origin:50% 50%;
+                     will-change:transform; }
+
+    /* ————— anillo de clic ————— */
+    #root .f05-ripple { position:absolute; left:484px; top:635px; width:120px; height:120px;
+                        border-radius:50%; border:3px solid rgba(29,143,243,.7);
+                        opacity:0; pointer-events:none; will-change:transform; }
+
+    /* ————— cursor sobredimensionado ————— */
+    #root .f05-cursor { position:absolute; left:534.3px; top:690.2px; width:116px; height:145px;
+                        z-index:30; pointer-events:none; will-change:transform;
+                        filter:drop-shadow(0 4px 6px rgba(0,0,0,.3)); }
+  </style>
+
+  <div id="root" data-composition-id="05-facturar-gratis" data-width="1920" data-height="1080">
+
+    <!-- suelo a sangre completa -->
+    <div id="f05-ground" class="clip" data-start="0" data-duration="99" data-track-index="0"
+         style="background:#FFFFFF"></div>
+
+    <!-- escenario -->
+    <div id="f05-stage" class="clip" data-start="0" data-duration="99" data-track-index="1">
+
+      <!-- teléfono con la captura real de Facturación -->
+      <div id="f05-phone" class="f05-phone">
+        <div class="f05-screen">
+          <img id="f05-shot" class="f05-shot" src="assets/04-facturacion.jpg"
+               alt="Pantalla de Facturación de heru" />
+          <div id="f05-btn-burst" class="f05-btn-burst"></div>
+          <div id="f05-btn" class="f05-btn">Nueva factura</div>
         </div>
-        <div class="motion-note">⟳ el cursor entra fuera de cuadro y toca “Nueva factura”; las 4 píldoras salen del toque</div>
       </div>
-      <script>
-        const tl = gsap.timeline({ paused: true });
-        window.__timelines["05-facturar-gratis"] = tl;
-      </script>
-    </template>
-  </body>
-</html>
+
+      <!-- columna derecha -->
+      <div id="f05-accent" class="f05-accent-line" style="left:900px;top:300px"></div>
+
+      <div id="f05-head" class="f05-h" style="left:900px;top:336px;width:720px"><span
+        id="f05-w1" class="f05-w">Y</span> <span
+        id="f05-w2" class="f05-w">facturar,</span><br><span
+        id="f05-w3" class="f05-w">gratis.</span></div>
+
+      <div id="f05-micro" class="f05-micro" style="left:900px;top:560px;width:720px">en menos de 1 minuto</div>
+
+      <!-- racimo de píldoras: centro = el punto exacto del clic (544, 695) -->
+      <div id="f05-burst-wrap" style="position:absolute;left:544px;top:695px;width:0;height:0;z-index:6">
+        <div id="f05-pill-1" class="f05-pill" style="width:156px" data-target-x="434" data-target-y="-5">Ingreso</div>
+        <div id="f05-pill-2" class="f05-pill" style="width:142px" data-target-x="599" data-target-y="-5">Egreso</div>
+        <div id="f05-pill-3" class="f05-pill" style="width:112px" data-target-x="742" data-target-y="-5">Pago</div>
+        <div id="f05-pill-4" class="f05-pill" style="width:130px" data-target-x="879" data-target-y="-5">Comp.</div>
+      </div>
+    </div>
+
+    <!-- capa del cursor (por encima de todo) -->
+    <div id="f05-cursor-layer" class="clip" data-start="0" data-duration="99" data-track-index="2"
+         style="pointer-events:none">
+      <div id="f05-ripple" class="f05-ripple"></div>
+      <div id="f05-cursor" class="f05-cursor">
+        <svg viewBox="0 0 24 30" width="116" height="145" aria-hidden="true">
+          <path d="M2 1 L2 24 L8 18.5 L12 28 L16 26 L12 17 L20 17 Z"
+                fill="#1A1A1A" stroke="#FFFFFF" stroke-width="1.6" stroke-linejoin="round"/>
+        </svg>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      window.__timelines = window.__timelines || {};
+      var tl = gsap.timeline({ paused: true });
+      window.__timelines["05-facturar-gratis"] = tl;
+
+      var root   = document.querySelector('[data-composition-id="05-facturar-gratis"]');
+      var PHONE  = root.querySelector("#f05-phone");
+      var CURSOR = root.querySelector("#f05-cursor");
+      var RIPPLE = root.querySelector("#f05-ripple");
+      var BTN    = root.querySelector("#f05-btn");
+      var BURST  = root.querySelector("#f05-btn-burst");
+      var ACCENT = root.querySelector("#f05-accent");
+      var MICRO  = root.querySelector("#f05-micro");
+      var WORDS  = root.querySelectorAll(".f05-w");
+      var PILLS  = root.querySelectorAll(".f05-pill");
+
+      var TIP_ORIGIN = "8.3% 3.3%";   // la punta de la flecha en el viewBox 24×30
+      var CLICK_AT   = 1.00;          // el clic — y el encendido del siguiente beat
+      var RIPPLE_AT  = CLICK_AT + 0.02;
+      var PILLS_AT   = 2.36;
+      var START_P    = 0.32;          // arranque parcialmente disperso — evita el amontonamiento
+
+      // ——— Escena 1 (0.0–0.9) — el teléfono sigue en vuelo bajo tras el seam push-slide LEFT
+      tl.fromTo(PHONE, { x: 78 }, { x: 0, duration: 0.78, ease: "power3.out" }, 0);
+
+      // el cursor sobredimensionado entra DESDE FUERA DE CUADRO, esquina inferior derecha,
+      // en una sola curva de acercamiento; la punta aterriza en "Nueva factura" (544, 695)
+      tl.fromTo(
+        CURSOR,
+        { x: 900, y: 545, scale: 1, transformOrigin: TIP_ORIGIN },
+        { x: 0, y: 0, duration: 0.88, ease: "power3.out", immediateRender: true },
+        0.06
+      );
+
+      // ——— Escena 2 (0.9–1.5) — el toque de clic (cursor-click-ripple + press-release-spring)
+      // el cursor comprime sobre su punta…
+      tl.to(CURSOR, { scale: 0.84, duration: 0.10, ease: "power2.in", transformOrigin: TIP_ORIGIN }, CLICK_AT);
+      tl.to(CURSOR, { scale: 1, duration: 0.22, ease: "power2.out", transformOrigin: TIP_ORIGIN }, CLICK_AT + 0.10);
+
+      // …el botón se hunde (compresión lineal) y suelta (muelle back.out)
+      tl.to(BTN, {
+        scale: 0.94,
+        boxShadow: "0 3px 8px rgba(43,126,254,.30)",
+        duration: 0.10, ease: "power1.in"
+      }, CLICK_AT);
+      tl.to(BTN, {
+        scale: 1,
+        boxShadow: "0 10px 26px rgba(43,126,254,.38)",
+        duration: 0.52, ease: "back.out(1.9)"
+      }, CLICK_AT + 0.10);
+
+      // resplandor detrás del botón en la suelta
+      tl.fromTo(BURST,
+        { scale: 1, opacity: 0 },
+        { scale: 1.9, opacity: 0.85, duration: 0.40, ease: "power2.out", immediateRender: false },
+        CLICK_AT + 0.10);
+      tl.to(BURST, { opacity: 0, duration: 0.50, ease: "power2.in" }, CLICK_AT + 0.50);
+
+      // un solo anillo se expande desde el punto del clic
+      tl.set(RIPPLE, { scale: 0.3, opacity: 0 }, 0);
+      tl.set(RIPPLE, { opacity: 1 }, RIPPLE_AT);
+      tl.to(RIPPLE,
+        { scale: 3.0, opacity: 0, duration: 0.80, ease: "power2.out", immediateRender: false },
+        RIPPLE_AT);
+
+      // ——— Escena 3 — ENCENDIDO EN EL MISMO FOTOGRAMA DEL CLIC
+      tl.fromTo(ACCENT,
+        { scaleX: 0, transformOrigin: "left center" },
+        { scaleX: 1, duration: 0.50, ease: "power3.out", transformOrigin: "left center" },
+        CLICK_AT);
+
+      Array.prototype.forEach.call(WORDS, function (w, i) {
+        tl.fromTo(w,
+          { y: 44, opacity: 0 },
+          { y: 0, opacity: 1, duration: 0.62, ease: "power3.out" },
+          CLICK_AT + i * 0.13);
+      });
+
+      // la micro-línea sube debajo del titular
+      tl.fromTo(MICRO,
+        { y: 26, opacity: 0 },
+        { y: 0, opacity: 1, duration: 0.60, ease: "power3.out" },
+        1.85);
+
+      // ——— Escena 4 (2.4–4.0) — center-outward-expansion desde el punto del clic
+      Array.prototype.forEach.call(PILLS, function (el, i) {
+        var tx = Number(el.dataset.targetX);
+        var ty = Number(el.dataset.targetY);
+        var at = PILLS_AT + i * 0.11;
+        tl.fromTo(el,
+          { xPercent: -50, yPercent: -50, x: tx * START_P, y: ty * START_P, scale: 0.62, opacity: 0 },
+          { x: tx, y: ty, scale: 1, duration: 0.78, ease: "power3.out" },
+          at);
+        tl.to(el, { opacity: 1, duration: 0.26, ease: "power2.out" }, at);
+      });
+
+      // el cursor cede el escenario al racimo — deriva corta, sin oscilación ociosa
+      tl.to(CURSOR, { x: -58, y: 26, duration: 0.80, ease: "power2.out" }, PILLS_AT);
+    })();
+  </script>
+</template>

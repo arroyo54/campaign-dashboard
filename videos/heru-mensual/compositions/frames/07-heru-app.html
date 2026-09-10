@@ -32,7 +32,8 @@
 
     #root #f07-mark { opacity:0; }
     #root #f07-mark-clip { display:block; clip-path:inset(0% 50% 0% 50%); }
-    #root #f07-mark-img { display:block; width:520px; height:auto; }
+    #root #f07-mark-wrap { display:block; width:520px; height:205px; overflow:hidden; }
+    #root #f07-mark-img { display:block; width:520px; height:251px; }
 
     #root #f07-url { margin-top:56px; opacity:0; }
     #root #f07-url-text { display:block; min-width:740px; height:74px; line-height:74px;
@@ -57,7 +58,7 @@
     <div class="f07-pad">
       <div id="f07-mark">
         <div id="f07-mark-clip">
-          <img id="f07-mark-img" src="assets/07-logo-heru-white.png" alt="heru" />
+          <div id="f07-mark-wrap"><img id="f07-mark-img" src="assets/07-logo-heru-white.png" alt="heru" /></div>
         </div>
       </div>
 
@@ -136,7 +137,7 @@
       /* ——— Escena 3 (2.2–3.2s) — la píldora blanca asienta con un pop liso y largo ——— */
       tl.fromTo("#f07-pill",
         { opacity: 0, y: 30, scale: 0.94 },
-        { opacity: 1, y: 0, scale: 1, duration: 0.72, ease: "back.out(1.2)" }, 2.22);
+        { opacity: 1, y: 0, scale: 1, duration: 0.72, ease: "power3.out" }, 2.22);
 
       /* ——— Escena 4 (3.2–4.5s) — quietud absoluta: nada se mueve, no hay fundido ——— */
     })();
