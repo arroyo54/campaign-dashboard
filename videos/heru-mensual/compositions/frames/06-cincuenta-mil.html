@@ -1,0 +1,113 @@
+<template>
+  <style>
+    @font-face { font-family:'Lexend Deca'; src:url('assets/fonts/lexend-deca.woff2') format('woff2');
+                 font-weight:100 900; font-style:normal; font-display:block; }
+
+    #root { position:absolute; inset:0; width:1920px; height:1080px; overflow:hidden;
+            font-family:'Lexend Deca', ui-sans-serif, system-ui, sans-serif;
+            color:#1A1A1A; background:transparent; }
+
+    #root .f06-ground { position:absolute; inset:0; background:#FFFFFF; }
+
+    #root .f06-stage { position:absolute; inset:0; padding:96px 120px; box-sizing:border-box;
+                       display:flex; flex-direction:column; justify-content:center;
+                       align-items:center; text-align:center; }
+
+    #root .f06-accent-line { width:60px; height:4px; border-radius:2px; background:#1D8FF3;
+                             margin-bottom:48px; transform-origin:50% 50%; }
+
+    /* contenedor de ancho fijo — sin salto de layout al cambiar la cantidad de dígitos */
+    #root .f06-counter-wrap { width:1400px; display:flex; align-items:baseline;
+                              justify-content:center; }
+    #root .f06-counter { display:inline-flex; align-items:baseline;
+                         font-size:260px; font-weight:700; line-height:1;
+                         letter-spacing:-.02em; color:#1D8FF3;
+                         font-variant-numeric:tabular-nums;
+                         font-feature-settings:"tnum" 1;
+                         transform-origin:50% 50%; }
+    #root .f06-counter-plus { font-variant-numeric:tabular-nums; }
+    #root .f06-counter-value { font-variant-numeric:tabular-nums; }
+
+    #root .f06-subline { margin-top:44px; max-width:1200px;
+                         font-size:46px; font-weight:500; line-height:1.25;
+                         letter-spacing:-.02em; color:#1A1A1A; }
+  </style>
+
+  <div id="root" data-composition-id="06-cincuenta-mil" data-width="1920" data-height="1080">
+
+    <div id="f06-ground" class="f06-ground clip"
+         data-start="0" data-duration="4" data-track-index="0"></div>
+
+    <div id="f06-stage" class="f06-stage clip"
+         data-start="0" data-duration="4" data-track-index="1">
+
+      <div id="f06-accent-line" class="f06-accent-line"></div>
+
+      <div id="f06-counter-wrap" class="f06-counter-wrap">
+        <span id="f06-counter" class="f06-counter"><span
+          class="f06-counter-plus">+</span><span
+          id="f06-counter-value" class="f06-counter-value">0</span></span>
+      </div>
+
+      <div id="f06-subline" class="f06-subline">contribuyentes en México ya declaran tranquilos.</div>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      window.__timelines = window.__timelines || {};
+      var tl = gsap.timeline({ paused: true });
+      window.__timelines["06-cincuenta-mil"] = tl;
+
+      var line    = document.getElementById("f06-accent-line");
+      var counter = document.getElementById("f06-counter");
+      var value   = document.getElementById("f06-counter-value");
+      var subline = document.getElementById("f06-subline");
+
+      // separador de miles es-MX, determinista (sin ICU, sin reloj, sin azar)
+      function fmt(n) {
+        var s = String(Math.round(n)), out = "", c = 0;
+        for (var i = s.length - 1; i >= 0; i--) {
+          out = s.charAt(i) + out;
+          c++;
+          if (c % 3 === 0 && i > 0) out = "," + out;
+        }
+        return out;
+      }
+
+      var TARGET     = 50000;
+      var COUNT_AT   = 0.6;
+      var COUNT_DUR  = 1.7;
+      var COUNT_EASE = "power3.out";
+      var START_SCALE = 130 / 260; // START_SIZE / END_SIZE
+
+      var state = { value: 0 };
+
+      // Scene 1 (0.0–0.6s) — la accent-line se dibuja, el contador aparece parado en "+0"
+      tl.fromTo(line,
+        { scaleX: 0, opacity: 0 },
+        { scaleX: 1, opacity: 1, duration: 0.45, ease: "power2.out" }, 0);
+
+      tl.fromTo(counter,
+        { opacity: 0, y: 20 },
+        { opacity: 1, y: 0, duration: 0.4, ease: "power2.out" }, 0.1);
+
+      // Scene 2 (0.6–2.3s) — contador escalado por valor: 0 -> 50,000 y el cuerpo crece con la cifra
+      tl.to(state, {
+        value: TARGET,
+        duration: COUNT_DUR,
+        ease: COUNT_EASE,
+        onUpdate: function () { value.textContent = fmt(state.value); }
+      }, COUNT_AT);
+
+      tl.fromTo(counter,
+        { scale: START_SCALE },
+        { scale: 1, duration: COUNT_DUR, ease: COUNT_EASE }, COUNT_AT);
+
+      // Scene 3 (2.4–4.0s) — la línea de respaldo se revela debajo y el cuadro se queda quieto
+      tl.fromTo(subline,
+        { opacity: 0, y: 26 },
+        { opacity: 1, y: 0, duration: 0.6, ease: "power2.out" }, 2.4);
+    })();
+  </script>
+</template>

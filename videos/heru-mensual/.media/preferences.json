@@ -1,0 +1,41 @@
+{
+  "version": 1,
+  "preferences": {
+    "destination": {
+      "value": "youtube",
+      "confirmed_in": [
+        "heru-mensual"
+      ],
+      "updated_at": "2026-09-10T04:21:13.418Z"
+    },
+    "aspect": {
+      "value": "1920x1080",
+      "confirmed_in": [
+        "heru-mensual"
+      ],
+      "updated_at": "2026-09-10T04:21:13.472Z"
+    },
+    "flow": {
+      "value": "automation",
+      "confirmed_in": [
+        "heru-mensual"
+      ],
+      "updated_at": "2026-09-10T04:21:13.528Z"
+    },
+    "storyboard": {
+      "value": "yes",
+      "confirmed_in": [
+        "heru-mensual"
+      ],
+      "updated_at": "2026-09-10T04:21:13.585Z"
+    },
+    "style_preset.product-launch-video": {
+      "value": "blue-professional",
+      "confirmed_in": [
+        "heru-mensual"
+      ],
+      "updated_at": "2026-09-10T04:26:54.951Z"
+    }
+  },
+  "sightings": {}
+}

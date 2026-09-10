@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <script src="assets/vendor/gsap.min.js"></script>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        width: 1920px;
+        height: 1080px;
+        overflow: hidden;
+        background: #000;
+      }
+      #root {
+        position: relative;
+        width: 1920px;
+        height: 1080px;
+        overflow: hidden;
+        background: #FFFFFF;
+      }
+      .scene {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+      }
+    </style>
+  </head>
+  <body>
+    <div
+      id="root"
+      data-composition-id="main"
+      data-start="0"
+      data-duration="31.5"
+      data-width="1920"
+      data-height="1080"
+    >
+      <div
+        id="el-01-cada-mes-vuelve"
+        class="scene"
+        data-composition-id="01-cada-mes-vuelve"
+        data-composition-src="compositions/frames/01-cada-mes-vuelve.html"
+        data-start="0"
+        data-duration="5"
+        data-track-index="1"
+      ></div>
+
+      <div
+        id="el-02-heru-mes-a-mes"
+        class="scene"
+        data-composition-id="02-heru-mes-a-mes"
+        data-composition-src="compositions/frames/02-heru-mes-a-mes.html"
+        data-start="5"
+        data-duration="4"
+        data-track-index="1"
+      ></div>
+
+      <div
+        id="el-03-conectas-una-vez"
+        class="scene"
+        data-composition-id="03-conectas-una-vez"
+        data-composition-src="compositions/frames/03-conectas-una-vez.html"
+        data-start="9"
+        data-duration="5"
+        data-track-index="1"
+      ></div>
+
+      <div
+        id="el-04-cada-mes-solo"
+        class="scene"
+        data-composition-id="04-cada-mes-solo"
+        data-composition-src="compositions/frames/04-cada-mes-solo.html"
+        data-start="14"
+        data-duration="5"
+        data-track-index="1"
+      ></div>
+
+      <div
+        id="el-05-facturar-gratis"
+        class="scene"
+        data-composition-id="05-facturar-gratis"
+        data-composition-src="compositions/frames/05-facturar-gratis.html"
+        data-start="19"
+        data-duration="4"
+        data-track-index="1"
+      ></div>
+
+      <div
+        id="el-06-cincuenta-mil"
+        class="scene"
+        data-composition-id="06-cincuenta-mil"
+        data-composition-src="compositions/frames/06-cincuenta-mil.html"
+        data-start="23"
+        data-duration="4"
+        data-track-index="1"
+      ></div>
+
+      <div
+        id="el-07-heru-app"
+        class="scene"
+        data-composition-id="07-heru-app"
+        data-composition-src="compositions/frames/07-heru-app.html"
+        data-start="27"
+        data-duration="4.5"
+        data-track-index="1"
+      ></div>
+
+    </div>
+
+    <script>
+      window.__timelines = window.__timelines || {};
+      window.__timelines["main"] = gsap.timeline({ paused: true });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,144 @@
+<template>
+  <style>
+    @font-face { font-family:'Lexend Deca'; src:url('assets/fonts/lexend-deca.woff2') format('woff2');
+                 font-weight:100 900; font-style:normal; font-display:block; }
+
+    #root { position:absolute; inset:0; width:1920px; height:1080px; overflow:hidden;
+            font-family:'Lexend Deca', ui-sans-serif, system-ui, sans-serif;
+            color:#1A1A1A; background:transparent; }
+
+    /* ——— campo cobalto a sangre (capa .clip propia, nunca fondo del root) ——— */
+    #root .f07-ground { position:absolute; inset:0; background-color:#1772C2;
+                        background-image:radial-gradient(ellipse 62% 52% at 50% 42%,
+                                         rgba(255,255,255,.085), rgba(255,255,255,0) 68%); }
+
+    /* ——— atmósfera: anillos concéntricos de cierre ——— */
+    #root .f07-ring { position:absolute; left:50%; top:50%; border-radius:50%; opacity:0; }
+    #root #f07-ring-outer { width:1500px; height:1500px; margin:-750px 0 0 -750px;
+                            border:2px solid rgba(255,255,255,.10); }
+    #root #f07-ring-inner { width:1080px; height:1080px; margin:-540px 0 0 -540px;
+                            border:2px solid rgba(255,255,255,.16); }
+
+    /* ——— resplandor bajo la marca ——— */
+    #root #f07-glow { position:absolute; left:50%; top:50%; width:1240px; height:1240px;
+                      margin:-660px 0 0 -620px; border-radius:50%; opacity:0;
+                      background:radial-gradient(circle at 50% 50%,
+                                 rgba(255,255,255,.16), rgba(255,255,255,0) 62%); }
+
+    /* ——— columna de contenido ——— */
+    #root .f07-pad { position:absolute; inset:0; padding:96px 120px; box-sizing:border-box;
+                     display:flex; flex-direction:column; justify-content:center;
+                     align-items:center; text-align:center; }
+
+    #root #f07-mark { opacity:0; }
+    #root #f07-mark-clip { display:block; clip-path:inset(0% 50% 0% 50%); }
+    #root #f07-mark-img { display:block; width:520px; height:auto; }
+
+    #root #f07-url { margin-top:56px; opacity:0; }
+    #root #f07-url-text { display:block; min-width:740px; height:74px; line-height:74px;
+                          white-space:nowrap; font-size:64px; font-weight:600; color:#FFFFFF;
+                          letter-spacing:-.01em; }
+
+    #root #f07-pill { margin-top:44px; opacity:0; display:inline-block;
+                      padding:20px 46px; border-radius:100px; background:#FFFFFF;
+                      color:#1772C2; font-size:32px; font-weight:600; line-height:1.3;
+                      letter-spacing:-.005em; }
+  </style>
+
+  <div id="root" data-composition-id="07-heru-app" data-width="1920" data-height="1080">
+
+    <div id="f07-ground" class="f07-ground clip"
+         data-start="0" data-duration="99" data-track-index="0"></div>
+
+    <div id="f07-ring-outer" class="f07-ring"></div>
+    <div id="f07-ring-inner" class="f07-ring"></div>
+    <div id="f07-glow"></div>
+
+    <div class="f07-pad">
+      <div id="f07-mark">
+        <div id="f07-mark-clip">
+          <img id="f07-mark-img" src="assets/07-logo-heru-white.png" alt="heru" />
+        </div>
+      </div>
+
+      <div id="f07-url"><span id="f07-url-text"></span></div>
+
+      <div id="f07-pill">Tu primer mes va por nuestra cuenta.</div>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      window.__timelines = window.__timelines || {};
+      var tl = gsap.timeline({ paused: true });
+      window.__timelines["07-heru-app"] = tl;
+
+      /* longitud fija del plano — el cierre se sostiene quieto hasta el final */
+      tl.to({ v: 0 }, { v: 1, duration: 4.5, ease: "none" }, 0);
+
+      /* ——— Escena 1 (0.0–1.2s) — los anillos cierran hacia dentro y la marca se forma ——— */
+      tl.fromTo("#f07-ring-outer",
+        { opacity: 0, scale: 3.15 },
+        { opacity: 1, scale: 1, duration: 1.05, ease: "power3.out" }, 0);
+
+      tl.fromTo("#f07-ring-inner",
+        { opacity: 0, scale: 2.45 },
+        { opacity: 1, scale: 1, duration: 1.02, ease: "power3.out" }, 0.08);
+
+      tl.fromTo("#f07-glow",
+        { opacity: 0 },
+        { opacity: 1, duration: 0.9, ease: "power2.out" }, 0.10);
+
+      /* el wordmark llega a existir: aparece, enfoca y se abre desde el centro */
+      tl.fromTo("#f07-mark",
+        { opacity: 0, scale: 1.10, filter: "blur(16px)" },
+        { opacity: 1, scale: 1, filter: "blur(0px)", duration: 0.92, ease: "power3.out" }, 0.10);
+
+      tl.fromTo("#f07-mark-clip",
+        { clipPath: "inset(0% 50% 0% 50%)" },
+        { clipPath: "inset(0% 0% 0% 0%)", duration: 0.90, ease: "power3.out" }, 0.10);
+
+      /* ——— Escena 2 (1.2–2.2s) — "heru.app" se construye segmento por segmento ——— */
+      tl.fromTo("#f07-url",
+        { opacity: 0, y: 16 },
+        { opacity: 1, y: 0, duration: 0.34, ease: "power2.out" }, 1.12);
+
+      var URL_SEQUENCE = [
+        { t: 0.00, text: "" },
+        { t: 0.08, text: "h" },
+        { t: 0.17, text: "he" },
+        { t: 0.26, text: "her" },
+        { t: 0.35, text: "heru" },
+        { t: 0.55, text: "heru." },
+        { t: 0.68, text: "heru.a" },
+        { t: 0.78, text: "heru.ap" },
+        { t: 0.88, text: "heru.app" }
+      ];
+
+      function urlAt(time) {
+        for (var i = URL_SEQUENCE.length - 1; i >= 0; i--) {
+          if (time >= URL_SEQUENCE[i].t) return URL_SEQUENCE[i].text;
+        }
+        return "";
+      }
+
+      var urlEl = document.getElementById("f07-url-text");
+      var urlDriver = { t: 0 };
+      tl.to(urlDriver, {
+        t: 1.0,
+        duration: 1.0,
+        ease: "none",
+        onUpdate: function () {
+          if (urlEl) urlEl.textContent = urlAt(urlDriver.t);
+        }
+      }, 1.15);
+
+      /* ——— Escena 3 (2.2–3.2s) — la píldora blanca asienta con un pop liso y largo ——— */
+      tl.fromTo("#f07-pill",
+        { opacity: 0, y: 30, scale: 0.94 },
+        { opacity: 1, y: 0, scale: 1, duration: 0.72, ease: "back.out(1.2)" }, 2.22);
+
+      /* ——— Escena 4 (3.2–4.5s) — quietud absoluta: nada se mueve, no hay fundido ——— */
+    })();
+  </script>
+</template>

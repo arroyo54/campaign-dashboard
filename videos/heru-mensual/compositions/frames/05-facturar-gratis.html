@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="es">
+  <head><meta charset="UTF-8" /><title>05-facturar-gratis</title></head>
+  <body>
+    <template>
+      <style>
+    @font-face { font-family:'Lexend Deca'; src:url('assets/fonts/lexend-deca.woff2') format('woff2');
+                 font-weight:100 900; font-style:normal; font-display:block; }
+    #root { position:absolute; inset:0; width:1920px; height:1080px; overflow:hidden;
+            font-family:'Lexend Deca', ui-sans-serif, system-ui, sans-serif;
+            color:#1A1A1A; background:transparent; }
+    #root .ground { position:absolute; inset:0; }
+    #root .pad { position:absolute; inset:0; padding:96px 120px; box-sizing:border-box; }
+    #root .eyebrow { font-size:19px; font-weight:600; letter-spacing:.08em; text-transform:uppercase; color:#1D8FF3; }
+    #root .accent-line { width:60px; height:4px; border-radius:2px; background:#1D8FF3; }
+    #root .h1 { font-size:96px; font-weight:700; line-height:1.08; letter-spacing:-.02em; }
+    #root .h2 { font-size:60px; font-weight:600; line-height:1.1; letter-spacing:-.02em; }
+    #root .body { font-size:24px; font-weight:400; line-height:1.6; color:#5A5A5A; }
+    #root .pill { display:inline-block; padding:10px 24px; border-radius:100px;
+                  background:rgba(29,143,243,.06); color:#1772C2; font-size:18px; font-weight:500; }
+    #root .card { background:rgba(29,143,243,.04); border:1.5px solid rgba(29,143,243,.2);
+                  border-radius:14px; }
+    /* marcas de boceto */
+    #root .stand-in { display:flex; align-items:center; justify-content:center; text-align:center;
+                      border:2px dashed rgba(29,143,243,.55); background:rgba(29,143,243,.05);
+                      color:#1772C2; font-size:20px; font-weight:500; padding:24px; box-sizing:border-box;
+                      border-radius:14px; line-height:1.4; }
+    #root .motion-note { position:absolute; right:40px; bottom:28px; font-size:16px; font-weight:500;
+                         color:#767676; letter-spacing:.02em; }
+    #root .anim-slot { outline:2px dashed rgba(29,143,243,.6); outline-offset:6px; border-radius:8px; }
+</style>
+      <div id="root" data-composition-id="05-facturar-gratis" data-width="1920" data-height="1080">
+        <div id="ground-05-facturar-gratis" class="ground clip" data-start="0" data-duration="99" style="background:#FFFFFF"></div>
+        
+        <div class="pad" style="display:flex;align-items:center;justify-content:center;gap:150px;padding:96px 150px">
+          <div style="position:relative;flex:0 0 auto">
+            
+          <div style="position:relative">
+            <div style="width:440px;height:858px;border-radius:44px;border:10px solid #1A1A1A;
+                        box-sizing:border-box;overflow:hidden;background:#fff">
+              <div class="stand-in" style="width:100%;height:100%;border:none;border-radius:0">captura 04<br>Facturación<br>botón “Nueva factura”</div>
+            </div>
+          </div>
+            
+            <div class="anim-slot" style="position:absolute;left:330px;top:560px;width:62px;height:78px">
+              <svg viewBox="0 0 24 30" width="56" height="70">
+                <path d="M2 1 L2 24 L8 18.5 L12 28 L16 26 L12 17 L20 17 Z"
+                      fill="#1A1A1A" stroke="#fff" stroke-width="1.6" stroke-linejoin="round"/>
+              </svg>
+            </div>
+          </div>
+          <div style="flex:0 0 620px">
+            <div class="h2" style="max-width:680px">Y facturar,<br>gratis.</div>
+            <div class="body" style="margin-top:26px">en menos de 1 minuto</div>
+            <div style="display:flex;margin-top:40px"><div class="pill" style="margin-right:12px">Ingreso</div><div class="pill" style="margin-right:12px">Egreso</div><div class="pill" style="margin-right:12px">Pago</div><div class="pill" style="margin-right:12px">Comp.</div></div>
+          </div>
+        </div>
+        <div class="motion-note">⟳ el cursor entra fuera de cuadro y toca “Nueva factura”; las 4 píldoras salen del toque</div>
+      </div>
+      <script>
+        const tl = gsap.timeline({ paused: true });
+        window.__timelines["05-facturar-gratis"] = tl;
+      </script>
+    </template>
+  </body>
+</html>
