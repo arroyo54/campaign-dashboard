@@ -1,0 +1,169 @@
+<template>
+  <style>
+    @font-face { font-family:'Lexend Deca'; src:url('assets/fonts/lexend-deca.woff2') format('woff2');
+                 font-weight:100 900; font-style:normal; font-display:block; }
+
+    #root { position:absolute; inset:0; width:1080px; height:1920px; overflow:hidden;
+            font-family:'Lexend Deca', ui-sans-serif, system-ui, sans-serif;
+            color:#1A1A1A; background:transparent; }
+
+    /* — capa 1: suelo — */
+    .f02-ground { position:absolute; inset:0; background:#FFFFFF; }
+
+    /* — capa 2: atmósfera — en 9:16 el panel diagonal del preset se convierte
+       en BANDA SUPERIOR (frame.md · Aspect-Ratio Behavior). Conserva el tinte
+       cobalto y el ángulo del degradado; sólo cambia de esquina a banda. */
+    .f02-atmo { position:absolute; left:-120px; top:-360px; width:1320px; height:800px;
+                transform:rotate(-7deg); border-radius:90px; overflow:hidden; }
+    .f02-atmo-fill { position:absolute; inset:0; border-radius:90px;
+                     background:linear-gradient(205deg,
+                                 rgba(29,143,243,.11) 0%,
+                                 rgba(29,143,243,.06) 46%,
+                                 rgba(29,143,243,.02) 100%); }
+
+    /* — capa 3: retícula 3×3 de puntos cobalto — esquina inferior derecha,
+       dentro del 83% superior del lienzo (tope 1594px). */
+    .f02-dots { position:absolute; left:889px; top:1450px; width:101px; height:101px;
+                display:grid; grid-template-columns:repeat(3, 9px); grid-template-rows:repeat(3, 9px);
+                column-gap:37px; row-gap:37px; }
+    .f02-dot { width:9px; height:9px; border-radius:50%; background:rgba(29,143,243,.24); }
+
+    /* — lockup: el wordmark heru entintado en cobalto —
+       el PNG es blanco con alfa (invisible sobre blanco): el filtro SVG lo
+       rellena con #1D8FF3 usando su canal alfa. Las máscaras CSS no pintan
+       nada en este Chrome headless: NO sustituir por mask-image.
+       La caja recorta el bajofirma del archivo y deja sólo el wordmark:
+       el PNG mide 2787×1347 y la banda del wordmark son las filas 0–1100,
+       así que a 460px de ancho la caja mide 460 × 1100 / 2787 ≈ 182px. */
+    .f02-mark { position:absolute; left:310px; top:560px; width:460px; height:182px;
+                overflow:hidden; }
+    .f02-mark-img { display:block; width:460px; height:auto;
+                    filter:url(#f02-cobalt); }
+    .f02-defs { position:absolute; left:0; top:0; width:0; height:0; overflow:hidden; }
+
+    /* — accent-line 60×4, centrada — */
+    .f02-rule { position:absolute; left:510px; top:806px; width:60px; height:4px;
+                border-radius:2px; background:#1D8FF3; }
+
+    /* — promesa (h1 casi negro) — re-escalada para 1080 de ancho: 96px = 8.9cqw.
+       A este cuerpo la promesa se rompe en tres renglones centrados. */
+    .f02-promise { position:absolute; left:0; top:866px; width:1080px; text-align:center;
+                   font-size:96px; font-weight:700; line-height:1.08; letter-spacing:-.02em;
+                   color:#1A1A1A; }
+    .f02-w { display:inline-block; will-change:transform, opacity; }
+
+    /* — énfasis (h1 cobalto) — */
+    .f02-emph { position:absolute; left:0; top:1210px; width:1080px; text-align:center;
+                font-size:96px; font-weight:700; line-height:1.08; letter-spacing:-.02em;
+                color:#1D8FF3; }
+  </style>
+
+  <div id="root" data-composition-id="02-heru-mes-a-mes" data-width="1080" data-height="1920" data-duration="4.5">
+
+    <div id="f02-ground" class="f02-ground clip"
+         data-start="0" data-duration="4.5" data-track-index="0"></div>
+
+    <div id="f02-atmo" data-layout-allow-overflow class="f02-atmo clip"
+         data-start="0" data-duration="4.5" data-track-index="0">
+      <div id="f02-atmo-fill" data-layout-allow-overflow class="f02-atmo-fill"></div>
+    </div>
+
+    <div id="f02-dots" class="f02-dots clip"
+         data-start="0" data-duration="4.5" data-track-index="0">
+      <span class="f02-dot"></span><span class="f02-dot"></span><span class="f02-dot"></span>
+      <span class="f02-dot"></span><span class="f02-dot"></span><span class="f02-dot"></span>
+      <span class="f02-dot"></span><span class="f02-dot"></span><span class="f02-dot"></span>
+    </div>
+
+    <svg class="f02-defs" width="0" height="0" aria-hidden="true"><defs>
+      <filter id="f02-cobalt" color-interpolation-filters="sRGB" x="0" y="0" width="100%" height="100%">
+        <feFlood flood-color="#1D8FF3" result="f02-flood"></feFlood>
+        <feComposite in="f02-flood" in2="SourceAlpha" operator="in"></feComposite>
+      </filter>
+    </defs></svg>
+
+    <div id="f02-mark" class="f02-mark clip"
+         data-start="0" data-duration="4.5" data-track-index="1"><img class="f02-mark-img" data-layout-allow-overflow src="assets/07-logo-heru-white.png" alt="heru"></div>
+
+    <div id="f02-rule" class="f02-rule clip"
+         data-start="0" data-duration="4.5" data-track-index="1"></div>
+
+    <div id="f02-promise" class="f02-promise clip"
+         data-start="0" data-duration="4.5" data-track-index="2"><span class="f02-w">Hacemos</span> <span class="f02-w">tus</span><br><span class="f02-w">impuestos</span><br><span class="f02-w">ante</span> <span class="f02-w">el</span> <span class="f02-w">SAT.</span></div>
+
+    <div id="f02-emph" class="f02-emph clip"
+         data-start="0" data-duration="4.5" data-track-index="3">Mes a mes.</div>
+
+  </div>
+
+  <script>
+    (function () {
+      window.__timelines = window.__timelines || {};
+      var tl = gsap.timeline({ paused: true });
+      window.__timelines["02-heru-mes-a-mes"] = tl;
+
+      var root    = document.querySelector('[data-composition-id="02-heru-mes-a-mes"]');
+      var atmo    = root.querySelector("#f02-atmo-fill");
+      var dots    = root.querySelectorAll(".f02-dot");
+      var mark    = root.querySelector("#f02-mark");
+      var rule    = root.querySelector("#f02-rule");
+      var words   = root.querySelectorAll(".f02-w");
+      var emph    = root.querySelector("#f02-emph");
+
+
+      /* ——— Scene 1 (0.0–1.2s) — el lockup llega con UN solo movimiento ——— */
+
+      /* atmósfera: la banda superior se asienta detrás */
+      tl.fromTo(atmo,
+        { opacity: 0, scale: 1.04, transformOrigin: "100% 0%" },
+        { opacity: 1, scale: 1, duration: 0.70, ease: "power2.out" }, 0);
+
+      /* wordmark heru: deslizamiento ascendente + fundido, asentamiento largo */
+      tl.fromTo(mark,
+        { opacity: 0, y: 46 },
+        { opacity: 1, y: 0, duration: 1.0, ease: "power3.out" }, 0);
+
+      /* retícula de puntos, muy tenue */
+      tl.fromTo(dots,
+        { opacity: 0 },
+        { opacity: 1, duration: 0.6, ease: "power1.out", stagger: 0.035 }, 0.30);
+
+      /* accent-line: se dibuja de izquierda a derecha bajo la marca */
+      tl.fromTo(rule,
+        { opacity: 1, scaleX: 0, transformOrigin: "left center" },
+        { opacity: 1, scaleX: 1, duration: 0.52, ease: "power2.out" }, 0.62);
+
+      /* ——— Scene 2 (1.2–2.4s) — la promesa, escalonada por palabra ———
+         dynamic-content-sequencing: el paso de cada palabra se calcula UNA vez
+         a partir de su longitud (BASE_STEP + chars × SEC_PER_CHAR), nunca por
+         desfases codificados a mano ni recalculado en onUpdate. */
+      var PROMISE_START = 1.10;
+      var BASE_STEP     = 0.050;
+      var SEC_PER_CHAR  = 0.011;
+      var WORD_IN       = 0.46;
+
+      var cumulative = PROMISE_START;
+      var SCHEDULE = [];
+      for (var i = 0; i < words.length; i++) {
+        SCHEDULE.push(cumulative);
+        cumulative += BASE_STEP + words[i].textContent.length * SEC_PER_CHAR;
+      }
+
+      for (var j = 0; j < words.length; j++) {
+        tl.fromTo(words[j],
+          { opacity: 0, y: 20 },
+          { opacity: 1, y: 0, duration: WORD_IN, ease: "power3.out" }, SCHEDULE[j]);
+      }
+
+      /* ——— Scene 3 (2.4–4.0s) — "Mes a mes." aterriza sola, en cobalto ———
+         Un único deslizamiento ascendente con fundido; después el cuadro
+         se sostiene completamente quieto hasta el final (stillness asignada). */
+      tl.fromTo(emph,
+        { opacity: 0, y: 34 },
+        { opacity: 1, y: 0, duration: 0.58, ease: "power3.out" }, 2.58);
+
+      /* sostén quieto hasta el final del frame — sin tween de salida */
+      tl.to({}, { duration: 0.01 }, 3.99);
+    })();
+  </script>
+</template>

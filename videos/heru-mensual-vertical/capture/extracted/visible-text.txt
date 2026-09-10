@@ -1,0 +1,53 @@
+FUENTE: https://www.heru.app (HTML obtenido por fetch directo; la captura con navegador
+quedó bloqueada) + capturas de la app entregadas por el usuario.
+
+--- METADATOS DEL SITIO ---
+Title: heru: Impuestos sin estrés para freelancers | México
+Description: ¿Trabajas por tu cuenta y el SAT te genera estrés? heru automatiza tus impuestos.
+Más de 50,000 contribuyentes en México ya declaran tranquilos.
+theme-color: #1D8FF3
+Tipografía: Lexend Deca (300/400/500/600/700)
+
+--- ENCABEZADOS DEL SITIO ---
+Tus impuestos, resueltos. Sin estrés, sin errores.
+¿Cómo generas tus ingresos?
+Descubre cuánto pagarás de impuestos
+¿Qué puedes hacer gracias a heru?
+Tan fácil como 1, 2, 3
+Un plan para cada tipo de contribuyente
+Nuestros clientes nos recomiendan
+Preguntas frecuentes
+Aprende sobre tus impuestos
+¿Listo para olvidarte del SAT?
+Guías y Recursos Fiscales
+RESICO por profesión
+
+--- TEXTO DE LAS CAPTURAS DE LA APP ---
+[Splash] heru
+[Banner global] ¡TU PRIMER MES VA POR NUESTRA CUENTA! 🎁 · Prueba heru gratis
+[Inicio] Tu asesor digital · Miguel Hernández / Hola, Andres 👋 / Te acompaño con tus
+  impuestos. Vamos por el primer paso — toma menos de 2 minutos y te ahorra horas.
+[Inicio] Primeros pasos 1/4 · Completa tu configuración a tu ritmo
+  1. Vincula tu RFC — SIGUIENTE — ~2 min · Conectamos de forma segura
+  2. Tu plan recomendado: Plan RESICO — ~1 min · Cubre todas tus actividades e...
+  3. Completa tu perfil fiscal — Responde unas preguntas más...
+  Qué obtienes al vincular tu RFC
+[Declaraciones] Encriptado 🔒 / Conecta tu cuenta del SAT / Con tu e.firma utilizando los
+  archivos .cer y .key que te proporcionaron cuando realizaste el trámite en las oficinas
+  del SAT. / Certificado (.cer) / Clave privada (.key) / Contraseña de la clave privada /
+  ¿Cómo recupero mis archivos de la e.firma? / Conectar e.firma / Prefiero usar RFC y contraseña
+[Facturación] Sube aquí tus sellos digitales / Facturar es gratis / Genera todas tus facturas
+  del SAT en menos de 1 minuto con heru. / Tus facturas quedan guardadas: emite nuevas
+  similares en menos de un minuto / Tus contactos se guardan para la próxima / Envíala a
+  varios correos con un click / Nueva factura / Ingreso · Egreso · Pago · Comp.
+[Planes] Plan RESICO / primer mes Gratis $799 / Te recomendamos el plan anual y ahorra $2,397.
+  / Ideal para personas que generan ingresos como freelancers, renta de propiedades, ventas
+  online, influencers / Elige este plan / Clientes que comúnmente activan este plan / Tu plan
+  incluye: Cubre todas tus actividades económicas como persona física · Identificamos y
+  asociamos automáticamente tus ingresos y gastos
+[Buzón] Tu buzón tributario / Tu buzón está vacío / Cuando el SAT te envíe notificaciones o
+  documentos, aparecerán aquí.
+[Nav inferior] Planes · Facturación · Inicio · Declaraciones
+
+--- MENSAJE DEL BRIEF (del usuario) ---
+heru, hacemos tus impuestos ante el SAT mes a mes.

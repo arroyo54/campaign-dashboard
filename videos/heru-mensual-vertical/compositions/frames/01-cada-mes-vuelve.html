@@ -1,0 +1,178 @@
+<template>
+  <style>
+    @font-face { font-family:'Lexend Deca'; src:url('assets/fonts/lexend-deca.woff2') format('woff2');
+                 font-weight:100 900; font-style:normal; font-display:block; }
+
+    #root { position:absolute; inset:0; width:1080px; height:1920px; overflow:hidden;
+            font-family:'Lexend Deca', ui-sans-serif, system-ui, sans-serif;
+            color:#1A1A1A; background:transparent; }
+
+    #root .f01-ground { position:absolute; inset:0; }
+
+    /* vertical: 80px gutters (920px measure), bloque ópticamente centrado en el 83% superior.
+       Contenido: 300px → 1245px. Keep-out y=1594 respetado. */
+    #root .f01-pad { position:absolute; inset:0; padding:300px 80px 0; box-sizing:border-box;
+                     display:flex; flex-direction:column; justify-content:flex-start; align-items:flex-start; }
+
+    /* escala re-derivada para 1080 de ancho: h1 96px@1920 (5.0cqw) → 100px@1080 (9.26cqw) */
+    #root .f01-h1 { font-size:100px; font-weight:700; line-height:1.08; letter-spacing:-.02em; color:#1A1A1A; }
+    #root .f01-word { display:inline-block; }
+
+    /* línea fija + ranura del token */
+    #root .f01-line1 { display:flex; flex-wrap:nowrap; align-items:center; gap:22px; max-width:920px; }
+
+    #root .f01-slot { position:relative; min-width:250px; height:128px; border-radius:14px;
+                      display:flex; align-items:center; justify-content:center; }
+    #root .f01-slot-fill { position:absolute; inset:0; border-radius:14px;
+                           background:rgba(29,143,243,.04); border:1.5px solid rgba(29,143,243,.2); }
+    #root .f01-slot-glow { position:absolute; inset:0; border-radius:14px;
+                           background:rgba(29,143,243,.10); border:1.5px solid rgba(29,143,243,.34); opacity:0; }
+    #root .f01-token { position:relative; font-size:100px; font-weight:700; line-height:1;
+                       letter-spacing:-.01em; color:#1D8FF3; white-space:nowrap; }
+
+    #root .f01-line2 { margin-top:28px; color:#5A5A5A; max-width:920px; }
+
+    /* tira de los 12 meses — reflujo a rejilla 3×4, orden de lectura ENE→DIC intacto */
+    #root .f01-strip { display:grid; grid-template-columns:repeat(4, 1fr); gap:20px;
+                       margin-top:200px; width:920px; max-width:920px; }
+    #root .f01-chip { position:relative; text-align:center; padding:34px 0; border-radius:12px;
+                      border:1.5px solid rgba(29,143,243,.12); background:transparent; }
+    #root .f01-chip-fill { position:absolute; inset:-1.5px; border-radius:12px;
+                           background:rgba(29,143,243,.08); border:1.5px solid rgba(29,143,243,.3); opacity:0; }
+    /* etiqueta 20px@1920 (1.04cqw) → 36px@1080 (3.33cqw) */
+    #root .f01-chip-label { position:relative; font-size:36px; font-weight:400; letter-spacing:.06em;
+                            color:#767676; }
+  </style>
+
+  <div id="root" data-composition-id="01-cada-mes-vuelve" data-width="1080" data-height="1920" data-duration="5.4">
+    <div id="f01-ground" class="f01-ground clip" data-start="0" data-duration="5.4" data-track-index="0"
+         style="background:#FFFFFF"></div>
+
+    <div class="f01-pad">
+      <div class="f01-line1">
+        <div class="f01-h1"><span class="f01-word" id="f01-w-cada">Cada</span> <span class="f01-word" id="f01-w-mes">mes</span></div>
+        <div class="f01-slot" id="f01-slot">
+          <div class="f01-slot-fill" id="f01-slot-fill"></div>
+          <div class="f01-slot-glow" id="f01-slot-glow"></div>
+          <div class="f01-token" id="f01-token"></div>
+        </div>
+      </div>
+
+      <div class="f01-h1 f01-line2" id="f01-line2"><span class="f01-word" id="f01-w-el">…el</span> <span class="f01-word" id="f01-w-mismo">mismo</span> <span class="f01-word" id="f01-w-pendiente">pendiente.</span></div>
+
+      <div class="f01-strip" id="f01-strip">
+        <div class="f01-chip" id="f01-chip-0"><div class="f01-chip-fill" id="f01-fill-0"></div><div class="f01-chip-label" id="f01-label-0">ENE</div></div>
+        <div class="f01-chip" id="f01-chip-1"><div class="f01-chip-fill" id="f01-fill-1"></div><div class="f01-chip-label" id="f01-label-1">FEB</div></div>
+        <div class="f01-chip" id="f01-chip-2"><div class="f01-chip-fill" id="f01-fill-2"></div><div class="f01-chip-label" id="f01-label-2">MAR</div></div>
+        <div class="f01-chip" id="f01-chip-3"><div class="f01-chip-fill" id="f01-fill-3"></div><div class="f01-chip-label" id="f01-label-3">ABR</div></div>
+        <div class="f01-chip" id="f01-chip-4"><div class="f01-chip-fill" id="f01-fill-4"></div><div class="f01-chip-label" id="f01-label-4">MAY</div></div>
+        <div class="f01-chip" id="f01-chip-5"><div class="f01-chip-fill" id="f01-fill-5"></div><div class="f01-chip-label" id="f01-label-5">JUN</div></div>
+        <div class="f01-chip" id="f01-chip-6"><div class="f01-chip-fill" id="f01-fill-6"></div><div class="f01-chip-label" id="f01-label-6">JUL</div></div>
+        <div class="f01-chip" id="f01-chip-7"><div class="f01-chip-fill" id="f01-fill-7"></div><div class="f01-chip-label" id="f01-label-7">AGO</div></div>
+        <div class="f01-chip" id="f01-chip-8"><div class="f01-chip-fill" id="f01-fill-8"></div><div class="f01-chip-label" id="f01-label-8">SEP</div></div>
+        <div class="f01-chip" id="f01-chip-9"><div class="f01-chip-fill" id="f01-fill-9"></div><div class="f01-chip-label" id="f01-label-9">OCT</div></div>
+        <div class="f01-chip" id="f01-chip-10"><div class="f01-chip-fill" id="f01-fill-10"></div><div class="f01-chip-label" id="f01-label-10">NOV</div></div>
+        <div class="f01-chip" id="f01-chip-11"><div class="f01-chip-fill" id="f01-fill-11"></div><div class="f01-chip-label" id="f01-label-11">DIC</div></div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      window.__timelines = window.__timelines || {};
+      var tl = gsap.timeline({ paused: true });
+      window.__timelines["01-cada-mes-vuelve"] = tl;
+
+      var $ = function (id) { return document.getElementById(id); };
+
+      var MONTHS = ["ENE","FEB","MAR","ABR","MAY","JUN","JUL","AGO","SEP","OCT","NOV","DIC"];
+      var CYCLE_START = 0.95;   // Escena 2 — arranca el motor del plano
+      var CYCLE_STEP  = 0.13;   // cadencia constante, corte duro
+      var LAND_T      = CYCLE_START + MONTHS.length * CYCLE_STEP; // 2.51 — aterriza en SEP
+      var SEP_INDEX   = 8;
+
+      var MUTED  = "#767676";
+      var COBALT = "#1772C2";
+
+      /* ---------- Escena 1 (0.0–1.0s) — "Cada mes" por palabra, asentamiento largo ---------- */
+      var line1Words = [$("f01-w-cada"), $("f01-w-mes")];
+      line1Words.forEach(function (el, i) {
+        tl.fromTo(el,
+          { opacity: 0, y: 30, filter: "blur(7px)" },
+          { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.62, ease: "power3.out" },
+          i * 0.18);
+      });
+
+      /* la ranura vacía aparece a la derecha — el hueco es la promesa */
+      tl.fromTo($("f01-slot-fill"),
+        { opacity: 0, scaleX: 0.86 },
+        { opacity: 1, scaleX: 1, duration: 0.42, ease: "power2.out" }, 0.44);
+
+      /* ---------- Escena 2 (1.0–2.6s) — ciclo de token en sitio (discrete-text-sequence) ---------- */
+      var SEQUENCE = [{ t: 0, text: "" }];
+      for (var m = 0; m < MONTHS.length; m++) {
+        SEQUENCE.push({ t: CYCLE_START + m * CYCLE_STEP, text: MONTHS[m] });
+      }
+      SEQUENCE.push({ t: LAND_T, text: MONTHS[SEP_INDEX] });
+
+      function textAt(time) {
+        for (var i = SEQUENCE.length - 1; i >= 0; i--) {
+          if (time >= SEQUENCE[i].t) return SEQUENCE[i].text;
+        }
+        return "";
+      }
+
+      var tokenEl = $("f01-token");
+      var driver = { t: 0 };
+      var lastText = null;
+      tl.to(driver, {
+        t: 5,
+        duration: 5,
+        ease: "none",
+        onUpdate: function () {
+          var next = textAt(driver.t);
+          if (next !== lastText) { tokenEl.textContent = next; lastText = next; }
+        }
+      }, 0);
+
+      /* la tira nace aquí: cascada en orden de lectura ENE→DIC (fila 1 → fila 3,
+         izquierda→derecha en la rejilla 3×4), un chip por cada paso del token */
+      for (var c = 0; c < MONTHS.length; c++) {
+        var at = CYCLE_START + c * CYCLE_STEP;
+        tl.fromTo($("f01-chip-" + c),
+          { opacity: 0, y: 16 },
+          { opacity: 1, y: 0, duration: 0.30, ease: "power2.out" }, at);
+        /* destello del chip justo cuando el token pasa por su mes */
+        tl.fromTo($("f01-fill-" + c),
+          { opacity: 0 },
+          { opacity: 1, duration: 0.08, ease: "none" }, at);
+        tl.to($("f01-fill-" + c), { opacity: 0, duration: 0.30, ease: "power1.out" }, at + 0.08);
+        tl.fromTo($("f01-label-" + c),
+          { color: MUTED },
+          { color: COBALT, duration: 0.08, ease: "none" }, at);
+        tl.to($("f01-label-" + c), { color: MUTED, duration: 0.30, ease: "power1.out" }, at + 0.08);
+      }
+
+      /* ---------- Escena 3 (2.6–3.4s) — aterriza en SEP, se rellena en cobalto, y quietud ---------- */
+      tl.fromTo($("f01-slot-glow"),
+        { opacity: 0 },
+        { opacity: 1, duration: 0.24, ease: "power2.out" }, LAND_T);
+      tl.fromTo(tokenEl,
+        { scale: 1.09 },
+        { scale: 1, duration: 0.26, ease: "power3.out" }, LAND_T);
+      tl.to($("f01-fill-" + SEP_INDEX), { opacity: 1, duration: 0.24, ease: "power2.out" }, LAND_T);
+      tl.to($("f01-label-" + SEP_INDEX), { color: COBALT, fontWeight: 600, duration: 0.24, ease: "power2.out" }, LAND_T);
+      /* 2.75 → 3.30 : nada en vuelo */
+
+      /* ---------- Escena 4 (3.4–5.0s) — "…el mismo pendiente." palabra a palabra, y se sostiene ---------- */
+      var line2Words = [$("f01-w-el"), $("f01-w-mismo"), $("f01-w-pendiente")];
+      line2Words.forEach(function (el, i) {
+        tl.fromTo(el,
+          { opacity: 0, y: 24, filter: "blur(6px)" },
+          { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.42, ease: "power3.out" },
+          3.30 + i * 0.16);
+      });
+      /* lectura sostenida hasta el corte — sin deriva, sin salida */
+    })();
+  </script>
+</template>

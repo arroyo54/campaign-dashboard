@@ -1,0 +1,223 @@
+<template>
+  <style>
+    @font-face { font-family:'Lexend Deca'; src:url('assets/fonts/lexend-deca.woff2') format('woff2');
+                 font-weight:100 900; font-style:normal; font-display:block; }
+
+    #root { position:absolute; inset:0; width:1920px; height:1080px; overflow:hidden;
+            font-family:'Lexend Deca', ui-sans-serif, system-ui, sans-serif;
+            color:#1A1A1A; background:transparent; }
+
+    #root .f04-ground { position:absolute; inset:0; background:#FFFFFF; }
+    #root .f04-stage  { position:absolute; inset:0; }
+    #root .f04-camera { position:absolute; inset:0; transform-origin:50% 46%; }
+
+    /* ── left column ─────────────────────────────────────────── */
+    #root .f04-rule { position:absolute; left:275px; top:198px; width:60px; height:4px;
+                      border-radius:2px; background:#1D8FF3; transform-origin:0% 50%; }
+
+    #root .f04-head { position:absolute; left:275px; top:236px; width:820px;
+                      font-size:60px; font-weight:600; line-height:1.1; letter-spacing:-.02em;
+                      color:#1A1A1A; }
+    #root .f04-word { display:inline-block; opacity:0; will-change:transform; }
+
+    #root .f04-grid { position:absolute; left:275px; top:434px; width:800px;
+                      display:grid; grid-template-columns:repeat(4, 1fr); gap:16px; }
+    #root .f04-card { height:112px; box-sizing:border-box;
+                      display:flex; flex-direction:column; align-items:center; justify-content:center; gap:10px;
+                      background:rgba(29,143,243,.04); border:1.5px solid rgba(29,143,243,.2);
+                      border-radius:14px; will-change:transform; }
+    #root .f04-month { font-size:24px; font-weight:600; letter-spacing:.02em; color:#1A1A1A; line-height:1; }
+    #root .f04-stamp { display:flex; align-items:center; gap:7px; line-height:1;
+                       font-size:17px; font-weight:500; color:#047857; will-change:transform; }
+    #root .f04-chk { display:block; }
+
+    /* ── phone (right) ───────────────────────────────────────── */
+    #root .f04-phone { position:absolute; left:1220px; top:110px; width:410px; height:780px;
+                       box-sizing:border-box; border:10px solid #1A1A1A; border-radius:40px;
+                       overflow:hidden; background:#FFFFFF; will-change:transform; }
+    #root .f04-screen { position:relative; width:100%; height:100%; overflow:hidden;
+                        border-radius:31px; background:#FFFFFF; }
+    #root .f04-shot { display:block; width:100%; height:100%; object-fit:cover; object-position:50% 0; }
+
+    /* keyword glow — aligned over "Tu buzón está vacío" inside the screenshot */
+    #root .f04-glow { position:absolute; left:76px; top:257px; width:240px; height:96px;
+                      border-radius:50%; opacity:0; pointer-events:none;
+                      transform-origin:50% 50%; filter:blur(8px);
+                      background:radial-gradient(closest-side,
+                                 rgba(29,143,243,.85) 0%,
+                                 rgba(29,143,243,.30) 52%,
+                                 rgba(29,143,243,0) 100%); }
+    #root .f04-glow-pill { position:absolute; left:104px; top:284px; width:184px; height:42px;
+                           box-sizing:border-box; border-radius:12px; opacity:0; pointer-events:none;
+                           border:1.5px solid rgba(29,143,243,.5); background:rgba(29,143,243,.10); }
+      /* El banner promocional del sitio entra cortado a media palabra en las tres capturas.
+       Se cubre con una franja del propio color del header de la app (#E8EBF2, medido en
+       la fila 130 de las tres imágenes). Se tapa en vez de recortar la fuente porque
+       recortarla cambiaría la escala de la imagen y movería los overlays ya medidos.
+       116px de banner en un fuente de 2108 -> 42px a la escala de pantalla de este frame. */
+    #root .f04-banner-mask { position:absolute; left:0; top:0; width:100%; height:42px;
+                            background:#E8EBF2; pointer-events:none; }
+</style>
+
+  <div id="root" data-composition-id="04-cada-mes-solo" data-width="1920" data-height="1080" data-duration="5.5">
+
+    <div id="f04-ground" class="f04-ground clip" data-start="0" data-duration="99" data-track-index="0"></div>
+
+    <div id="f04-stage" class="f04-stage clip" data-start="0" data-duration="99" data-track-index="1">
+      <div id="f04-camera" class="f04-camera">
+
+        <div id="f04-rule" class="f04-rule"></div>
+
+        <div id="f04-head" class="f04-head">
+          <div><span class="f04-word" id="f04-w1">Después,</span> <span class="f04-word" id="f04-w2">cada</span> <span class="f04-word" id="f04-w3">mes</span></div>
+          <div><span class="f04-word" id="f04-w4">se</span> <span class="f04-word" id="f04-w5">declara</span> <span class="f04-word" id="f04-w6">solo.</span></div>
+        </div>
+
+        <div id="f04-grid" class="f04-grid">
+          <div class="f04-card" id="f04-card-0" data-col="0" data-row="0">
+            <div class="f04-month">ENE</div>
+            <div class="f04-stamp" id="f04-stamp-0"><svg class="f04-chk" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true"><path d="M4 12.6 L9.6 18.2 L20 6.2" fill="none" stroke="#047857" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>Declarado</span></div>
+          </div>
+          <div class="f04-card" id="f04-card-1" data-col="1" data-row="0">
+            <div class="f04-month">FEB</div>
+            <div class="f04-stamp" id="f04-stamp-1"><svg class="f04-chk" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true"><path d="M4 12.6 L9.6 18.2 L20 6.2" fill="none" stroke="#047857" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>Declarado</span></div>
+          </div>
+          <div class="f04-card" id="f04-card-2" data-col="2" data-row="0">
+            <div class="f04-month">MAR</div>
+            <div class="f04-stamp" id="f04-stamp-2"><svg class="f04-chk" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true"><path d="M4 12.6 L9.6 18.2 L20 6.2" fill="none" stroke="#047857" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>Declarado</span></div>
+          </div>
+          <div class="f04-card" id="f04-card-3" data-col="3" data-row="0">
+            <div class="f04-month">ABR</div>
+            <div class="f04-stamp" id="f04-stamp-3"><svg class="f04-chk" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true"><path d="M4 12.6 L9.6 18.2 L20 6.2" fill="none" stroke="#047857" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>Declarado</span></div>
+          </div>
+          <div class="f04-card" id="f04-card-4" data-col="0" data-row="1">
+            <div class="f04-month">MAY</div>
+            <div class="f04-stamp" id="f04-stamp-4"><svg class="f04-chk" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true"><path d="M4 12.6 L9.6 18.2 L20 6.2" fill="none" stroke="#047857" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>Declarado</span></div>
+          </div>
+          <div class="f04-card" id="f04-card-5" data-col="1" data-row="1">
+            <div class="f04-month">JUN</div>
+            <div class="f04-stamp" id="f04-stamp-5"><svg class="f04-chk" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true"><path d="M4 12.6 L9.6 18.2 L20 6.2" fill="none" stroke="#047857" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>Declarado</span></div>
+          </div>
+          <div class="f04-card" id="f04-card-6" data-col="2" data-row="1">
+            <div class="f04-month">JUL</div>
+            <div class="f04-stamp" id="f04-stamp-6"><svg class="f04-chk" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true"><path d="M4 12.6 L9.6 18.2 L20 6.2" fill="none" stroke="#047857" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>Declarado</span></div>
+          </div>
+          <div class="f04-card" id="f04-card-7" data-col="3" data-row="1">
+            <div class="f04-month">AGO</div>
+            <div class="f04-stamp" id="f04-stamp-7"><svg class="f04-chk" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true"><path d="M4 12.6 L9.6 18.2 L20 6.2" fill="none" stroke="#047857" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>Declarado</span></div>
+          </div>
+          <div class="f04-card" id="f04-card-8" data-col="0" data-row="2">
+            <div class="f04-month">SEP</div>
+            <div class="f04-stamp" id="f04-stamp-8"><svg class="f04-chk" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true"><path d="M4 12.6 L9.6 18.2 L20 6.2" fill="none" stroke="#047857" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>Declarado</span></div>
+          </div>
+          <div class="f04-card" id="f04-card-9" data-col="1" data-row="2">
+            <div class="f04-month">OCT</div>
+            <div class="f04-stamp" id="f04-stamp-9"><svg class="f04-chk" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true"><path d="M4 12.6 L9.6 18.2 L20 6.2" fill="none" stroke="#047857" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>Declarado</span></div>
+          </div>
+          <div class="f04-card" id="f04-card-10" data-col="2" data-row="2">
+            <div class="f04-month">NOV</div>
+            <div class="f04-stamp" id="f04-stamp-10"><svg class="f04-chk" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true"><path d="M4 12.6 L9.6 18.2 L20 6.2" fill="none" stroke="#047857" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>Declarado</span></div>
+          </div>
+          <div class="f04-card" id="f04-card-11" data-col="3" data-row="2">
+            <div class="f04-month">DIC</div>
+            <div class="f04-stamp" id="f04-stamp-11"><svg class="f04-chk" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true"><path d="M4 12.6 L9.6 18.2 L20 6.2" fill="none" stroke="#047857" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>Declarado</span></div>
+          </div>
+        </div>
+
+        <div id="f04-phone" class="f04-phone">
+          <div class="f04-screen">
+            <img id="f04-shot" class="f04-shot" src="assets/06-buzon-tributario.jpg" alt="" />
+            <div class="f04-banner-mask"></div>
+            <div id="f04-glow" class="f04-glow"></div>
+            <div id="f04-glow-pill" class="f04-glow-pill"></div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      var tl = gsap.timeline({ paused: true });
+      var F = 1 / 60;
+
+      /* ── Scene 1 (0.0–1.0s) — headline whips in word by word (waterfall-entry),
+            the phone rides in from the right on the current and settles. ───── */
+
+      tl.fromTo("#f04-rule",
+        { scaleX: 0, opacity: 1 },
+        { scaleX: 1, duration: 0.34, ease: "power3.out" }, 0.02);
+
+      /* waterfall-entry: binary opacity via set + whip to rest, overlapping, one direction */
+      var WORDS = [
+        { id: "#f04-w1", at: 0.060, y: 72, d: 0.18 },
+        { id: "#f04-w2", at: 0.273, y: 46, d: 0.15 },
+        { id: "#f04-w3", at: 0.406, y: 44, d: 0.15 },
+        { id: "#f04-w4", at: 0.540, y: 40, d: 0.13 },
+        { id: "#f04-w5", at: 0.653, y: 48, d: 0.15 },
+        { id: "#f04-w6", at: 0.770, y: 56, d: 0.16 }
+      ];
+      WORDS.forEach(function (w) {
+        tl.set(w.id, { opacity: 1, y: w.y }, w.at);
+        tl.to(w.id, { y: 0, duration: w.d, ease: "power4.out" }, w.at);
+      });
+
+      tl.fromTo("#f04-phone",
+        { x: 700 },
+        { x: 0, duration: 0.85, ease: "power4.out" }, 0.05);
+
+      /* ── Scene 2 (1.0–2.4s) — blueprint signature: the 12 month cards
+            self-assemble in a staggered cascade into the 4x3 grid, ENE->DIC,
+            each on a short path straight into its own slot. ───────────────── */
+
+      var cards = document.querySelectorAll("#f04-grid .f04-card");
+      var GRID_AT = 1.0, GRID_STAGGER = 0.075, GRID_DUR = 0.50;
+      cards.forEach(function (el, i) {
+        var dx = Number(el.dataset.col) - 1.5;
+        var dy = Number(el.dataset.row) - 1;
+        tl.fromTo(el,
+          { x: -dx * 24, y: -dy * 24, scale: 0.88, opacity: 0 },
+          { x: 0, y: 0, scale: 1, opacity: 1, duration: GRID_DUR, ease: "power3.out" },
+          GRID_AT + i * GRID_STAGGER);
+      });
+
+      /* slow camera push-in under the assemble, stopping dead before the last beat */
+      tl.fromTo("#f04-camera",
+        { scale: 1 },
+        { scale: 1.015, duration: 2.55, ease: "sine.inOut" }, 1.05);
+
+      /* ── Scene 3 (2.4–3.6s) — second staggered pass: the "Declarado" stamp
+            lands card by card; each card's border firms up as it seals. ────── */
+
+      var STAMP_AT = 2.40, STAMP_STAGGER = 0.10, STAMP_DUR = 0.34;
+      cards.forEach(function (el, i) {
+        var at = STAMP_AT + i * STAMP_STAGGER;
+        tl.fromTo("#f04-stamp-" + i,
+          { scale: 0.62, opacity: 0 },
+          { scale: 1, opacity: 1, duration: STAMP_DUR, ease: "power3.out" }, at);
+        tl.to(el, { borderColor: "rgba(29,143,243,0.34)", duration: 0.40, ease: "power2.out" }, at);
+      });
+
+      /* ── Scene 4 (3.6–5.0s) — on the same frame the last stamp falls, a
+            one-shot keyword glow lands on "Tu buzón está vacío" inside the
+            screenshot: attack to peak, decay to a resting breadcrumb, hold. ── */
+
+      var GLOW_AT = 3.50;
+      tl.fromTo("#f04-glow",
+        { opacity: 0, scale: 0.72 },
+        { opacity: 0.44, scale: 1, duration: 0.34, ease: "power2.out" }, GLOW_AT);
+      tl.to("#f04-glow",
+        { opacity: 0.26, scale: 0.94, duration: 0.55, ease: "power2.out" }, GLOW_AT + 0.34);
+
+      tl.fromTo("#f04-glow-pill",
+        { opacity: 0 },
+        { opacity: 1, duration: 0.30, ease: "power2.out" }, GLOW_AT + 0.02);
+      tl.to("#f04-glow-pill",
+        { opacity: 0.70, duration: 0.50, ease: "power2.out" }, GLOW_AT + 0.36);
+
+      window.__timelines = window.__timelines || {};
+      window.__timelines["04-cada-mes-solo"] = tl;
+    })();
+  </script>
+</template>
