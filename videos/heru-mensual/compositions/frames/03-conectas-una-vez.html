@@ -32,14 +32,17 @@
                       object-fit:cover; object-position:50% 0%; }
 
     /* destello de palabra clave sobre el badge "Encriptado" de la captura */
-    #root #f03-badge-bloom { position:absolute; left:69px; top:56px; width:240px; height:150px;
+    /* Origen: estos overlays cuelgan del bezel, cuyo padding box arranca 10px dentro
+       del teléfono por el borde. Coordenadas recalculadas contra la caja de pantalla
+       (380x760, cover 0.36053, dominado por alto): centro del badge (179.7, 121.3). */
+    #root #f03-badge-bloom { position:absolute; left:60px; top:46px; width:240px; height:150px;
                              border-radius:50%; pointer-events:none; opacity:0;
                              transform-origin:50% 50%;
                              background:radial-gradient(closest-side,
                                         rgba(29,143,243,.55) 0%,
                                         rgba(29,143,243,.26) 45%,
                                         rgba(29,143,243,0) 100%); }
-    #root #f03-badge-ring { position:absolute; left:131px; top:114px; width:116px; height:34px;
+    #root #f03-badge-ring { position:absolute; left:122px; top:104px; width:116px; height:34px;
                             border-radius:100px; pointer-events:none; opacity:0;
                             transform-origin:50% 50%;
                             border:2px solid rgba(29,143,243,.85); }

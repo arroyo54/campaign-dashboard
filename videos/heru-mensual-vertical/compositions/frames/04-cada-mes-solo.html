@@ -3,67 +3,78 @@
     @font-face { font-family:'Lexend Deca'; src:url('assets/fonts/lexend-deca.woff2') format('woff2');
                  font-weight:100 900; font-style:normal; font-display:block; }
 
-    #root { position:absolute; inset:0; width:1920px; height:1080px; overflow:hidden;
+    #root { position:absolute; inset:0; width:1080px; height:1920px; overflow:hidden;
             font-family:'Lexend Deca', ui-sans-serif, system-ui, sans-serif;
             color:#1A1A1A; background:transparent; }
 
     #root .f04-ground { position:absolute; inset:0; background:#FFFFFF; }
     #root .f04-stage  { position:absolute; inset:0; }
-    #root .f04-camera { position:absolute; inset:0; transform-origin:50% 46%; }
+    #root .f04-camera { position:absolute; inset:0; transform-origin:50% 44%; }
 
-    /* ── left column ─────────────────────────────────────────── */
-    #root .f04-rule { position:absolute; left:275px; top:198px; width:60px; height:4px;
+    /* ── vertical stack: cabecera → rejilla (héroe) → teléfono ──────────
+       Márgenes laterales de 80px; la rejilla ocupa 80→1000 y el teléfono
+       se centra debajo. Todo el contenido termina en y=1578 (keep-out 1594). */
+
+    /* atomo fijo del sistema: accent-line 60×4 */
+    #root .f04-rule { position:absolute; left:80px; top:100px; width:60px; height:4px;
                       border-radius:2px; background:#1D8FF3; transform-origin:0% 50%; }
 
-    #root .f04-head { position:absolute; left:275px; top:236px; width:820px;
-                      font-size:60px; font-weight:600; line-height:1.1; letter-spacing:-.02em;
+    /* h2 reescalada al lienzo de 1080: 60px@1920 → 72px@1080 (factor 1.2) */
+    #root .f04-head { position:absolute; left:80px; top:142px; width:920px;
+                      font-size:72px; font-weight:600; line-height:1.1; letter-spacing:-.02em;
                       color:#1A1A1A; }
     #root .f04-word { display:inline-block; opacity:0; will-change:transform; }
 
-    #root .f04-grid { position:absolute; left:275px; top:434px; width:800px;
-                      display:grid; grid-template-columns:repeat(4, 1fr); gap:16px; }
-    #root .f04-card { height:112px; box-sizing:border-box;
-                      display:flex; flex-direction:column; align-items:center; justify-content:center; gap:10px;
+    /* la rejilla sigue siendo 4×3 en orden ENE→DIC: el portador del Frame 1
+       vuelve con la misma forma reconocible. 920/4 columnas = 215.75px. */
+    #root .f04-grid { position:absolute; left:80px; top:356px; width:920px;
+                      display:grid; grid-template-columns:repeat(4, 1fr); gap:19px; }
+    #root .f04-card { height:132px; box-sizing:border-box;
+                      display:flex; flex-direction:column; align-items:center; justify-content:center; gap:12px;
                       background:rgba(29,143,243,.04); border:1.5px solid rgba(29,143,243,.2);
                       border-radius:14px; will-change:transform; }
-    #root .f04-month { font-size:24px; font-weight:600; letter-spacing:.02em; color:#1A1A1A; line-height:1; }
-    #root .f04-stamp { display:flex; align-items:center; gap:7px; line-height:1;
-                       font-size:17px; font-weight:500; color:#047857; will-change:transform; }
+    #root .f04-month { font-size:29px; font-weight:600; letter-spacing:.02em; color:#1A1A1A; line-height:1; }
+    #root .f04-stamp { display:flex; align-items:center; gap:8px; line-height:1;
+                       font-size:20px; font-weight:500; color:#047857; will-change:transform; }
     #root .f04-chk { display:block; }
 
-    /* ── phone (right) ───────────────────────────────────────── */
-    #root .f04-phone { position:absolute; left:1220px; top:110px; width:410px; height:780px;
+    /* ── teléfono (abajo, centrado) ───────────────────────────────────
+       374×730 de pantalla = 0.51233, el mismo aspecto que la captura de
+       1080×2108, así que `cover` resuelve a una escala limpia de 0.34630. */
+    #root .f04-phone { position:absolute; left:343px; top:828px; width:394px; height:750px;
                        box-sizing:border-box; border:10px solid #1A1A1A; border-radius:40px;
                        overflow:hidden; background:#FFFFFF; will-change:transform; }
     #root .f04-screen { position:relative; width:100%; height:100%; overflow:hidden;
                         border-radius:31px; background:#FFFFFF; }
     #root .f04-shot { display:block; width:100%; height:100%; object-fit:cover; object-position:50% 0; }
 
-    /* keyword glow — aligned over "Tu buzón está vacío" inside the screenshot */
-    #root .f04-glow { position:absolute; left:76px; top:257px; width:240px; height:96px;
+    /* keyword glow — alineado sobre "Tu buzón está vacío" dentro de la captura.
+       Medido en la imagen: la línea ocupa x 322–757, y 819–854, centro (540, 840).
+       A la escala de esta pantalla (0.34630) el centro cae en (186.8, 290.9). */
+    #root .f04-glow { position:absolute; left:72px; top:245px; width:230px; height:92px;
                       border-radius:50%; opacity:0; pointer-events:none;
                       transform-origin:50% 50%; filter:blur(8px);
                       background:radial-gradient(closest-side,
                                  rgba(29,143,243,.85) 0%,
                                  rgba(29,143,243,.30) 52%,
                                  rgba(29,143,243,0) 100%); }
-    #root .f04-glow-pill { position:absolute; left:104px; top:284px; width:184px; height:42px;
+    #root .f04-glow-pill { position:absolute; left:99px; top:271px; width:176px; height:40px;
                            box-sizing:border-box; border-radius:12px; opacity:0; pointer-events:none;
                            border:1.5px solid rgba(29,143,243,.5); background:rgba(29,143,243,.10); }
       /* El banner promocional del sitio entra cortado a media palabra en las tres capturas.
        Se cubre con una franja del propio color del header de la app (#E8EBF2, medido en
        la fila 130 de las tres imágenes). Se tapa en vez de recortar la fuente porque
        recortarla cambiaría la escala de la imagen y movería los overlays ya medidos.
-       116px de banner en un fuente de 2108 -> 42px a la escala de pantalla de este frame. */
-    #root .f04-banner-mask { position:absolute; left:0; top:0; width:100%; height:42px;
+       116px de banner en un fuente de 2108 -> 40px a la escala de pantalla de este frame. */
+    #root .f04-banner-mask { position:absolute; left:0; top:0; width:100%; height:40px;
                             background:#E8EBF2; pointer-events:none; }
 </style>
 
-  <div id="root" data-composition-id="04-cada-mes-solo" data-width="1920" data-height="1080" data-duration="5.5">
+  <div id="root" data-composition-id="04-cada-mes-solo" data-width="1080" data-height="1920" data-duration="5.5">
 
-    <div id="f04-ground" class="f04-ground clip" data-start="0" data-duration="99" data-track-index="0"></div>
+    <div id="f04-ground" class="f04-ground clip" data-start="0" data-duration="5.5" data-track-index="0"></div>
 
-    <div id="f04-stage" class="f04-stage clip" data-start="0" data-duration="99" data-track-index="1">
+    <div id="f04-stage" class="f04-stage clip" data-start="0" data-duration="5.5" data-track-index="1">
       <div id="f04-camera" class="f04-camera">
 
         <div id="f04-rule" class="f04-rule"></div>
@@ -76,51 +87,51 @@
         <div id="f04-grid" class="f04-grid">
           <div class="f04-card" id="f04-card-0" data-col="0" data-row="0">
             <div class="f04-month">ENE</div>
-            <div class="f04-stamp" id="f04-stamp-0"><svg class="f04-chk" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true"><path d="M4 12.6 L9.6 18.2 L20 6.2" fill="none" stroke="#047857" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>Declarado</span></div>
+            <div class="f04-stamp" id="f04-stamp-0"><svg class="f04-chk" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M4 12.6 L9.6 18.2 L20 6.2" fill="none" stroke="#047857" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>Declarado</span></div>
           </div>
           <div class="f04-card" id="f04-card-1" data-col="1" data-row="0">
             <div class="f04-month">FEB</div>
-            <div class="f04-stamp" id="f04-stamp-1"><svg class="f04-chk" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true"><path d="M4 12.6 L9.6 18.2 L20 6.2" fill="none" stroke="#047857" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>Declarado</span></div>
+            <div class="f04-stamp" id="f04-stamp-1"><svg class="f04-chk" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M4 12.6 L9.6 18.2 L20 6.2" fill="none" stroke="#047857" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>Declarado</span></div>
           </div>
           <div class="f04-card" id="f04-card-2" data-col="2" data-row="0">
             <div class="f04-month">MAR</div>
-            <div class="f04-stamp" id="f04-stamp-2"><svg class="f04-chk" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true"><path d="M4 12.6 L9.6 18.2 L20 6.2" fill="none" stroke="#047857" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>Declarado</span></div>
+            <div class="f04-stamp" id="f04-stamp-2"><svg class="f04-chk" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M4 12.6 L9.6 18.2 L20 6.2" fill="none" stroke="#047857" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>Declarado</span></div>
           </div>
           <div class="f04-card" id="f04-card-3" data-col="3" data-row="0">
             <div class="f04-month">ABR</div>
-            <div class="f04-stamp" id="f04-stamp-3"><svg class="f04-chk" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true"><path d="M4 12.6 L9.6 18.2 L20 6.2" fill="none" stroke="#047857" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>Declarado</span></div>
+            <div class="f04-stamp" id="f04-stamp-3"><svg class="f04-chk" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M4 12.6 L9.6 18.2 L20 6.2" fill="none" stroke="#047857" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>Declarado</span></div>
           </div>
           <div class="f04-card" id="f04-card-4" data-col="0" data-row="1">
             <div class="f04-month">MAY</div>
-            <div class="f04-stamp" id="f04-stamp-4"><svg class="f04-chk" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true"><path d="M4 12.6 L9.6 18.2 L20 6.2" fill="none" stroke="#047857" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>Declarado</span></div>
+            <div class="f04-stamp" id="f04-stamp-4"><svg class="f04-chk" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M4 12.6 L9.6 18.2 L20 6.2" fill="none" stroke="#047857" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>Declarado</span></div>
           </div>
           <div class="f04-card" id="f04-card-5" data-col="1" data-row="1">
             <div class="f04-month">JUN</div>
-            <div class="f04-stamp" id="f04-stamp-5"><svg class="f04-chk" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true"><path d="M4 12.6 L9.6 18.2 L20 6.2" fill="none" stroke="#047857" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>Declarado</span></div>
+            <div class="f04-stamp" id="f04-stamp-5"><svg class="f04-chk" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M4 12.6 L9.6 18.2 L20 6.2" fill="none" stroke="#047857" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>Declarado</span></div>
           </div>
           <div class="f04-card" id="f04-card-6" data-col="2" data-row="1">
             <div class="f04-month">JUL</div>
-            <div class="f04-stamp" id="f04-stamp-6"><svg class="f04-chk" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true"><path d="M4 12.6 L9.6 18.2 L20 6.2" fill="none" stroke="#047857" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>Declarado</span></div>
+            <div class="f04-stamp" id="f04-stamp-6"><svg class="f04-chk" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M4 12.6 L9.6 18.2 L20 6.2" fill="none" stroke="#047857" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>Declarado</span></div>
           </div>
           <div class="f04-card" id="f04-card-7" data-col="3" data-row="1">
             <div class="f04-month">AGO</div>
-            <div class="f04-stamp" id="f04-stamp-7"><svg class="f04-chk" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true"><path d="M4 12.6 L9.6 18.2 L20 6.2" fill="none" stroke="#047857" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>Declarado</span></div>
+            <div class="f04-stamp" id="f04-stamp-7"><svg class="f04-chk" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M4 12.6 L9.6 18.2 L20 6.2" fill="none" stroke="#047857" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>Declarado</span></div>
           </div>
           <div class="f04-card" id="f04-card-8" data-col="0" data-row="2">
             <div class="f04-month">SEP</div>
-            <div class="f04-stamp" id="f04-stamp-8"><svg class="f04-chk" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true"><path d="M4 12.6 L9.6 18.2 L20 6.2" fill="none" stroke="#047857" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>Declarado</span></div>
+            <div class="f04-stamp" id="f04-stamp-8"><svg class="f04-chk" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M4 12.6 L9.6 18.2 L20 6.2" fill="none" stroke="#047857" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>Declarado</span></div>
           </div>
           <div class="f04-card" id="f04-card-9" data-col="1" data-row="2">
             <div class="f04-month">OCT</div>
-            <div class="f04-stamp" id="f04-stamp-9"><svg class="f04-chk" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true"><path d="M4 12.6 L9.6 18.2 L20 6.2" fill="none" stroke="#047857" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>Declarado</span></div>
+            <div class="f04-stamp" id="f04-stamp-9"><svg class="f04-chk" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M4 12.6 L9.6 18.2 L20 6.2" fill="none" stroke="#047857" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>Declarado</span></div>
           </div>
           <div class="f04-card" id="f04-card-10" data-col="2" data-row="2">
             <div class="f04-month">NOV</div>
-            <div class="f04-stamp" id="f04-stamp-10"><svg class="f04-chk" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true"><path d="M4 12.6 L9.6 18.2 L20 6.2" fill="none" stroke="#047857" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>Declarado</span></div>
+            <div class="f04-stamp" id="f04-stamp-10"><svg class="f04-chk" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M4 12.6 L9.6 18.2 L20 6.2" fill="none" stroke="#047857" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>Declarado</span></div>
           </div>
           <div class="f04-card" id="f04-card-11" data-col="3" data-row="2">
             <div class="f04-month">DIC</div>
-            <div class="f04-stamp" id="f04-stamp-11"><svg class="f04-chk" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true"><path d="M4 12.6 L9.6 18.2 L20 6.2" fill="none" stroke="#047857" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>Declarado</span></div>
+            <div class="f04-stamp" id="f04-stamp-11"><svg class="f04-chk" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M4 12.6 L9.6 18.2 L20 6.2" fill="none" stroke="#047857" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>Declarado</span></div>
           </div>
         </div>
 

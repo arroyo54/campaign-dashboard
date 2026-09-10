@@ -62,7 +62,7 @@ frame nombra `sfx`.
 - on_screen: "Cada mes…" (fijo) · ENE · FEB · MAR · ABR · MAY · JUN · JUL · AGO · SEP · OCT · NOV · DIC (ciclando) · "…el mismo pendiente."
 - duration: 5s
 - transition_in: cut
-- status: outline
+- status: animated
 - src: compositions/frames/01-cada-mes-vuelve.html
 - type: pain_point
 - persuasion: Pain validation
@@ -99,7 +99,7 @@ final del plano.
 - on_screen: "heru" · "Hacemos tus impuestos ante el SAT." · "Mes a mes."
 - duration: 4s
 - transition_in: zoom-through
-- status: outline
+- status: animated
 - src: compositions/frames/02-heru-mes-a-mes.html
 - type: product_intro
 - persuasion: Friction reduction
@@ -134,7 +134,7 @@ Video direction: la promesa se lee sin competencia.
 - on_screen: "Lo conectas una vez." · micro-línea: "e.firma · cifrado de extremo a extremo"
 - duration: 5s
 - transition_in: crossfade
-- status: outline
+- status: animated
 - src: compositions/frames/03-conectas-una-vez.html
 - type: feature_showcase
 - persuasion: Friction reduction
@@ -171,7 +171,7 @@ sostenido y quieto.
 - on_screen: "Después, cada mes se declara solo." · sellos: "Declarado" ×12 · "Tu buzón está vacío"
 - duration: 5s
 - transition_in: push-slide LEFT
-- status: outline
+- status: animated
 - src: compositions/frames/04-cada-mes-solo.html
 - type: benefit_highlight
 - persuasion: Future pacing
@@ -205,7 +205,7 @@ El cuadro asienta y se queda quieto.
 - on_screen: "Y facturar, gratis." · tarjetas: Ingreso · Egreso · Pago · Comp. · micro-línea: "en menos de 1 minuto"
 - duration: 4s
 - transition_in: push-slide LEFT
-- status: outline
+- status: animated
 - src: compositions/frames/05-facturar-gratis.html
 - type: feature_showcase
 - persuasion: Value stacking
@@ -245,7 +245,7 @@ micro-línea "en menos de 1 minuto" sube debajo del titular. Sostiene.
 - on_screen: "+50,000" · "contribuyentes en México ya declaran tranquilos."
 - duration: 4s
 - transition_in: zoom-through
-- status: outline
+- status: animated
 - src: compositions/frames/06-cincuenta-mil.html
 - type: social_proof
 - persuasion: Social proof
@@ -278,7 +278,7 @@ revela debajo y el cuadro se queda quieto. Sin deriva: el número aguanta solo.
 - on_screen: "heru" · "heru.app" · "Tu primer mes va por nuestra cuenta."
 - duration: 4.5s
 - transition_in: crossfade
-- status: outline
+- status: animated
 - src: compositions/frames/07-heru-app.html
 - type: cta
 - persuasion: Risk reversal

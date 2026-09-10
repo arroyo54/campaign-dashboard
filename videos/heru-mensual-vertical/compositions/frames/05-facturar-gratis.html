@@ -3,76 +3,91 @@
     @font-face { font-family:'Lexend Deca'; src:url('assets/fonts/lexend-deca.woff2') format('woff2');
                  font-weight:100 900; font-style:normal; font-display:block; }
 
-    #root { position:absolute; inset:0; width:1920px; height:1080px; overflow:hidden;
+    #root { position:absolute; inset:0; width:1080px; height:1920px; overflow:hidden;
             font-family:'Lexend Deca', ui-sans-serif, system-ui, sans-serif;
             color:#1A1A1A; background:transparent; }
 
     #root .clip { position:absolute; inset:0; }
 
-    /* ————— tipografía / átomos (frame.md) ————— */
-    #root .f05-accent-line { position:absolute; width:60px; height:4px; border-radius:2px;
+    /* ————— tipografía / átomos (frame.md, re-escalados al lienzo vertical 1080×1920) —————
+       La escala de tipos de frame.md está autorizada para un lienzo de 1920 de ancho.
+       Aquí se re-deriva cada tamaño con un factor de 1.18 sobre los px del apaisado
+       (h 88→104, micro 28→33, píldora 26→31 / alto 58→69, línea de acento 60×4→72×5). */
+    #root .f05-accent-line { position:absolute; width:72px; height:5px; border-radius:2.5px;
                              background:#1D8FF3; will-change:transform; }
-    #root .f05-h { position:absolute; font-size:88px; font-weight:600; line-height:1.08;
-                   letter-spacing:-.02em; color:#1A1A1A; }
+    #root .f05-h { position:absolute; font-size:104px; font-weight:600; line-height:1.08;
+                   letter-spacing:-.02em; color:#1A1A1A; text-align:center; }
     #root .f05-w { display:inline-block; will-change:transform; }
-    #root .f05-micro { position:absolute; font-size:28px; font-weight:400; line-height:1.5;
-                       color:#5A5A5A; will-change:transform; }
+    #root .f05-micro { position:absolute; font-size:33px; font-weight:400; line-height:1.5;
+                       color:#5A5A5A; text-align:center; will-change:transform; }
 
     /* ————— píldoras (tag-pill) ————— */
-    #root .f05-pill { position:absolute; left:0; top:0; height:58px; box-sizing:border-box;
+    #root .f05-pill { position:absolute; left:0; top:0; height:69px; box-sizing:border-box;
                       display:flex; align-items:center; justify-content:center;
                       border-radius:100px; background:rgba(29,143,243,.08);
-                      color:#1772C2; font-size:26px; font-weight:500; letter-spacing:-.005em;
+                      color:#1772C2; font-size:31px; font-weight:500; letter-spacing:-.005em;
                       white-space:nowrap; will-change:transform; }
 
-    /* ————— maqueta de teléfono ————— */
-    #root .f05-phone { position:absolute; left:340px; top:105px; width:408px; height:777px;
-                       box-sizing:border-box; border:10px solid #1A1A1A; border-radius:46px;
+    /* ————— maqueta de teléfono —————
+       El vertical admite una maqueta mucho mayor que los 408×777 del apaisado.
+       Exterior 524×1000, borde 12 -> pantalla interior 500×976.
+       500/976 = 0.5123 == 1080/2108, así que la captura entra sin recorte.
+       Escala captura -> pantalla = 500/1080 = 0.462963. */
+    #root .f05-phone { position:absolute; left:278px; top:48px; width:524px; height:1000px;
+                       box-sizing:border-box; border:12px solid #1A1A1A; border-radius:54px;
                        background:#FFFFFF; overflow:hidden; will-change:transform; }
     #root .f05-screen { position:absolute; inset:0; overflow:hidden; }
     #root .f05-shot { position:absolute; inset:0; width:100%; height:100%;
                       object-fit:cover; object-position:50% 0%; display:block; }
 
-    /* botón real "Nueva factura" recalcado sobre la captura */
-    #root .f05-btn-burst { position:absolute; left:101px; top:550.8px; width:186px; height:58px;
+    /* botón real "Nueva factura" recalcado sobre la captura.
+       Medido a pixel en la fuente 1080×2108: x 292–788, y 1543–1687, relleno #2B7EFE.
+       A escala de pantalla: 135.2, 714.4, 229.6×66.7 -> centro (250.0, 747.7).
+       La píldora sintética se centra en ese mismo centro y se hace un pelo mayor
+       (238×74) para cubrir la real sin costura — misma forma de estadio, mismo relleno. */
+    #root .f05-btn-burst { position:absolute; left:131px; top:710.7px; width:238px; height:74px;
                            border-radius:100px; z-index:1; opacity:0; pointer-events:none;
                            background:radial-gradient(closest-side, rgba(43,126,254,.85), rgba(43,126,254,0));
-                           filter:blur(22px); }
-    #root .f05-btn { position:absolute; left:101px; top:550.8px; width:186px; height:58px;
+                           filter:blur(28px); }
+    #root .f05-btn { position:absolute; left:131px; top:710.7px; width:238px; height:74px;
                      z-index:2; box-sizing:border-box; display:flex; align-items:center;
                      justify-content:center; border-radius:100px; background:#2B7EFE;
-                     color:#FFFFFF; font-size:19px; font-weight:600; letter-spacing:-.005em;
-                     box-shadow:0 10px 26px rgba(43,126,254,.38); transform-origin:50% 50%;
+                     color:#FFFFFF; font-size:24px; font-weight:600; letter-spacing:-.005em;
+                     box-shadow:0 13px 34px rgba(43,126,254,.38); transform-origin:50% 50%;
                      will-change:transform; }
 
-    /* ————— anillo de clic ————— */
-    #root .f05-ripple { position:absolute; left:484px; top:635px; width:120px; height:120px;
-                        border-radius:50%; border:3px solid rgba(29,143,243,.7);
+    /* ————— anillo de clic —————
+       Punto de clic absoluto = origen de pantalla (290, 60) + (250.0, 747.7) = (540, 807.7). */
+    #root .f05-ripple { position:absolute; left:462.5px; top:730.2px; width:155px; height:155px;
+                        border-radius:50%; border:4px solid rgba(29,143,243,.7);
                         opacity:0; pointer-events:none; will-change:transform; }
 
-    /* ————— cursor sobredimensionado ————— */
-    #root .f05-cursor { position:absolute; left:534.3px; top:690.2px; width:116px; height:145px;
+    /* ————— cursor sobredimensionado —————
+       140×175 (crece con la maqueta); la punta del viewBox 24×30 cae en 8.3% / 3.3%
+       -> desplazamiento (11.67, 5.83). Posición de aterrizaje = clic − punta. */
+    #root .f05-cursor { position:absolute; left:528.33px; top:801.87px; width:140px; height:175px;
                         z-index:30; pointer-events:none; will-change:transform;
                         filter:drop-shadow(0 4px 6px rgba(0,0,0,.3)); }
       /* El banner promocional del sitio entra cortado a media palabra en las tres capturas.
        Se cubre con una franja del propio color del header de la app (#E8EBF2, medido en
        la fila 130 de las tres imágenes). Se tapa en vez de recortar la fuente porque
        recortarla cambiaría la escala de la imagen y movería los overlays ya medidos.
-       116px de banner en un fuente de 2108 -> 42px a la escala de pantalla de este frame. */
-    #root .f05-banner-mask { position:absolute; left:0; top:0; width:100%; height:42px;
+       116px de banner en un fuente de 2108 -> 116 × (976 / 2108) = 53.7px a la escala
+       de pantalla de este frame vertical. */
+    #root .f05-banner-mask { position:absolute; left:0; top:0; width:100%; height:53.7px;
                             background:#E8EBF2; pointer-events:none; }
 </style>
 
-  <div id="root" data-composition-id="05-facturar-gratis" data-width="1920" data-height="1080" data-duration="4.4">
+  <div id="root" data-composition-id="05-facturar-gratis" data-width="1080" data-height="1920" data-duration="4.4">
 
     <!-- suelo a sangre completa -->
-    <div id="f05-ground" class="clip" data-start="0" data-duration="99" data-track-index="0"
+    <div id="f05-ground" class="clip" data-start="0" data-duration="4.4" data-track-index="0"
          style="background:#FFFFFF"></div>
 
     <!-- escenario -->
-    <div id="f05-stage" class="clip" data-start="0" data-duration="99" data-track-index="1">
+    <div id="f05-stage" class="clip" data-start="0" data-duration="4.4" data-track-index="1">
 
-      <!-- teléfono con la captura real de Facturación -->
+      <!-- teléfono con la captura real de Facturación — arriba, centrado -->
       <div id="f05-phone" class="f05-phone">
         <div class="f05-screen">
           <img id="f05-shot" class="f05-shot" src="assets/04-facturacion.jpg"
@@ -83,31 +98,32 @@
         </div>
       </div>
 
-      <!-- columna derecha -->
-      <div id="f05-accent" class="f05-accent-line" style="left:900px;top:300px"></div>
+      <!-- bloque de texto: apilado DEBAJO del teléfono -->
+      <div id="f05-accent" class="f05-accent-line" style="left:504px;top:1106px"></div>
 
-      <div id="f05-head" class="f05-h" style="left:900px;top:336px;width:720px"><span
+      <div id="f05-head" class="f05-h" style="left:90px;top:1143px;width:900px"><span
         id="f05-w1" class="f05-w">Y</span> <span
         id="f05-w2" class="f05-w">facturar,</span><br><span
         id="f05-w3" class="f05-w">gratis.</span></div>
 
-      <div id="f05-micro" class="f05-micro" style="left:900px;top:560px;width:720px">en menos de 1 minuto</div>
+      <div id="f05-micro" class="f05-micro" style="left:90px;top:1394px;width:900px">en menos de 1 minuto</div>
 
-      <!-- racimo de píldoras: centro = el punto exacto del clic (544, 695) -->
-      <div id="f05-burst-wrap" style="position:absolute;left:544px;top:695px;width:0;height:0;z-index:6">
-        <div id="f05-pill-1" data-layout-allow-overlap class="f05-pill" style="width:156px" data-target-x="434" data-target-y="-5">Ingreso</div>
-        <div id="f05-pill-2" data-layout-allow-overlap class="f05-pill" style="width:142px" data-target-x="599" data-target-y="-5">Egreso</div>
-        <div id="f05-pill-3" data-layout-allow-overlap class="f05-pill" style="width:112px" data-target-x="742" data-target-y="-5">Pago</div>
-        <div id="f05-pill-4" data-layout-allow-overlap class="f05-pill" style="width:130px" data-target-x="879" data-target-y="-5">Comp.</div>
+      <!-- racimo de píldoras: centro = el punto exacto del clic (540, 807.7).
+           Fila única centrada (186+169+134+155 + 3×26 = 722) en y 1533.5 -> ty = 726. -->
+      <div id="f05-burst-wrap" style="position:absolute;left:540px;top:807.7px;width:0;height:0;z-index:6">
+        <div id="f05-pill-1" data-layout-allow-overlap class="f05-pill" style="width:186px" data-target-x="-268" data-target-y="726">Ingreso</div>
+        <div id="f05-pill-2" data-layout-allow-overlap class="f05-pill" style="width:169px" data-target-x="-64.5" data-target-y="726">Egreso</div>
+        <div id="f05-pill-3" data-layout-allow-overlap class="f05-pill" style="width:134px" data-target-x="113" data-target-y="726">Pago</div>
+        <div id="f05-pill-4" data-layout-allow-overlap class="f05-pill" style="width:155px" data-target-x="283.5" data-target-y="726">Comp.</div>
       </div>
     </div>
 
     <!-- capa del cursor (por encima de todo) -->
-    <div id="f05-cursor-layer" class="clip" data-start="0" data-duration="99" data-track-index="2"
+    <div id="f05-cursor-layer" class="clip" data-start="0" data-duration="4.4" data-track-index="2"
          style="pointer-events:none">
       <div id="f05-ripple" class="f05-ripple"></div>
       <div id="f05-cursor" class="f05-cursor">
-        <svg viewBox="0 0 24 30" width="116" height="145" aria-hidden="true">
+        <svg viewBox="0 0 24 30" width="140" height="175" aria-hidden="true">
           <path d="M2 1 L2 24 L8 18.5 L12 28 L16 26 L12 17 L20 17 Z"
                 fill="#1A1A1A" stroke="#FFFFFF" stroke-width="1.6" stroke-linejoin="round"/>
         </svg>
@@ -141,11 +157,12 @@
       // ——— Escena 1 (0.0–0.9) — el teléfono sigue en vuelo bajo tras el seam push-slide LEFT
       tl.fromTo(PHONE, { x: 78 }, { x: 0, duration: 0.78, ease: "power3.out" }, 0);
 
-      // el cursor sobredimensionado entra DESDE FUERA DE CUADRO, esquina inferior derecha,
-      // en una sola curva de acercamiento; la punta aterriza en "Nueva factura" (544, 695)
+      // el cursor sobredimensionado entra DESDE FUERA DE CUADRO, por debajo del borde
+      // inferior y hacia la derecha, en una sola curva de acercamiento;
+      // la punta aterriza en "Nueva factura" (540, 807.7)
       tl.fromTo(
         CURSOR,
-        { x: 900, y: 545, scale: 1, transformOrigin: TIP_ORIGIN },
+        { x: 470, y: 1180, scale: 1, transformOrigin: TIP_ORIGIN },
         { x: 0, y: 0, duration: 0.88, ease: "power3.out", immediateRender: true },
         0.06
       );
@@ -158,12 +175,12 @@
       // …el botón se hunde (compresión lineal) y suelta (muelle back.out)
       tl.to(BTN, {
         scale: 0.94,
-        boxShadow: "0 3px 8px rgba(43,126,254,.30)",
+        boxShadow: "0 4px 10px rgba(43,126,254,.30)",
         duration: 0.10, ease: "power1.in"
       }, CLICK_AT);
       tl.to(BTN, {
         scale: 1,
-        boxShadow: "0 10px 26px rgba(43,126,254,.38)",
+        boxShadow: "0 13px 34px rgba(43,126,254,.38)",
         duration: 0.52, ease: "back.out(1.6)"
       }, CLICK_AT + 0.10);
 
@@ -189,14 +206,14 @@
 
       Array.prototype.forEach.call(WORDS, function (w, i) {
         tl.fromTo(w,
-          { y: 44, opacity: 0 },
+          { y: 52, opacity: 0 },
           { y: 0, opacity: 1, duration: 0.62, ease: "power3.out" },
           CLICK_AT + i * 0.13);
       });
 
       // la micro-línea sube debajo del titular
       tl.fromTo(MICRO,
-        { y: 26, opacity: 0 },
+        { y: 31, opacity: 0 },
         { y: 0, opacity: 1, duration: 0.60, ease: "power3.out" },
         1.85);
 
@@ -212,8 +229,9 @@
         tl.to(el, { opacity: 1, duration: 0.26, ease: "power2.out" }, at);
       });
 
-      // el cursor cede el escenario al racimo — deriva corta, sin oscilación ociosa
-      tl.to(CURSOR, { x: -58, y: 26, duration: 0.80, ease: "power2.out" }, PILLS_AT);
+      // el cursor cede el escenario al racimo — deriva corta hacia arriba y a un lado,
+      // fuera de la trayectoria descendente de las píldoras; sin oscilación ociosa
+      tl.to(CURSOR, { x: -75, y: -34, duration: 0.80, ease: "power2.out" }, PILLS_AT);
     })();
   </script>
 </template>
