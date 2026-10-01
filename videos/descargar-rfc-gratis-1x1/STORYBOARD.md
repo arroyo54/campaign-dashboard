@@ -121,7 +121,7 @@ Scene 4 (3.9–5.0s): "Nadie debe cobrarte por él." sube en cuerpo `text-muted`
 - on_screen: "Lo que te piden se llama" · "Constancia de Situación Fiscal" · renglones: "RFC con homoclave · 13 caracteres" · "Régimen fiscal" · "Domicilio fiscal" · "Obligaciones" · "Estatus: activo" · píldoras: "PDF oficial del SAT" · "Gratis" · "Las veces que quieras"
 - duration: 6.5s
 - transition_in: zoom-through
-- status: built
+- status: animated
 - src: compositions/frames/02-constancia.html
 - type: product_intro
 - persuasion: Concretization + progressive disclosure
