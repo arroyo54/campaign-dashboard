@@ -301,7 +301,7 @@ Scene 6 (8.6–9.5s): la píldora "1 a 5 días hábiles" asienta bajo el sobre. 
 - on_screen: "¿No puedes descargarla?" · "¿Olvidaste tu RFC?" → "Consúltalo con tu CURP en rfc.sat.gob.mx" · "¿Sin contraseña?" → "Restablécela en SAT ID, sin cita" · "¿El portal no carga?" → "Entra antes de 9 a.m. o después de 6 p.m." · tip: "Pídela reciente: casi siempre la aceptan con máximo 3 meses"
 - duration: 8.5s
 - transition_in: push-slide LEFT
-- status: built
+- status: animated
 - src: compositions/frames/06-si-algo-falla.html
 - type: feature_showcase
 - persuasion: Question→answer pairing + rule of three
