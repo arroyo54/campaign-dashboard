@@ -1,0 +1,970 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=1080">
+<title>heru · Descargar RFC gratis · video 9:16</title>
+<!--
+  Video animado (sin audio) basado en https://www.heru.app/blog/descargar-rfc-gratis/
+  Lienzo 1080x1920 (9:16). La línea de tiempo GSAP está en pausa y se controla con
+  window.__seek(t); render.js la recorre cuadro por cuadro y arma el MP4 con ffmpeg.
+  Vista previa en navegador: index.html?play  ·  cuadro fijo: index.html?t=12.5
+-->
+<link rel="stylesheet" href="assets/fonts.css">
+<style>
+:root{
+  --blue:#0b74cf;--logo:#1790ec;--bl:#4aa5f5;--bd:#0a5fa9;--navy:#0c3961;--navy-d:#071f38;
+  --ink:#111827;--g700:#374151;--g600:#4b5563;--g500:#6b7280;--g400:#9ca3af;--g200:#e5e7eb;
+  --sky50:#eef6fe;--sky100:#dcecfd;--sky200:#bfdcf9;--ice:#bfe0ff;
+  --green:#10b981;--green-d:#047857;--green50:#e3f7ef;--red:#ef4444;--red50:#fdecec;
+  --light:#f4f8fd;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{width:1080px;height:1920px;overflow:hidden;background:var(--navy)}
+body{font-family:"Lexend Deca",system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+b{font-weight:inherit}
+#stage{position:relative;width:1080px;height:1920px;overflow:hidden;background:var(--navy)}
+.scene{position:absolute;inset:0;overflow:hidden;visibility:hidden}
+.cx{position:absolute;left:0;right:0;text-align:center}
+.shade{position:absolute;inset:0;background:var(--navy-d);opacity:0;pointer-events:none;z-index:40}
+svg.i{width:1em;height:1em;display:block;flex:none}
+/* palabras con máscara para revelar */
+.w{display:inline-block;overflow:hidden;vertical-align:top;padding:.14em .04em .18em;margin:-.14em -.04em -.18em}
+.wi{display:inline-block}
+.c-blue{color:var(--blue)}
+.c-bl{color:var(--bl)}
+.c-ice{color:var(--ice)}
+
+/* ---------- fondos ---------- */
+.bg-blue{background:linear-gradient(165deg,#1790ec 0%,#0b74cf 40%,#0a5fa9 72%,#0c3961 100%);color:#fff}
+.bg-navy{background:linear-gradient(170deg,#0c3961 0%,#0a3157 55%,#071f38 100%);color:#fff}
+.bg-light{background:var(--light);color:var(--ink)}
+.deco{position:absolute;inset:0;pointer-events:none}
+.deco.flip{transform:scaleX(-1)}
+.glow{position:absolute;border-radius:50%}
+.g1{width:1100px;height:1100px;left:-420px;top:-440px}
+.g2{width:1300px;height:1300px;left:200px;top:1080px}
+.ring{position:absolute;border-radius:50%;border:2px solid}
+.ring i{position:absolute;left:50%;top:-10px;width:20px;height:20px;margin-left:-10px;border-radius:50%}
+.r1{width:820px;height:820px;left:560px;top:-300px}
+.r2{width:560px;height:560px;left:-240px;top:1480px}
+.dots{position:absolute;width:560px;height:560px;background-image:radial-gradient(currentColor 2.6px,transparent 3.2px);background-size:40px 40px;-webkit-mask-image:radial-gradient(closest-side,#000,transparent);mask-image:radial-gradient(closest-side,#000,transparent)}
+.d1{left:660px;top:1200px}
+.d2{left:-180px;top:330px}
+.deco-blue .g1{background:radial-gradient(circle,rgba(74,165,245,.6),rgba(74,165,245,0) 62%)}
+.deco-blue .g2{background:radial-gradient(circle,rgba(7,31,56,.55),rgba(7,31,56,0) 62%)}
+.deco-blue .ring{border-color:rgba(255,255,255,.16)}
+.deco-blue .ring i{background:rgba(255,255,255,.6)}
+.deco-blue .dots{color:rgba(255,255,255,.38)}
+.deco-navy .g1{background:radial-gradient(circle,rgba(23,144,236,.42),rgba(23,144,236,0) 62%)}
+.deco-navy .g2{background:radial-gradient(circle,rgba(74,165,245,.16),rgba(74,165,245,0) 62%)}
+.deco-navy .ring{border-color:rgba(255,255,255,.1)}
+.deco-navy .ring i{background:rgba(74,165,245,.7)}
+.deco-navy .dots{color:rgba(255,255,255,.22)}
+.deco-light .g1{background:radial-gradient(circle,rgba(74,165,245,.3),rgba(74,165,245,0) 62%)}
+.deco-light .g2{background:radial-gradient(circle,rgba(23,144,236,.18),rgba(23,144,236,0) 62%)}
+.deco-light .ring{border-color:rgba(11,116,207,.12)}
+.deco-light .ring i{background:rgba(11,116,207,.4)}
+.deco-light .dots{color:rgba(11,116,207,.2)}
+
+/* ---------- HUD y cortinilla ---------- */
+#hud{position:absolute;left:80px;top:150px;width:126px;color:#fff;z-index:50;opacity:0;visibility:hidden}
+.logo svg,#hud svg{display:block;width:100%;height:auto;overflow:visible}
+#wipe{position:absolute;inset:0;z-index:100;visibility:hidden;pointer-events:none}
+.wp{position:absolute;left:-60px;width:1200px;top:-200px;height:2320px;clip-path:polygon(0 7%,100% 0,100% 93%,0 100%)}
+#wp1{background:var(--navy)}
+#wp2{background:var(--blue)}
+#wp3{background:var(--logo);display:grid;place-items:center}
+.wp-logo{width:300px;color:#fff}
+
+/* componentes comunes */
+.ck{width:58px;height:58px;border-radius:50%;background:var(--green50);color:var(--green);display:grid;place-items:center;font-size:34px;flex:none}
+.ck svg{stroke-width:3.2}
+.badge-w{display:inline-flex;align-items:center;gap:16px;background:#fff;color:var(--blue);font-size:40px;font-weight:700;padding:18px 38px 20px 22px;border-radius:999px;box-shadow:0 22px 50px rgba(4,22,40,.3)}
+.badge-w > svg{font-size:46px}
+
+/* ---------- S1 · gancho ---------- */
+#s1-q{top:410px}
+.tag-glass{display:inline-block;padding:14px 32px 16px;border-radius:999px;background:rgba(255,255,255,.14);border:2px solid rgba(255,255,255,.32);font-size:32px;font-weight:600;letter-spacing:.16em;text-transform:uppercase}
+.s1-q1{font-size:92px;font-weight:500;line-height:1.1;margin-top:38px}
+.s1-q2{font-size:200px;font-weight:800;line-height:1;letter-spacing:-.035em;margin-top:4px}
+#s1-a{top:960px}
+.s1-a1{font-size:112px;font-weight:700;line-height:1.05;letter-spacing:-.02em}
+.stamp-wrap{position:relative;display:inline-block;margin-top:30px}
+.stamp{display:inline-block;background:#fff;color:var(--blue);font-size:168px;font-weight:900;line-height:1;letter-spacing:-.02em;padding:24px 62px 32px;border-radius:44px;transform:rotate(-4deg);box-shadow:0 34px 70px rgba(7,31,56,.35)}
+.spark{position:absolute;width:0;height:0}
+.sp1{right:6px;top:4px}
+.sp2{left:6px;bottom:4px;transform:rotate(180deg)}
+.spark i{position:absolute;left:0;top:0;width:0;height:0}
+.spark b{position:absolute;left:-6px;top:0;width:12px;height:58px;border-radius:6px;background:#fff;opacity:0}
+.s1-a2{font-size:58px;font-weight:500;margin-top:54px;color:rgba(255,255,255,.92)}
+
+/* ---------- S2 · se llama constancia ---------- */
+.s2-label{top:300px;font-size:52px;font-weight:500;color:var(--g600)}
+#s2-docw{position:absolute;left:325px;top:420px;width:430px;height:540px}
+.doc{position:absolute;inset:0;background:#fff;border-radius:28px;overflow:hidden;box-shadow:0 40px 90px rgba(12,57,97,.18),0 4px 14px rgba(12,57,97,.06)}
+.doc-head{height:96px;background:linear-gradient(90deg,var(--blue),var(--logo));display:flex;align-items:center;justify-content:center;color:#fff;font-size:18px;font-weight:700;letter-spacing:.08em}
+.doc-lines{padding:36px 34px 0;display:flex;flex-direction:column;gap:22px}
+.doc-lines i{display:block;height:18px;border-radius:9px;background:#e4edf8}
+.doc-qr{position:absolute;left:34px;bottom:36px;width:126px;height:126px;display:grid;grid-template-columns:repeat(9,1fr);grid-auto-rows:1fr;gap:2px}
+.doc-qr b{border-radius:2px}
+.doc-qr b.on{background:var(--ink)}
+.doc-seal{position:absolute;right:36px;bottom:42px;width:116px;height:116px;border-radius:50%;background:var(--sky50);color:var(--blue);font-size:66px;display:grid;place-items:center}
+.doc-pdf{position:absolute;right:-30px;top:120px;background:var(--navy);color:#fff;font-size:36px;font-weight:800;letter-spacing:.04em;padding:12px 24px;border-radius:16px;transform:rotate(8deg);box-shadow:0 14px 30px rgba(7,31,56,.3)}
+.s2-title{top:1012px;font-size:94px;font-weight:800;line-height:1.04;letter-spacing:-.025em;color:var(--blue)}
+.s2-chips{top:1262px;display:flex;flex-direction:column;align-items:center;gap:18px}
+.chip{display:inline-flex;align-items:center;gap:18px;height:88px;padding:0 38px 0 16px;border-radius:999px;background:#fff;border:2px solid var(--sky100);font-size:40px;font-weight:600;color:var(--ink);box-shadow:0 12px 26px rgba(12,57,97,.06)}
+.chip-ic{width:58px;height:58px;border-radius:50%;background:var(--sky50);color:var(--blue);display:grid;place-items:center;font-size:32px}
+
+/* ---------- S3 · qué incluye ---------- */
+.s3-title{top:260px;font-size:90px;font-weight:800;line-height:1.04;letter-spacing:-.025em}
+.card{position:absolute;left:80px;width:920px;background:#fff;border-radius:40px;overflow:hidden;box-shadow:0 40px 90px rgba(12,57,97,.16),0 4px 14px rgba(12,57,97,.06)}
+#s3-card{top:540px}
+.card-head{height:104px;background:linear-gradient(90deg,var(--blue),var(--logo));display:flex;align-items:center;gap:20px;padding:0 40px;color:#fff;font-size:36px;font-weight:700}
+.card-head svg{font-size:46px}
+.pdf-tag{margin-left:auto;background:#fff;color:var(--blue);font-size:26px;font-weight:800;padding:8px 16px;border-radius:12px;letter-spacing:.04em}
+.rows{list-style:none;padding:14px 40px 22px}
+.rows li{height:108px;display:flex;align-items:center;gap:26px;border-bottom:2px solid #edf2f8}
+.rows li:last-child{border-bottom:0}
+.lbl{font-size:42px;font-weight:600}
+.pill{margin-left:auto;font-size:30px;font-weight:700;padding:10px 22px;border-radius:999px;background:var(--sky50);color:var(--blue)}
+.pill.ok{background:var(--green50);color:var(--green-d)}
+
+/* ---------- S4 · constancia vs cédula ---------- */
+.s4-title{top:260px;font-size:92px;font-weight:800;line-height:1.04;letter-spacing:-.025em}
+.vs{position:absolute;left:80px;width:920px;top:580px}
+.vs-hl{position:absolute;left:420px;width:250px;top:-6px;bottom:-6px;border-radius:32px;background:rgba(23,144,236,.16);border:3px solid rgba(74,165,245,.9);box-shadow:0 0 60px rgba(23,144,236,.25);opacity:0;visibility:hidden}
+.vs-row{position:relative;display:grid;grid-template-columns:420px 250px 250px;align-items:center;height:146px;border-bottom:2px solid rgba(255,255,255,.08)}
+.vs-row:last-child{border-bottom:0}
+.vs-head{height:120px;border-bottom:0}
+.vs-row .f{font-size:36px;font-weight:500;line-height:1.22;color:rgba(255,255,255,.92);padding-right:18px}
+.vs-row .a,.vs-row .b{display:flex;justify-content:center;align-items:center}
+.hd{font-size:32px;font-weight:800;padding:16px 20px;border-radius:22px}
+.hd-a{background:var(--logo);color:#fff}
+.hd-b{background:rgba(255,255,255,.1);color:rgba(255,255,255,.85);font-weight:700}
+.yes,.no{width:74px;height:74px;border-radius:50%;display:grid;place-items:center;font-size:42px}
+.yes{background:var(--green);color:#fff;box-shadow:0 10px 24px rgba(16,185,129,.35)}
+.no{background:rgba(239,68,68,.18);color:#f87171}
+.yes svg,.no svg{stroke-width:3.2}
+.txt{font-size:36px;font-weight:700;color:#fff}
+.txt.dim{color:rgba(255,255,255,.6);font-weight:600}
+.s4-badge{top:1478px}
+#s4-badge{color:var(--navy)}
+#s4-badge .ck{width:60px;height:60px;background:var(--green);color:#fff}
+
+/* ---------- S5/S6 · métodos ---------- */
+.bignum{position:absolute;left:0;right:0;top:330px;text-align:center;font-size:1000px;font-weight:900;line-height:1;letter-spacing:-.06em;color:rgba(255,255,255,.07);-webkit-text-stroke:4px rgba(255,255,255,.22)}
+.bignum.dk{color:rgba(11,116,207,.05);-webkit-text-stroke:4px rgba(11,116,207,.18)}
+.mhead{top:246px;transform-origin:50% 0}
+.mlabel{font-size:34px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--ice)}
+.mtitle{font-size:104px;font-weight:800;line-height:1.04;letter-spacing:-.03em;margin-top:4px}
+.mpill{display:inline-flex;align-items:center;gap:12px;margin-top:20px;padding:12px 28px 14px;border-radius:999px;font-size:32px;font-weight:600;background:rgba(255,255,255,.16);border:2px solid rgba(255,255,255,.32)}
+.mpill svg{font-size:34px}
+#s6 .mlabel{color:var(--blue)}
+#s6 .mpill{background:#fff;border-color:var(--sky100);color:var(--blue);box-shadow:0 10px 24px rgba(12,57,97,.08)}
+.steps-ui{top:536px}
+.segs{display:flex;gap:14px;width:920px;margin:0 auto}
+.segs i{flex:1;display:block;height:12px;border-radius:6px;background:rgba(255,255,255,.24);overflow:hidden}
+.segs b{display:block;height:100%;background:#fff;transform-origin:0 50%;transform:scaleX(0)}
+#s6 .segs i{background:#d3e4f6}
+#s6 .segs b{background:var(--blue)}
+.stitles{position:relative;height:240px;margin-top:28px}
+.st{position:absolute;left:0;right:0;top:0;opacity:0;visibility:hidden}
+.st-n{font-size:30px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--ice)}
+.st-t{font-size:68px;font-weight:800;letter-spacing:-.02em;line-height:1.1;margin-top:6px}
+.st-s{font-size:40px;font-weight:500;line-height:1.25;margin-top:8px;color:rgba(255,255,255,.86)}
+#s6 .st-n{color:var(--blue)}
+#s6 .st-s{color:var(--g600)}
+
+/* navegador */
+.browser{position:absolute;left:80px;top:800px;width:920px;height:660px;background:#fff;border-radius:34px;overflow:hidden;box-shadow:0 50px 100px rgba(4,22,40,.45);color:var(--ink)}
+.br-bar{height:88px;background:#f1f5f9;border-bottom:2px solid #e2e8f0;display:flex;align-items:center;gap:24px;padding:0 28px}
+.dots3{display:flex;gap:12px}
+.dots3 i{display:block;width:18px;height:18px;border-radius:50%;background:#ff5f57}
+.dots3 i:nth-child(2){background:#febc2e}
+.dots3 i:nth-child(3){background:#28c840}
+.br-url{flex:1;height:56px;border-radius:28px;background:#fff;border:2px solid #e2e8f0;display:flex;align-items:center;gap:12px;padding:0 22px;font-size:30px;font-weight:500;color:var(--g700)}
+.br-url svg{font-size:26px;color:var(--green-d)}
+.url-t{display:flex;align-items:center;white-space:nowrap}
+.caret{display:inline-block;width:3px;height:36px;background:var(--blue);margin-left:3px;opacity:0;visibility:hidden}
+.br-load{position:absolute;left:0;top:88px;width:100%;height:6px;background:var(--logo);transform-origin:0 50%;transform:scaleX(0);z-index:2}
+.br-body{position:absolute;left:0;right:0;top:90px;bottom:0}
+.bs{position:absolute;inset:0;padding:44px 54px;opacity:0;visibility:hidden}
+.pg-kicker{font-size:26px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--blue)}
+.pg-h{font-size:50px;font-weight:800;line-height:1.12;letter-spacing:-.015em;margin-top:14px}
+.pg-lines{margin-top:30px;display:flex;flex-direction:column;gap:16px}
+.pg-lines i{display:block;height:18px;border-radius:9px;background:#e8eef6}
+.pg-btn{position:absolute;left:54px;bottom:50px;height:90px;padding:0 44px;border-radius:24px;background:var(--blue);color:#fff;font-size:36px;font-weight:700;display:inline-flex;align-items:center;justify-content:center;gap:14px}
+.pg-btn svg{font-size:38px}
+.pg-btn.wide{right:54px;bottom:40px}
+.tabs{display:flex;gap:40px;border-bottom:2px solid #e5eaf1}
+.tab{font-size:32px;font-weight:700;color:var(--g400);padding-bottom:14px;border-bottom:4px solid transparent;margin-bottom:-2px}
+.tab.on{color:var(--blue);border-color:var(--blue)}
+.fl{font-size:26px;font-weight:700;color:var(--g500);margin-top:24px}
+.field{height:74px;border:2px solid #d5dfeb;border-radius:18px;margin-top:8px;display:flex;align-items:center;padding:0 24px;font-size:34px;font-weight:600;letter-spacing:.06em}
+.spinner{position:absolute;left:50%;top:50%;width:130px;height:130px;margin:-65px 0 0 -65px;border-radius:50%;border:12px solid var(--sky100);border-top-color:var(--blue)}
+.mini-doc{position:absolute;left:100px;right:100px;top:46px;border:2px solid #e2e8f0;border-radius:24px;overflow:hidden;background:#fff;box-shadow:0 20px 44px rgba(12,57,97,.1)}
+.md-head{height:72px;background:linear-gradient(90deg,var(--blue),var(--logo));color:#fff;font-size:22px;font-weight:700;letter-spacing:.08em;display:flex;align-items:center;justify-content:center}
+.md-row{display:flex;align-items:center;justify-content:space-between;height:96px;padding:0 32px;border-top:2px solid #eef2f7;font-size:30px}
+.md-row span{color:var(--g500);font-weight:500}
+.md-row b{font-weight:700;letter-spacing:.03em}
+.md-row b.ph{display:block;height:18px;border-radius:9px;background:#e6edf6}
+.md-row b.ok{color:var(--green-d);background:var(--green50);padding:6px 20px;border-radius:999px;font-size:28px;letter-spacing:0}
+#bs4-btn{top:46px;bottom:auto}
+.dl-file{position:absolute;left:54px;right:54px;top:186px;height:200px;border-radius:28px;background:var(--sky50);border:2px solid var(--sky100);display:flex;align-items:center;gap:32px;padding:0 36px}
+.dl-ic{position:relative;width:112px;height:134px;border-radius:18px;background:#fff;border:2px solid #d4e3f3;display:grid;place-items:center;color:var(--blue);font-size:60px;flex:none}
+.dl-ic b{position:absolute;right:-18px;bottom:-12px;background:var(--navy);color:#fff;font-size:22px;font-weight:800;padding:5px 10px;border-radius:9px}
+.dl-meta{flex:1}
+.dl-name{font-size:38px;font-weight:700}
+.dl-bar{height:14px;border-radius:7px;background:#d3e4f6;margin-top:18px;overflow:hidden}
+.dl-bar i{display:block;height:100%;background:var(--blue);transform-origin:0 50%;transform:scaleX(0)}
+.dl-st{position:relative;height:40px;margin-top:14px;font-size:28px;font-weight:600}
+.dl-st span{position:absolute;left:0;top:0;display:flex;align-items:center;gap:10px;white-space:nowrap}
+#bs4-st1{color:var(--g500)}
+#bs4-st2{color:var(--green-d);opacity:0;visibility:hidden}
+#bs4-st2 svg{font-size:32px;stroke-width:3}
+.cursor{position:absolute;left:0;top:0;font-size:66px;z-index:6;color:var(--ink)}
+.cursor svg{fill:#fff;stroke:var(--ink);stroke-width:1.5}
+.cring{position:absolute;left:0;top:0;width:100px;height:100px;margin:-50px 0 0 -50px;border-radius:50%;border:6px solid var(--bl);opacity:0;visibility:hidden;z-index:5}
+.s5-badge{top:1416px}
+
+/* teléfono */
+.phone{position:absolute;left:330px;top:800px;width:420px;height:720px;border-radius:72px;background:#0f172a;padding:16px;box-shadow:0 50px 100px rgba(12,57,97,.3),inset 0 0 0 3px #334155}
+.ph-screen{position:relative;width:100%;height:100%;border-radius:58px;background:#fff;overflow:hidden;color:var(--ink)}
+.ph-island{position:absolute;left:50%;top:16px;width:120px;height:34px;margin-left:-60px;border-radius:17px;background:#0f172a;z-index:3}
+.ph-status{position:absolute;left:0;right:0;top:16px;height:34px;display:flex;justify-content:space-between;align-items:center;padding:0 40px;font-size:22px;font-weight:700;z-index:2}
+.ph-bars{display:flex;gap:4px;align-items:flex-end}
+.ph-bars i{display:block;width:6px;border-radius:2px;background:var(--ink)}
+.ps{position:absolute;left:0;right:0;top:66px;bottom:0;padding:20px 26px;opacity:0;visibility:hidden}
+#ps1{text-align:center}
+.app-ic{width:164px;height:164px;margin:34px auto 0;border-radius:42px;background:linear-gradient(145deg,var(--logo),var(--bd));display:grid;place-items:center;color:#fff;font-size:96px;box-shadow:0 22px 44px rgba(11,116,207,.35)}
+.app-name{font-size:46px;font-weight:800;margin-top:30px}
+.app-dev{font-size:22px;font-weight:500;color:var(--g500);margin-top:8px;line-height:1.35}
+.app-btn{position:relative;width:230px;height:78px;margin:34px auto 0;border-radius:39px;background:var(--blue);color:#fff;font-size:32px;font-weight:700}
+.app-btn span{position:absolute;inset:0;display:grid;place-items:center}
+.app-btn .b2,.app-btn .b3{opacity:0;visibility:hidden}
+.ring-s{display:block;width:46px;height:46px;border-radius:50%;border:6px solid rgba(255,255,255,.35);border-top-color:#fff}
+.app-free{font-size:22px;font-weight:600;color:var(--g500);margin-top:18px}
+.ps-h{font-size:30px;font-weight:800;margin:16px 4px 22px;line-height:1.2}
+.opt{display:flex;align-items:center;gap:16px;padding:18px;border-radius:22px;border:2px solid var(--g200);margin-bottom:16px;font-size:24px;font-weight:600;line-height:1.25;color:var(--g700);background:#fff}
+.opt-ic{width:58px;height:58px;border-radius:16px;background:var(--sky50);color:var(--blue);display:grid;place-items:center;font-size:30px;flex:none}
+.tap{position:absolute;left:0;top:0;width:130px;height:130px;margin:-65px 0 0 -65px;border-radius:50%;background:rgba(11,116,207,.28);opacity:0;visibility:hidden;z-index:4}
+.idv{text-align:center;padding-top:6px}
+.scanbox{position:relative;margin:0 auto;width:300px;height:196px;border-radius:24px;border:3px dashed var(--sky200);display:grid;place-items:center}
+.ine{width:254px;height:152px;border-radius:16px;background:linear-gradient(135deg,#e9f3fe,#cfe3fa);display:flex;align-items:center;gap:16px;padding:0 18px}
+.ine-ph{width:78px;height:98px;border-radius:12px;background:#fff;color:var(--blue);display:grid;place-items:center;font-size:52px;flex:none}
+.ine-l{flex:1;display:flex;flex-direction:column;gap:12px}
+.ine-l i{display:block;height:12px;border-radius:6px;background:#fff}
+.ine-l i:nth-child(2){width:80%}
+.ine-l i:nth-child(3){width:60%}
+.scanline{position:absolute;left:10px;right:10px;top:12px;height:5px;border-radius:3px;background:var(--logo);box-shadow:0 0 18px 5px rgba(23,144,236,.45)}
+.okb{position:absolute;right:-18px;top:-18px;width:56px;height:56px;border-radius:50%;background:var(--green);color:#fff;display:grid;place-items:center;font-size:32px;box-shadow:0 8px 18px rgba(16,185,129,.4)}
+.okb svg{stroke-width:3.2}
+.idv-l{font-size:24px;font-weight:700;color:var(--g700);margin-top:14px}
+.scanbox.face{width:206px;height:236px;border-radius:103px;margin-top:26px}
+.face-ov{font-size:128px;color:var(--blue)}
+.notif{display:flex;align-items:center;gap:14px;background:#fff;border-radius:24px;padding:16px 18px;box-shadow:0 14px 34px rgba(12,57,97,.16);border:2px solid #edf2f8;margin-top:6px}
+.notif-ic{width:58px;height:58px;border-radius:16px;background:var(--blue);color:#fff;display:grid;place-items:center;font-size:30px;flex:none}
+.notif-t b{display:block;font-size:22px;font-weight:800}
+.notif-t span{display:block;font-size:20px;font-weight:500;color:var(--g600);line-height:1.3}
+.mailbig{position:relative;width:230px;height:230px;margin:54px auto 0;border-radius:50%;background:var(--sky50);display:grid;place-items:center;color:var(--blue);font-size:120px}
+.mb-pdf{position:absolute;right:6px;bottom:22px;background:var(--navy);color:#fff;font-size:26px;font-weight:800;padding:8px 14px;border-radius:12px;transform:rotate(-8deg)}
+.ps4-pill{display:flex;width:max-content;margin:44px auto 0;align-items:center;gap:12px;background:var(--blue);color:#fff;font-size:26px;font-weight:700;padding:14px 26px;border-radius:999px}
+.ps4-pill svg{font-size:30px}
+
+/* ---------- S7 · para qué ---------- */
+.s7-title{top:260px;font-size:100px;font-weight:800;line-height:1.04;letter-spacing:-.03em}
+.grid4{position:absolute;left:80px;top:560px;width:920px;display:grid;grid-template-columns:1fr 1fr;gap:28px}
+.g4{height:350px;border-radius:38px;background:#fff;padding:44px 40px;color:var(--ink);box-shadow:0 30px 70px rgba(4,22,40,.3)}
+.g4-ic{width:116px;height:116px;border-radius:32px;background:var(--sky50);color:var(--blue);display:grid;place-items:center;font-size:62px}
+.g4-t{font-size:48px;font-weight:800;margin-top:34px;letter-spacing:-.015em}
+.g4-s{font-size:32px;font-weight:500;color:var(--g500);margin-top:8px}
+.tip{position:absolute;left:80px;width:920px;top:1316px;border-radius:32px;background:rgba(255,255,255,.12);border:2px solid rgba(255,255,255,.28);display:flex;align-items:center;gap:26px;padding:30px 36px;color:#fff;font-size:38px;font-weight:500;line-height:1.3}
+.tip b{font-weight:800}
+.tip-ic{width:84px;height:84px;border-radius:24px;background:#fff;color:var(--blue);display:grid;place-items:center;font-size:46px;flex:none}
+
+/* ---------- S8 · si algo falla ---------- */
+.s8-title{top:260px;font-size:96px;font-weight:800;line-height:1.04;letter-spacing:-.03em}
+.pcards{position:absolute;left:80px;width:920px;top:540px;display:flex;flex-direction:column;gap:28px}
+.pc{border-radius:36px;background:#fff;padding:34px 40px 36px;box-shadow:0 24px 60px rgba(12,57,97,.12)}
+.pc-q{display:flex;align-items:center;gap:20px;font-size:40px;font-weight:600;color:var(--g600)}
+.pc-ic{width:70px;height:70px;border-radius:20px;background:var(--red50);color:var(--red);display:grid;place-items:center;font-size:38px;flex:none}
+.pc-a{display:flex;align-items:flex-start;gap:20px;margin-top:22px;padding-top:22px;border-top:2px dashed #e2eaf3}
+.pc-a .ck{width:70px;height:70px;font-size:40px}
+.pc-a div{font-size:46px;font-weight:800;color:var(--blue);line-height:1.15;letter-spacing:-.01em;padding-top:6px}
+.pc-a small{display:block;font-size:34px;font-weight:500;color:var(--g500);margin-top:6px;letter-spacing:0}
+
+/* ---------- S9 · cierre ---------- */
+#s9-a{top:700px}
+.s9-l{font-size:104px;font-weight:800;line-height:1.08;letter-spacing:-.03em}
+#s9-b{top:470px}
+.logo-big{width:600px;margin:0 auto;color:#fff}
+.s9-tag{font-size:40px;font-weight:500;letter-spacing:12px;padding-left:12px;margin-top:30px;color:rgba(255,255,255,.88)}
+.s9-h{font-size:80px;font-weight:800;line-height:1.08;letter-spacing:-.025em;margin-top:110px}
+.cta{position:relative;overflow:hidden;display:inline-flex;align-items:center;gap:20px;margin-top:56px;height:120px;padding:0 54px 0 60px;border-radius:60px;background:#fff;color:var(--blue);font-size:52px;font-weight:800;box-shadow:0 30px 60px rgba(4,22,40,.35)}
+.cta svg{font-size:56px;stroke-width:2.6}
+.shine{position:absolute;top:-20px;bottom:-20px;left:-180px;width:120px;background:linear-gradient(90deg,rgba(255,255,255,0),rgba(191,224,255,.85),rgba(255,255,255,0));transform:skewX(-20deg)}
+.s9-url{font-size:44px;font-weight:600;margin-top:40px;color:rgba(255,255,255,.92);letter-spacing:.02em}
+</style>
+</head>
+<body>
+<div id="stage">
+
+  <!-- S1 · Gancho -->
+  <section class="scene bg-blue" id="s1" data-deco="blue">
+    <div class="cx" id="s1-q">
+      <div><span class="tag-glass" id="s1-tag">Guía 2026</span></div>
+      <div class="s1-q1 split">¿Necesitas</div>
+      <div class="s1-q2 split">tu RFC?</div>
+    </div>
+    <div class="cx" id="s1-a">
+      <div class="s1-a1 split">Descárgalo</div>
+      <div class="stamp-wrap">
+        <div class="stamp" id="s1-stamp">GRATIS</div>
+        <div class="spark sp1"><i style="transform:rotate(-100deg)"><b></b></i><i style="transform:rotate(-135deg)"><b></b></i><i style="transform:rotate(-170deg)"><b></b></i></div>
+        <div class="spark sp2"><i style="transform:rotate(-100deg)"><b></b></i><i style="transform:rotate(-135deg)"><b></b></i><i style="transform:rotate(-170deg)"><b></b></i></div>
+      </div>
+      <div class="s1-a2 split">en minutos y sin cita</div>
+    </div>
+  </section>
+
+  <!-- S2 · El documento se llama… -->
+  <section class="scene bg-light" id="s2" data-deco="light">
+    <div class="cx s2-label split">Lo que necesitas se llama</div>
+    <div id="s2-docw">
+      <div class="doc">
+        <div class="doc-head">CONSTANCIA DE SITUACIÓN FISCAL</div>
+        <div class="doc-lines"><i style="width:62%"></i><i style="width:88%"></i><i style="width:50%"></i><i style="width:78%"></i><i style="width:58%"></i><i style="width:70%"></i></div>
+        <div class="doc-qr" id="s2-qr"></div>
+        <div class="doc-seal"><i data-i="badge-check"></i></div>
+      </div>
+      <div class="doc-pdf">PDF</div>
+    </div>
+    <div class="cx s2-title split">Constancia de<br>Situación Fiscal</div>
+    <div class="cx s2-chips">
+      <div class="chip"><span class="chip-ic"><i data-i="file-check"></i></span>PDF oficial del SAT</div>
+      <div class="chip"><span class="chip-ic"><i data-i="gift"></i></span>100% gratis</div>
+      <div class="chip"><span class="chip-ic"><i data-i="repeat"></i></span>Las veces que quieras</div>
+    </div>
+  </section>
+
+  <!-- S3 · Qué incluye -->
+  <section class="scene bg-light" id="s3" data-deco="light">
+    <div class="cx s3-title split">¿Qué incluye<br>tu <b class="c-blue">constancia?</b></div>
+    <div class="card" id="s3-card">
+      <div class="card-head"><i data-i="file-text"></i><span>Constancia de situación fiscal</span><b class="pdf-tag">PDF</b></div>
+      <ul class="rows">
+        <li><span class="ck"><i data-i="check"></i></span><span class="lbl">RFC con homoclave</span><span class="pill">13 caracteres</span></li>
+        <li><span class="ck"><i data-i="check"></i></span><span class="lbl">Nombre completo</span></li>
+        <li><span class="ck"><i data-i="check"></i></span><span class="lbl">CURP</span></li>
+        <li><span class="ck"><i data-i="check"></i></span><span class="lbl">Domicilio fiscal</span></li>
+        <li><span class="ck"><i data-i="check"></i></span><span class="lbl">Régimen fiscal</span></li>
+        <li><span class="ck"><i data-i="check"></i></span><span class="lbl">Actividades económicas</span></li>
+        <li><span class="ck"><i data-i="check"></i></span><span class="lbl">Obligaciones fiscales</span></li>
+        <li><span class="ck"><i data-i="check"></i></span><span class="lbl">Estatus</span><span class="pill ok">Activo</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- S4 · Constancia vs cédula -->
+  <section class="scene bg-navy" id="s4" data-deco="navy">
+    <div class="cx s4-title split">No la confundas<br><b class="c-bl">con la cédula</b></div>
+    <div class="vs">
+      <div class="vs-hl" id="s4-hl"></div>
+      <div class="vs-row vs-head"><div class="f"></div><div class="a"><span class="hd hd-a">Constancia</span></div><div class="b"><span class="hd hd-b">Cédula</span></div></div>
+      <div class="vs-row"><div class="f">Se genera cuantas veces quieras</div><div class="a"><span class="yes"><i data-i="check"></i></span></div><div class="b"><span class="no"><i data-i="x"></i></span></div></div>
+      <div class="vs-row"><div class="f">Datos en tiempo real</div><div class="a"><span class="yes"><i data-i="check"></i></span></div><div class="b"><span class="no"><i data-i="x"></i></span></div></div>
+      <div class="vs-row"><div class="f">Incluye régimen y obligaciones</div><div class="a"><span class="yes"><i data-i="check"></i></span></div><div class="b"><span class="no"><i data-i="x"></i></span></div></div>
+      <div class="vs-row"><div class="f">La más solicitada</div><div class="a"><span class="yes"><i data-i="check"></i></span></div><div class="b"><span class="txt dim">Rara vez</span></div></div>
+      <div class="vs-row"><div class="f">Costo</div><div class="a"><span class="txt">Gratis</span></div><div class="b"><span class="txt">Gratis</span></div></div>
+    </div>
+    <div class="cx s4-badge"><span class="badge-w" id="s4-badge"><span class="ck"><i data-i="check"></i></span>La que te piden es la constancia</span></div>
+  </section>
+
+  <!-- S5 · Método 1: portal del SAT -->
+  <section class="scene bg-blue" id="s5" data-deco="blue">
+    <div class="bignum" id="s5-num">1</div>
+    <div class="cx mhead" id="s5-head">
+      <div class="mlabel">Método 1</div>
+      <div class="mtitle split">Portal del SAT</div>
+      <div class="mpill"><i data-i="zap"></i>El más rápido</div>
+    </div>
+    <div class="cx steps-ui">
+      <div class="segs"><i><b></b></i><i><b></b></i><i><b></b></i><i><b></b></i></div>
+      <div class="stitles">
+        <div class="st"><div class="st-n">Paso 1</div><div class="st-t">Entra a sat.gob.mx</div><div class="st-s">Genera tu constancia de situación fiscal</div></div>
+        <div class="st"><div class="st-n">Paso 2</div><div class="st-t">Inicia sesión</div><div class="st-s">Con tu RFC y contraseña o e.firma</div></div>
+        <div class="st"><div class="st-n">Paso 3</div><div class="st-t">Genera tu constancia</div><div class="st-s">Se crea al momento con tus datos</div></div>
+        <div class="st"><div class="st-n">Paso 4</div><div class="st-t">Descarga el PDF</div><div class="st-s">Guárdalo, envíalo o imprímelo</div></div>
+      </div>
+    </div>
+    <div class="browser" id="s5-br">
+      <div class="br-bar">
+        <span class="dots3"><i></i><i></i><i></i></span>
+        <div class="br-url"><i data-i="lock"></i><span class="url-t"><span id="s5-url"></span><span class="caret" id="s5-caret"></span></span></div>
+      </div>
+      <div class="br-load" id="s5-load"></div>
+      <div class="br-body">
+        <div class="bs" id="bs1">
+          <div class="pg-kicker">Trámites del SAT</div>
+          <div class="pg-h">Genera tu Constancia de Situación Fiscal</div>
+          <div class="pg-lines"><i style="width:94%"></i><i style="width:82%"></i><i style="width:60%"></i></div>
+          <div class="pg-btn" id="bs1-btn">Iniciar trámite</div>
+        </div>
+        <div class="bs" id="bs2">
+          <div class="tabs"><span class="tab on">Contraseña</span><span class="tab">e.firma</span></div>
+          <div class="fl">RFC</div>
+          <div class="field"><span id="bs2-rfc"></span><span class="caret" id="bs2-c1"></span></div>
+          <div class="fl">Contraseña</div>
+          <div class="field"><span id="bs2-pw"></span><span class="caret" id="bs2-c2"></span></div>
+          <div class="pg-btn wide" id="bs2-btn">Enviar</div>
+        </div>
+        <div class="bs" id="bs3">
+          <div class="spinner" id="bs3-spin"></div>
+          <div class="mini-doc" id="bs3-doc">
+            <div class="md-head">CONSTANCIA DE SITUACIÓN FISCAL</div>
+            <div class="md-row"><span>RFC</span><b>ABCD850101XY1</b></div>
+            <div class="md-row"><span>Régimen</span><b class="ph" style="width:230px"></b></div>
+            <div class="md-row"><span>Domicilio</span><b class="ph" style="width:270px"></b></div>
+            <div class="md-row"><span>Estatus</span><b class="ok">Activo</b></div>
+          </div>
+        </div>
+        <div class="bs" id="bs4">
+          <div class="pg-btn" id="bs4-btn"><i data-i="download"></i>Descargar PDF</div>
+          <div class="dl-file" id="bs4-file">
+            <div class="dl-ic"><i data-i="file-text"></i><b>PDF</b></div>
+            <div class="dl-meta">
+              <div class="dl-name">Constancia.pdf</div>
+              <div class="dl-bar"><i id="bs4-bar"></i></div>
+              <div class="dl-st"><span id="bs4-st1">Descargando…</span><span id="bs4-st2"><i data-i="check"></i>Descargado</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="cring" id="s5-ring"></div>
+      <div class="cursor" id="s5-cur"><i data-i="mouse-pointer-2"></i></div>
+    </div>
+    <div class="cx s5-badge"><span class="badge-w" id="s5-badge"><i data-i="clock"></i>Tiempo total: 2 a 5 minutos</span></div>
+  </section>
+
+  <!-- S6 · Método 2: app SAT ID -->
+  <section class="scene bg-light" id="s6" data-deco="light">
+    <div class="bignum dk" id="s6-num">2</div>
+    <div class="cx mhead" id="s6-head">
+      <div class="mlabel">Método 2</div>
+      <div class="mtitle split">App SAT ID</div>
+      <div class="mpill"><i data-i="key-round"></i>Ideal si no tienes contraseña</div>
+    </div>
+    <div class="cx steps-ui">
+      <div class="segs"><i><b></b></i><i><b></b></i><i><b></b></i><i><b></b></i></div>
+      <div class="stitles">
+        <div class="st"><div class="st-n">Paso 1</div><div class="st-t">Descarga la app</div><div class="st-s">Gratis en App Store y Google Play</div></div>
+        <div class="st"><div class="st-n">Paso 2</div><div class="st-t">Elige el trámite</div><div class="st-s">Genera tu constancia de situación fiscal</div></div>
+        <div class="st"><div class="st-n">Paso 3</div><div class="st-t">Valida tu identidad</div><div class="st-s">Foto de tu INE y video-selfie</div></div>
+        <div class="st"><div class="st-n">Paso 4</div><div class="st-t">Recíbela por correo</div><div class="st-s">En 1 a 5 días hábiles</div></div>
+      </div>
+    </div>
+    <div class="phone" id="s6-ph">
+      <div class="ph-screen" id="s6-scr">
+        <div class="ph-island"></div>
+        <div class="ph-status"><span>9:41</span><span class="ph-bars"><i style="height:8px"></i><i style="height:12px"></i><i style="height:16px"></i><i style="height:20px"></i></span></div>
+        <div class="ps" id="ps1">
+          <div class="app-ic"><i data-i="id-card"></i></div>
+          <div class="app-name">SAT ID</div>
+          <div class="app-dev">Servicio de Administración<br>Tributaria</div>
+          <div class="app-btn" id="ps1-btn"><span class="b1">Obtener</span><span class="b2"><i class="ring-s"></i></span><span class="b3">Abrir</span></div>
+          <div class="app-free">Gratis · iOS y Android</div>
+        </div>
+        <div class="ps" id="ps2">
+          <div class="ps-h">¿Qué trámite quieres hacer?</div>
+          <div class="opt" id="ps2-o1"><span class="opt-ic"><i data-i="file-text"></i></span><span>Genera tu constancia de situación fiscal</span></div>
+          <div class="opt"><span class="opt-ic"><i data-i="search"></i></span><span>Consulta tu RFC</span></div>
+          <div class="opt"><span class="opt-ic"><i data-i="key-round"></i></span><span>Genera tu contraseña</span></div>
+        </div>
+        <div class="ps" id="ps3">
+          <div class="idv">
+            <div class="scanbox" id="ps3-a">
+              <div class="ine"><span class="ine-ph"><i data-i="user"></i></span><span class="ine-l"><i></i><i></i><i></i></span></div>
+              <div class="scanline"></div>
+              <span class="okb"><i data-i="check"></i></span>
+            </div>
+            <div class="idv-l">INE frente y reverso</div>
+            <div class="scanbox face" id="ps3-b">
+              <div class="face-ov"><i data-i="scan-face"></i></div>
+              <div class="scanline"></div>
+              <span class="okb"><i data-i="check"></i></span>
+            </div>
+            <div class="idv-l">Video-selfie</div>
+          </div>
+        </div>
+        <div class="ps" id="ps4">
+          <div class="notif" id="ps4-n"><span class="notif-ic"><i data-i="mail"></i></span><div class="notif-t"><b>SAT</b><span>Tu constancia de situación fiscal (PDF)</span></div></div>
+          <div class="mailbig" id="ps4-m"><i data-i="mail"></i><span class="mb-pdf">PDF</span></div>
+          <div class="ps4-pill" id="ps4-p"><i data-i="calendar-clock"></i>1 a 5 días hábiles</div>
+        </div>
+        <div class="tap" id="s6-tap"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- S7 · Para qué te la piden -->
+  <section class="scene bg-blue" id="s7" data-deco="blue">
+    <div class="cx s7-title split">¿Para qué<br>te la piden?</div>
+    <div class="grid4">
+      <div class="g4"><span class="g4-ic"><i data-i="briefcase"></i></span><div class="g4-t">Empleo</div><div class="g4-s">Alta en nómina</div></div>
+      <div class="g4"><span class="g4-ic"><i data-i="landmark"></i></span><div class="g4-t">Bancos</div><div class="g4-s">Abrir cuentas</div></div>
+      <div class="g4"><span class="g4-ic"><i data-i="car"></i></span><div class="g4-t">Plataformas</div><div class="g4-s">Uber, DiDi, Rappi</div></div>
+      <div class="g4"><span class="g4-ic"><i data-i="building-2"></i></span><div class="g4-t">Trámites</div><div class="g4-s">IMSS, Infonavit</div></div>
+    </div>
+    <div class="tip" id="s7-tip"><span class="tip-ic"><i data-i="calendar-clock"></i></span><div><b>Tip:</b> casi siempre la piden con máximo 3 meses de antigüedad</div></div>
+  </section>
+
+  <!-- S8 · Si no puedes descargarla -->
+  <section class="scene bg-light" id="s8" data-deco="light">
+    <div class="cx s8-title split">¿No puedes<br><b class="c-blue">descargarla?</b></div>
+    <div class="pcards">
+      <div class="pc"><div class="pc-q"><span class="pc-ic"><i data-i="search"></i></span>¿No recuerdas tu RFC?</div><div class="pc-a"><span class="ck"><i data-i="check"></i></span><div>Consúltalo con tu CURP<small>en rfc.sat.gob.mx</small></div></div></div>
+      <div class="pc"><div class="pc-q"><span class="pc-ic"><i data-i="key-round"></i></span>¿Olvidaste tu contraseña?</div><div class="pc-a"><span class="ck"><i data-i="check"></i></span><div>Restablécela con SAT ID<small>sin agendar cita</small></div></div></div>
+      <div class="pc"><div class="pc-q"><span class="pc-ic"><i data-i="wifi-off"></i></span>¿El portal no carga?</div><div class="pc-a"><span class="ck"><i data-i="check"></i></span><div>Entra antes de las 9 a.m.<small>o después de las 6 p.m.</small></div></div></div>
+    </div>
+  </section>
+
+  <!-- S9 · Cierre -->
+  <section class="scene bg-blue" id="s9" data-deco="blue">
+    <div class="cx" id="s9-a">
+      <div class="s9-l split">Deja que <b class="c-ice">heru</b></div>
+      <div class="s9-l split">se encargue de</div>
+      <div class="s9-l split">tus impuestos</div>
+    </div>
+    <div class="cx" id="s9-b">
+      <div class="logo logo-big" id="s9-logo" data-logo></div>
+      <div class="s9-tag" id="s9-tag">impuestos sin estrés</div>
+      <div class="s9-h split">Vincula tu RFC<br>en 2 minutos</div>
+      <div class="cta" id="s9-cta"><span class="shine"></span>Empieza gratis<i data-i="arrow-right"></i></div>
+      <div class="s9-url" id="s9-url">heru.app</div>
+    </div>
+  </section>
+
+  <div id="hud" class="logo" data-logo></div>
+  <div id="wipe"><div class="wp" id="wp1"></div><div class="wp" id="wp2"></div><div class="wp" id="wp3"><div class="wp-logo logo" data-logo></div></div></div>
+</div>
+
+<script src="assets/gsap.min.js"></script>
+<script src="assets/TextPlugin.min.js"></script>
+<script src="assets/DrawSVGPlugin.min.js"></script>
+<script src="assets/icons.js"></script>
+<script src="assets/logo.js"></script>
+<script>
+(function () {
+  'use strict';
+  const H = 1920;
+  const LOGO_BLUE = '#1790ec', WHITE = '#ffffff';
+  const $ = (s, r = document) => r.querySelector(s);
+  const $$ = (s, r = document) => Array.from(r.querySelectorAll(s));
+
+  gsap.registerPlugin(TextPlugin, DrawSVGPlugin);
+  gsap.config({ force3D: false });
+
+  // PRNG con semilla: todo lo "aleatorio" debe repetirse igual en cada cuadro y en cada proceso de render.
+  function mulberry32(a) {
+    return function () {
+      a |= 0; a = a + 0x6D2B79F5 | 0;
+      let t = Math.imul(a ^ a >>> 15, 1 | a);
+      t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t;
+      return ((t ^ t >>> 14) >>> 0) / 4294967296;
+    };
+  }
+
+  function setup() {
+    // íconos Lucide
+    $$('i[data-i]').forEach(el => {
+      const name = el.dataset.i;
+      if (!ICONS[name]) throw new Error('Ícono no encontrado: ' + name);
+      el.outerHTML = '<svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' + ICONS[name] + '</svg>';
+    });
+    $$('[data-logo]').forEach(el => { el.innerHTML = HERU_LOGO; });
+
+    // separar palabras para revelarlas con máscara
+    $$('.split').forEach(root => {
+      (function walk(node) {
+        Array.from(node.childNodes).forEach(ch => {
+          if (ch.nodeType === 3) {
+            const frag = document.createDocumentFragment();
+            ch.textContent.split(/(\s+)/).forEach(part => {
+              if (!part) return;
+              if (/^\s+$/.test(part)) { frag.appendChild(document.createTextNode(' ')); return; }
+              const w = document.createElement('span'); w.className = 'w';
+              const wi = document.createElement('span'); wi.className = 'wi'; wi.textContent = part;
+              w.appendChild(wi); frag.appendChild(w);
+            });
+            node.replaceChild(frag, ch);
+          } else if (ch.nodeType === 1) walk(ch);
+        });
+      })(root);
+    });
+
+    // decoración de fondo
+    $$('.scene[data-deco]').forEach((sc, i) => {
+      const d = document.createElement('div');
+      d.className = 'deco deco-' + sc.dataset.deco + (i % 2 ? ' flip' : '');
+      d.innerHTML = '<div class="glow g1"></div><div class="glow g2"></div><div class="ring r1"><i></i></div><div class="ring r2"><i></i></div><div class="dots d1"></div><div class="dots d2"></div>';
+      sc.prepend(d);
+      const sh = document.createElement('div'); sh.className = 'shade'; sc.appendChild(sh);
+      sc.style.zIndex = i + 1;
+    });
+
+    // "QR" decorativo del documento
+    const rnd = mulberry32(20260921), qr = $('#s2-qr');
+    const finder = (r, c) => (r < 3 && c < 3) || (r < 3 && c > 5) || (r > 5 && c < 3);
+    for (let r = 0; r < 9; r++) for (let c = 0; c < 9; c++) {
+      const b = document.createElement('b');
+      if (finder(r, c) ? !(r % 6 === 1 && c % 6 === 1) : rnd() > 0.52) b.className = 'on';
+      qr.appendChild(b);
+    }
+  }
+
+  // posición (centro) de un elemento relativa a un contenedor, medida antes de animar
+  function posIn(sel, container, fx = 0.5, fy = 0.5) {
+    const a = $(sel).getBoundingClientRect(), c = $(container).getBoundingClientRect();
+    return { x: a.left - c.left + a.width * fx, y: a.top - c.top + a.height * fy };
+  }
+
+  function build() {
+    const tl = gsap.timeline({ paused: true, defaults: { duration: 0.6, ease: 'power3.out' } });
+    const WIN = {};
+    const marks = {};
+
+    const reveal = (sel, at, o = {}) => tl.from($$(sel + ' .wi'), { yPercent: 118, duration: o.d || 0.75, ease: o.ease || 'power4.out', stagger: o.st ?? 0.07 }, at);
+    const hideWords = (sel, at, o = {}) => tl.to($$(sel + ' .wi'), { yPercent: -118, duration: o.d || 0.5, ease: 'power3.in', stagger: o.st ?? 0.04 }, at);
+    const up = (sel, at, o = {}) => tl.from(sel, { y: o.y ?? 50, autoAlpha: 0, duration: o.d || 0.6, ease: o.ease || 'power3.out', stagger: o.st || 0 }, at);
+    const pop = (sel, at, o = {}) => tl.from(sel, { scale: o.s ?? 0, autoAlpha: 0, duration: o.d || 0.5, ease: o.ease || 'back.out(2.2)' }, at);
+    const draw = (sel, at, d = 0.35) => tl.from(sel, { drawSVG: '0%', duration: d, ease: 'power2.out' }, at);
+    const showEl = (sel, at, o = {}) => tl.fromTo(sel, { autoAlpha: 0, x: o.x || 0, y: o.y || 0 }, { autoAlpha: 1, x: 0, y: 0, duration: o.d || 0.45, ease: 'power3.out', immediateRender: false }, at);
+
+    const show = (id, t) => { tl.set(id, { autoAlpha: 1 }, t); WIN[id] = [t, null]; marks[id] = +t.toFixed(2); };
+    const hide = (id, t) => { tl.set(id, { autoAlpha: 0 }, t); WIN[id][1] = t; };
+    const hudTo = (color, t) => tl.to('#hud', { color, duration: 0.25, ease: 'none' }, t - 0.12);
+
+    // ---------- transiciones ----------
+    function tPanels(t, from, to, hud) {
+      const P = ['#wp1', '#wp2', '#wp3'];
+      tl.set('#wipe', { autoAlpha: 1 }, t);
+      P.forEach((p, i) => tl.fromTo(p, { yPercent: 105 }, { yPercent: 0, duration: 0.42, ease: 'power3.in', immediateRender: false }, t + i * 0.07));
+      tl.fromTo('#wp3 .wp-logo', { scale: 0.7, autoAlpha: 0 }, { scale: 1, autoAlpha: 1, duration: 0.3, ease: 'back.out(2)', immediateRender: false }, t + 0.38);
+      const c = t + 0.42 + 0.14;
+      hide(from, c); show(to, c);
+      if (hud) hudTo(hud, c);
+      P.slice().reverse().forEach((p, i) => tl.to(p, { yPercent: -105, duration: 0.5, ease: 'power3.out' }, c + 0.1 + i * 0.07));
+      tl.set('#wipe', { autoAlpha: 0 }, c + 0.1 + 0.14 + 0.5);
+      return c + 0.16;
+    }
+    function tCircle(t, from, to, x, y, hud) {
+      show(to, t);
+      tl.fromTo(to, { clipPath: `circle(0px at ${x}px ${y}px)` }, { clipPath: `circle(2300px at ${x}px ${y}px)`, duration: 0.9, ease: 'power2.inOut', immediateRender: false }, t);
+      tl.set(to, { clipPath: 'none' }, t + 0.9);
+      hide(from, t + 0.9);
+      if (hud) hudTo(hud, t + 0.35);
+      return t + 0.3;
+    }
+    function tPush(t, from, to, hud) {
+      show(to, t);
+      tl.fromTo(to, { y: H, borderRadius: 80 }, { y: 0, borderRadius: 0, duration: 0.8, ease: 'power3.inOut', immediateRender: false }, t);
+      tl.to(from, { y: -H * 0.28, scale: 0.92, duration: 0.8, ease: 'power3.inOut' }, t);
+      tl.to(from + ' > .shade', { opacity: 0.6, duration: 0.8, ease: 'power2.in' }, t);
+      hide(from, t + 0.8);
+      if (hud) hudTo(hud, t + 0.4);
+      return t + 0.38;
+    }
+    function tZoom(t, from, to, focus, hud) {
+      tl.to(focus, { scale: 3.4, y: 300, duration: 0.8, ease: 'power3.in' }, t);
+      tl.to(from + ' .s2-label, ' + from + ' .s2-title, ' + from + ' .s2-chips', { autoAlpha: 0, y: 40, duration: 0.35, ease: 'power2.in' }, t);
+      show(to, t + 0.5);
+      tl.fromTo(to, { opacity: 0, scale: 1.1 }, { opacity: 1, scale: 1, duration: 0.5, ease: 'power2.out', immediateRender: false }, t + 0.5);
+      hide(from, t + 1.0);
+      if (hud) hudTo(hud, t + 0.6);
+      return t + 0.62;
+    }
+
+    // ---------- piezas compartidas ----------
+    function steps(scope, s0, sd) {
+      const sts = $$(scope + ' .st'), segs = $$(scope + ' .segs b');
+      sts.forEach((st, k) => {
+        const t = s0 + k * sd;
+        if (k > 0) tl.to(sts[k - 1], { y: -36, autoAlpha: 0, duration: 0.32, ease: 'power2.in' }, t - 0.02);
+        tl.fromTo(st, { y: 40, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.5, ease: 'power3.out', immediateRender: false }, t + 0.14);
+        tl.fromTo(segs[k], { scaleX: 0 }, { scaleX: 1, duration: sd, ease: 'none', immediateRender: false }, t);
+      });
+    }
+    function swap(a, b, t, dx = 80) {
+      tl.to(a, { x: -dx, autoAlpha: 0, duration: 0.32, ease: 'power2.in' }, t);
+      tl.fromTo(b, { x: dx, autoAlpha: 0 }, { x: 0, autoAlpha: 1, duration: 0.45, ease: 'power3.out', immediateRender: false }, t + 0.22);
+    }
+    // el cursor tiene la punta a ~11px de su esquina
+    const cursorTo = (cur, p, t, d = 0.55) => tl.to(cur, { x: p.x - 11, y: p.y - 11, duration: d, ease: 'power2.inOut' }, t);
+    function click(cur, ring, btn, p, t) {
+      tl.to(cur, { scale: 0.82, duration: 0.1, ease: 'power2.out', yoyo: true, repeat: 1, transformOrigin: '15% 15%' }, t);
+      tl.to(btn, { scale: 0.95, duration: 0.1, yoyo: true, repeat: 1 }, t);
+      tl.fromTo(ring, { x: p.x, y: p.y, scale: 0.2, autoAlpha: 0.9 }, { scale: 1.5, autoAlpha: 0, duration: 0.5, ease: 'power2.out', immediateRender: false }, t);
+    }
+    function tap(el, p, t) {
+      tl.fromTo(el, { x: p.x, y: p.y, scale: 0.2, autoAlpha: 0.9 }, { scale: 1.3, autoAlpha: 0, duration: 0.55, ease: 'power2.out', immediateRender: false }, t);
+    }
+    function methodIntro(id, at) {
+      tl.set(id + '-head', { y: 520, scale: 1.12 }, 0);
+      tl.from(id + '-num', { scale: 0.6, autoAlpha: 0, duration: 0.9 }, at);
+      up(id + ' .mlabel', at + 0.15, { y: 30 });
+      reveal(id + ' .mtitle', at + 0.25, { st: 0.08 });
+      pop(id + ' .mpill', at + 0.6, { s: 0.6 });
+      const m = at + 1.25;
+      tl.to(id + '-head', { y: 0, scale: 1, duration: 0.75, ease: 'power3.inOut' }, m);
+      tl.to(id + '-num', { scale: 1.4, autoAlpha: 0, duration: 0.6, ease: 'power2.in' }, m);
+      tl.from(id + ' .segs i', { scaleX: 0, transformOrigin: '0% 50%', duration: 0.5, stagger: 0.06 }, m + 0.45);
+      return m;
+    }
+
+    // ---------- escenas ----------
+    function S1(at) {
+      tl.set('#s1-q', { y: 330 }, 0);
+      up('#s1-tag', at + 0.1, { y: 30 });
+      reveal('#s1 .s1-q1', at + 0.2);
+      reveal('#s1 .s1-q2', at + 0.42, { st: 0.1, d: 0.85 });
+      tl.to('#s1-q', { y: 0, duration: 0.75, ease: 'power3.inOut' }, at + 1.55);
+      reveal('#s1 .s1-a1', at + 1.9);
+      tl.from('#s1-stamp', { scale: 2.4, rotation: -14, autoAlpha: 0, duration: 0.6, ease: 'back.out(1.4)' }, at + 2.2);
+      $$('#s1 .spark b').forEach((b, i) => {
+        const t = at + 2.55 + (i % 3) * 0.03;
+        tl.fromTo(b, { y: 10, scaleY: 0, autoAlpha: 1 }, { y: 26, scaleY: 1, duration: 0.16, ease: 'power2.out', immediateRender: false }, t);
+        tl.to(b, { y: 70, autoAlpha: 0, duration: 0.34, ease: 'power2.out' }, t + 0.16);
+      });
+      reveal('#s1 .s1-a2', at + 2.65, { st: 0.05 });
+      tl.to('#s1-stamp', { scale: 1.05, duration: 0.45, ease: 'sine.inOut', yoyo: true, repeat: 1 }, at + 3.1);
+    }
+
+    function S2(at) {
+      reveal('#s2 .s2-label', at, { st: 0.05 });
+      tl.from('#s2-docw', { y: 220, rotation: -10, autoAlpha: 0, duration: 0.95 }, at + 0.12);
+      tl.from('#s2 .doc-lines i', { scaleX: 0, transformOrigin: '0% 50%', duration: 0.45, stagger: 0.06, ease: 'power2.out' }, at + 0.55);
+      const rq = mulberry32(7), cells = $$('#s2-qr b.on'), delays = cells.map(() => rq() * 0.4);
+      tl.from(cells, { scale: 0, duration: 0.22, ease: 'back.out(2)', stagger: i => delays[i] }, at + 0.75);
+      pop('#s2 .doc-seal', at + 1.0);
+      tl.from('#s2 .doc-pdf', { scale: 0, rotation: -40, duration: 0.55, ease: 'back.out(2.2)' }, at + 1.1);
+      reveal('#s2 .s2-title', at + 0.75, { st: 0.09, d: 0.8 });
+      up('#s2 .chip', at + 1.55, { st: 0.2, y: 40 });
+      tl.to('#s2-docw', { y: -16, duration: 1.5, ease: 'sine.inOut', yoyo: true, repeat: 1 }, at + 1.2);
+    }
+
+    function S3(at) {
+      reveal('#s3 .s3-title', at, { st: 0.07 });
+      tl.from('#s3-card', { y: 140, autoAlpha: 0, duration: 0.85 }, at + 0.15);
+      tl.from('#s3 .card-head > *', { y: 24, autoAlpha: 0, duration: 0.5, stagger: 0.08 }, at + 0.45);
+      $$('#s3 .rows li').forEach((li, i) => {
+        const t = at + 0.75 + i * 0.3;
+        tl.from(li, { x: 70, autoAlpha: 0, duration: 0.5 }, t);
+        tl.from($('.ck', li), { scale: 0, duration: 0.45, ease: 'back.out(2.6)' }, t + 0.12);
+        draw($$('.ck path', li), t + 0.25);
+        const p = $('.pill', li);
+        if (p) tl.from(p, { scale: 0.5, autoAlpha: 0, duration: 0.45, ease: 'back.out(2)' }, t + 0.32);
+      });
+    }
+
+    function S4(at) {
+      reveal('#s4 .s4-title', at, { st: 0.07 });
+      up('#s4 .vs-head .hd', at + 0.35, { st: 0.12, y: 30 });
+      const rows = $$('#s4 .vs-row:not(.vs-head)');
+      rows.forEach((row, i) => {
+        const t = at + 0.75 + i * 0.42;
+        tl.from($('.f', row), { x: -50, autoAlpha: 0, duration: 0.45 }, t);
+        tl.from($('.a > *', row), { scale: 0, autoAlpha: 0, duration: 0.42, ease: 'back.out(2.4)' }, t + 0.14);
+        tl.from($('.b > *', row), { scale: 0, autoAlpha: 0, duration: 0.42, ease: 'back.out(2.4)' }, t + 0.26);
+      });
+      const t2 = at + 0.75 + rows.length * 0.42 + 0.2;
+      tl.fromTo('#s4-hl', { autoAlpha: 0, scaleY: 0.92 }, { autoAlpha: 1, scaleY: 1, duration: 0.6, immediateRender: false }, t2);
+      tl.to('#s4 .vs-row .b', { opacity: 0.4, duration: 0.5 }, t2);
+      tl.from('#s4-badge', { y: 50, autoAlpha: 0, scale: 0.9, duration: 0.6, ease: 'back.out(1.7)' }, t2 + 0.3);
+      draw('#s4-badge .ck path', t2 + 0.6, 0.4);
+    }
+
+    function S5(at, P) {
+      const m = methodIntro('#s5', at);
+      tl.set('#s5-cur', { x: 760, y: 470 }, 0);
+      tl.from('#s5-br', { y: 420, autoAlpha: 0, duration: 0.85 }, m + 0.35);
+      const sd = 2.45, s0 = m + 0.85;
+      steps('#s5', s0, sd);
+      const [t1, t2, t3, t4] = [0, 1, 2, 3].map(k => s0 + k * sd);
+      // paso 1: escribir la URL y cargar la página
+      tl.set('#s5-caret', { autoAlpha: 1 }, t1);
+      tl.to('#s5-url', { text: 'sat.gob.mx/aplicacion/53027', duration: 0.95, ease: 'none' }, t1 + 0.1);
+      tl.set('#s5-caret', { autoAlpha: 0 }, t1 + 1.1);
+      tl.fromTo('#s5-load', { scaleX: 0, autoAlpha: 1 }, { scaleX: 1, duration: 0.45, ease: 'power2.inOut', immediateRender: false }, t1 + 1.08);
+      tl.to('#s5-load', { autoAlpha: 0, duration: 0.2 }, t1 + 1.55);
+      showEl('#bs1', t1 + 1.2, { y: 24 });
+      cursorTo('#s5-cur', P.b1, t1 + 1.4);
+      click('#s5-cur', '#s5-ring', '#bs1-btn', P.b1, t1 + 1.98);
+      // paso 2: iniciar sesión
+      swap('#bs1', '#bs2', t2);
+      tl.set('#bs2-c1', { autoAlpha: 1 }, t2 + 0.3);
+      tl.to('#bs2-rfc', { text: 'ABCD850101XY1', duration: 0.7, ease: 'none' }, t2 + 0.32);
+      tl.set('#bs2-c1', { autoAlpha: 0 }, t2 + 1.05);
+      tl.set('#bs2-c2', { autoAlpha: 1 }, t2 + 1.06);
+      tl.to('#bs2-pw', { text: '••••••••••', duration: 0.45, ease: 'none' }, t2 + 1.08);
+      tl.set('#bs2-c2', { autoAlpha: 0 }, t2 + 1.6);
+      cursorTo('#s5-cur', P.b2, t2 + 1.2, 0.5);
+      click('#s5-cur', '#s5-ring', '#bs2-btn', P.b2, t2 + 1.78);
+      // paso 3: se genera la constancia
+      swap('#bs2', '#bs3', t3);
+      tl.to('#s5-cur', { x: 846, y: 500, duration: 0.6, ease: 'power2.inOut' }, t3 + 0.1);
+      tl.from('#bs3-spin', { autoAlpha: 0, scale: 0.6, duration: 0.3 }, t3 + 0.2);
+      tl.to('#bs3-spin', { rotation: 540, duration: 0.95, ease: 'none' }, t3 + 0.2);
+      tl.to('#bs3-spin', { autoAlpha: 0, scale: 0.6, duration: 0.25 }, t3 + 0.95);
+      tl.from('#bs3-doc', { autoAlpha: 0, y: 40, duration: 0.5 }, t3 + 1.05);
+      tl.from('#bs3-doc .md-row', { autoAlpha: 0, x: -30, duration: 0.35, stagger: 0.1 }, t3 + 1.2);
+      // paso 4: descargar
+      swap('#bs3', '#bs4', t4);
+      cursorTo('#s5-cur', P.b4, t4 + 0.25, 0.5);
+      click('#s5-cur', '#s5-ring', '#bs4-btn', P.b4, t4 + 0.8);
+      showEl('#bs4-file', t4 + 0.9, { y: 30 });
+      tl.to('#bs4-bar', { scaleX: 1, duration: 0.7, ease: 'power1.inOut' }, t4 + 1.0);
+      tl.to('#bs4-st1', { autoAlpha: 0, duration: 0.15 }, t4 + 1.7);
+      tl.to('#bs4-st2', { autoAlpha: 1, duration: 0.2 }, t4 + 1.72);
+      draw('#bs4-st2 path', t4 + 1.75, 0.3);
+      tl.from('#s5-badge', { scale: 0.5, autoAlpha: 0, y: 30, duration: 0.6, ease: 'back.out(1.8)' }, t4 + 1.85);
+      return t4 + sd + 0.8 - at;          // duración visible de la escena
+    }
+
+    function S6(at, P) {
+      const m = methodIntro('#s6', at);
+      tl.from('#s6-ph', { y: 520, rotation: 6, autoAlpha: 0, duration: 0.9 }, m + 0.35);
+      const sd = 2.3, s0 = m + 0.85;
+      steps('#s6', s0, sd);
+      const [t1, t2, t3, t4] = [0, 1, 2, 3].map(k => s0 + k * sd);
+      // paso 1: ficha de la app
+      showEl('#ps1', m + 0.6, { y: 20 });
+      pop('#ps1 .app-ic', t1 + 0.1, { s: 0.5 });
+      tap('#s6-tap', P.get, t1 + 0.85);
+      tl.to('#ps1-btn .b1', { autoAlpha: 0, duration: 0.15 }, t1 + 0.95);
+      tl.to('#ps1-btn .b2', { autoAlpha: 1, duration: 0.15 }, t1 + 1.0);
+      tl.to('#ps1-btn .ring-s', { rotation: 540, duration: 0.65, ease: 'none' }, t1 + 1.0);
+      tl.to('#ps1-btn .b2', { autoAlpha: 0, duration: 0.12 }, t1 + 1.62);
+      tl.to('#ps1-btn .b3', { autoAlpha: 1, duration: 0.15 }, t1 + 1.66);
+      // paso 2: menú de trámites
+      swap('#ps1', '#ps2', t2, 60);
+      tl.from('#ps2 .opt', { x: 40, autoAlpha: 0, duration: 0.4, stagger: 0.1 }, t2 + 0.35);
+      tap('#s6-tap', P.o1, t2 + 1.15);
+      tl.to('#ps2-o1', { borderColor: '#0b74cf', backgroundColor: '#eef6fe', color: '#0b74cf', duration: 0.25 }, t2 + 1.2);
+      // paso 3: validación biométrica
+      swap('#ps2', '#ps3', t3, 60);
+      tl.fromTo('#ps3-a .scanline', { y: 0 }, { y: 166, duration: 0.45, ease: 'sine.inOut', yoyo: true, repeat: 1, immediateRender: false }, t3 + 0.3);
+      tl.to('#ps3-a .scanline', { autoAlpha: 0, duration: 0.15 }, t3 + 1.2);
+      pop('#ps3-a .okb', t3 + 1.2);
+      tl.fromTo('#ps3-b .scanline', { y: 0 }, { y: 206, duration: 0.4, ease: 'sine.inOut', yoyo: true, repeat: 1, immediateRender: false }, t3 + 0.75);
+      tl.to('#ps3-b .scanline', { autoAlpha: 0, duration: 0.15 }, t3 + 1.55);
+      pop('#ps3-b .okb', t3 + 1.55);
+      // paso 4: llega por correo
+      swap('#ps3', '#ps4', t4, 60);
+      pop('#ps4-m', t4 + 0.25, { s: 0.5 });
+      tl.from('#ps4-n', { y: -140, autoAlpha: 0, duration: 0.55, ease: 'back.out(1.4)' }, t4 + 0.5);
+      pop('#ps4-m .mb-pdf', t4 + 0.75);
+      up('#ps4-p', t4 + 0.9, { y: 24 });
+      return t4 + sd + 0.2 - at;
+    }
+
+    function S7(at) {
+      reveal('#s7 .s7-title', at, { st: 0.07 });
+      $$('#s7 .g4').forEach((c, i) => {
+        const t = at + 0.45 + i * 0.18;
+        tl.from(c, { y: 90, autoAlpha: 0, scale: 0.92, duration: 0.65, ease: 'back.out(1.4)' }, t);
+        tl.from($('.g4-ic', c), { scale: 0, rotation: -20, duration: 0.5, ease: 'back.out(2.5)' }, t + 0.2);
+      });
+      up('#s7-tip', at + 1.7, { y: 60 });
+      pop('#s7-tip .tip-ic', at + 1.95);
+    }
+
+    function S8(at) {
+      reveal('#s8 .s8-title', at, { st: 0.07 });
+      $$('#s8 .pc').forEach((c, i) => {
+        const t = at + 0.5 + i * 1.35;
+        tl.from(c, { x: 120, autoAlpha: 0, duration: 0.6 }, t);
+        pop($('.pc-ic', c), t + 0.15);
+        tl.from($('.pc-a', c), { autoAlpha: 0, y: 24, duration: 0.45 }, t + 0.55);
+        pop($('.pc-a .ck', c), t + 0.6);
+        draw($$('.pc-a .ck path', c), t + 0.75, 0.3);
+      });
+    }
+
+    function S9(at) {
+      reveal('#s9 .s9-l:nth-child(1)', at, { st: 0.08 });
+      reveal('#s9 .s9-l:nth-child(2)', at + 0.25, { st: 0.08 });
+      reveal('#s9 .s9-l:nth-child(3)', at + 0.5, { st: 0.08 });
+      const b = at + 2.6;
+      hideWords('#s9-a', b - 0.45, { st: 0.03 });
+      tl.from('#s9-logo path', { y: 260, autoAlpha: 0, duration: 0.7, ease: 'back.out(1.6)', stagger: 0.08 }, b);
+      tl.from('#s9-tag', { autoAlpha: 0, letterSpacing: '30px', duration: 0.8 }, b + 0.45);
+      reveal('#s9 .s9-h', b + 0.7, { st: 0.06 });
+      tl.from('#s9-cta', { scale: 0.6, autoAlpha: 0, duration: 0.6, ease: 'back.out(2)' }, b + 1.2);
+      up('#s9-url', b + 1.5, { y: 30 });
+      tl.fromTo('#s9-cta .shine', { x: 0 }, { x: 980, duration: 0.9, ease: 'power2.inOut', immediateRender: false }, b + 2.0);
+      tl.to('#s9-cta', { scale: 1.04, duration: 0.4, ease: 'sine.inOut', yoyo: true, repeat: 1 }, b + 2.6);
+      return b + 4.6 - at;
+    }
+
+    // ---------- montaje ----------
+    const P = {
+      b1: posIn('#bs1-btn', '#s5-br', 0.9, 0.74), b2: posIn('#bs2-btn', '#s5-br', 0.66, 0.7), b4: posIn('#bs4-btn', '#s5-br', 0.92, 0.74),
+      get: posIn('#ps1-btn', '#s6-scr'), o1: posIn('#ps2-o1', '#s6-scr'),
+    };
+    tl.set('#s5-ring', { autoAlpha: 0 }, 0);
+
+    show('#s1', 0);
+    tl.to('#hud', { autoAlpha: 1, duration: 0.4 }, 0.3);
+    S1(0);
+    let at = tPanels(3.85, '#s1', '#s2', LOGO_BLUE);
+    S2(at);
+    at = tZoom(at + 4.9, '#s2', '#s3', '#s2-docw', LOGO_BLUE);
+    S3(at);
+    at = tPush(at + 5.8, '#s3', '#s4', WHITE);
+    S4(at);
+    at = tCircle(at + 5.7, '#s4', '#s5', 540, 1560, WHITE);
+    const d5 = S5(at, P);
+    at = tPanels(at + d5, '#s5', '#s6', LOGO_BLUE);
+    const d6 = S6(at, P);
+    at = tPush(at + d6, '#s6', '#s7', WHITE);
+    S7(at);
+    at = tCircle(at + 5.2, '#s7', '#s8', 540, 1380, LOGO_BLUE);
+    S8(at);
+    const t9 = at + 7.3;
+    tl.to('#hud', { autoAlpha: 0, duration: 0.3 }, t9);
+    at = tPanels(t9, '#s8', '#s9', null);
+    const d9 = S9(at);
+    const end = at + d9;
+    WIN['#s9'][1] = end;
+    tl.set({}, {}, end);
+
+    // movimiento lento del fondo de cada escena mientras está visible
+    Object.entries(WIN).forEach(([id, [s, e]], i) => {
+      const d = e - s, dir = i % 2 ? -1 : 1;
+      tl.fromTo(id + ' .deco .g1', { x: 0, y: 0 }, { x: 140 * dir, y: 90, duration: d, ease: 'none', immediateRender: false }, s);
+      tl.fromTo(id + ' .deco .g2', { x: 0, y: 0 }, { x: -110 * dir, y: -130, duration: d, ease: 'none', immediateRender: false }, s);
+      tl.fromTo(id + ' .deco .r1', { rotation: 0 }, { rotation: 14 * d, duration: d, ease: 'none', immediateRender: false }, s);
+      tl.fromTo(id + ' .deco .r2', { rotation: 0 }, { rotation: -18 * d, duration: d, ease: 'none', immediateRender: false }, s);
+      tl.fromTo(id + ' .deco .dots', { y: 0 }, { y: -12 * d, duration: d, ease: 'none', immediateRender: false }, s);
+    });
+
+    return { tl, marks };
+  }
+
+  window.__ready = document.fonts.load('800 100px "Lexend Deca"').then(() => document.fonts.ready).then(() => {
+    setup();
+    const { tl, marks } = build();
+    window.__tl = tl;
+    window.__duration = tl.duration();
+    window.__marks = marks;
+    window.__seek = t => { tl.time(Math.max(t, 0.0005), false); };
+    const q = new URLSearchParams(location.search);
+    if (q.has('play')) tl.play(+q.get('play') || 0);
+    else window.__seek(q.has('t') ? +q.get('t') : 0);
+    return true;
+  });
+})();
+</script>
+</body>
+</html>
