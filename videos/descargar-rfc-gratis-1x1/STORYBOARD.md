@@ -340,7 +340,7 @@ aceptan con máximo 3 meses." Quieto hasta el seam.
 - on_screen: "64.8%" · "vincula su cuenta del SAT / al primer intento" (dos renglones) · fuente: "Análisis heru de 334,124 conexiones"
 - duration: 4.5s
 - transition_in: crossfade
-- status: built
+- status: animated
 - src: compositions/frames/07-dato-heru.html
 - type: social_proof
 - persuasion: Statistical proof

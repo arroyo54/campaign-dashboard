@@ -1,0 +1,450 @@
+<template>
+  <style>
+    @font-face { font-family:'Lexend Deca'; src:url('assets/fonts/lexend-deca.woff2') format('woff2'); font-weight:100 900; font-style:normal; font-display:block; }
+
+    #root { position:relative; width:1080px; height:1080px; overflow:hidden;
+            font-family:'Lexend Deca', sans-serif; color:#1A1A1A; -webkit-font-smoothing:antialiased; }
+    #root *, #root *::before, #root *::after { box-sizing:border-box; }
+
+    /* full-bleed ground + stage layers (frame.md canvas) */
+    [class~="05-metodo-sat-id-ground"] { position:absolute; left:0; top:0; width:1080px; height:1080px; background:#FFFFFF; }
+    [class~="05-metodo-sat-id-stage"] { position:absolute; left:0; top:0; width:1080px; height:1080px; }
+
+    /* ---------- slide-header: eyebrow left, tag-pill right, h2 below ---------- */
+    [class~="05-metodo-sat-id-eyebrow"] { position:absolute; left:54px; top:70px; font-size:25px; font-weight:600; line-height:1.25;
+                letter-spacing:.08em; text-transform:uppercase; color:#1772C2; white-space:nowrap; }
+    [class~="05-metodo-sat-id-tag"] { position:absolute; right:54px; top:61px; height:48px; padding:0 22px; display:flex; align-items:center;
+            border-radius:100px; background:rgba(29,143,243,.08); font-size:22px; font-weight:500; line-height:1;
+            color:#1772C2; white-space:nowrap; }
+    [class~="05-metodo-sat-id-title"] { position:absolute; left:54px; top:130px; font-size:64px; font-weight:600; line-height:1.1;
+              letter-spacing:-.02em; color:#1A1A1A; white-space:nowrap; }
+    [class~="05-metodo-sat-id-word"] { display:inline-block; }
+
+    /* ---------- step rail (same geometry as frame 04): 4 numbered circles ---------- */
+    [class~="05-metodo-sat-id-rail"] { position:absolute; left:54px; top:313px; width:400px; }
+    [class~="05-metodo-sat-id-step"] { position:relative; display:flex; align-items:flex-start; gap:22px; margin-bottom:37px; }
+    [class~="05-metodo-sat-id-step"]:last-child { margin-bottom:0; }
+    [class~="05-metodo-sat-id-circle"] { position:relative; flex:none; width:48px; height:48px; }
+    [class~="05-metodo-sat-id-c-ring"], [class~="05-metodo-sat-id-c-tint"], [class~="05-metodo-sat-id-c-disc"] { position:absolute; left:0; top:0; width:48px; height:48px; border-radius:50%; }
+    [class~="05-metodo-sat-id-c-ring"] { border:1.5px solid rgba(29,143,243,.3); }
+    [class~="05-metodo-sat-id-c-tint"] { background:rgba(29,143,243,.08); opacity:0; }
+    [class~="05-metodo-sat-id-c-disc"] { background:#1D8FF3; opacity:0; }
+    [class~="05-metodo-sat-id-num"] { position:absolute; left:0; top:0; width:48px; height:48px; display:flex; align-items:center;
+            justify-content:center; font-size:24px; font-weight:600; line-height:1; color:#767676; }
+    [class~="05-metodo-sat-id-tx"] { position:relative; flex:1 1 auto; min-width:0; padding-top:6px; font-size:30px; line-height:1.3;
+           font-weight:500; color:#767676; }
+    [class~="05-metodo-sat-id-nw"] { white-space:nowrap; }
+
+    /* ---------- phone (device-frame-stage, adapted: near-black body, no shadow) ---------- */
+    [class~="05-metodo-sat-id-device"] { position:absolute; left:605px; top:234px; width:352px; height:632px; transform-origin:50% 88%; }
+    [class~="05-metodo-sat-id-body"] { position:absolute; left:0; top:0; width:352px; height:632px; padding:13px; border-radius:54px;
+             background:#1A1A1A; }
+    [class~="05-metodo-sat-id-screen"] { position:relative; width:326px; height:606px; border-radius:41px; overflow:hidden;
+               background:#FFFFFF; isolation:isolate; }
+    [class~="05-metodo-sat-id-island"] { position:absolute; left:115px; top:12px; width:96px; height:26px; border-radius:100px;
+               background:#1A1A1A; z-index:30; }
+    [class~="05-metodo-sat-id-homebar"] { position:absolute; left:107px; top:592px; width:112px; height:5px; border-radius:3px;
+                background:#1A1A1A; opacity:.85; z-index:30; }
+    [class~="05-metodo-sat-id-scr"] { position:absolute; left:0; top:0; width:326px; height:606px; }
+    [class~="05-metodo-sat-id-scr"] svg { display:block; }
+
+    /* screen A — app listing */
+    [class~="05-metodo-sat-id-app-icon"] { position:absolute; left:111px; top:74px; width:104px; height:104px; border-radius:24px;
+                 background:#1D8FF3; color:#FFFFFF; display:flex; align-items:center; justify-content:center; }
+    [class~="05-metodo-sat-id-app-icon"] svg { width:58px; height:58px; }
+    [class~="05-metodo-sat-id-app-name"] { position:absolute; left:0; top:196px; width:326px; text-align:center; font-size:30px;
+                 font-weight:600; line-height:36px; letter-spacing:-.02em; color:#1A1A1A; }
+    [class~="05-metodo-sat-id-app-pub"] { position:absolute; left:28px; top:238px; width:270px; text-align:center; font-size:20px;
+                font-weight:400; line-height:27px; color:#5A5A5A; }
+    [class~="05-metodo-sat-id-app-meta"] { position:absolute; left:0; top:304px; width:326px; text-align:center; font-size:20px;
+                 font-weight:500; line-height:26px; color:#767676; white-space:nowrap; }
+    [class~="05-metodo-sat-id-btnwrap"] { position:absolute; left:79px; top:350px; width:168px; height:54px; }
+    [class~="05-metodo-sat-id-btn"] { position:absolute; left:0; top:0; width:168px; height:54px; border-radius:100px; background:#1D8FF3;
+            display:flex; align-items:center; justify-content:center; }
+    [class~="05-metodo-sat-id-btn-label"] { font-size:22px; font-weight:700; line-height:1; color:#FFFFFF; white-space:nowrap; }
+    [class~="05-metodo-sat-id-dl"] { position:absolute; left:60px; top:3px; width:48px; height:48px; visibility:hidden; }
+    [class~="05-metodo-sat-id-dl-spin"] { position:absolute; left:0; top:0; width:48px; height:48px; }
+    [class~="05-metodo-sat-id-dl-spin"] svg { width:48px; height:48px; }
+    [class~="05-metodo-sat-id-dl-stop"] { position:absolute; left:18px; top:18px; width:12px; height:12px; border-radius:3px; background:#1D8FF3; }
+    [class~="05-metodo-sat-id-rip"] { position:absolute; left:50%; top:50%; width:60px; height:60px; margin:-30px 0 0 -30px;
+            border-radius:50%; border:2px solid #1D8FF3; opacity:0; pointer-events:none; }
+    [class~="05-metodo-sat-id-gallery"] { position:absolute; left:20px; top:432px; width:286px; height:144px; display:flex; gap:11px; }
+    [class~="05-metodo-sat-id-shot"] { position:relative; flex:none; width:88px; height:144px; border-radius:12px;
+             background:rgba(29,143,243,.04); border:1.5px solid rgba(29,143,243,.2); }
+    [class~="05-metodo-sat-id-shot-hd"] { position:absolute; left:9px; top:9px; width:67px; height:62px; border-radius:8px; background:rgba(29,143,243,.12); }
+    [class~="05-metodo-sat-id-shot-ln"] { position:absolute; left:9px; height:8px; border-radius:4px; background:rgba(29,143,243,.18); }
+
+    /* screen B — "¿Qué trámite quieres hacer?" menu */
+    [class~="05-metodo-sat-id-mb-bar"] { position:absolute; left:22px; top:56px; height:34px; display:flex; align-items:center; gap:10px; }
+    [class~="05-metodo-sat-id-mb-ico"] { flex:none; width:34px; height:34px; border-radius:9px; background:#1D8FF3; color:#FFFFFF;
+               display:flex; align-items:center; justify-content:center; }
+    [class~="05-metodo-sat-id-mb-ico"] svg { width:20px; height:20px; }
+    [class~="05-metodo-sat-id-mb-name"] { font-size:20px; font-weight:600; line-height:1; color:#1A1A1A; white-space:nowrap; }
+    [class~="05-metodo-sat-id-menu-title"] { position:absolute; left:22px; top:110px; width:282px; font-size:26px; font-weight:600;
+                   line-height:32px; letter-spacing:-.01em; color:#1A1A1A; }
+    [class~="05-metodo-sat-id-opts"] { position:absolute; left:18px; top:200px; width:290px; display:flex; flex-direction:column; gap:14px; }
+    [class~="05-metodo-sat-id-opt"] { position:relative; display:flex; align-items:center; gap:10px; padding:22px 12px 22px 16px;
+            border-radius:14px; background:rgba(29,143,243,.04); border:1.5px solid rgba(29,143,243,.2); }
+    [class~="05-metodo-sat-id-opt-tx"] { position:relative; flex:1 1 auto; min-width:0; font-size:20px; font-weight:500; line-height:26px; color:#1A1A1A; }
+    [class~="05-metodo-sat-id-opt-end"] { position:relative; flex:none; width:24px; height:24px; }
+    [class~="05-metodo-sat-id-opt-chev"] { position:absolute; left:1px; top:1px; width:22px; height:22px; color:#767676; }
+    [class~="05-metodo-sat-id-opt-chev"] svg { width:22px; height:22px; }
+    [class~="05-metodo-sat-id-opt-ok"] { position:absolute; left:0; top:0; width:24px; height:24px; border-radius:50%; background:#1D8FF3;
+               color:#FFFFFF; display:flex; align-items:center; justify-content:center; opacity:0; }
+    [class~="05-metodo-sat-id-opt-ok"] svg { width:15px; height:15px; }
+
+    /* screen C — INE + video-selfie validation */
+    [class~="05-metodo-sat-id-ine-frame"] { position:absolute; left:36px; top:88px; width:254px; height:162px; border-radius:14px;
+                  border:2px dashed rgba(29,143,243,.5); overflow:hidden; }
+    [class~="05-metodo-sat-id-ine-card"] { position:absolute; left:10px; top:10px; width:230px; height:138px; border-radius:10px;
+                 background:rgba(29,143,243,.06); border:1.5px solid rgba(29,143,243,.25); }
+    [class~="05-metodo-sat-id-ine-photo"] { position:absolute; left:12px; top:14px; width:56px; height:72px; border-radius:8px;
+                  background:rgba(29,143,243,.14); color:#1D8FF3; display:flex; align-items:flex-end; justify-content:center; }
+    [class~="05-metodo-sat-id-ine-photo"] svg { width:46px; height:46px; opacity:.7; }
+    [class~="05-metodo-sat-id-ine-ln"] { position:absolute; left:82px; height:8px; border-radius:4px; background:rgba(29,143,243,.2); }
+    [class~="05-metodo-sat-id-ine-ln-hd"] { height:10px; border-radius:5px; background:rgba(29,143,243,.35); }
+    [class~="05-metodo-sat-id-ine-holo"] { position:absolute; left:188px; top:94px; width:26px; height:26px; border-radius:50%;
+                 border:2px solid rgba(29,143,243,.3); }
+    [class~="05-metodo-sat-id-scan"] { position:absolute; left:0; top:-20px; width:100%; height:40px; opacity:0; pointer-events:none;
+             background:linear-gradient(to bottom, rgba(29,143,243,0), rgba(29,143,243,.16) 46%, rgba(29,143,243,.16) 54%, rgba(29,143,243,0)); }
+    [class~="05-metodo-sat-id-scan-line"] { position:absolute; left:0; top:18.5px; width:100%; height:3px; border-radius:2px; background:#1D8FF3; }
+    [class~="05-metodo-sat-id-lbl"] { position:absolute; left:0; width:326px; text-align:center; font-size:20px; font-weight:500;
+            line-height:26px; color:#1A1A1A; white-space:nowrap; }
+    [class~="05-metodo-sat-id-ok"] { position:absolute; width:34px; height:34px; border-radius:50%; background:#047857; color:#FFFFFF;
+           display:flex; align-items:center; justify-content:center; opacity:0; }
+    [class~="05-metodo-sat-id-ok"] svg { width:20px; height:20px; }
+    [class~="05-metodo-sat-id-face-grp"] { position:absolute; left:0; top:0; width:326px; height:606px; opacity:0; }
+    [class~="05-metodo-sat-id-face"] { position:absolute; left:97px; top:312px; width:132px; height:168px; border-radius:50%;
+             border:2px dashed rgba(29,143,243,.5); overflow:hidden; }
+    [class~="05-metodo-sat-id-face"] svg { position:absolute; left:0; top:0; width:128px; height:164px; }
+
+    /* screen D — the mail with the PDF */
+    [class~="05-metodo-sat-id-notif"] { position:absolute; left:12px; top:52px; width:302px; padding:14px 16px 15px; border-radius:14px;
+              background:linear-gradient(rgba(29,143,243,.04), rgba(29,143,243,.04)), #FFFFFF;
+              border:1.5px solid rgba(29,143,243,.2); z-index:10; opacity:0; }
+    [class~="05-metodo-sat-id-notif-hd"] { display:flex; align-items:center; gap:10px; }
+    [class~="05-metodo-sat-id-notif-ico"] { flex:none; width:30px; height:30px; border-radius:8px; background:#1D8FF3; color:#FFFFFF;
+                  display:flex; align-items:center; justify-content:center; }
+    [class~="05-metodo-sat-id-notif-ico"] svg { width:18px; height:18px; }
+    [class~="05-metodo-sat-id-notif-app"] { font-size:22px; font-weight:600; line-height:26px; color:#1A1A1A; }
+    [class~="05-metodo-sat-id-notif-msg"] { margin-top:8px; font-size:20px; font-weight:400; line-height:27px; color:#5A5A5A; }
+    [class~="05-metodo-sat-id-mail"] { position:absolute; left:71px; top:236px; width:184px; height:184px; opacity:0; }
+    [class~="05-metodo-sat-id-env"] { position:absolute; left:0; top:0; width:184px; height:184px; border-radius:50%;
+            background:rgba(29,143,243,.08); color:#1D8FF3; display:flex; align-items:center; justify-content:center; }
+    [class~="05-metodo-sat-id-env"] svg { width:96px; height:96px; }
+    [class~="05-metodo-sat-id-pdf"] { position:absolute; left:126px; top:136px; padding:4px 12px; border-radius:8px; background:#1772C2;
+            font-size:20px; font-weight:700; line-height:24px; letter-spacing:.04em; color:#FFFFFF; opacity:0; }
+    [class~="05-metodo-sat-id-days-wrap"] { position:absolute; left:0; top:456px; width:326px; display:flex; justify-content:center; }
+    [class~="05-metodo-sat-id-days"] { padding:10px 22px; border-radius:100px; background:#1D8FF3; font-size:24px; font-weight:600;
+             line-height:28px; color:#FFFFFF; white-space:nowrap; opacity:0; }
+
+    [class~="05-metodo-sat-id-hidden"] { opacity:0; }
+
+    /* progress-bar: 3px, flush to the bottom edge (frame 5 of 8: 50% → 62.5%) */
+    [class~="05-metodo-sat-id-progress"] { position:absolute; left:0; top:1077px; width:1080px; height:3px; background:#1D8FF3;
+                 transform-origin:0 50%; }
+  </style>
+
+  <div id="root" data-composition-id="05-metodo-sat-id" data-width="1080" data-height="1080" data-duration="9.5">
+
+    <div id="05-metodo-sat-id-ground" class="clip 05-metodo-sat-id-ground" data-start="0" data-duration="9.5" data-track-index="0"></div>
+
+    <div id="05-metodo-sat-id-stage" class="clip 05-metodo-sat-id-stage" data-start="0" data-duration="9.5" data-track-index="1">
+
+      <div class="05-metodo-sat-id-eyebrow">Método 2</div>
+      <div class="05-metodo-sat-id-tag">Si no tienes contraseña</div>
+      <div class="05-metodo-sat-id-title"><span class="05-metodo-sat-id-word">Con</span> <span class="05-metodo-sat-id-word">la</span> <span class="05-metodo-sat-id-word">app</span> <span class="05-metodo-sat-id-word">SAT</span> <span class="05-metodo-sat-id-word">ID</span></div>
+
+      <div class="05-metodo-sat-id-rail">
+        <div class="05-metodo-sat-id-step">
+          <div class="05-metodo-sat-id-circle"><div class="05-metodo-sat-id-c-ring"></div><div class="05-metodo-sat-id-c-tint"></div><div class="05-metodo-sat-id-c-disc"></div><div class="05-metodo-sat-id-num">1</div></div>
+          <div class="05-metodo-sat-id-tx">Descarga SAT ID</div>
+        </div>
+        <div class="05-metodo-sat-id-step">
+          <div class="05-metodo-sat-id-circle"><div class="05-metodo-sat-id-c-ring"></div><div class="05-metodo-sat-id-c-tint"></div><div class="05-metodo-sat-id-c-disc"></div><div class="05-metodo-sat-id-num">2</div></div>
+          <div class="05-metodo-sat-id-tx">Elige “Genera tu constancia”</div>
+        </div>
+        <div class="05-metodo-sat-id-step">
+          <div class="05-metodo-sat-id-circle"><div class="05-metodo-sat-id-c-ring"></div><div class="05-metodo-sat-id-c-tint"></div><div class="05-metodo-sat-id-c-disc"></div><div class="05-metodo-sat-id-num">3</div></div>
+          <div class="05-metodo-sat-id-tx">Valida con tu INE <span class="05-metodo-sat-id-nw">y un video-selfie</span></div>
+        </div>
+        <div class="05-metodo-sat-id-step">
+          <div class="05-metodo-sat-id-circle"><div class="05-metodo-sat-id-c-ring"></div><div class="05-metodo-sat-id-c-tint"></div><div class="05-metodo-sat-id-c-disc"></div><div class="05-metodo-sat-id-num">4</div></div>
+          <div class="05-metodo-sat-id-tx">Te llega por correo</div>
+        </div>
+      </div>
+
+      <div class="05-metodo-sat-id-device">
+        <div class="05-metodo-sat-id-body">
+          <div class="05-metodo-sat-id-screen">
+
+            <div class="05-metodo-sat-id-scr 05-metodo-sat-id-scr-a" data-layout-allow-overflow>
+              <div class="05-metodo-sat-id-app-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 10h2" /><path d="M16 14h2" /><path d="M6.17 15a3 3 0 0 1 5.66 0" /><circle cx="9" cy="11" r="2" /><rect x="2" y="5" width="20" height="14" rx="2" /></svg></div>
+              <div class="05-metodo-sat-id-app-name">SAT ID</div>
+              <div class="05-metodo-sat-id-app-pub">Servicio de Administración Tributaria</div>
+              <div class="05-metodo-sat-id-app-meta">Gratis · iOS y Android</div>
+              <div class="05-metodo-sat-id-btnwrap">
+                <div class="05-metodo-sat-id-btn"><span class="05-metodo-sat-id-btn-label">Obtener</span></div>
+                <div class="05-metodo-sat-id-dl">
+                  <div class="05-metodo-sat-id-dl-spin"><svg viewBox="0 0 48 48" fill="none" aria-hidden="true"><circle cx="24" cy="24" r="20" stroke="rgba(29,143,243,0.2)" stroke-width="4" /><circle class="05-metodo-sat-id-dl-arc" cx="24" cy="24" r="20" stroke="#1D8FF3" stroke-width="4" stroke-linecap="round" stroke-dasharray="125.664" stroke-dashoffset="125.664" transform="rotate(-90 24 24)" /></svg></div>
+                  <div class="05-metodo-sat-id-dl-stop"></div>
+                </div>
+              </div>
+              <div class="05-metodo-sat-id-gallery">
+                <div class="05-metodo-sat-id-shot"><div class="05-metodo-sat-id-shot-hd"></div><div class="05-metodo-sat-id-shot-ln" style="top:84px;width:58px"></div><div class="05-metodo-sat-id-shot-ln" style="top:100px;width:42px"></div><div class="05-metodo-sat-id-shot-ln" style="top:116px;width:64px"></div></div>
+                <div class="05-metodo-sat-id-shot"><div class="05-metodo-sat-id-shot-hd"></div><div class="05-metodo-sat-id-shot-ln" style="top:84px;width:50px"></div><div class="05-metodo-sat-id-shot-ln" style="top:100px;width:64px"></div><div class="05-metodo-sat-id-shot-ln" style="top:116px;width:38px"></div></div>
+                <div class="05-metodo-sat-id-shot"><div class="05-metodo-sat-id-shot-hd"></div><div class="05-metodo-sat-id-shot-ln" style="top:84px;width:62px"></div><div class="05-metodo-sat-id-shot-ln" style="top:100px;width:46px"></div><div class="05-metodo-sat-id-shot-ln" style="top:116px;width:56px"></div></div>
+              </div>
+            </div>
+
+            <div class="05-metodo-sat-id-scr 05-metodo-sat-id-scr-b 05-metodo-sat-id-hidden" data-layout-allow-overflow>
+              <div class="05-metodo-sat-id-mb-bar">
+                <div class="05-metodo-sat-id-mb-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 10h2" /><path d="M16 14h2" /><path d="M6.17 15a3 3 0 0 1 5.66 0" /><circle cx="9" cy="11" r="2" /><rect x="2" y="5" width="20" height="14" rx="2" /></svg></div>
+                <div class="05-metodo-sat-id-mb-name">SAT ID</div>
+              </div>
+              <div class="05-metodo-sat-id-menu-title">¿Qué trámite quieres hacer?</div>
+              <div class="05-metodo-sat-id-opts">
+                <div class="05-metodo-sat-id-opt 05-metodo-sat-id-opt-1">
+                  <div class="05-metodo-sat-id-rip 05-metodo-sat-id-opt-rip"></div>
+                  <div class="05-metodo-sat-id-rip 05-metodo-sat-id-opt-rip"></div>
+                  <div class="05-metodo-sat-id-opt-tx">Genera tu constancia de situación fiscal</div>
+                  <div class="05-metodo-sat-id-opt-end">
+                    <div class="05-metodo-sat-id-opt-chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6" /></svg></div>
+                    <div class="05-metodo-sat-id-opt-ok"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5" /></svg></div>
+                  </div>
+                </div>
+                <div class="05-metodo-sat-id-opt">
+                  <div class="05-metodo-sat-id-opt-tx">Consulta tu RFC</div>
+                  <div class="05-metodo-sat-id-opt-end"><div class="05-metodo-sat-id-opt-chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6" /></svg></div></div>
+                </div>
+                <div class="05-metodo-sat-id-opt">
+                  <div class="05-metodo-sat-id-opt-tx">Genera tu contraseña</div>
+                  <div class="05-metodo-sat-id-opt-end"><div class="05-metodo-sat-id-opt-chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6" /></svg></div></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="05-metodo-sat-id-scr 05-metodo-sat-id-scr-c 05-metodo-sat-id-hidden" data-layout-allow-overflow>
+              <div class="05-metodo-sat-id-ine-frame">
+                <div class="05-metodo-sat-id-ine-card">
+                  <div class="05-metodo-sat-id-ine-photo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2" /><circle cx="12" cy="7" r="4" /></svg></div>
+                  <div class="05-metodo-sat-id-ine-ln 05-metodo-sat-id-ine-ln-hd" style="top:16px;width:104px"></div>
+                  <div class="05-metodo-sat-id-ine-ln" style="top:38px;width:122px"></div>
+                  <div class="05-metodo-sat-id-ine-ln" style="top:54px;width:92px"></div>
+                  <div class="05-metodo-sat-id-ine-ln" style="top:70px;width:112px"></div>
+                  <div class="05-metodo-sat-id-ine-ln" style="left:12px;top:104px;width:150px"></div>
+                  <div class="05-metodo-sat-id-ine-ln" style="left:12px;top:118px;width:118px"></div>
+                  <div class="05-metodo-sat-id-ine-holo"></div>
+                </div>
+                <div class="05-metodo-sat-id-scan 05-metodo-sat-id-ine-scan" data-layout-ignore><div class="05-metodo-sat-id-scan-line"></div></div>
+              </div>
+              <div class="05-metodo-sat-id-lbl" style="top:262px">INE frente y reverso</div>
+              <div class="05-metodo-sat-id-ok 05-metodo-sat-id-ine-ok" style="left:267px;top:77px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path class="05-metodo-sat-id-ine-ok-path" d="M20 6 9 17l-5-5" stroke-dasharray="23" stroke-dashoffset="23" /></svg></div>
+
+              <div class="05-metodo-sat-id-face-grp">
+                <div class="05-metodo-sat-id-face">
+                  <svg viewBox="0 0 128 164" fill="none" aria-hidden="true"><circle cx="64" cy="70" r="25" fill="rgba(29,143,243,0.12)" stroke="#1D8FF3" stroke-width="2.5" /><path d="M18 166 C 20 130 40 110 64 110 C 88 110 108 130 110 166" fill="rgba(29,143,243,0.12)" stroke="#1D8FF3" stroke-width="2.5" stroke-linecap="round" /></svg>
+                  <div class="05-metodo-sat-id-scan 05-metodo-sat-id-face-scan" data-layout-ignore><div class="05-metodo-sat-id-scan-line"></div></div>
+                </div>
+                <div class="05-metodo-sat-id-lbl" style="top:494px">Video-selfie</div>
+                <div class="05-metodo-sat-id-ok 05-metodo-sat-id-face-ok" style="left:193px;top:320px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path class="05-metodo-sat-id-face-ok-path" d="M20 6 9 17l-5-5" stroke-dasharray="23" stroke-dashoffset="23" /></svg></div>
+              </div>
+            </div>
+
+            <div class="05-metodo-sat-id-scr 05-metodo-sat-id-scr-d">
+              <div class="05-metodo-sat-id-mail">
+                <div class="05-metodo-sat-id-env"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m22 7-8.991 5.727a2 2 0 0 1-2.009 0L2 7" /><rect x="2" y="4" width="20" height="16" rx="2" /></svg></div>
+                <div class="05-metodo-sat-id-pdf">PDF</div>
+              </div>
+              <div class="05-metodo-sat-id-days-wrap"><div class="05-metodo-sat-id-days">1 a 5 días hábiles</div></div>
+            </div>
+
+            <div class="05-metodo-sat-id-notif" data-layout-allow-overflow>
+              <div class="05-metodo-sat-id-notif-hd">
+                <div class="05-metodo-sat-id-notif-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m22 7-8.991 5.727a2 2 0 0 1-2.009 0L2 7" /><rect x="2" y="4" width="20" height="16" rx="2" /></svg></div>
+                <div class="05-metodo-sat-id-notif-app">SAT</div>
+              </div>
+              <div class="05-metodo-sat-id-notif-msg">Tu constancia de situación fiscal (PDF)</div>
+            </div>
+
+            <div class="05-metodo-sat-id-island"></div>
+            <div class="05-metodo-sat-id-homebar"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="05-metodo-sat-id-progress" data-layout-ignore></div>
+    </div>
+  </div>
+
+  <script src="assets/vendor/gsap.min.js"></script>
+  <script>
+    (function () {
+      var PFX = "05-metodo-sat-id-";
+      var STAGE = document.getElementById(PFX + "stage");
+      function sel(name) { return '[class~="' + PFX + name + '"]'; }
+      function one(name, scope) { return (scope || STAGE).querySelector(sel(name)); }
+      function all(name, scope) { return Array.prototype.slice.call((scope || STAGE).querySelectorAll(sel(name))); }
+
+      var DUR = 9.5;
+      var tl = gsap.timeline({ paused: true });
+
+      /* ---------------- Scene 1 (0.0–1.2s): header, phone rises, rail appears dimmed ---------------- */
+      // progress-bar grows linearly 50% -> 62.5% of the width across the whole frame
+      tl.fromTo(one("progress"), { scaleX: 0.5 }, { scaleX: 0.625, duration: DUR, ease: "none" }, 0);
+
+      tl.fromTo(one("eyebrow"), { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.55, ease: "power3.out" }, 0.04);
+      tl.fromTo(one("tag"), { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.55, ease: "power3.out" }, 0.1);
+      tl.fromTo(all("word"), { opacity: 0, y: 38 }, { opacity: 1, y: 0, duration: 0.65, ease: "power3.out", stagger: 0.07 }, 0.14);
+
+      // device-frame-stage IN, without the overshoot: one power3 rise-and-settle onto its rest pose
+      tl.fromTo(one("device"), { opacity: 0, y: 30, scale: 0.95 }, { opacity: 1, y: 0, scale: 1, duration: 0.95, ease: "power3.out" }, 0.06);
+
+      // the listing "loads" onto the screen as the phone lands
+      tl.fromTo(one("app-icon"), { opacity: 0, scale: 0.86 }, { opacity: 1, scale: 1, duration: 0.5, ease: "power3.out" }, 0.4);
+      tl.fromTo([one("app-name"), one("app-pub"), one("app-meta")], { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: 0.5, ease: "power3.out", stagger: 0.06 }, 0.48);
+      tl.fromTo(one("btnwrap"), { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: 0.5, ease: "power3.out" }, 0.66);
+      tl.fromTo(all("shot"), { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: 0.5, ease: "power3.out", stagger: 0.05 }, 0.74);
+
+      // the 4-step rail arrives in its dimmed (pending) state
+      var steps = all("step");
+      steps.forEach(function (step, i) {
+        tl.fromTo(step, { opacity: 0, x: -16 }, { opacity: 1, x: 0, duration: 0.5, ease: "power3.out" }, 0.36 + i * 0.08);
+      });
+
+      // step states: pending (outlined, light gray) -> now (solid primary, near-black 600) -> done (tint, muted)
+      function lightStep(i, at) {
+        var s = steps[i];
+        tl.fromTo(one("c-disc", s), { opacity: 0, scale: 0.55 }, { opacity: 1, scale: 1, duration: 0.42, ease: "power3.out" }, at);
+        tl.fromTo(one("c-ring", s), { opacity: 1 }, { opacity: 0, duration: 0.3, ease: "power2.out" }, at);
+        tl.fromTo(one("num", s), { color: "#767676" }, { color: "#FFFFFF", duration: 0.3, ease: "power2.out" }, at);
+        // variable font: the label darkens and steps up 500 -> 600 on one layer (wrap points are stable across the range)
+        tl.fromTo(one("tx", s), { color: "#767676", fontWeight: 500 }, { color: "#1A1A1A", fontWeight: 600, duration: 0.35, ease: "power2.out" }, at);
+      }
+      function doneStep(i, at) {
+        var s = steps[i];
+        tl.fromTo(one("c-disc", s), { opacity: 1 }, { opacity: 0, duration: 0.4, ease: "power2.out", immediateRender: false }, at);
+        tl.fromTo(one("c-tint", s), { opacity: 0 }, { opacity: 1, duration: 0.4, ease: "power2.out" }, at);
+        tl.fromTo(one("num", s), { color: "#FFFFFF" }, { color: "#1772C2", duration: 0.4, ease: "power2.out", immediateRender: false }, at);
+        tl.fromTo(one("tx", s), { color: "#1A1A1A", fontWeight: 600 }, { color: "#5A5A5A", fontWeight: 500, duration: 0.35, ease: "power2.out", immediateRender: false }, at);
+      }
+
+      /* ---------------- Scene 2 (1.2–3.0s) — step 1: install ---------------- */
+      lightStep(0, 1.2);
+
+      // "Obtener" -> progress ring -> "Abrir" (discrete-text-sequence: whole states at thresholds, reverse search)
+      var btn = one("btn");
+      var btnLabel = one("btn-label");
+      var dl = one("dl");
+      var T_PRESS = 1.45;
+      var T_RING = 1.6;
+      var T_OPEN = 2.2;
+      var BTN_SEQUENCE = [
+        { t: 0, state: "get" },
+        { t: T_RING, state: "ring" },
+        { t: T_OPEN, state: "open" }
+      ];
+      function btnStateAt(time) {
+        for (var i = BTN_SEQUENCE.length - 1; i >= 0; i--) {
+          if (time >= BTN_SEQUENCE[i].t) return BTN_SEQUENCE[i].state;
+        }
+        return BTN_SEQUENCE[0].state;
+      }
+      function renderBtn(state) {
+        btn.style.visibility = state === "ring" ? "hidden" : "visible";
+        dl.style.visibility = state === "ring" ? "visible" : "hidden";
+        btnLabel.textContent = state === "open" ? "Abrir" : "Obtener";
+      }
+      var driver = { t: 0 };
+      tl.to(driver, { t: DUR, duration: DUR, ease: "none", onUpdate: function () { renderBtn(btnStateAt(driver.t)); } }, 0);
+
+      // tap: the button sinks (smooth compression) and recovers without overshoot
+      tl.fromTo(btn, { scale: 1 }, { scale: 0.93, duration: 0.1, ease: "power2.in" }, T_PRESS);
+      tl.fromTo(btn, { scale: 0.93 }, { scale: 1, duration: 0.38, ease: "power3.out", immediateRender: false }, T_PRESS + 0.1);
+
+      // finite progress ring: the arc fills while the ring turns once
+      tl.fromTo(one("dl-arc"), { strokeDashoffset: 125.664 }, { strokeDashoffset: 0, duration: 0.56, ease: "power1.inOut" }, T_RING);
+      tl.fromTo(one("dl-spin"), { rotation: 0 }, { rotation: 360, duration: 0.6, ease: "none" }, T_RING);
+      // "Abrir" settles in place
+      tl.fromTo(btn, { scale: 0.92 }, { scale: 1, duration: 0.3, ease: "power3.out", immediateRender: false }, T_OPEN);
+
+      // cut-the-curve (leftward): the listing accelerates out, the menu continues in from the right
+      var scrA = one("scr-a");
+      var scrB = one("scr-b");
+      var scrC = one("scr-c");
+      tl.fromTo(scrA, { x: 0 }, { x: -150, duration: 0.3, ease: "power4.in" }, 2.7);
+      tl.fromTo(scrA, { opacity: 1 }, { opacity: 0, duration: 0.24, ease: "power1.in", immediateRender: false }, 2.76);
+
+      /* ---------------- Scene 3 (3.0–4.8s) — step 2: pick the trámite ---------------- */
+      doneStep(0, 3.0);
+      lightStep(1, 3.0);
+      tl.fromTo(scrB, { x: 150, opacity: 0 }, { x: 0, opacity: 1, duration: 0.42, ease: "power4.out" }, 3.0);
+
+      // tap ripple (cursor-click-ripple, no cursor) on "Genera tu constancia de situación fiscal"
+      var opt1 = one("opt-1");
+      var T_TAP = 3.82;
+      tl.fromTo(opt1, { scale: 1 }, { scale: 0.97, duration: 0.09, ease: "power2.in" }, T_TAP);
+      tl.fromTo(opt1, { scale: 0.97 }, { scale: 1, duration: 0.32, ease: "power3.out", immediateRender: false }, T_TAP + 0.09);
+      var optRips = all("opt-rip");
+      gsap.set(optRips, { scale: 0, opacity: 0 });
+      tl.set(optRips, { opacity: 0.85 }, T_TAP + 0.04);
+      tl.to(optRips, { scale: 3.2, opacity: 0, duration: 0.62, ease: "power2.out", stagger: 0.09, immediateRender: false }, T_TAP + 0.04);
+
+      // the option is highlighted in blue
+      var T_HL = 3.9;
+      tl.fromTo(opt1, { backgroundColor: "rgba(29,143,243,0.04)", borderColor: "rgba(29,143,243,0.2)" },
+        { backgroundColor: "rgba(29,143,243,0.15)", borderColor: "rgba(29,143,243,0.45)", duration: 0.3, ease: "power2.out", immediateRender: false }, T_HL);
+      tl.fromTo(one("opt-chev", opt1), { opacity: 1 }, { opacity: 0, duration: 0.15, ease: "power1.out" }, T_HL);
+      tl.fromTo(one("opt-ok", opt1), { opacity: 0, scale: 0.6 }, { opacity: 1, scale: 1, duration: 0.3, ease: "power3.out" }, T_HL + 0.06);
+
+      tl.fromTo(scrB, { x: 0 }, { x: -150, duration: 0.3, ease: "power4.in", immediateRender: false }, 4.5);
+      tl.fromTo(scrB, { opacity: 1 }, { opacity: 0, duration: 0.24, ease: "power1.in", immediateRender: false }, 4.56);
+
+      /* ---------------- Scene 4 (4.8–7.0s) — step 3: INE + video-selfie ---------------- */
+      doneStep(1, 4.8);
+      lightStep(2, 4.8);
+      tl.fromTo(scrC, { x: 150, opacity: 0 }, { x: 0, opacity: 1, duration: 0.42, ease: "power4.out" }, 4.8);
+
+      // the INE card appears inside its dashed frame
+      tl.fromTo(one("ine-card"), { opacity: 0, scale: 0.92 }, { opacity: 1, scale: 1, duration: 0.4, ease: "power3.out" }, 4.95);
+
+      // one finite scan pass over the INE: down, then back up
+      var ineScan = one("ine-scan");
+      tl.fromTo(ineScan, { opacity: 0 }, { opacity: 1, duration: 0.1, ease: "none" }, 5.2);
+      tl.fromTo(ineScan, { y: 0 }, { y: 158, duration: 0.35, ease: "power1.inOut", immediateRender: false }, 5.2);
+      tl.fromTo(ineScan, { y: 158 }, { y: 0, duration: 0.35, ease: "power1.inOut", immediateRender: false }, 5.55);
+      tl.fromTo(ineScan, { opacity: 1 }, { opacity: 0, duration: 0.12, ease: "none", immediateRender: false }, 5.9);
+      tl.fromTo(one("ine-ok"), { opacity: 0, scale: 0.5 }, { opacity: 1, scale: 1, duration: 0.35, ease: "power3.out" }, 5.9);
+      tl.fromTo(one("ine-ok-path"), { strokeDashoffset: 23 }, { strokeDashoffset: 0, duration: 0.3, ease: "power2.out" }, 5.97);
+
+      // then the face oval, its own scan and check
+      tl.fromTo(one("face-grp"), { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.4, ease: "power3.out" }, 6.0);
+      var faceScan = one("face-scan");
+      tl.fromTo(faceScan, { opacity: 0 }, { opacity: 1, duration: 0.08, ease: "none" }, 6.22);
+      tl.fromTo(faceScan, { y: 0 }, { y: 164, duration: 0.25, ease: "power1.inOut", immediateRender: false }, 6.22);
+      tl.fromTo(faceScan, { y: 164 }, { y: 0, duration: 0.25, ease: "power1.inOut", immediateRender: false }, 6.47);
+      tl.fromTo(faceScan, { opacity: 1 }, { opacity: 0, duration: 0.1, ease: "none", immediateRender: false }, 6.72);
+      tl.fromTo(one("face-ok"), { opacity: 0, scale: 0.5 }, { opacity: 1, scale: 1, duration: 0.35, ease: "power3.out" }, 6.72);
+      tl.fromTo(one("face-ok-path"), { strokeDashoffset: 23 }, { strokeDashoffset: 0, duration: 0.3, ease: "power2.out" }, 6.79);
+
+      /* ---------------- Scene 5 (7.0–8.6s) — step 4: it arrives by mail ---------------- */
+      doneStep(2, 7.0);
+      lightStep(3, 7.0);
+      var notif = one("notif");
+      tl.fromTo(notif, { y: -150 }, { y: 0, duration: 0.6, ease: "power3.out" }, 7.05);
+      tl.fromTo(notif, { opacity: 0 }, { opacity: 1, duration: 0.2, ease: "power2.out", immediateRender: false }, 7.05);
+
+      // inverse zoom-through: the validation screen recedes, the envelope arrives oversized and retracts into place
+      tl.fromTo(scrC, { scale: 1, filter: "blur(0px)" }, { scale: 0.8, filter: "blur(8px)", duration: 0.2, ease: "power3.in", immediateRender: false }, 7.35);
+      tl.fromTo(scrC, { opacity: 1 }, { opacity: 0, duration: 0.2, ease: "none", immediateRender: false }, 7.35);
+      tl.fromTo(one("mail"), { opacity: 0, scale: 1.25, filter: "blur(8px)" }, { opacity: 1, scale: 1, filter: "blur(0px)", duration: 0.5, ease: "expo.out" }, 7.55);
+      tl.fromTo(one("pdf"), { opacity: 0, y: 8 }, { opacity: 1, y: 0, duration: 0.35, ease: "power3.out" }, 7.85);
+
+      /* ---------------- Scene 6 (8.6–9.5s): "1 a 5 días hábiles" settles, then stillness ---------------- */
+      tl.fromTo(one("days"), { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: 0.6, ease: "power3.out" }, 8.6);
+
+      window.__timelines = window.__timelines || {};
+      window.__timelines["05-metodo-sat-id"] = tl;
+    })();
+  </script>
+</template>
