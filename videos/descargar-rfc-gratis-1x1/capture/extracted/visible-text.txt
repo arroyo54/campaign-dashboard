@@ -1,0 +1,231 @@
+Fuente: https://www.heru.app/blog/descargar-rfc-gratis/ (descargado el 2026-10-01; actualizado por heru el 23 de septiembre de 2026)
+
+# Descargar RFC gratis: cómo obtener tu constancia con RFC en 2026
+
+ Equipo heru 21 de septiembre de 2026
+Actualizado el 23 de septiembre de 2026
+
+En este artículo (8)
+
+ - Qué documento descargas cuando "bajas tu RFC"
+ - Cómo descargar tu RFC gratis desde el portal del SAT
+ - Cómo descargar tu RFC gratis con la app SAT ID
+ - Para qué necesitas descargar tu RFC
+ - Qué hacer si no puedes descargar tu constancia
+ - Preguntas frecuentes
+ - Lo que sigue después de descargar tu RFC
+ - Fuentes
+
+Tabla de contenido
+ - Qué documento descargas cuando "bajas tu RFC"
+ - Constancia de situación fiscal
+ - Cédula de identificación fiscal
+ - Cómo descargar tu RFC gratis desde el portal del SAT
+ - Paso 1: Ingresa al portal del SAT
+ - Paso 2: Inicia sesión
+ - Paso 3: Genera la constancia
+ - Paso 4: Descarga el PDF
+ - Cómo descargar tu RFC gratis con la app SAT ID
+ - Paso 1: Descarga la app
+ - Paso 2: Selecciona el trámite
+ - Paso 3: Ingresa tu RFC y valida tu identidad
+ - Paso 4: Recibe tu constancia por correo
+ - Para qué necesitas descargar tu RFC
+ - Empleo y nómina
+ - Cuentas bancarias
+ - Plataformas de trabajo
+ - Trámites gubernamentales
+ - Qué hacer si no puedes descargar tu constancia
+ - No recuerdas tu RFC
+ - Olvidaste tu contraseña del SAT
+ - El portal del SAT muestra error o no carga
+ - Tu RFC aparece como suspendido o cancelado
+ - Nunca te diste de alta en el RFC
+ - Preguntas frecuentes
+ - ¿Descargar el RFC tiene algún costo?
+ - ¿Cuántas veces puedo descargar mi constancia?
+ - ¿La constancia de situación fiscal tiene fecha de vencimiento?
+ - ¿Puedo descargar mi RFC desde el celular?
+ - ¿Qué diferencia hay entre RFC y constancia de situación fiscal?
+ - ¿Necesito e.firma para descargar mi RFC?
+ - Lo que sigue después de descargar tu RFC
+ - Fuentes
+
+Sí, descargar tu RFC es completamente gratis. El documento que necesitas se llama constancia de situación fiscal, y lo puedes generar en PDF desde el portal del SAT o desde la app SAT ID en menos de cinco minutos, sin costo alguno.
+Según un análisis de heru de 334,124 conexiones de credenciales SAT, el 64.8% de los contribuyentes logra acceder al portal del SAT y vincular su cuenta al primer intento. Si tienes tu contraseña del SAT activa, descargar tu constancia con RFC es un trámite que resuelves en minutos ( ver investigación completa ).
+El SAT no cobra por generar este documento, y puedes descargarlo las veces que necesites. Lo que obtienes es un PDF oficial que incluye tu RFC completo (13 caracteres con homoclave), tu régimen fiscal, domicilio, actividades económicas y obligaciones vigentes. Eso lo convierte en el comprobante fiscal más solicitado en México para trámites laborales, bancarios y de plataformas como Uber, DiDi o Rappi.
+En esta guía te explicamos exactamente qué documento estás descargando, cómo obtenerlo paso a paso por dos métodos oficiales y qué hacer si no puedes acceder al portal. Si lo que necesitas es entender a fondo qué contiene la constancia y para qué sirve, consulta nuestra guía completa sobre la constancia de situación fiscal .
+ En resumen
+Descargar tu RFC es gratis. El documento oficial que lo contiene es la constancia de situación fiscal, disponible en PDF desde el portal del SAT o la app SAT ID.
+El método más rápido es el portal sat.gob.mx: inicias sesión con RFC y contraseña, generas la constancia y la descargas al instante.
+La constancia incluye tu RFC con homoclave, régimen fiscal, domicilio, actividades económicas, obligaciones y estatus como contribuyente.
+No necesitas cita presencial para descargar tu RFC. Los dos métodos en línea funcionan las 24 horas.
+Si no recuerdas tu RFC, puedes recuperarlo con tu CURP antes de iniciar la descarga.
+En heru puedes vincular tu cuenta del SAT y generar tu constancia automáticamente al conectar tus credenciales fiscales.
+
+## Qué documento descargas cuando "bajas tu RFC"
+Cuando alguien busca "descargar RFC gratis", en realidad necesita uno de dos documentos del SAT. Entender la diferencia evita confusiones.
+
+### Constancia de situación fiscal
+La constancia de situación fiscal es el documento que la mayoría de personas necesita. Se genera en tiempo real desde el portal del SAT y contiene toda tu información tributaria actualizada al momento de la descarga. Según el portal del SAT , este es el documento oficial que acredita tu situación como contribuyente.
+La constancia incluye:
+ - RFC completo con homoclave (13 caracteres).
+ - Nombre completo tal como aparece en tu registro fiscal.
+ - CURP vinculado a tu RFC.
+ - Domicilio fiscal registrado ante el SAT.
+ - Régimen fiscal (RESICO, actividad empresarial, honorarios, plataformas tecnológicas, sueldos y salarios, entre otros).
+ - Actividades económicas con su código del catálogo SAT.
+ - Obligaciones fiscales activas (declaraciones mensuales, anuales, informativas).
+ - Estatus del contribuyente : activo, suspendido o cancelado.
+ - Fecha de inicio de operaciones .
+Este es el documento que te piden en un empleo nuevo, al abrir una cuenta bancaria o al registrarte como conductor o repartidor en plataformas digitales.
+
+### Cédula de identificación fiscal
+La cédula de identificación fiscal es un documento distinto. Se emite una sola vez al momento de darte de alta en el RFC y contiene únicamente tu RFC, nombre y un código QR. No se actualiza, no refleja cambios de régimen ni de domicilio, y no incluye tus obligaciones fiscales. Para la mayoría de los trámites actuales, la constancia de situación fiscal es el documento correcto.
+
+#### Se genera cuantas veces quieras
+ - Constancia de situación fiscal: Sí
+ - Cédula de identificación fiscal: No, se emite una vez
+
+#### Refleja datos en tiempo real
+ - Constancia de situación fiscal: Sí
+ - Cédula de identificación fiscal: No
+
+#### Incluye régimen y obligaciones
+ - Constancia de situación fiscal: Sí
+ - Cédula de identificación fiscal: No
+
+#### Documento más solicitado
+ - Constancia de situación fiscal: Sí
+ - Cédula de identificación fiscal: Rara vez
+
+#### Costo
+ - Constancia de situación fiscal: Gratis
+ - Cédula de identificación fiscal: Gratis
+
+## Cómo descargar tu RFC gratis desde el portal del SAT
+Este es el método más directo. Necesitas tu RFC y tu contraseña del SAT (también llamada CIEC). Si tienes e.firma vigente, también puedes usarla para iniciar sesión.
+ Requisitos:
+ - RFC de 13 caracteres. Si no lo recuerdas, consúltalo con tu CURP .
+ - Contraseña del SAT o e.firma vigente.
+ - Navegador web actualizado (Chrome, Firefox, Safari o Edge).
+
+### Paso 1: Ingresa al portal del SAT
+Abre tu navegador y visita sat.gob.mx/aplicacion/53027/genera-tu-constancia-de-situacion-fiscal . Esta es la página oficial del SAT para generar tu constancia.
+
+### Paso 2: Inicia sesión
+Selecciona el método de autenticación. Tienes dos opciones:
+ - Contraseña (CIEC): ingresa tu RFC y tu contraseña del portal SAT.
+ - e.firma: carga los archivos .cer y .key de tu firma electrónica junto con la contraseña de la llave privada.
+Si olvidaste tu contraseña, puedes restablecerla con la app SAT ID sin necesidad de agendar cita.
+
+### Paso 3: Genera la constancia
+Una vez dentro del portal, el sistema genera automáticamente tu constancia de situación fiscal. Verás un documento en pantalla con todos tus datos fiscales actualizados.
+
+### Paso 4: Descarga el PDF
+Haz clic en el botón "Imprimir" o "Generar PDF". El documento se descarga como archivo PDF a tu dispositivo. Puedes guardarlo, enviarlo por correo o imprimirlo directamente.
+ Tiempo total: 2 a 5 minutos si ya tienes tu contraseña.
+Revisa que todos los datos sean correctos antes de entregar tu constancia. Si el domicilio, régimen o actividades económicas no coinciden con tu situación actual, primero debes actualizar tu constancia en el portal del SAT y después generar una nueva.
+
+## Cómo descargar tu RFC gratis con la app SAT ID
+La app SAT ID es la segunda opción oficial. Este método es útil si no tienes tu contraseña del SAT, porque SAT ID usa verificación biométrica (foto de INE y video-selfie) en lugar de contraseña.
+ Requisitos:
+ - RFC de 13 caracteres.
+ - INE o pasaporte mexicano vigente.
+ - Celular con cámara (iOS o Android).
+ - Correo electrónico registrado ante el SAT.
+
+### Paso 1: Descarga la app
+Busca "SAT ID" en App Store o Google Play. Verifica que el desarrollador sea "Servicio de Administración Tributaria". La app es gratuita.
+
+### Paso 2: Selecciona el trámite
+Abre la app y elige la opción "Genera tu constancia de situación fiscal" o "Consulta tu RFC".
+
+### Paso 3: Ingresa tu RFC y valida tu identidad
+Proporciona tu RFC y sigue las instrucciones para la verificación biométrica:
+ - Toma una foto del frente y reverso de tu INE.
+ - Graba un video-selfie en tiempo real.
+ - Confirma tu correo electrónico.
+Para que la validación funcione al primer intento: busca un lugar con buena iluminación natural, coloca la INE sobre una superficie oscura y sin reflejos, y retira lentes o gorras para la selfie.
+
+### Paso 4: Recibe tu constancia por correo
+Si la verificación es exitosa, el SAT envía tu constancia de situación fiscal en PDF al correo electrónico registrado. El plazo de entrega es de 1 a 5 días hábiles, según la carga del sistema.
+A diferencia del portal web, SAT ID no te permite descargar la constancia al instante. Si necesitas el documento de forma inmediata, el portal del SAT con contraseña es la mejor opción.
+
+## Para qué necesitas descargar tu RFC
+La constancia de situación fiscal con tu RFC se solicita en una variedad de trámites cotidianos. Estos son los casos más comunes.
+
+### Empleo y nómina
+Desde 2022, todas las empresas en México deben verificar el régimen fiscal y código postal de sus empleados para emitir correctamente los CFDI de nómina. Si comienzas en un trabajo nuevo, tu patrón te pedirá la constancia para darte de alta en su sistema de nómina. Esta obligación está establecida en las reglas de facturación CFDI 4.0 del SAT .
+
+### Cuentas bancarias
+Los bancos comerciales solicitan la constancia para abrir cuentas empresariales, cuentas de cheques para personas con actividad empresarial y, en algunos casos, cuentas de ahorro o inversión. BBVA, Banorte, Santander y otros bancos la incluyen como requisito documental.
+
+### Plataformas de trabajo
+Si eres conductor de Uber, DiDi o InDriver, repartidor de Rappi o Uber Eats, o vendedor en Mercado Libre, estas plataformas te piden la constancia como parte del registro fiscal. Sin entregarla, algunas plataformas aplican la retención máxima de ISR sobre tus ingresos. En heru puedes vincular tu cuenta del SAT directamente, lo que simplifica el proceso de tener tus documentos fiscales a la mano.
+
+### Trámites gubernamentales
+Para trámites ante el IMSS, Infonavit, licitaciones o proveeduría gubernamental, la constancia actualizada es requisito estándar.
+
+## Qué hacer si no puedes descargar tu constancia
+Existen situaciones que impiden generar la constancia desde el portal o SAT ID. Estas son las más frecuentes y cómo resolverlas.
+
+### No recuerdas tu RFC
+Si no tienes tu RFC a la mano, puedes consultarlo gratis con tu CURP en el portal rfc.sat.gob.mx . Solo necesitas tu CURP de 18 caracteres y el sistema te muestra tu RFC al instante.
+
+### Olvidaste tu contraseña del SAT
+Puedes restablecerla de dos formas:
+ - SAT ID: la app te permite generar una nueva contraseña con verificación biométrica, sin cita. Consulta nuestra guía de SAT ID para el proceso completo.
+ - Cita presencial: si SAT ID no funciona para tu caso, puedes agendar una cita en el SAT para restablecer tu contraseña en oficina.
+
+### El portal del SAT muestra error o no carga
+El portal del SAT experimenta saturación en horarios pico (lunes por la mañana, fin de mes y fechas cercanas a vencimientos de declaraciones). Si el sitio no carga, intenta en horario de baja demanda: antes de las 9:00 a.m. o después de las 6:00 p.m. También puedes probar desde otro navegador o borrar las cookies del sitio sat.gob.mx.
+
+### Tu RFC aparece como suspendido o cancelado
+Si tu estatus en el SAT es "suspendido", no podrás generar la constancia hasta reactivar tu cuenta. Consulta nuestra guía sobre estatus suspendido en el SAT para conocer los pasos de reactivación.
+
+### Nunca te diste de alta en el RFC
+Si el sistema no encuentra tu RFC, es posible que nunca te hayas inscrito como contribuyente. En ese caso, necesitas dar de alta tu RFC en el SAT con cita presencial antes de poder descargar cualquier documento fiscal.
+
+## Preguntas frecuentes
+
+### ¿Descargar el RFC tiene algún costo?
+No. Generar y descargar tu constancia de situación fiscal (el documento que contiene tu RFC) es completamente gratuito. El SAT no cobra por este trámite, ni en línea ni de forma presencial. Desconfía de cualquier sitio que te pida un pago por "descargar tu RFC", ya que no es un servicio oficial.
+
+### ¿Cuántas veces puedo descargar mi constancia?
+Las veces que necesites. No hay límite. Cada descarga genera un documento actualizado con tus datos fiscales al momento de la consulta.
+
+### ¿La constancia de situación fiscal tiene fecha de vencimiento?
+No tiene fecha de vencimiento oficial. Sin embargo, la mayoría de instituciones que la solicitan (bancos, empresas, plataformas) piden que tenga una antigüedad máxima de 3 meses. Por eso, lo recomendable es generarla al momento de necesitarla.
+
+### ¿Puedo descargar mi RFC desde el celular?
+Sí. Puedes acceder al portal del SAT desde el navegador de tu celular y seguir los mismos pasos que en una computadora. También puedes usar la app SAT ID, aunque en ese caso la constancia llega por correo electrónico en 1 a 5 días hábiles.
+
+### ¿Qué diferencia hay entre RFC y constancia de situación fiscal?
+El RFC es un código alfanumérico de 13 caracteres que te identifica como contribuyente. La constancia de situación fiscal es el documento oficial del SAT que contiene tu RFC junto con toda tu información tributaria (régimen, domicilio, actividades, obligaciones). Cuando alguien te pide "tu RFC", casi siempre se refiere a la constancia completa como documento comprobatorio.
+
+### ¿Necesito e.firma para descargar mi RFC?
+No es obligatorio. Puedes descargar tu constancia con tu contraseña del SAT (CIEC) o con la app SAT ID mediante verificación biométrica. La e.firma es una tercera opción de autenticación, pero no la única.
+
+## Lo que sigue después de descargar tu RFC
+Con tu constancia de situación fiscal en mano, ya tienes el documento que te piden en la mayoría de trámites laborales, bancarios y fiscales en México. Si estás regularizando tu situación fiscal como independiente, conductor de plataforma o freelancer, el siguiente paso lógico es asegurarte de que tus declaraciones estén al día. Regístrate en heru para conectar tu cuenta del SAT y mantener tus obligaciones fiscales al corriente sin complicaciones.
+Para una visión completa de todos los trámites fiscales que puedes hacer en línea y de forma presencial, consulta nuestra guía completa de trámites del SAT en 2026 .
+
+## Fuentes
+ - SAT. "Genera tu constancia de situación fiscal." Portal del SAT. sat.gob.mx/aplicacion/53027/genera-tu-constancia-de-situacion-fiscal . Consultado en septiembre de 2026.
+ - SAT. "Consulta tu RFC." Portal del SAT. rfc.sat.gob.mx . Consultado en septiembre de 2026.
+ - SAT. "Actualización de factura electrónica (CFDI 4.0)." Portal del SAT. sat.gob.mx/consultas/43074/actualizacion-factura-electronica . Consultado en septiembre de 2026.
+ - SAT. "SAT ID: aplicación móvil." Disponible en App Store y Google Play. Consultado en septiembre de 2026.
+ Última actualización: septiembre 2026
+
+## 
+Aviso editorial
+
+Este artículo es contenido informativo sobre la normativa fiscal mexicana vigente y
+ no constituye asesoría fiscal, contable ni legal personalizada . Las reglas del SAT
+ cambian y su aplicación depende de tu régimen, tus ingresos y tu situación particular. Antes de
+ tomar una decisión con efectos fiscales, valida tu caso con un contador o directamente con el SAT.
+
+Información verificada contra las fuentes oficiales citadas al 23 de septiembre de 2026.
+
+Revisión fiscal: Karla Saldaña Jimenez , Especialista contable en heru.

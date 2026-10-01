@@ -1,0 +1,48 @@
+{
+  "version": 1,
+  "preferences": {
+    "destination": {
+      "value": "ig-linkedin-feed",
+      "confirmed_in": [
+        "descargar-rfc-gratis-1x1"
+      ],
+      "updated_at": "2026-10-01T02:41:19.611Z"
+    },
+    "aspect": {
+      "value": "1080x1080",
+      "confirmed_in": [
+        "descargar-rfc-gratis-1x1"
+      ],
+      "updated_at": "2026-10-01T02:41:19.666Z"
+    },
+    "language": {
+      "value": "es",
+      "confirmed_in": [
+        "descargar-rfc-gratis-1x1"
+      ],
+      "updated_at": "2026-10-01T02:41:19.714Z"
+    },
+    "flow": {
+      "value": "automation",
+      "confirmed_in": [
+        "descargar-rfc-gratis-1x1"
+      ],
+      "updated_at": "2026-10-01T02:41:19.774Z"
+    },
+    "storyboard": {
+      "value": "yes",
+      "confirmed_in": [
+        "descargar-rfc-gratis-1x1"
+      ],
+      "updated_at": "2026-10-01T02:41:19.834Z"
+    },
+    "style_preset.faceless-explainer": {
+      "value": "blue-professional",
+      "confirmed_in": [
+        "descargar-rfc-gratis-1x1"
+      ],
+      "updated_at": "2026-10-01T02:42:00.930Z"
+    }
+  },
+  "sightings": {}
+}

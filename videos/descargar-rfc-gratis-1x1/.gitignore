@@ -1,0 +1,8 @@
+# Derivados: se regeneran con `npx hyperframes snapshot` / los scripts del skill
+snapshots/
+.hyperframes/frame-packets/
+node_modules/
+capture-run.json
+capture-run.err
+out/
+*.mp4
