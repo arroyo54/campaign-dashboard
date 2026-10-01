@@ -6,3 +6,6 @@ capture-run.json
 capture-run.err
 out/
 *.mp4
+# Temporales del render; solo el MP4 final se versiona
+renders/*
+!renders/video.mp4
