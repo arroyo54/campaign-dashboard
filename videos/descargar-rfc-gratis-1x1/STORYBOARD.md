@@ -80,7 +80,7 @@ superior del lienzo; en el borde inferior solo la barra de progreso de 3px.
 - on_screen: "¿Te pidieron tu RFC?" (fijo) · "en tu nuevo trabajo" → "en el banco" → "en Uber, DiDi o Rappi" (ciclando) · "Descárgalo gratis." · micro: "Nadie debe cobrarte por él."
 - duration: 5s
 - transition_in: cut
-- status: built
+- status: animated
 - src: compositions/frames/01-te-pidieron-tu-rfc.html
 - type: hook
 - persuasion: Direct address + counterintuitive claim (es gratis; si te cobran, desconfía)

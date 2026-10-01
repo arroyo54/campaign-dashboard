@@ -1,0 +1,302 @@
+<template>
+  <style>
+    @font-face { font-family:'Lexend Deca'; src:url('assets/fonts/lexend-deca.woff2') format('woff2'); font-weight:100 900; font-style:normal; font-display:block; }
+
+    #root {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 1080px;
+      height: 1080px;
+      overflow: hidden;
+      font-family: 'Lexend Deca', sans-serif;
+      color: #1A1A1A;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ---- static ground + cover atmosphere (full-duration clips) ---- */
+    [class~="01-te-pidieron-tu-rfc-ground"] {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 1080px;
+      height: 1080px;
+      background: #FFFFFF;
+    }
+    [class~="01-te-pidieron-tu-rfc-diag"] {
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 432px;
+      height: 1080px;
+      background: rgba(29, 143, 243, 0.08);
+      clip-path: polygon(32% 0, 100% 0, 100% 100%, 0 100%);
+    }
+    [class~="01-te-pidieron-tu-rfc-dots"] {
+      position: absolute;
+      top: 794px;
+      right: 65px;
+      width: 98px;
+      height: 98px;
+      opacity: 0.35;
+    }
+    [class~="01-te-pidieron-tu-rfc-dots"] svg {
+      display: block;
+      width: 98px;
+      height: 98px;
+    }
+
+    /* ---- content stage ---- */
+    [class~="01-te-pidieron-tu-rfc-stage"] {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 1080px;
+      height: 1080px;
+    }
+    [class~="01-te-pidieron-tu-rfc-rule"] {
+      position: absolute;
+      left: 54px;
+      top: 162px;
+      width: 60px;
+      height: 4px;
+      border-radius: 2px;
+      background: #1D8FF3;
+      transform-origin: 0 50%;
+    }
+    [class~="01-te-pidieron-tu-rfc-eyebrow"] {
+      position: absolute;
+      left: 54px;
+      top: 186px;
+      font-size: 25px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #1772C2;
+      white-space: nowrap;
+    }
+    [class~="01-te-pidieron-tu-rfc-anchor"] {
+      position: absolute;
+      left: 54px;
+      top: 238px;
+      font-size: 96px;
+      font-weight: 700;
+      line-height: 1.06;
+      letter-spacing: -0.02em;
+      color: #1A1A1A;
+    }
+    [class~="01-te-pidieron-tu-rfc-line"] {
+      display: block;
+      white-space: nowrap;
+    }
+    [class~="01-te-pidieron-tu-rfc-word"] {
+      display: inline-block;
+    }
+    [class~="01-te-pidieron-tu-rfc-pill"] {
+      position: absolute;
+      left: 54px;
+      top: 486px;
+      font-size: 45px;
+      font-weight: 500;
+      color: #1772C2;
+      background: rgba(29, 143, 243, 0.08);
+      border: 1.5px solid rgba(29, 143, 243, 0.2);
+      padding: 15px 32px;
+      border-radius: 100px;
+      white-space: nowrap;
+    }
+    [class~="01-te-pidieron-tu-rfc-pay"] {
+      position: absolute;
+      left: 54px;
+      top: 680px;
+      font-size: 68px;
+      font-weight: 600;
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+      color: #1A1A1A;
+      white-space: nowrap;
+    }
+    [class~="01-te-pidieron-tu-rfc-hi"] {
+      color: #1D8FF3;
+    }
+    [class~="01-te-pidieron-tu-rfc-micro"] {
+      position: absolute;
+      left: 54px;
+      top: 783px;
+      font-size: 34px;
+      font-weight: 400;
+      line-height: 1.45;
+      color: #5A5A5A;
+      white-space: nowrap;
+    }
+
+    /* ---- progress strip: frame 1 of 8, 0% to 12.5% ---- */
+    [class~="01-te-pidieron-tu-rfc-progress-lane"] {
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      width: 1080px;
+      height: 3px;
+    }
+    [class~="01-te-pidieron-tu-rfc-progress"] {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 135px;
+      height: 3px;
+      background: #1D8FF3;
+      transform-origin: 0 50%;
+    }
+  </style>
+
+  <div id="root" data-composition-id="01-te-pidieron-tu-rfc" data-start="0" data-duration="5" data-width="1080" data-height="1080">
+    <div id="01-te-pidieron-tu-rfc-ground" class="clip 01-te-pidieron-tu-rfc-ground" data-start="0" data-duration="5" data-track-index="0"></div>
+
+    <div id="01-te-pidieron-tu-rfc-diag" class="clip 01-te-pidieron-tu-rfc-diag" data-start="0" data-duration="5" data-track-index="1"></div>
+
+    <div id="01-te-pidieron-tu-rfc-dots" class="clip 01-te-pidieron-tu-rfc-dots" data-start="0" data-duration="5" data-track-index="2">
+      <svg viewBox="0 0 98 98" width="98" height="98" aria-hidden="true">
+        <g fill="#1D8FF3">
+          <circle cx="16.2" cy="16.2" r="5" />
+          <circle cx="48.6" cy="16.2" r="5" />
+          <circle cx="81" cy="16.2" r="5" />
+          <circle cx="16.2" cy="48.6" r="5" />
+          <circle cx="48.6" cy="48.6" r="5" />
+          <circle cx="81" cy="48.6" r="5" />
+          <circle cx="16.2" cy="81" r="5" />
+          <circle cx="48.6" cy="81" r="5" />
+          <circle cx="81" cy="81" r="5" />
+        </g>
+      </svg>
+    </div>
+
+    <div id="01-te-pidieron-tu-rfc-stage" class="clip 01-te-pidieron-tu-rfc-stage" data-start="0" data-duration="5" data-track-index="3">
+      <div class="01-te-pidieron-tu-rfc-rule"></div>
+      <div class="01-te-pidieron-tu-rfc-eyebrow">GUÍA 2026</div>
+      <div class="01-te-pidieron-tu-rfc-anchor">
+        <div class="01-te-pidieron-tu-rfc-line"><span class="01-te-pidieron-tu-rfc-word">¿Te</span> <span class="01-te-pidieron-tu-rfc-word">pidieron</span></div>
+        <div class="01-te-pidieron-tu-rfc-line"><span class="01-te-pidieron-tu-rfc-word">tu</span> <span class="01-te-pidieron-tu-rfc-word">RFC?</span></div>
+      </div>
+      <div class="01-te-pidieron-tu-rfc-pill"><span class="01-te-pidieron-tu-rfc-place">en tu nuevo trabajo</span></div>
+      <div class="01-te-pidieron-tu-rfc-pay"><span class="01-te-pidieron-tu-rfc-word">Descárgalo</span> <span class="01-te-pidieron-tu-rfc-word 01-te-pidieron-tu-rfc-hi">gratis.</span></div>
+      <div class="01-te-pidieron-tu-rfc-micro">Nadie debe cobrarte por él.</div>
+    </div>
+
+    <div id="01-te-pidieron-tu-rfc-progress-lane" class="clip 01-te-pidieron-tu-rfc-progress-lane" data-start="0" data-duration="5" data-track-index="4">
+      <div class="01-te-pidieron-tu-rfc-progress"></div>
+    </div>
+  </div>
+
+  <script src="assets/vendor/gsap.min.js"></script>
+  <script>
+    (function () {
+      var P = "01-te-pidieron-tu-rfc-";
+      var DURATION = 5;
+      var EASE = "power3.out";
+      var EPS = 0.0001;
+
+      var stage = document.getElementById(P + "stage");
+      var lane = document.getElementById(P + "progress-lane");
+      function one(scope, name) {
+        return scope.getElementsByClassName(P + name)[0];
+      }
+      function all(scope, name) {
+        return Array.prototype.slice.call(scope.getElementsByClassName(P + name));
+      }
+
+      var rule = one(stage, "rule");
+      var eyebrow = one(stage, "eyebrow");
+      var anchor = one(stage, "anchor");
+      var pill = one(stage, "pill");
+      var place = one(stage, "place");
+      var pay = one(stage, "pay");
+      var micro = one(stage, "micro");
+      var progress = one(lane, "progress");
+
+      var tl = gsap.timeline({ paused: true });
+
+      // dynamic-content-sequencing: each word's window is pre-computed once from its
+      // length (BASE + chars x SEC_PER_CHAR + optional hold), so longer words earn more time.
+      var WORD_BASE = 0.07;
+      var SEC_PER_CHAR = 0.012;
+      function wordWindows(words, t0, holds) {
+        var cumulative = t0;
+        return words.map(function (el, i) {
+          var start = cumulative;
+          cumulative += WORD_BASE + el.textContent.length * SEC_PER_CHAR + ((holds && holds[i]) || 0);
+          return { el: el, start: start };
+        });
+      }
+      function riseWords(words, t0, holds, lift, dur) {
+        wordWindows(words, t0, holds).forEach(function (w) {
+          tl.fromTo(w.el, { opacity: 0, y: lift }, { opacity: 1, y: 0, duration: dur, ease: EASE }, w.start);
+        });
+      }
+
+      // Scene 1 (0.0-1.1): accent line draws, eyebrow lands, the anchor builds word by
+      // word and then PINS: no tween touches it again.
+      tl.fromTo(rule, { scaleX: 0 }, { scaleX: 1, duration: 0.5, ease: EASE }, 0.06);
+      tl.fromTo(eyebrow, { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.5, ease: EASE }, 0.12);
+      riseWords(all(anchor, "word"), 0.18, [0, 0.06, 0, 0], 44, 0.5);
+
+      // Scene 2 (1.1-2.9): the place pill arrives, then cycles in place by HARD CUT
+      // (discrete-text-sequence). Width is never tweened: the pill re-fits to each
+      // phrase instantly and grows to the right, away from the anchor.
+      tl.fromTo(pill, { opacity: 0, y: 18 }, { opacity: 1, y: 0, duration: 0.45, ease: EASE }, 1.1);
+
+      var PLACES = [
+        { t: 1.1, text: "en tu nuevo trabajo" },
+        { t: 1.7, text: "en el banco" },
+        { t: 2.3, text: "en Uber, DiDi o Rappi" }
+      ];
+      // Each new state lands with a slight tint shift (accent-medium 15% settling to
+      // accent-light 8%), derived from time alone so every seek path paints the same frame.
+      var REST_ALPHA = 0.08;
+      var HIT_ALPHA = 0.15;
+      var SETTLE = 0.4;
+
+      function stateAt(time) {
+        for (var i = PLACES.length - 1; i > 0; i--) {
+          if (time + EPS >= PLACES[i].t) return i;
+        }
+        return 0;
+      }
+
+      var driver = { t: 0 };
+      var shownState = 0;
+      var shownTint = "";
+      tl.to(driver, {
+        t: DURATION,
+        duration: DURATION,
+        ease: "none",
+        onUpdate: function () {
+          var now = driver.t;
+          var i = stateAt(now);
+          if (i !== shownState) {
+            place.textContent = PLACES[i].text;
+            shownState = i;
+          }
+          var k = now + EPS >= PLACES[i].t ? Math.min(1, Math.max(0, (now - PLACES[i].t) / SETTLE)) : 1;
+          var tint = (REST_ALPHA + (HIT_ALPHA - REST_ALPHA) * (1 - k) * (1 - k)).toFixed(3);
+          if (tint !== shownTint) {
+            pill.style.backgroundColor = "rgba(29, 143, 243, " + tint + ")";
+            shownTint = tint;
+          }
+        }
+      }, 0);
+
+      // Scene 3 (2.9-3.9): the cycle holds on "en Uber, DiDi o Rappi" while the payoff
+      // line builds word by word.
+      riseWords(all(pay, "word"), 2.9, null, 36, 0.55);
+
+      // Scene 4 (3.9-5.0): the muted note rises with a short fade; then everything holds.
+      tl.fromTo(micro, { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: 0.5, ease: EASE }, 3.9);
+
+      // Progress strip grows linearly across the whole frame.
+      tl.fromTo(progress, { scaleX: 0 }, { scaleX: 1, duration: DURATION, ease: "none" }, 0);
+
+      window.__timelines = window.__timelines || {};
+      window.__timelines["01-te-pidieron-tu-rfc"] = tl;
+    })();
+  </script>
+</template>
