@@ -1,0 +1,284 @@
+<template>
+  <!--
+    07-dato-heru · held stat frame · 1080x1080 · 4.5s · built on the confirmed storyboard cell #frame-07
+    (adapted from the registry block mk-progress-stat: count-up numeral + progress track + caption).
+    - Source line keeps the confirmed sketch copy (also the packet's roles line).
+    - Lexend Deca ships without a tnum feature, so tabular figures are emulated with fixed-width
+      digit slots sized to the landed "64.8%" glyphs: no jitter while counting, natural set when landed.
+    - Classes carry the 07-dato-heru- prefix. The one timed element gets a letter-led id (f07-...)
+      because digit-led ids trip lint id_requires_css_escape.
+    - GSAP is inherited from the host index (assets/vendor/gsap.min.js). A second copy loaded here
+      would be a separate GSAP instance, which the root timeline cannot nest.
+  -->
+  <style>
+    @font-face {
+      font-family: 'Lexend Deca';
+      src: url('assets/fonts/lexend-deca.woff2') format('woff2');
+      font-weight: 100 900;
+      font-style: normal;
+      font-display: block;
+    }
+
+    #root {
+      position: absolute;
+      inset: 0;
+      width: 1080px;
+      height: 1080px;
+      overflow: hidden;
+      font-family: 'Lexend Deca', sans-serif;
+      color: #1A1A1A;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* full-bleed ground: a full-duration clip on the lowest track */
+    [class~="07-dato-heru-bg"] {
+      position: absolute;
+      inset: 0;
+      background: #FFFFFF;
+    }
+
+    /* eyebrow: 25px / 600 / uppercase / 0.08em / #1772C2 (sketch top 22cqw) */
+    [class~="07-dato-heru-eyebrow"] {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 237.6px;
+      padding-left: 0.08em; /* balances the trailing tracking so the label centers optically */
+      font-size: 25px;
+      font-weight: 600;
+      line-height: 1.25;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      text-align: center;
+      white-space: nowrap;
+      color: #1772C2;
+    }
+
+    /* numeral: 230px / 700 / #1D8FF3, ink centered where the sketch put it (~414px) */
+    [class~="07-dato-heru-num-wrap"] {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 295.5px;
+      height: 230px;
+    }
+    [class~="07-dato-heru-num"] {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      justify-content: center;
+      align-items: baseline;
+      font-size: 230px;
+      font-weight: 700;
+      line-height: 1;
+      color: #1D8FF3;
+      font-variant-numeric: tabular-nums;
+      transform-origin: 50% 51.5%; /* the digits' ink center: dynamic scale grows in place */
+    }
+    /* fixed-width glyph slots = landed glyph advance minus the -0.02em tracking */
+    [class~="07-dato-heru-slot"] {
+      display: flex;
+      flex: none;
+      justify-content: center;
+    }
+    [class~="07-dato-heru-slot"]:empty {
+      display: none;
+    }
+    [class~="07-dato-heru-tens"] {
+      width: 0.559em;
+      justify-content: flex-end; /* leading digit hugs its neighbour; any overflow goes left */
+    }
+    [class~="07-dato-heru-units"] {
+      width: 0.642em;
+    }
+    [class~="07-dato-heru-dot"] {
+      width: 0.237em;
+    }
+    [class~="07-dato-heru-tenths"] {
+      width: 0.579em;
+    }
+    [class~="07-dato-heru-pct"] {
+      width: 0.948em;
+    }
+
+    /* progress track: 8% primary, pill; the fill's landed state shows exactly 64.8% */
+    [class~="07-dato-heru-track"] {
+      position: absolute;
+      left: 216px;
+      top: 583.2px;
+      width: 648px;
+      height: 26px;
+      border-radius: 100px;
+      background: rgba(29, 143, 243, 0.08);
+      overflow: hidden;
+    }
+    [class~="07-dato-heru-fill"] {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: -35.2%;
+      width: 100%;
+      border-radius: 100px;
+      background: #1D8FF3;
+    }
+
+    /* caption: h3 44px / 500 / near-black, two deliberate display lines */
+    [class~="07-dato-heru-caption"] {
+      position: absolute;
+      left: 129.6px;
+      right: 129.6px;
+      top: 658.8px;
+      font-size: 44px;
+      font-weight: 500;
+      line-height: 1.25;
+      letter-spacing: -0.02em;
+      text-align: center;
+      color: #1A1A1A;
+    }
+    [class~="07-dato-heru-line"] {
+      display: block;
+      white-space: nowrap;
+    }
+
+    /* source: 24px / text-light; bottom edge ~851px, inside the 896px keep-out */
+    [class~="07-dato-heru-src"] {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 820.8px;
+      font-size: 24px;
+      font-weight: 400;
+      line-height: 1.25;
+      text-align: center;
+      white-space: nowrap;
+      color: #767676;
+    }
+
+    /* persistent progress strip (frame 7 of 8), flush to the bottom edge, square ends */
+    [class~="07-dato-heru-progress"] {
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      width: 87.5%;
+      height: 3px;
+      background: #1D8FF3;
+      transform-origin: left center;
+    }
+  </style>
+
+  <div
+    id="root"
+    data-composition-id="07-dato-heru"
+    data-start="0"
+    data-duration="4.5"
+    data-width="1080"
+    data-height="1080"
+  >
+    <div
+      id="f07-dato-heru-bg"
+      class="clip 07-dato-heru-bg"
+      data-start="0"
+      data-duration="4.5"
+      data-track-index="0"
+    ></div>
+
+    <div class="07-dato-heru-eyebrow">ANÁLISIS HERU</div>
+
+    <div class="07-dato-heru-num-wrap">
+      <div class="07-dato-heru-num">
+        <span class="07-dato-heru-slot 07-dato-heru-tens"></span>
+        <span class="07-dato-heru-slot 07-dato-heru-units">0</span>
+        <span class="07-dato-heru-slot 07-dato-heru-dot"></span>
+        <span class="07-dato-heru-slot 07-dato-heru-tenths"></span>
+        <span class="07-dato-heru-slot 07-dato-heru-pct">%</span>
+      </div>
+    </div>
+
+    <div class="07-dato-heru-track"><div class="07-dato-heru-fill"></div></div>
+
+    <div class="07-dato-heru-caption">
+      <span class="07-dato-heru-line">vincula su cuenta del SAT</span>
+      <span class="07-dato-heru-line">al primer intento</span>
+    </div>
+
+    <div class="07-dato-heru-src">334,124 conexiones de credenciales SAT analizadas por heru</div>
+
+    <div class="07-dato-heru-progress"></div>
+  </div>
+
+  <script>
+    (function () {
+      var root = document.querySelector('[data-composition-id="07-dato-heru"]') || document;
+      function part(name) {
+        return root.getElementsByClassName("07-dato-heru-" + name)[0];
+      }
+
+      var eyebrow = part("eyebrow");
+      var numWrap = part("num-wrap");
+      var num = part("num");
+      var tens = part("tens");
+      var units = part("units");
+      var dot = part("dot");
+      var tenths = part("tenths");
+      var track = part("track");
+      var fill = part("fill");
+      var lines = root.getElementsByClassName("07-dato-heru-line");
+      var lineA = lines[0];
+      var lineB = lines[1];
+      var source = part("src");
+      var progress = part("progress");
+
+      /* Count proxy in tenths of a percent: the tween ends on exactly 648, which paints "64.8%".
+         0 paints the resting "0%"; any other value paints one decimal. Text writes only (O(1)). */
+      var count = { v: 0 };
+      var painted = -1;
+      function paint() {
+        var n = Math.round(count.v);
+        if (n === painted) return;
+        painted = n;
+        if (n <= 0) {
+          tens.textContent = "";
+          units.textContent = "0";
+          dot.textContent = "";
+          tenths.textContent = "";
+          return;
+        }
+        var whole = Math.floor(n / 10);
+        tens.textContent = whole >= 10 ? String(Math.floor(whole / 10)) : "";
+        units.textContent = String(whole % 10);
+        dot.textContent = ".";
+        tenths.textContent = String(n % 10);
+      }
+      paint();
+
+      var tl = gsap.timeline({ paused: true });
+
+      /* Scene 1 (0.0-0.6s): under the crossfade, eyebrow, the resting "0%" and the empty track settle in */
+      tl.fromTo(eyebrow, { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: 0.6, ease: "power3.out" }, 0);
+      tl.fromTo(numWrap, { opacity: 0, y: 18 }, { opacity: 1, y: 0, duration: 0.65, ease: "power3.out" }, 0.06);
+      tl.fromTo(track, { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: 0.6, ease: "power3.out" }, 0.14);
+
+      /* Scene 2 (0.6-2.4s): counting-dynamic-scale + stat-bars-and-fills as one beat:
+         value, scale and fill share start, duration and ease, so number and bar land together */
+      var COUNT_AT = 0.6;
+      var COUNT_DUR = 1.8;
+      var COUNT_EASE = "power3.out";
+      var START_SCALE = 0.72; /* contained growth */
+      tl.fromTo(count, { v: 0 }, { v: 648, duration: COUNT_DUR, ease: COUNT_EASE, onUpdate: paint }, COUNT_AT);
+      tl.fromTo(num, { scale: START_SCALE }, { scale: 1, duration: COUNT_DUR, ease: COUNT_EASE }, COUNT_AT);
+      tl.fromTo(fill, { xPercent: -64.8 }, { xPercent: 0, duration: COUNT_DUR, ease: COUNT_EASE }, COUNT_AT);
+
+      /* Scene 3 (2.4-4.5s): on the landing the caption rises line by line, then the source;
+         from ~3.6s everything holds absolutely still (the video's held frame) */
+      tl.fromTo(lineA, { opacity: 0, y: 26 }, { opacity: 1, y: 0, duration: 0.8, ease: "power3.out" }, 2.4);
+      tl.fromTo(lineB, { opacity: 0, y: 26 }, { opacity: 1, y: 0, duration: 0.8, ease: "power3.out" }, 2.52);
+      tl.fromTo(source, { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: 0.7, ease: "power3.out" }, 2.95);
+
+      /* progress strip (chrome): 75% -> 87.5% of the width, linear across the whole frame */
+      tl.fromTo(progress, { scaleX: 0.75 / 0.875 }, { scaleX: 1, duration: 4.5, ease: "none" }, 0);
+
+      window.__timelines = window.__timelines || {};
+      window.__timelines["07-dato-heru"] = tl;
+    })();
+  </script>
+</template>

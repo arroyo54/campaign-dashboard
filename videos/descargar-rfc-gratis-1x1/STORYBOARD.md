@@ -161,7 +161,7 @@ escalonadas de izquierda a derecha. El frame se sostiene quieto.
 - on_screen: "Ojo: no es la cédula" · Constancia: "Se genera cuando quieras" · "Datos al día" · "Con régimen y obligaciones" · sello "La que te piden" · Cédula: "Se emite una sola vez" · "Sin régimen ni obligaciones" · "Rara vez la piden"
 - duration: 5s
 - transition_in: push-slide LEFT
-- status: built
+- status: animated
 - src: compositions/frames/03-no-es-la-cedula.html
 - type: social_proof
 - persuasion: Comparison of two options
