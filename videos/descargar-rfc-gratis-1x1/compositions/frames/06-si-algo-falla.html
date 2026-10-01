@@ -2,10 +2,6 @@
   <style>
     @font-face { font-family:'Lexend Deca'; src:url('assets/fonts/lexend-deca.woff2') format('woff2'); font-weight:100 900; font-style:normal; font-display:block; }
 
-    /* Class names carry the frame prefix "06-si-algo-falla-". A CSS identifier cannot
-       start with a digit, so selectors escape the leading "0" as \30 (CSS.escape form):
-       .\30 6-si-algo-falla-card  ==  class="06-si-algo-falla-card". */
-
     #root { position:absolute; inset:0; width:1080px; height:1080px; overflow:hidden;
             font-family:'Lexend Deca', sans-serif; color:#1A1A1A; background:transparent;
             -webkit-font-smoothing:antialiased; }
@@ -13,128 +9,126 @@
     #root .clip { position:absolute; inset:0; }
 
     /* ground: full-bleed canvas (frame.md bg) */
-    #root .\30 6-si-algo-falla-ground { background:#FFFFFF; }
+    #root .f06-si-algo-falla-ground { background:#FFFFFF; }
 
     /* slide-header: eyebrow left, tag-pill right */
-    #root .\30 6-si-algo-falla-eyebrow { position:absolute; left:54px; top:70px; margin:0;
+    #root .f06-si-algo-falla-eyebrow { position:absolute; left:54px; top:70px; margin:0;
             font-size:25px; font-weight:600; line-height:1.25; letter-spacing:.08em;
             text-transform:uppercase; color:#1772C2; white-space:nowrap; }
-    #root .\30 6-si-algo-falla-tag { position:absolute; right:54px; top:61px; height:48px;
+    #root .f06-si-algo-falla-tag { position:absolute; right:54px; top:61px; height:48px;
             padding:0 22px; display:flex; align-items:center; border-radius:100px;
             background:rgba(29,143,243,.08); font-size:22px; font-weight:500;
             line-height:1; color:#1772C2; white-space:nowrap; }
 
     /* h2 — near-black, never blue */
-    #root .\30 6-si-algo-falla-title { position:absolute; left:54px; top:135px; margin:0;
+    #root .f06-si-algo-falla-title { position:absolute; left:54px; top:135px; margin:0;
             font-size:72px; font-weight:600; line-height:1.1; letter-spacing:-.02em;
             color:#1A1A1A; white-space:nowrap; }
-    #root .\30 6-si-algo-falla-word { display:inline-block; }
+    #root .f06-si-algo-falla-word { display:inline-block; }
 
     /* the stack: three problem → solution cards (card-tinted, no shadow) */
-    #root .\30 6-si-algo-falla-cards { position:absolute; left:54px; right:54px; top:297px;
+    #root .f06-si-algo-falla-cards { position:absolute; left:54px; right:54px; top:297px;
             display:flex; flex-direction:column; gap:16px; }
-    #root .\30 6-si-algo-falla-card { padding:22px 32px; border-radius:14px;
+    #root .f06-si-algo-falla-card { padding:22px 32px; border-radius:14px;
             background:rgba(29,143,243,.04); border:1.5px solid rgba(29,143,243,.2); }
-    #root .\30 6-si-algo-falla-problem { display:flex; align-items:center; gap:14px;
+    #root .f06-si-algo-falla-problem { display:flex; align-items:center; gap:14px;
             font-size:28px; font-weight:400; line-height:1.25; color:#5A5A5A; white-space:nowrap; }
-    #root .\30 6-si-algo-falla-icon { flex:none; width:36px; height:36px; display:flex;
+    #root .f06-si-algo-falla-icon { flex:none; width:36px; height:36px; display:flex;
             align-items:center; justify-content:center; color:#dc2626; }
-    #root .\30 6-si-algo-falla-icon svg { display:block; width:28px; height:28px; }
-    #root .\30 6-si-algo-falla-solution { display:flex; align-items:center; gap:14px; margin-top:6px;
+    #root .f06-si-algo-falla-icon svg { display:block; width:28px; height:28px; }
+    #root .f06-si-algo-falla-solution { display:flex; align-items:center; gap:14px; margin-top:6px;
             font-size:36px; font-weight:600; line-height:1.25; letter-spacing:-.01em;
             color:#1A1A1A; white-space:nowrap; }
-    #root .\30 6-si-algo-falla-arrow { flex:none; display:block; width:36px; height:36px;
+    #root .f06-si-algo-falla-arrow { flex:none; display:block; width:36px; height:36px;
             color:#1D8FF3; overflow:visible; }
-    #root .\30 6-si-algo-falla-answer { display:block; }
-    #root .\30 6-si-algo-falla-detail { font-size:26px; font-weight:400; letter-spacing:0; color:#767676; }
+    #root .f06-si-algo-falla-answer { display:block; }
+    #root .f06-si-algo-falla-detail { font-size:26px; font-weight:400; letter-spacing:0; color:#767676; }
 
     /* tip: split-highlight — 8% tint + 4px primary left rule; bottom edge pinned at y=880 */
-    #root .\30 6-si-algo-falla-tip { position:absolute; left:54px; right:54px; bottom:200px;
+    #root .f06-si-algo-falla-tip { position:absolute; left:54px; right:54px; bottom:200px;
             padding:20px 32px 20px 36px; border-radius:12px; background:rgba(29,143,243,.08);
             overflow:hidden; }
-    #root .\30 6-si-algo-falla-rule { position:absolute; left:0; top:0; bottom:0; width:4px;
+    #root .f06-si-algo-falla-rule { position:absolute; left:0; top:0; bottom:0; width:4px;
             background:#1D8FF3; transform-origin:50% 100%; }
-    #root .\30 6-si-algo-falla-tiptext { margin:0; font-size:28px; font-weight:400; line-height:1.35;
+    #root .f06-si-algo-falla-tiptext { margin:0; font-size:28px; font-weight:400; line-height:1.35;
             color:#1A1A1A; text-wrap:balance; }
-    #root .\30 6-si-algo-falla-tiptext b { font-weight:600; color:#1772C2; }
+    #root .f06-si-algo-falla-tiptext b { font-weight:600; color:#1772C2; }
 
     /* progress-bar: 3px, flush to the bottom edge, square ends */
-    #root .\30 6-si-algo-falla-progress { pointer-events:none; }
-    #root .\30 6-si-algo-falla-fill { position:absolute; left:0; bottom:0; width:1080px; height:3px;
+    #root .f06-si-algo-falla-progress { pointer-events:none; }
+    #root .f06-si-algo-falla-fill { position:absolute; left:0; bottom:0; width:1080px; height:3px;
             background:#1D8FF3; transform-origin:0 50%; }
   </style>
 
   <div id="root" data-composition-id="06-si-algo-falla" data-width="1080" data-height="1080" data-duration="8.5">
 
     <!-- full-bleed ground -->
-    <div id="06-si-algo-falla-ground" class="clip 06-si-algo-falla-ground"
+    <div id="f06-si-algo-falla-ground" class="clip f06-si-algo-falla-ground"
          data-start="0" data-duration="8.5" data-track-index="0"></div>
 
     <!-- stage -->
-    <div id="06-si-algo-falla-stage" class="clip"
+    <div id="f06-si-algo-falla-stage" class="clip"
          data-start="0" data-duration="8.5" data-track-index="1">
 
-      <div class="06-si-algo-falla-eyebrow">SI ALGO FALLA</div>
-      <div class="06-si-algo-falla-tag">heru · Guía 2026</div>
+      <div class="f06-si-algo-falla-eyebrow">SI ALGO FALLA</div>
+      <div class="f06-si-algo-falla-tag">heru · Guía 2026</div>
 
-      <h2 class="06-si-algo-falla-title"><span class="06-si-algo-falla-word">¿No</span> <span class="06-si-algo-falla-word">puedes</span> <span class="06-si-algo-falla-word">descargarla?</span></h2>
+      <h2 class="f06-si-algo-falla-title"><span class="f06-si-algo-falla-word">¿No</span> <span class="f06-si-algo-falla-word">puedes</span> <span class="f06-si-algo-falla-word">descargarla?</span></h2>
 
-      <div class="06-si-algo-falla-cards">
+      <div class="f06-si-algo-falla-cards">
 
-        <div class="06-si-algo-falla-card">
-          <div class="06-si-algo-falla-problem">
-            <span class="06-si-algo-falla-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m21 21-4.34-4.34" /><circle cx="11" cy="11" r="8" /></svg></span>
+        <div class="f06-si-algo-falla-card">
+          <div class="f06-si-algo-falla-problem">
+            <span class="f06-si-algo-falla-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m21 21-4.34-4.34" /><circle cx="11" cy="11" r="8" /></svg></span>
             <span>¿Olvidaste tu RFC?</span>
           </div>
-          <div class="06-si-algo-falla-solution">
-            <svg class="06-si-algo-falla-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path class="06-si-algo-falla-shaft" d="M5 12h14" /><path class="06-si-algo-falla-barb" d="M19 12 12 5" /><path class="06-si-algo-falla-barb" d="M19 12 12 19" /></svg>
-            <span class="06-si-algo-falla-answer">Consúltalo con tu CURP <span class="06-si-algo-falla-detail">en rfc.sat.gob.mx</span></span>
+          <div class="f06-si-algo-falla-solution">
+            <svg class="f06-si-algo-falla-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path class="f06-si-algo-falla-shaft" d="M5 12h14" /><path class="f06-si-algo-falla-barb" d="M19 12 12 5" /><path class="f06-si-algo-falla-barb" d="M19 12 12 19" /></svg>
+            <span class="f06-si-algo-falla-answer">Consúltalo con tu CURP <span class="f06-si-algo-falla-detail">en rfc.sat.gob.mx</span></span>
           </div>
         </div>
 
-        <div class="06-si-algo-falla-card">
-          <div class="06-si-algo-falla-problem">
-            <span class="06-si-algo-falla-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2.586 17.414A2 2 0 0 0 2 18.828V21a1 1 0 0 0 1 1h3a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h1a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h.172a2 2 0 0 0 1.414-.586l.814-.814a6.5 6.5 0 1 0-4-4z" /><circle cx="16.5" cy="7.5" r=".5" fill="currentColor" /></svg></span>
+        <div class="f06-si-algo-falla-card">
+          <div class="f06-si-algo-falla-problem">
+            <span class="f06-si-algo-falla-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2.586 17.414A2 2 0 0 0 2 18.828V21a1 1 0 0 0 1 1h3a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h1a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h.172a2 2 0 0 0 1.414-.586l.814-.814a6.5 6.5 0 1 0-4-4z" /><circle cx="16.5" cy="7.5" r=".5" fill="currentColor" /></svg></span>
             <span>¿Sin contraseña?</span>
           </div>
-          <div class="06-si-algo-falla-solution">
-            <svg class="06-si-algo-falla-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path class="06-si-algo-falla-shaft" d="M5 12h14" /><path class="06-si-algo-falla-barb" d="M19 12 12 5" /><path class="06-si-algo-falla-barb" d="M19 12 12 19" /></svg>
-            <span class="06-si-algo-falla-answer">Restablécela en SAT ID <span class="06-si-algo-falla-detail">sin cita</span></span>
+          <div class="f06-si-algo-falla-solution">
+            <svg class="f06-si-algo-falla-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path class="f06-si-algo-falla-shaft" d="M5 12h14" /><path class="f06-si-algo-falla-barb" d="M19 12 12 5" /><path class="f06-si-algo-falla-barb" d="M19 12 12 19" /></svg>
+            <span class="f06-si-algo-falla-answer">Restablécela en SAT ID <span class="f06-si-algo-falla-detail">sin cita</span></span>
           </div>
         </div>
 
-        <div class="06-si-algo-falla-card">
-          <div class="06-si-algo-falla-problem">
-            <span class="06-si-algo-falla-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20h.01" /><path d="M8.5 16.429a5 5 0 0 1 7 0" /><path d="M5 12.859a10 10 0 0 1 5.17-2.69" /><path d="M19 12.859a10 10 0 0 0-2.007-1.523" /><path d="M2 8.82a15 15 0 0 1 4.177-2.643" /><path d="M22 8.82a15 15 0 0 0-11.288-3.764" /><path d="m2 2 20 20" /></svg></span>
+        <div class="f06-si-algo-falla-card">
+          <div class="f06-si-algo-falla-problem">
+            <span class="f06-si-algo-falla-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20h.01" /><path d="M8.5 16.429a5 5 0 0 1 7 0" /><path d="M5 12.859a10 10 0 0 1 5.17-2.69" /><path d="M19 12.859a10 10 0 0 0-2.007-1.523" /><path d="M2 8.82a15 15 0 0 1 4.177-2.643" /><path d="M22 8.82a15 15 0 0 0-11.288-3.764" /><path d="m2 2 20 20" /></svg></span>
             <span>¿El portal no carga?</span>
           </div>
-          <div class="06-si-algo-falla-solution">
-            <svg class="06-si-algo-falla-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path class="06-si-algo-falla-shaft" d="M5 12h14" /><path class="06-si-algo-falla-barb" d="M19 12 12 5" /><path class="06-si-algo-falla-barb" d="M19 12 12 19" /></svg>
-            <span class="06-si-algo-falla-answer">Entra antes de 9 a.m. o después de 6 p.m.</span>
+          <div class="f06-si-algo-falla-solution">
+            <svg class="f06-si-algo-falla-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path class="f06-si-algo-falla-shaft" d="M5 12h14" /><path class="f06-si-algo-falla-barb" d="M19 12 12 5" /><path class="f06-si-algo-falla-barb" d="M19 12 12 19" /></svg>
+            <span class="f06-si-algo-falla-answer">Entra antes de 9 a.m. o después de 6 p.m.</span>
           </div>
         </div>
 
       </div>
 
-      <div class="06-si-algo-falla-tip">
-        <span class="06-si-algo-falla-rule"></span>
-        <p class="06-si-algo-falla-tiptext"><b>Tip:</b> pídela reciente, casi siempre la aceptan con máximo 3 meses.</p>
+      <div class="f06-si-algo-falla-tip">
+        <span class="f06-si-algo-falla-rule"></span>
+        <p class="f06-si-algo-falla-tiptext"><b>Tip:</b> pídela reciente, casi siempre la aceptan con máximo 3 meses.</p>
       </div>
     </div>
 
     <!-- progress-bar (frame 6 of 8: 62.5% → 75%) -->
-    <div id="06-si-algo-falla-progress" class="clip 06-si-algo-falla-progress" data-layout-ignore
+    <div id="f06-si-algo-falla-progress" class="clip f06-si-algo-falla-progress" data-layout-ignore
          data-start="0" data-duration="8.5" data-track-index="2">
-      <div class="06-si-algo-falla-fill" data-layout-ignore></div>
+      <div class="f06-si-algo-falla-fill" data-layout-ignore></div>
     </div>
   </div>
 
   <script>
     (function () {
-      var P = "06-si-algo-falla-";
+      var P = "f06-si-algo-falla-";
       var root = document.querySelector('[data-composition-id="06-si-algo-falla"]');
-      // Class lookups via getElementsByClassName: no CSS parsing, so the digit-leading
-      // prefix never reaches querySelector (where "#06-…" / ".06-…" would throw).
       function all(scope, name) {
         return Array.prototype.slice.call(scope.getElementsByClassName(P + name));
       }

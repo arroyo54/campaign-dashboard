@@ -70,23 +70,35 @@
       perspective: 1200px;
       perspective-origin: 50% 50%;
     }
-    [class~="03-no-es-la-cedula-card"] {
+    /* The shell carries the 3D motion; its 2px transparent ring keeps the composited
+       layer's (unantialiased) quad edge invisible, so the card's border stays smooth. */
+    [class~="03-no-es-la-cedula-shell"] {
       position: absolute;
-      top: 0;
+      top: -2px;
+      width: 468px;
+      height: 568px;
+      padding: 2px;
+      box-sizing: border-box;
+      transform-origin: 50% 50%;
+    }
+    [class~="03-no-es-la-cedula-shell-a"] {
+      left: 52px;
+    }
+    [class~="03-no-es-la-cedula-shell-b"] {
+      left: 560px;
+    }
+    [class~="03-no-es-la-cedula-card"] {
       width: 464px;
       height: 564px;
       box-sizing: border-box;
       padding: 43px 37px;
       border-radius: 14px;
-      transform-origin: 50% 50%;
     }
     [class~="03-no-es-la-cedula-card-a"] {
-      left: 54px;
       background: rgba(29, 143, 243, 0.15);
       border: 1.5px solid rgba(29, 143, 243, 0.45);
     }
     [class~="03-no-es-la-cedula-card-b"] {
-      left: 562px;
       background: #F6F7F9;
       border: 1.5px solid #E3E7EC;
     }
@@ -182,6 +194,7 @@
     <div class="03-no-es-la-cedula-title">No es la cédula</div>
 
     <div class="03-no-es-la-cedula-stage">
+      <div class="03-no-es-la-cedula-shell 03-no-es-la-cedula-shell-a">
       <div class="03-no-es-la-cedula-card 03-no-es-la-cedula-card-a">
         <div class="03-no-es-la-cedula-badge 03-no-es-la-cedula-badge-solid">La que te piden</div>
         <div class="03-no-es-la-cedula-name">Constancia</div>
@@ -198,7 +211,9 @@
           <span class="03-no-es-la-cedula-text">Con régimen y obligaciones</span>
         </div>
       </div>
+      </div>
 
+      <div class="03-no-es-la-cedula-shell 03-no-es-la-cedula-shell-b">
       <div class="03-no-es-la-cedula-card 03-no-es-la-cedula-card-b">
         <div class="03-no-es-la-cedula-badge 03-no-es-la-cedula-badge-mute">Rara vez la piden</div>
         <div class="03-no-es-la-cedula-name">Cédula</div>
@@ -210,6 +225,7 @@
           <svg class="03-no-es-la-cedula-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path class="03-no-es-la-cedula-stroke" pathLength="1" d="M18 6 6 18" /><path class="03-no-es-la-cedula-stroke" pathLength="1" d="m6 6 12 12" /></svg>
           <span class="03-no-es-la-cedula-text">Sin régimen ni obligaciones</span>
         </div>
+      </div>
       </div>
     </div>
 
@@ -236,6 +252,8 @@
       var eyebrow = one(root, "eyebrow");
       var tag = one(root, "tag");
       var title = one(root, "title");
+      var shellA = one(root, "shell-a");
+      var shellB = one(root, "shell-b");
       var cardA = one(root, "card-a");
       var cardB = one(root, "card-b");
       var badgeA = one(cardA, "badge");
@@ -261,13 +279,13 @@
       var SLIDE = 220;
       var ENTRY = 1.1;
       tl.fromTo(
-        cardA,
+        shellA,
         { opacity: 0, x: -SLIDE, rotationY: TILT_FROM, scale: 0.9 },
         { opacity: 1, x: 0, rotationY: TILT, scale: 1, duration: ENTRY, ease: EASE },
         0.38
       );
       tl.fromTo(
-        cardB,
+        shellB,
         { opacity: 0, x: SLIDE, rotationY: -TILT_FROM, scale: 0.9 },
         { opacity: 1, x: 0, rotationY: -TILT, scale: 1, duration: ENTRY, ease: EASE },
         0.58
@@ -294,14 +312,15 @@
       });
 
       // A row: its inline icon draws on (check in primary, cross in negative), and the
-      // copy slides in from its own card's wing.
+      // copy slides in from its own card's wing. The strokes use pathLength=1, so the
+      // offset is a 0..1 fraction: autoRound off, or CSSPlugin snaps it to whole px.
       function revealRow(row, at, dir) {
         tl.fromTo(one(row, "icon"), { opacity: 0 }, { opacity: 1, duration: 0.12, ease: "power1.out" }, at);
         all(row, "stroke").forEach(function (stroke, i) {
           tl.fromTo(
             stroke,
             { strokeDashoffset: 1.05 },
-            { strokeDashoffset: 0, duration: 0.32, ease: "power2.out" },
+            { strokeDashoffset: 0, duration: 0.32, ease: "power2.out", autoRound: false },
             at + i * 0.12
           );
         });
