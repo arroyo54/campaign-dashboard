@@ -372,7 +372,7 @@ fuente en `text-light`. **Todo se queda absolutamente quieto**: es el frame sost
 - on_screen: "Ya tienes tu constancia. Lo que sigue, déjaselo a heru." · logo heru · "impuestos sin estrés" · "Vincula tu RFC en 2 minutos" · botón "Empieza gratis" · "heru.app"
 - duration: 6s
 - transition_in: zoom-through
-- status: built
+- status: animated
 - src: compositions/frames/08-heru-cta.html
 - type: cta
 - persuasion: Friction reduction + callback (vincular, igual que el dato)
