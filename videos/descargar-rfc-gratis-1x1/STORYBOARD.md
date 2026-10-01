@@ -253,7 +253,7 @@ asentamiento largo. Todo queda quieto hasta el seam.
 - on_screen: "Método 2 · App SAT ID" · "Si no tienes contraseña" · pasos: "1 Descarga SAT ID" · "2 Elige “Genera tu constancia”" · "3 Valida con tu INE y un video-selfie" · "4 Te llega por correo" · sello final: "En 1 a 5 días hábiles"
 - duration: 9.5s
 - transition_in: push-slide LEFT
-- status: built
+- status: animated
 - src: compositions/frames/05-metodo-sat-id.html
 - type: feature_showcase
 - persuasion: Numbered enumeration + before/after (sin contraseña → con constancia)
