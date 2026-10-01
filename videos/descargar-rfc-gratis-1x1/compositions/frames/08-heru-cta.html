@@ -1,0 +1,381 @@
+<template>
+  <style>
+    @font-face {
+      font-family: 'Lexend Deca';
+      src: url('assets/fonts/lexend-deca.woff2') format('woff2');
+      font-weight: 100 900;
+      font-style: normal;
+      font-display: block;
+    }
+
+    /* Frame root: fixed 1:1 canvas. The ground is painted by its own clip, never here. */
+    #root {
+      position: relative;
+      width: 1080px;
+      height: 1080px;
+      overflow: hidden;
+      font-family: 'Lexend Deca', sans-serif;
+      color: #ffffff;
+    }
+
+    /* ---- track 0: full-bleed heru blue field ---- */
+    #f08-heru-cta-ground {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 1080px;
+      height: 1080px;
+      background: #1772C2;
+    }
+
+    /* ---- track 1: concentric closing rings (atmosphere, canvas-centred) ---- */
+    #f08-heru-cta-rings {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 1080px;
+      height: 1080px;
+      overflow: hidden;
+    }
+    .f08-heru-cta-ring {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      box-sizing: border-box;
+      border: 1.5px solid rgba(255, 255, 255, 0.16);
+      border-radius: 50%;
+    }
+    #f08-heru-cta-ring-outer {
+      width: 1620px;
+      height: 1620px;
+      margin: -810px 0 0 -810px;
+    }
+    #f08-heru-cta-ring-mid {
+      width: 1274.4px;
+      height: 1274.4px;
+      margin: -637.2px 0 0 -637.2px;
+    }
+    #f08-heru-cta-ring-inner {
+      width: 950.4px;
+      height: 950.4px;
+      margin: -475.2px 0 0 -475.2px;
+    }
+
+    /* ---- track 2: the lockup ---- */
+    #f08-heru-cta-content {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 1080px;
+      height: 1080px;
+    }
+    .f08-heru-cta-line {
+      position: absolute;
+      left: 0;
+      right: 0;
+      margin: 0;
+      padding: 0;
+      text-align: center;
+      white-space: nowrap;
+    }
+    .f08-heru-cta-lw,
+    .f08-heru-cta-mc,
+    .f08-heru-cta-hw {
+      display: inline-block;
+    }
+
+    #f08-heru-cta-lead {
+      top: 152px;
+      font-size: 34px;
+      font-weight: 400;
+      line-height: 1.25;
+      color: rgba(255, 255, 255, 0.85);
+    }
+
+    #f08-heru-cta-logo {
+      position: absolute;
+      left: 315px;
+      top: 260px;
+      width: 450px;
+      height: 177.77px;
+    }
+    #f08-heru-cta-logo svg {
+      display: block;
+      width: 450px;
+      height: 177.77px;
+      overflow: visible;
+    }
+
+    /* padding-left balances the trailing letter-spacing so the tracked line centres optically */
+    #f08-heru-cta-motto {
+      top: 458px;
+      padding-left: 0.32em;
+      font-size: 28px;
+      font-weight: 400;
+      line-height: 1.25;
+      letter-spacing: 0.32em;
+      color: rgba(255, 255, 255, 0.88);
+    }
+
+    #f08-heru-cta-h2 {
+      top: 562px;
+      font-size: 64px;
+      font-weight: 600;
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+      color: #ffffff;
+    }
+
+    #f08-heru-cta-cta-row {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 712px;
+      display: flex;
+      justify-content: center;
+    }
+    #f08-heru-cta-cta {
+      display: block;
+      padding: 21.6px 54px;
+      border-radius: 100px;
+      background: #ffffff;
+      color: #1772C2;
+      font-size: 38px;
+      font-weight: 600;
+      line-height: 1.25;
+      white-space: nowrap;
+    }
+
+    /* URL: a hidden sizer fixes the box to the final width, so each discrete state
+       grows from the same left edge and the finished line lands centred (no jitter). */
+    #f08-heru-cta-url-row {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 840px;
+      display: flex;
+      justify-content: center;
+      font-size: 30px;
+      font-weight: 500;
+      line-height: 1.25;
+      color: rgba(255, 255, 255, 0.9);
+      white-space: nowrap;
+    }
+    #f08-heru-cta-url-box {
+      position: relative;
+      display: block;
+    }
+    .f08-heru-cta-url-sizer {
+      display: block;
+      visibility: hidden;
+    }
+    #f08-heru-cta-url-live {
+      position: absolute;
+      left: 0;
+      top: 0;
+      height: 100%;
+      display: flex;
+      align-items: center;
+    }
+    #f08-heru-cta-url-text {
+      display: block;
+    }
+    #f08-heru-cta-caret {
+      display: block;
+      width: 3px;
+      height: 31px;
+      margin-left: 3px;
+      border-radius: 1.5px;
+      background: rgba(255, 255, 255, 0.9);
+      opacity: 0;
+    }
+
+    /* ---- track 3: progress strip, frame 8 of 8 (87.5% to 100%) ---- */
+    #f08-heru-cta-bar-layer {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 1080px;
+      height: 1080px;
+    }
+    #f08-heru-cta-bar {
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      width: 1080px;
+      height: 3px;
+      background: #FFFFFF;
+      transform-origin: 0 50%;
+    }
+  </style>
+
+  <div id="root" data-composition-id="08-heru-cta" data-start="0" data-duration="6" data-width="1080" data-height="1080">
+    <div id="f08-heru-cta-ground" class="clip" data-start="0" data-duration="6" data-track-index="0"></div>
+
+    <div id="f08-heru-cta-rings" class="clip" data-start="0" data-duration="6" data-track-index="1" data-layout-ignore>
+      <div id="f08-heru-cta-ring-outer" class="f08-heru-cta-ring"></div>
+      <div id="f08-heru-cta-ring-mid" class="f08-heru-cta-ring"></div>
+      <div id="f08-heru-cta-ring-inner" class="f08-heru-cta-ring"></div>
+    </div>
+
+    <div id="f08-heru-cta-content" class="clip" data-start="0" data-duration="6" data-track-index="2">
+      <div id="f08-heru-cta-lead" class="f08-heru-cta-line"><span class="f08-heru-cta-lw">Ya</span> <span class="f08-heru-cta-lw">tienes</span> <span class="f08-heru-cta-lw">tu</span> <span class="f08-heru-cta-lw">constancia.</span> <span class="f08-heru-cta-lw">Lo</span> <span class="f08-heru-cta-lw">que</span> <span class="f08-heru-cta-lw">sigue,</span> <span class="f08-heru-cta-lw">déjaselo</span> <span class="f08-heru-cta-lw">a</span> <span class="f08-heru-cta-lw">heru.</span></div>
+
+      <div id="f08-heru-cta-logo">
+        <svg viewBox="0 0 929 367" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="heru">
+          <path class="f08-heru-cta-letter" d="M217.089 172.129C210.869 158.055 201.76 145.583 189.761 138.467C177.762 131.361 163.085 127.808 145.738 127.808C133.014 127.808 120.869 130.275 109.301 135.209C97.7331 140.143 87.7517 148.778 79.3674 157.338C79.2203 157.496 79.0837 157.654 78.9366 157.813V0H0V366.462H81.1115V228.058C81.1115 223.419 81.8995 219.213 83.4965 215.439C85.083 211.675 87.468 208.259 90.6516 205.212C93.8351 202.165 97.5124 199.92 101.715 198.465C105.907 197.021 110.457 196.293 115.374 196.293C121.73 196.009 127.225 197.168 131.859 199.772C136.482 202.387 139.949 206.235 142.271 211.306C144.582 216.387 145.738 222.692 145.738 230.24V366.462H226.408V223.704C226.408 203.399 223.298 186.204 217.078 172.129H217.089Z" fill="#FFFFFF"/>
+          <path class="f08-heru-cta-letter" d="M469.449 198.728C464.174 184.422 456.62 171.982 446.786 161.397C436.951 150.812 425.258 142.663 411.714 136.938C398.171 131.213 383.126 128.356 366.599 128.356C350.072 128.356 334.312 131.298 320.191 137.149C306.08 143.021 293.893 151.308 283.628 162.04C273.363 172.773 265.378 185.424 259.683 200.015C253.978 214.606 251.13 230.483 251.13 247.646C251.13 270.534 256.258 290.924 266.523 308.804C276.788 326.684 291.329 340.706 310.146 350.859C328.964 361.022 351.343 366.093 377.295 366.093C387.56 366.093 397.678 365.017 407.659 362.877C417.63 360.727 427.685 357.3 437.813 352.577C447.931 347.854 457.975 341.497 467.967 333.484L431.183 281.562C423.482 287.287 416.285 291.293 409.592 293.581C402.889 295.879 395.114 297.017 386.288 297.017C372.882 297.017 361.545 294.73 352.289 290.154C343.022 285.579 336.035 279.148 331.328 270.84C330.088 268.658 329.027 266.37 328.123 263.977H476.099L476.53 245.949C477.097 228.786 474.744 213.056 469.47 198.739L469.449 198.728ZM326.274 224.041C327.073 220.984 328.113 218.116 329.384 215.46C332.809 208.312 337.726 202.798 344.136 198.939C350.555 195.081 358.603 193.141 368.301 193.141C375.141 193.141 381.277 194.427 386.688 196.999C392.099 199.572 396.448 203.22 399.726 207.943C402.931 212.55 404.559 217.927 404.633 224.031H326.274V224.041Z" fill="#FFFFFF"/>
+          <path class="f08-heru-cta-letter" d="M665.251 129.442C660.618 128.715 655.69 128.346 650.479 128.346C638.028 128.346 626.156 131.34 614.861 137.318C603.566 143.306 593.932 151.476 585.978 161.829C584.896 163.242 583.856 164.676 582.847 166.131L580.977 133.164H505.392V366.462H586.63V254.847C586.63 248.437 587.502 242.807 589.235 238C590.969 233.182 593.427 229.028 596.621 225.528C599.805 222.028 603.713 219.329 608.347 217.431C612.98 215.533 620.072 214.015 625.851 213.71C642.945 212.803 667.237 217.326 678.038 222.46L678.279 132.289C674.224 131.129 669.874 130.18 665.251 129.442Z" fill="#FFFFFF"/>
+          <path class="f08-heru-cta-letter" d="M847.836 128.346V267.14C847.836 271.81 846.964 276.111 845.22 280.054C843.476 283.997 841.143 287.497 838.233 290.565C835.322 293.633 831.761 295.889 827.548 297.355C823.324 298.82 818.606 299.548 813.364 299.548C806.671 299.548 800.997 298.167 796.343 295.383C791.688 292.611 788.053 288.594 785.437 283.344C782.821 278.093 781.507 271.673 781.507 264.082V128.346H700.354V272.39C700.354 292.242 703.548 309.163 709.957 323.174C716.355 337.185 725.664 347.907 737.884 355.35C750.103 362.793 764.938 366.514 782.39 366.514C795.187 366.514 807.259 364.026 818.606 359.071C829.954 354.116 839.693 347.253 847.846 338.492C849.107 337.132 850.284 335.751 851.429 334.338L853.951 366.409H929V128.346H847.836Z" fill="#FFFFFF"/>
+        </svg>
+      </div>
+
+      <div id="f08-heru-cta-motto" class="f08-heru-cta-line"><span class="f08-heru-cta-mc" data-i="0">i</span><span class="f08-heru-cta-mc" data-i="1">m</span><span class="f08-heru-cta-mc" data-i="2">p</span><span class="f08-heru-cta-mc" data-i="3">u</span><span class="f08-heru-cta-mc" data-i="4">e</span><span class="f08-heru-cta-mc" data-i="5">s</span><span class="f08-heru-cta-mc" data-i="6">t</span><span class="f08-heru-cta-mc" data-i="7">o</span><span class="f08-heru-cta-mc" data-i="8">s</span> <span class="f08-heru-cta-mc" data-i="10">s</span><span class="f08-heru-cta-mc" data-i="11">i</span><span class="f08-heru-cta-mc" data-i="12">n</span> <span class="f08-heru-cta-mc" data-i="14">e</span><span class="f08-heru-cta-mc" data-i="15">s</span><span class="f08-heru-cta-mc" data-i="16">t</span><span class="f08-heru-cta-mc" data-i="17">r</span><span class="f08-heru-cta-mc" data-i="18">é</span><span class="f08-heru-cta-mc" data-i="19">s</span></div>
+
+      <div id="f08-heru-cta-h2" class="f08-heru-cta-line"><span class="f08-heru-cta-hw">Vincula</span> <span class="f08-heru-cta-hw">tu</span> <span class="f08-heru-cta-hw">RFC</span> <span class="f08-heru-cta-hw">en</span> <span class="f08-heru-cta-hw">2</span> <span class="f08-heru-cta-hw">minutos</span></div>
+
+      <div id="f08-heru-cta-cta-row">
+        <div id="f08-heru-cta-cta">Empieza gratis</div>
+      </div>
+
+      <div id="f08-heru-cta-url-row">
+        <div id="f08-heru-cta-url-box">
+          <span class="f08-heru-cta-url-sizer" aria-hidden="true">heru.app</span>
+          <span id="f08-heru-cta-url-live"><span id="f08-heru-cta-url-text"></span><span id="f08-heru-cta-caret"></span></span>
+        </div>
+      </div>
+    </div>
+
+    <div id="f08-heru-cta-bar-layer" class="clip" data-start="0" data-duration="6" data-track-index="3">
+      <div id="f08-heru-cta-bar" data-layout-allow-caption-zone></div>
+    </div>
+  </div>
+
+  <script src="assets/vendor/gsap.min.js"></script>
+  <script>
+    (function () {
+      var byId = function (id) {
+        return document.getElementById(id);
+      };
+
+      var leadWords = byId("f08-heru-cta-lead").querySelectorAll(".f08-heru-cta-lw");
+      var ringOuter = byId("f08-heru-cta-ring-outer");
+      var ringMid = byId("f08-heru-cta-ring-mid");
+      var ringInner = byId("f08-heru-cta-ring-inner");
+      var logo = byId("f08-heru-cta-logo");
+      var letters = logo.querySelectorAll(".f08-heru-cta-letter");
+      var mottoChars = byId("f08-heru-cta-motto").querySelectorAll(".f08-heru-cta-mc");
+      var h2Words = byId("f08-heru-cta-h2").querySelectorAll(".f08-heru-cta-hw");
+      var cta = byId("f08-heru-cta-cta");
+      var urlText = byId("f08-heru-cta-url-text");
+      var caret = byId("f08-heru-cta-caret");
+      var bar = byId("f08-heru-cta-bar");
+
+      var tl = gsap.timeline({ paused: true });
+
+      // Scene 1 (0.0-1.0s) - the closing line arrives word by word, a simple stagger,
+      // starting while the incoming zoom-through is still settling.
+      tl.fromTo(
+        leadWords,
+        { opacity: 0, y: 14 },
+        { opacity: 1, y: 0, duration: 0.55, ease: "power3.out", stagger: 0.045 },
+        0.1
+      );
+
+      // Scene 2 (0.6-2.0s) - three concentric rings close in toward the centre,
+      // outermost first; each settles on a long power3 tail at its sketch size.
+      tl.fromTo(
+        ringOuter,
+        { scale: 1.32, opacity: 0 },
+        { scale: 1, opacity: 1, duration: 1.25, ease: "power3.out" },
+        0.6
+      );
+      tl.fromTo(
+        ringMid,
+        { scale: 1.42, opacity: 0 },
+        { scale: 1, opacity: 1, duration: 1.25, ease: "power3.out" },
+        0.7
+      );
+      tl.fromTo(
+        ringInner,
+        { scale: 1.58, opacity: 0 },
+        { scale: 1, opacity: 1, duration: 1.25, ease: "power3.out" },
+        0.8
+      );
+
+      // ...as they arrive the wordmark forms at the centre: the whole mark settles
+      // 0.92 -> 1 on a long tail while its letters fade up h, e, r, u.
+      tl.fromTo(logo, { scale: 0.92 }, { scale: 1, duration: 1.5, ease: "power3.out" }, 1.08);
+      tl.fromTo(
+        letters,
+        { opacity: 0 },
+        { opacity: 1, duration: 0.8, ease: "power2.out", stagger: 0.07 },
+        1.08
+      );
+
+      // ...and the motto appears beneath it, its wide tracking drawing in toward
+      // the centre (per-glyph x, no letter-spacing tween): offset = distance from
+      // the middle of the 20-character line x 4.5px.
+      mottoChars.forEach(function (el) {
+        var fromX = (Number(el.getAttribute("data-i")) - 9.5) * 4.5;
+        tl.fromTo(
+          el,
+          { opacity: 0, x: fromX },
+          { opacity: 1, x: 0, duration: 1.1, ease: "power3.out" },
+          1.5
+        );
+      });
+
+      // Scene 3 (2.0-3.4s) - the h2 enters word by word.
+      tl.fromTo(
+        h2Words,
+        { opacity: 0, y: 30 },
+        { opacity: 1, y: 0, duration: 0.75, ease: "power3.out", stagger: 0.09 },
+        2.0
+      );
+
+      // Scene 4 (3.4-4.4s) - the white CTA pill lands with a smooth pop, no overshoot.
+      tl.fromTo(
+        cta,
+        { scale: 0, opacity: 0 },
+        { scale: 1, opacity: 1, duration: 0.65, ease: "power3.out" },
+        3.4
+      );
+
+      // ...and heru.app builds segment by segment beneath it (discrete states, instant
+      // jumps). A slim caret rides the build and clears before the hold.
+      var URL_STATES = [
+        { t: 0, text: "" },
+        { t: 3.74, text: "heru" },
+        { t: 3.9, text: "heru." },
+        { t: 4.04, text: "heru.app" }
+      ];
+      var CARET_ON = 3.64;
+      var CARET_OFF = 4.3;
+      var urlDriver = { t: 0 };
+      var renderUrl = function () {
+        var now = urlDriver.t;
+        var text = "";
+        for (var i = URL_STATES.length - 1; i >= 0; i--) {
+          if (now >= URL_STATES[i].t) {
+            text = URL_STATES[i].text;
+            break;
+          }
+        }
+        urlText.textContent = text;
+        caret.style.opacity = now >= CARET_ON && now < CARET_OFF ? "1" : "0";
+      };
+      renderUrl();
+      tl.to(urlDriver, { t: 6, duration: 6, ease: "none", onUpdate: renderUrl }, 0);
+
+      // Scene 5 (4.4-6.0s) - every element above has resolved by 4.3s; the lockup holds
+      // absolutely still and the video ends on it (final frame: no fade-out).
+
+      // Progress strip - frame 8 of 8, linear 87.5% -> 100% across the whole frame.
+      tl.fromTo(bar, { scaleX: 0.875 }, { scaleX: 1, duration: 6, ease: "none" }, 0);
+
+      window.__timelines = window.__timelines || {};
+      window.__timelines["08-heru-cta"] = tl;
+    })();
+  </script>
+</template>

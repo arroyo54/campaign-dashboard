@@ -1,0 +1,349 @@
+<template>
+  <style>
+    @font-face { font-family:'Lexend Deca'; src:url('assets/fonts/lexend-deca.woff2') format('woff2'); font-weight:100 900; font-style:normal; font-display:block; }
+
+    #root {
+      position: relative;
+      width: 1080px;
+      height: 1080px;
+      overflow: hidden;
+      font-family: 'Lexend Deca', sans-serif;
+      color: #1A1A1A;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ---- full-bleed ground (full-duration clip, lowest track) ---- */
+    [class~="02-constancia-ground"] {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 1080px;
+      height: 1080px;
+      background: #FFFFFF;
+      z-index: 0;
+    }
+
+    /* ---- content stage: every content element stays above y = 896 ---- */
+    [class~="02-constancia-stage"] {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 1080px;
+      height: 1080px;
+      z-index: 1;
+    }
+
+    /* slide-header: eyebrow left, tag-pill right */
+    [class~="02-constancia-eyebrow"] {
+      position: absolute;
+      left: 54px;
+      top: 64px;
+      font-size: 25px;
+      font-weight: 600;
+      line-height: 30px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #1772C2;
+      white-space: nowrap;
+    }
+    [class~="02-constancia-tag"] {
+      position: absolute;
+      right: 54px;
+      top: 55px;
+      padding: 10px 22px;
+      border-radius: 100px;
+      background: rgba(29, 143, 243, 0.08);
+      color: #1772C2;
+      font-size: 24px;
+      font-weight: 500;
+      line-height: 29px;
+      white-space: nowrap;
+    }
+
+    /* typographic hero: the document's name */
+    [class~="02-constancia-title"] {
+      position: absolute;
+      left: 54px;
+      top: 126px;
+      font-size: 76px;
+      font-weight: 600;
+      line-height: 82px;
+      letter-spacing: -0.02em;
+      color: #1A1A1A;
+    }
+    [class~="02-constancia-line"] {
+      display: block;
+      white-space: nowrap;
+    }
+    [class~="02-constancia-word"] {
+      display: inline-block;
+    }
+
+    /* the document card: 4% fill, 20% border, no shadow */
+    [class~="02-constancia-card"] {
+      position: absolute;
+      left: 54px;
+      top: 340px;
+      width: 972px;
+      height: 446px;
+      box-sizing: border-box;
+      background: rgba(29, 143, 243, 0.04);
+      border: 1.5px solid rgba(29, 143, 243, 0.2);
+      border-radius: 14px;
+    }
+    [class~="02-constancia-doc-head"] {
+      position: absolute;
+      left: 32px;
+      right: 32px;
+      top: 22px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      color: #1772C2;
+    }
+    [class~="02-constancia-doc-icon"] {
+      display: block;
+      flex: none;
+      width: 30px;
+      height: 30px;
+    }
+    [class~="02-constancia-doc-icon"] svg {
+      display: block;
+      width: 30px;
+      height: 30px;
+    }
+    [class~="02-constancia-doc-label"] {
+      display: block;
+      font-size: 24px;
+      font-weight: 600;
+      line-height: 29px;
+      letter-spacing: 0.08em;
+      white-space: nowrap;
+      transform-origin: 0% 50%;
+    }
+    [class~="02-constancia-pdf"] {
+      display: block;
+      margin-left: auto;
+      padding: 5px 14px;
+      border-radius: 100px;
+      background: #1D8FF3;
+      color: #FFFFFF;
+      font-size: 22px;
+      font-weight: 700;
+      line-height: 26px;
+      letter-spacing: 0.04em;
+    }
+    [class~="02-constancia-rows"] {
+      position: absolute;
+      left: 32px;
+      right: 32px;
+      top: 80px;
+    }
+    [class~="02-constancia-row"] {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 70px;
+      box-sizing: border-box;
+      border-top: 1.5px solid rgba(29, 143, 243, 0.2);
+      font-size: 32px;
+      font-weight: 500;
+      line-height: 38px;
+      letter-spacing: -0.01em;
+      color: #1A1A1A;
+      white-space: nowrap;
+    }
+    [class~="02-constancia-val"] {
+      display: block;
+      padding: 6px 18px;
+      border-radius: 100px;
+      background: rgba(29, 143, 243, 0.08);
+      color: #1772C2;
+      font-size: 25px;
+      font-weight: 600;
+      line-height: 30px;
+      letter-spacing: 0;
+      white-space: nowrap;
+      overflow: hidden;
+    }
+    [class~="02-constancia-val-ok"] {
+      background: rgba(4, 120, 87, 0.08);
+      color: #047857;
+    }
+    [class~="02-constancia-val-text"] {
+      display: inline-block;
+    }
+
+    /* closing pills */
+    [class~="02-constancia-pills"] {
+      position: absolute;
+      left: 54px;
+      top: 822px;
+      display: flex;
+      gap: 16px;
+    }
+    [class~="02-constancia-pill"] {
+      display: block;
+      padding: 10px 24px;
+      border-radius: 100px;
+      background: rgba(29, 143, 243, 0.08);
+      color: #1772C2;
+      font-size: 28px;
+      font-weight: 500;
+      line-height: 34px;
+      white-space: nowrap;
+      transform-origin: 0% 50%;
+    }
+
+    /* progress strip: frame 2 of 8, 12.5% to 25% */
+    [class~="02-constancia-progress"] {
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      width: 1080px;
+      height: 3px;
+      background: #1D8FF3;
+      transform-origin: 0% 50%;
+      z-index: 2;
+    }
+  </style>
+
+  <div id="root" data-composition-id="02-constancia" data-width="1080" data-height="1080" data-duration="6.5">
+    <div id="02-constancia-ground" class="clip 02-constancia-ground" data-start="0" data-duration="6.5" data-track-index="0"></div>
+
+    <div class="02-constancia-stage">
+      <div class="02-constancia-eyebrow">Lo que te piden se llama</div>
+      <div class="02-constancia-tag">heru · Guía 2026</div>
+
+      <div class="02-constancia-title">
+        <div class="02-constancia-line"><span class="02-constancia-word">Constancia</span> <span class="02-constancia-word">de</span></div>
+        <div class="02-constancia-line"><span class="02-constancia-word">Situación</span> <span class="02-constancia-word">Fiscal</span></div>
+      </div>
+
+      <div class="02-constancia-card">
+        <div class="02-constancia-doc-head">
+          <span class="02-constancia-doc-icon"><svg viewBox="0 0 24 24" width="30" height="30" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z" /><path d="M14 2v5a1 1 0 0 0 1 1h5" /><path d="M10 9H8" /><path d="M16 13H8" /><path d="M16 17H8" /></svg></span>
+          <span class="02-constancia-doc-label">CONSTANCIA DE SITUACIÓN FISCAL</span>
+          <span class="02-constancia-pdf">PDF</span>
+        </div>
+        <div class="02-constancia-rows">
+          <div class="02-constancia-row" data-target-y="-140"><span class="02-constancia-row-label">RFC con homoclave</span><span class="02-constancia-val"><span class="02-constancia-val-text">13 caracteres</span></span></div>
+          <div class="02-constancia-row" data-target-y="-70"><span class="02-constancia-row-label">Régimen fiscal</span></div>
+          <div class="02-constancia-row" data-target-y="0"><span class="02-constancia-row-label">Domicilio fiscal</span></div>
+          <div class="02-constancia-row" data-target-y="70"><span class="02-constancia-row-label">Obligaciones</span></div>
+          <div class="02-constancia-row" data-target-y="140"><span class="02-constancia-row-label">Estatus</span><span class="02-constancia-val 02-constancia-val-ok"><span class="02-constancia-val-text">Activo</span></span></div>
+        </div>
+      </div>
+
+      <div class="02-constancia-pills">
+        <span class="02-constancia-pill">PDF oficial del SAT</span>
+        <span class="02-constancia-pill">Gratis</span>
+        <span class="02-constancia-pill">Las veces que quieras</span>
+      </div>
+    </div>
+
+    <div class="02-constancia-progress" data-layout-allow-caption-zone></div>
+  </div>
+
+  <script>
+    (function () {
+      // Class hooks carry the literal frame prefix. Its leading digit is not a valid
+      // CSS identifier start, so lookups use [class~="..."] attribute selectors, which
+      // the runtime's scoped document resolves inside this composition only.
+      var P = "02-constancia-";
+      function sel(name) {
+        return '[class~="' + P + name + '"]';
+      }
+      function one(name) {
+        return document.querySelector(sel(name));
+      }
+      function all(name) {
+        return Array.prototype.slice.call(document.querySelectorAll(sel(name)));
+      }
+
+      var DURATION = 6.5;
+      var EASE = "power3.out";
+      var tl = gsap.timeline({ paused: true });
+
+      // ---- Scene 1 (0.0-1.2s): slide-header settles, the title enters word by word ----
+      tl.fromTo(one("eyebrow"), { opacity: 0, x: -24 }, { opacity: 1, x: 0, duration: 0.6, ease: EASE }, 0);
+      tl.fromTo(one("tag"), { opacity: 0, x: 24 }, { opacity: 1, x: 0, duration: 0.6, ease: EASE }, 0.08);
+
+      // dynamic-content-sequencing: each word's window is pre-computed once from its
+      // length (BASE + chars x SEC_PER_CHAR, plus a short hold at a line end), so the
+      // sequencer assigns every start time; nothing is hand-offset per word.
+      var WORD_BASE = 0.1;
+      var SEC_PER_CHAR = 0.016;
+      var LINE_HOLD = 0.06;
+      var TITLE_AT = 0.12;
+      var SLIDES = [48, 34, 24, 16]; // horizontal slide decays word to word, like a settling camera
+      var cumulative = TITLE_AT;
+      var TITLE_SEQ = all("word").map(function (el) {
+        var lineEnd = el.nextElementSibling === null;
+        var start = cumulative;
+        cumulative += WORD_BASE + el.textContent.length * SEC_PER_CHAR + (lineEnd ? LINE_HOLD : 0);
+        return { el: el, start: start, end: cumulative };
+      });
+      TITLE_SEQ.forEach(function (w, i) {
+        tl.fromTo(w.el, { opacity: 0, x: SLIDES[i], y: 22 }, { opacity: 1, x: 0, y: 0, duration: 0.62, ease: EASE }, w.start);
+      });
+
+      // ---- Scene 2 (1.2-2.0s): the document card rises into place on a long settle ----
+      tl.fromTo(one("card"), { opacity: 0, y: 64 }, { opacity: 1, y: 0, duration: 1.0, ease: EASE }, 1.16);
+
+      // spring-pop-entrance (calm settle, no overshoot): icon, label, PDF pill pop in turn.
+      var POP_AT = 1.42;
+      var POP_STAGGER = 0.06;
+      [one("doc-icon"), one("doc-label"), one("pdf")].forEach(function (el, i) {
+        tl.fromTo(el, { scale: 0, opacity: 0, y: 8 }, { scale: 1, opacity: 1, y: 0, duration: 0.55, ease: EASE }, POP_AT + i * POP_STAGGER);
+      });
+
+      // ---- Scene 3 (2.0-4.6s): the five rows assemble top to bottom, ~0.5s apart ----
+      // center-outward-expansion, direct-to-slot form: each row's offset from the rows'
+      // shared center lives in data-target-y; the row starts partially spread
+      // (offset x START_PROGRESS) and lerps out to its own slot (offset x 1).
+      var ROWS = all("row");
+      var ROW_AT = 2.05;
+      var ROW_GAP = 0.5;
+      var EXPAND_DUR = 1.0;
+      var START_PROGRESS = 0.8;
+      ROWS.forEach(function (row, i) {
+        var targetY = Number(row.getAttribute("data-target-y"));
+        tl.fromTo(
+          row,
+          { opacity: 0, y: targetY * (START_PROGRESS - 1), scale: 0.6 + 0.4 * START_PROGRESS },
+          { opacity: 1, y: 0, scale: 1, duration: EXPAND_DUR, ease: EASE },
+          ROW_AT + i * ROW_GAP
+        );
+      });
+
+      // Value pills ("13 caracteres", "Activo"): clip-path mask reveal. The pill's window
+      // wipes open left to right while its label slides through the window.
+      var VAL_DELAY = 0.32;
+      all("val").forEach(function (pill) {
+        var at = ROW_AT + ROWS.indexOf(pill.parentNode) * ROW_GAP + VAL_DELAY;
+        tl.fromTo(
+          pill,
+          { clipPath: "inset(0% 100% 0% 0% round 100px)" },
+          { clipPath: "inset(0% 0% 0% 0% round 100px)", duration: 0.6, ease: EASE },
+          at
+        );
+        tl.fromTo(pill.firstElementChild, { x: -28 }, { x: 0, duration: 0.6, ease: EASE }, at);
+      });
+
+      // ---- Scene 4 (4.6-6.5s): three pills enter left to right, then the frame holds ----
+      var PILL_AT = 4.68;
+      var PILL_GAP = 0.32;
+      all("pill").forEach(function (pill, i) {
+        tl.fromTo(pill, { opacity: 0, x: -18, scale: 0.94 }, { opacity: 1, x: 0, scale: 1, duration: 0.6, ease: EASE }, PILL_AT + i * PILL_GAP);
+      });
+
+      // Progress strip grows linearly across the whole frame: 12.5% to 25% of the width.
+      tl.fromTo(one("progress"), { scaleX: 0.125 }, { scaleX: 0.25, duration: DURATION, ease: "none" }, 0);
+
+      window.__timelines = window.__timelines || {};
+      window.__timelines["02-constancia"] = tl;
+    })();
+  </script>
+</template>

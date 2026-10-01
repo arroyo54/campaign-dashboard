@@ -1,0 +1,334 @@
+<template>
+  <style>
+    @font-face { font-family:'Lexend Deca'; src:url('assets/fonts/lexend-deca.woff2') format('woff2'); font-weight:100 900; font-style:normal; font-display:block; }
+
+    #root {
+      position: relative;
+      width: 1080px;
+      height: 1080px;
+      overflow: hidden;
+      font-family: 'Lexend Deca', sans-serif;
+      color: #1A1A1A;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ---- full-bleed ground (full-duration clip; content frame: no atmosphere) ---- */
+    [class~="03-no-es-la-cedula-ground"] {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 1080px;
+      height: 1080px;
+      background: #FFFFFF;
+    }
+
+    /* ---- slide-header: eyebrow left, tag-pill right, h2 below ---- */
+    [class~="03-no-es-la-cedula-eyebrow"] {
+      position: absolute;
+      left: 54px;
+      top: 70px;
+      font-size: 25px;
+      font-weight: 600;
+      line-height: 1.25;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #1772C2;
+      white-space: nowrap;
+    }
+    [class~="03-no-es-la-cedula-tag"] {
+      position: absolute;
+      right: 54px;
+      top: 60px;
+      padding: 10px 22px;
+      border-radius: 100px;
+      background: rgba(29, 143, 243, 0.08);
+      font-size: 22px;
+      font-weight: 500;
+      line-height: 1.25;
+      color: #1772C2;
+      white-space: nowrap;
+    }
+    [class~="03-no-es-la-cedula-title"] {
+      position: absolute;
+      left: 54px;
+      top: 135px;
+      font-size: 76px;
+      font-weight: 600;
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+      color: #1A1A1A;
+      white-space: nowrap;
+    }
+
+    /* ---- split stage: one shared perspective parent, two equal-width cards ---- */
+    [class~="03-no-es-la-cedula-stage"] {
+      position: absolute;
+      left: 0;
+      top: 302px;
+      width: 1080px;
+      height: 564px;
+      perspective: 1200px;
+      perspective-origin: 50% 50%;
+    }
+    [class~="03-no-es-la-cedula-card"] {
+      position: absolute;
+      top: 0;
+      width: 464px;
+      height: 564px;
+      box-sizing: border-box;
+      padding: 43px 37px;
+      border-radius: 14px;
+      transform-origin: 50% 50%;
+    }
+    [class~="03-no-es-la-cedula-card-a"] {
+      left: 54px;
+      background: rgba(29, 143, 243, 0.15);
+      border: 1.5px solid rgba(29, 143, 243, 0.45);
+    }
+    [class~="03-no-es-la-cedula-card-b"] {
+      left: 562px;
+      background: #F6F7F9;
+      border: 1.5px solid #E3E7EC;
+    }
+
+    /* badge (sello) sits at the top of each card, its slot reserved from frame 0 */
+    [class~="03-no-es-la-cedula-badge"] {
+      display: block;
+      width: max-content;
+      box-sizing: border-box;
+      padding: 11px 24px;
+      border-radius: 100px;
+      font-size: 28px;
+      font-weight: 600;
+      line-height: 1.2;
+      white-space: nowrap;
+      transform-origin: 50% 50%;
+    }
+    [class~="03-no-es-la-cedula-badge-solid"] {
+      background: #1D8FF3;
+      color: #FFFFFF;
+    }
+    [class~="03-no-es-la-cedula-badge-mute"] {
+      background: #F1F3F5;
+      color: #767676;
+    }
+
+    [class~="03-no-es-la-cedula-name"] {
+      margin: 17px 0 26px;
+      font-size: 50px;
+      font-weight: 600;
+      line-height: 1.2;
+      letter-spacing: -0.02em;
+      color: #1A1A1A;
+    }
+    [class~="03-no-es-la-cedula-card-b"] [class~="03-no-es-la-cedula-name"] {
+      color: #767676;
+    }
+
+    [class~="03-no-es-la-cedula-row"] {
+      display: flex;
+      align-items: flex-start;
+      gap: 13px;
+      margin: 0 0 22px;
+      font-size: 30px;
+      font-weight: 400;
+      line-height: 1.3;
+      color: #1A1A1A;
+    }
+    [class~="03-no-es-la-cedula-card-b"] [class~="03-no-es-la-cedula-row"] {
+      color: #767676;
+    }
+    [class~="03-no-es-la-cedula-icon"] {
+      display: block;
+      flex: none;
+      width: 30px;
+      height: 30px;
+      margin-top: 4px;
+      overflow: visible;
+      color: #1D8FF3;
+    }
+    [class~="03-no-es-la-cedula-card-b"] [class~="03-no-es-la-cedula-icon"] {
+      color: #DC2626;
+    }
+    /* draw-on strokes: pathLength=1, dash 1 + gap 2 so a hidden stroke leaves no cap dot */
+    [class~="03-no-es-la-cedula-stroke"] {
+      stroke-dasharray: 1 2;
+      stroke-dashoffset: 0;
+    }
+    [class~="03-no-es-la-cedula-text"] {
+      display: block;
+      flex: 1 1 auto;
+      min-width: 0;
+      text-wrap: balance;
+    }
+
+    /* ---- progress strip: frame 3 of 8, 25% -> 37.5%; 405px = the 37.5% end state ---- */
+    [class~="03-no-es-la-cedula-progress"] {
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      width: 405px;
+      height: 3px;
+      background: #1D8FF3;
+      transform-origin: 0 50%;
+    }
+  </style>
+
+  <div id="root" data-composition-id="03-no-es-la-cedula" data-start="0" data-duration="5" data-width="1080" data-height="1080">
+    <div id="03-no-es-la-cedula-ground" class="clip 03-no-es-la-cedula-ground" data-start="0" data-duration="5" data-track-index="0"></div>
+
+    <div class="03-no-es-la-cedula-eyebrow">Ojo</div>
+    <div class="03-no-es-la-cedula-tag">heru · Guía 2026</div>
+    <div class="03-no-es-la-cedula-title">No es la cédula</div>
+
+    <div class="03-no-es-la-cedula-stage">
+      <div class="03-no-es-la-cedula-card 03-no-es-la-cedula-card-a">
+        <div class="03-no-es-la-cedula-badge 03-no-es-la-cedula-badge-solid">La que te piden</div>
+        <div class="03-no-es-la-cedula-name">Constancia</div>
+        <div class="03-no-es-la-cedula-row">
+          <svg class="03-no-es-la-cedula-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path class="03-no-es-la-cedula-stroke" pathLength="1" d="M4 12l5 5L20 6" /></svg>
+          <span class="03-no-es-la-cedula-text">Se genera cuando quieras</span>
+        </div>
+        <div class="03-no-es-la-cedula-row">
+          <svg class="03-no-es-la-cedula-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path class="03-no-es-la-cedula-stroke" pathLength="1" d="M4 12l5 5L20 6" /></svg>
+          <span class="03-no-es-la-cedula-text">Datos al día</span>
+        </div>
+        <div class="03-no-es-la-cedula-row">
+          <svg class="03-no-es-la-cedula-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path class="03-no-es-la-cedula-stroke" pathLength="1" d="M4 12l5 5L20 6" /></svg>
+          <span class="03-no-es-la-cedula-text">Con régimen y obligaciones</span>
+        </div>
+      </div>
+
+      <div class="03-no-es-la-cedula-card 03-no-es-la-cedula-card-b">
+        <div class="03-no-es-la-cedula-badge 03-no-es-la-cedula-badge-mute">Rara vez la piden</div>
+        <div class="03-no-es-la-cedula-name">Cédula</div>
+        <div class="03-no-es-la-cedula-row">
+          <svg class="03-no-es-la-cedula-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path class="03-no-es-la-cedula-stroke" pathLength="1" d="M18 6 6 18" /><path class="03-no-es-la-cedula-stroke" pathLength="1" d="m6 6 12 12" /></svg>
+          <span class="03-no-es-la-cedula-text">Se emite una sola vez</span>
+        </div>
+        <div class="03-no-es-la-cedula-row">
+          <svg class="03-no-es-la-cedula-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path class="03-no-es-la-cedula-stroke" pathLength="1" d="M18 6 6 18" /><path class="03-no-es-la-cedula-stroke" pathLength="1" d="m6 6 12 12" /></svg>
+          <span class="03-no-es-la-cedula-text">Sin régimen ni obligaciones</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="03-no-es-la-cedula-progress" data-layout-ignore data-layout-allow-caption-zone></div>
+  </div>
+
+  <script src="assets/vendor/gsap.min.js"></script>
+  <script>
+    (function () {
+      var COMP = "03-no-es-la-cedula";
+      var P = COMP + "-";
+      var DURATION = 5;
+      var EASE = "power3.out";
+
+      // The ground clip is a direct child of the frame root: resolve the root through it.
+      var root = document.getElementById(P + "ground").parentNode;
+      function all(scope, name) {
+        return Array.prototype.slice.call(scope.getElementsByClassName(P + name));
+      }
+      function one(scope, name) {
+        return all(scope, name)[0];
+      }
+
+      var eyebrow = one(root, "eyebrow");
+      var tag = one(root, "tag");
+      var title = one(root, "title");
+      var cardA = one(root, "card-a");
+      var cardB = one(root, "card-b");
+      var badgeA = one(cardA, "badge");
+      var badgeB = one(cardB, "badge");
+      var rowsA = all(cardA, "row");
+      var rowsB = all(cardB, "row");
+      var progress = one(root, "progress");
+
+      var tl = gsap.timeline({ paused: true });
+
+      // Scene 1 (0.0-0.8s): the frame arrives on the root's push-slide LEFT; the title
+      // drops into place from just above while eyebrow + tag-pill settle with it.
+      tl.fromTo(eyebrow, { opacity: 0, y: -16 }, { opacity: 1, y: 0, duration: 0.6, ease: EASE }, 0.05);
+      tl.fromTo(title, { opacity: 0, y: -44 }, { opacity: 1, y: 0, duration: 0.8, ease: EASE }, 0.1);
+      tl.fromTo(tag, { opacity: 0, y: -16 }, { opacity: 1, y: 0, duration: 0.6, ease: EASE }, 0.14);
+
+      // Scene 2 (0.4-1.7s): split-tilt entry, the signature. Equal cards arrive from
+      // opposite wings, the right one 0.2s behind, with a mirrored book-open rotateY that
+      // swings open from 30deg and lands near-flat (4deg) as each scales 0.9 -> 1.
+      // No shadows (tint + border carry the lift); the pair holds still once landed.
+      var TILT = 4;
+      var TILT_FROM = 30;
+      var SLIDE = 220;
+      var ENTRY = 1.1;
+      tl.fromTo(
+        cardA,
+        { opacity: 0, x: -SLIDE, rotationY: TILT_FROM, scale: 0.9 },
+        { opacity: 1, x: 0, rotationY: TILT, scale: 1, duration: ENTRY, ease: EASE },
+        0.38
+      );
+      tl.fromTo(
+        cardB,
+        { opacity: 0, x: SLIDE, rotationY: -TILT_FROM, scale: 0.9 },
+        { opacity: 1, x: 0, rotationY: -TILT, scale: 1, duration: ENTRY, ease: EASE },
+        0.58
+      );
+
+      // Scene 3 (1.8-3.6s): rows land in pairs, left then right
+      // (dynamic-content-sequencing). Each pair's window is pre-computed ONCE from its copy
+      // length, so the heavier pair earns more time. Rows accumulate (nothing swaps out),
+      // so the per-char term only staggers arrivals; the read continues through the hold.
+      var SCENE3_AT = 1.8;
+      var PAIR_BASE = 0.18;
+      var SEC_PER_CHAR = 0.0075;
+      var PAIR_LAG = 0.16;
+
+      function copyLength(row) {
+        return row ? one(row, "text").textContent.trim().length : 0;
+      }
+      var cumulative = SCENE3_AT;
+      var TIMELINE = rowsA.map(function (rowA, i) {
+        var rowB = rowsB[i] || null;
+        var start = cumulative;
+        cumulative += PAIR_BASE + (copyLength(rowA) + copyLength(rowB)) * SEC_PER_CHAR;
+        return { a: rowA, b: rowB, start: start };
+      });
+
+      // A row: its inline icon draws on (check in primary, cross in negative), and the
+      // copy slides in from its own card's wing.
+      function revealRow(row, at, dir) {
+        tl.fromTo(one(row, "icon"), { opacity: 0 }, { opacity: 1, duration: 0.12, ease: "power1.out" }, at);
+        all(row, "stroke").forEach(function (stroke, i) {
+          tl.fromTo(
+            stroke,
+            { strokeDashoffset: 1.05 },
+            { strokeDashoffset: 0, duration: 0.32, ease: "power2.out" },
+            at + i * 0.12
+          );
+        });
+        tl.fromTo(
+          one(row, "text"),
+          { opacity: 0, x: 18 * dir },
+          { opacity: 1, x: 0, duration: 0.55, ease: EASE },
+          at + 0.05
+        );
+      }
+      TIMELINE.forEach(function (entry) {
+        revealRow(entry.a, entry.start, -1);
+        if (entry.b) revealRow(entry.b, entry.start + PAIR_LAG, 1);
+      });
+
+      // Scene 4 (3.6-5.0s): the solid seal lands on the Constancia with a smooth pop
+      // (spring-pop-entrance, power3 settle, no overshoot); 0.3s later the grey one lands
+      // on the Cedula. Then the frame holds still.
+      var POP = 0.55;
+      tl.fromTo(badgeA, { opacity: 0, scale: 0 }, { opacity: 1, scale: 1, duration: POP, ease: EASE }, 3.6);
+      tl.fromTo(badgeB, { opacity: 0, scale: 0 }, { opacity: 1, scale: 1, duration: POP, ease: EASE }, 3.9);
+
+      // Progress strip: linear 25% -> 37.5% of the width across the whole frame.
+      tl.fromTo(progress, { scaleX: 2 / 3 }, { scaleX: 1, duration: DURATION, ease: "none" }, 0);
+
+      window.__timelines = window.__timelines || {};
+      window.__timelines[COMP] = tl;
+    })();
+  </script>
+</template>
