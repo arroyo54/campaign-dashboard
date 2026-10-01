@@ -2,8 +2,8 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=1920, height=1080" />
-    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <meta name="viewport" content="width=1080, height=1080" />
+    <script src="assets/vendor/gsap.min.js"></script>
     <style>
       * {
         margin: 0;
@@ -12,25 +12,23 @@
       }
       html,
       body {
-        margin: 0;
-        width: 1920px;
+        width: 1080px;
         height: 1080px;
         overflow: hidden;
-        background: #0a0a0a;
+        background: #000;
       }
       #root {
+        position: relative;
+        width: 1080px;
+        height: 1080px;
+        overflow: hidden;
+        background: #FFFFFF;
+      }
+      .scene {
+        position: absolute;
+        inset: 0;
         width: 100%;
         height: 100%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-family: Inter, ui-sans-serif, system-ui, sans-serif;
-      }
-      #title {
-        color: #f4f4f5;
-        font-size: 72px;
-        font-weight: 600;
-        letter-spacing: -0.03em;
       }
     </style>
   </head>
@@ -39,17 +37,120 @@
       id="root"
       data-composition-id="main"
       data-start="0"
-      data-duration="10"
-      data-width="1920"
+      data-duration="57"
+      data-width="1080"
       data-height="1080"
     >
-      <h1 id="title" class="clip" data-start="0" data-duration="10" data-track-index="0">Title</h1>
+      <div
+        id="el-01-te-pidieron-tu-rfc"
+        class="scene"
+        data-composition-id="01-te-pidieron-tu-rfc"
+        data-composition-src="compositions/frames/01-te-pidieron-tu-rfc.html"
+        data-start="0"
+        data-duration="5.4"
+        data-track-index="0"
+      ></div>
+
+      <div
+        id="el-02-constancia"
+        class="scene"
+        data-composition-id="02-constancia"
+        data-composition-src="compositions/frames/02-constancia.html"
+        data-start="5"
+        data-duration="7"
+        data-track-index="1"
+      ></div>
+
+      <div
+        id="el-03-no-es-la-cedula"
+        class="scene"
+        data-composition-id="03-no-es-la-cedula"
+        data-composition-src="compositions/frames/03-no-es-la-cedula.html"
+        data-start="11.5"
+        data-duration="5.5"
+        data-track-index="0"
+      ></div>
+
+      <div
+        id="el-04-metodo-portal-sat"
+        class="scene"
+        data-composition-id="04-metodo-portal-sat"
+        data-composition-src="compositions/frames/04-metodo-portal-sat.html"
+        data-start="16.5"
+        data-duration="12.5"
+        data-track-index="1"
+      ></div>
+
+      <div
+        id="el-05-metodo-sat-id"
+        class="scene"
+        data-composition-id="05-metodo-sat-id"
+        data-composition-src="compositions/frames/05-metodo-sat-id.html"
+        data-start="28.5"
+        data-duration="10"
+        data-track-index="0"
+      ></div>
+
+      <div
+        id="el-06-si-algo-falla"
+        class="scene"
+        data-composition-id="06-si-algo-falla"
+        data-composition-src="compositions/frames/06-si-algo-falla.html"
+        data-start="38"
+        data-duration="9"
+        data-track-index="1"
+      ></div>
+
+      <div
+        id="el-07-dato-heru"
+        class="scene"
+        data-composition-id="07-dato-heru"
+        data-composition-src="compositions/frames/07-dato-heru.html"
+        data-start="46.5"
+        data-duration="4.9"
+        data-track-index="0"
+      ></div>
+
+      <div
+        id="el-08-heru-cta"
+        class="scene"
+        data-composition-id="08-heru-cta"
+        data-composition-src="compositions/frames/08-heru-cta.html"
+        data-start="51"
+        data-duration="6"
+        data-track-index="1"
+      ></div>
+
     </div>
+
     <script>
-      const tl = gsap.timeline({ paused: true });
-      // Example: tl.fromTo("#title", { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: 0.6 }, 0);
-      window.__timelines["main"] = tl;
-      tl.seek(0);
+      window.__timelines = window.__timelines || {};
+      window.__timelines["main"] = gsap.timeline({ paused: true });
+      // ── frame transitions (injected by transitions.mjs) ──
+      (function () { var tl = window.__timelines["main"];
+        tl.to("#el-01-te-pidieron-tu-rfc", { scale: 2.5, opacity: 0, filter: "blur(8px)", duration: 0.4, ease: "power3.in" }, 5);
+        tl.fromTo("#el-02-constancia", { scale: 0.5, opacity: 0, filter: "blur(8px)" }, { scale: 1, opacity: 1, filter: "blur(0px)", duration: 0.4, ease: "power3.out" }, 5);
+        tl.addLabel("hf:transition:01-te-pidieron-tu-rfc:02-constancia:zoom-through", 5);
+        tl.to("#el-02-constancia", { x: -1080, duration: 0.5, ease: "power3.inOut" }, 11.5);
+        tl.fromTo("#el-03-no-es-la-cedula", { x: 1080, opacity: 1 }, { x: 0, opacity: 1, duration: 0.5, ease: "power3.inOut" }, 11.5);
+        tl.addLabel("hf:transition:02-constancia:03-no-es-la-cedula:push-slide", 11.5);
+        tl.to("#el-03-no-es-la-cedula", { x: -1080, duration: 0.5, ease: "power3.inOut" }, 16.5);
+        tl.fromTo("#el-04-metodo-portal-sat", { x: 1080, opacity: 1 }, { x: 0, opacity: 1, duration: 0.5, ease: "power3.inOut" }, 16.5);
+        tl.addLabel("hf:transition:03-no-es-la-cedula:04-metodo-portal-sat:push-slide", 16.5);
+        tl.to("#el-04-metodo-portal-sat", { x: -1080, duration: 0.5, ease: "power3.inOut" }, 28.5);
+        tl.fromTo("#el-05-metodo-sat-id", { x: 1080, opacity: 1 }, { x: 0, opacity: 1, duration: 0.5, ease: "power3.inOut" }, 28.5);
+        tl.addLabel("hf:transition:04-metodo-portal-sat:05-metodo-sat-id:push-slide", 28.5);
+        tl.to("#el-05-metodo-sat-id", { x: -1080, duration: 0.5, ease: "power3.inOut" }, 38);
+        tl.fromTo("#el-06-si-algo-falla", { x: 1080, opacity: 1 }, { x: 0, opacity: 1, duration: 0.5, ease: "power3.inOut" }, 38);
+        tl.addLabel("hf:transition:05-metodo-sat-id:06-si-algo-falla:push-slide", 38);
+        tl.to("#el-06-si-algo-falla", { opacity: 0, duration: 0.5, ease: "power2.inOut" }, 46.5);
+        tl.fromTo("#el-07-dato-heru", { opacity: 0 }, { opacity: 1, duration: 0.5, ease: "power2.inOut" }, 46.5);
+        tl.addLabel("hf:transition:06-si-algo-falla:07-dato-heru:crossfade", 46.5);
+        tl.to("#el-07-dato-heru", { scale: 2.5, opacity: 0, filter: "blur(8px)", duration: 0.4, ease: "power3.in" }, 51);
+        tl.fromTo("#el-08-heru-cta", { scale: 0.5, opacity: 0, filter: "blur(8px)" }, { scale: 1, opacity: 1, filter: "blur(0px)", duration: 0.4, ease: "power3.out" }, 51);
+        tl.addLabel("hf:transition:07-dato-heru:08-heru-cta:zoom-through", 51);
+        tl.to({}, { duration: 57 }, 0); // full-span anchor — main.duration() == composition total (Studio master duration)
+      })();
     </script>
   </body>
 </html>

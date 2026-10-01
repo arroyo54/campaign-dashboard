@@ -202,7 +202,7 @@ El frame se sostiene quieto.
 - on_screen: "Método 1 · Portal del SAT" · pasos: "1 Entra a sat.gob.mx" · "2 Inicia sesión con tu RFC y contraseña (o e.firma)" · "3 Genera tu constancia" · "4 Descarga el PDF" · navegador: "sat.gob.mx/aplicacion/53027" · RFC de ejemplo "ABCD850101XY1" · "Constancia.pdf · Descargado" · sello final: "Listo en 2 a 5 minutos"
 - duration: 12s
 - transition_in: push-slide LEFT
-- status: built
+- status: animated
 - src: compositions/frames/04-metodo-portal-sat.html
 - type: feature_showcase
 - persuasion: Numbered enumeration + demonstration

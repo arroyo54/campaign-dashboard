@@ -1,0 +1,1098 @@
+<template>
+  <style>
+    @font-face {
+      font-family: "Lexend Deca";
+      src: url("assets/fonts/lexend-deca.woff2") format("woff2");
+      font-weight: 100 900;
+      font-style: normal;
+      font-display: block;
+    }
+
+    #root {
+      position: absolute;
+      inset: 0;
+      width: 1080px;
+      height: 1080px;
+      overflow: hidden;
+      font-family: "Lexend Deca";
+      color: #1a1a1a;
+      -webkit-font-smoothing: antialiased;
+      text-rendering: geometricPrecision;
+    }
+
+    #root *,
+    #root *::before,
+    #root *::after {
+      box-sizing: border-box;
+    }
+
+    /* ---------- clips ---------- */
+    .\30 4-metodo-portal-sat-bg {
+      position: absolute;
+      inset: 0;
+      background: #ffffff;
+    }
+    .\30 4-metodo-portal-sat-stage {
+      position: absolute;
+      inset: 0;
+    }
+    .\30 4-metodo-portal-sat-progressclip {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+    }
+    .\30 4-metodo-portal-sat-progress {
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      width: 1080px;
+      height: 3px;
+      background: #1d8ff3;
+      transform-origin: 0 50%;
+    }
+
+    /* ---------- slide-header ---------- */
+    .\30 4-metodo-portal-sat-eyebrow {
+      position: absolute;
+      left: 54px;
+      top: 58px;
+      font-size: 25px;
+      font-weight: 600;
+      line-height: 30px;
+      letter-spacing: 0.08em;
+      color: #1772c2;
+      white-space: nowrap;
+    }
+    .\30 4-metodo-portal-sat-tag {
+      position: absolute;
+      right: 54px;
+      top: 50px;
+      padding: 10px 22px;
+      border-radius: 100px;
+      background: rgba(29, 143, 243, 0.08);
+      color: #1772c2;
+      font-size: 22px;
+      font-weight: 500;
+      line-height: 26px;
+      white-space: nowrap;
+    }
+    .\30 4-metodo-portal-sat-title {
+      position: absolute;
+      left: 54px;
+      top: 102px;
+      margin: 0;
+      font-size: 64px;
+      font-weight: 600;
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+      color: #1a1a1a;
+      white-space: nowrap;
+    }
+    .\30 4-metodo-portal-sat-word {
+      display: inline-block;
+    }
+
+    /* ---------- 4-step rail ---------- */
+    .\30 4-metodo-portal-sat-rail {
+      position: absolute;
+      left: 54px;
+      top: 216px;
+      width: 400px;
+    }
+    .\30 4-metodo-portal-sat-step {
+      display: flex;
+      align-items: flex-start;
+      gap: 22px;
+      margin-bottom: 44px;
+    }
+    .\30 4-metodo-portal-sat-num {
+      flex: none;
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: rgba(29, 143, 243, 0.08);
+      color: #1772c2;
+      font-size: 24px;
+      font-weight: 600;
+      line-height: 48px;
+      text-align: center;
+      font-variant-numeric: tabular-nums;
+    }
+    .\30 4-metodo-portal-sat-tx {
+      display: block;
+      flex: 1;
+      padding-top: 4px;
+      font-size: 30px;
+      font-weight: 500;
+      line-height: 1.3;
+      color: #1a1a1a;
+    }
+
+    /* ---------- browser (schematic, generic chrome) ---------- */
+    .\30 4-metodo-portal-sat-browser {
+      position: absolute;
+      left: 486px;
+      top: 216px;
+      width: 540px;
+      height: 572px;
+      overflow: hidden;
+      border: 1.5px solid rgba(29, 143, 243, 0.2);
+      border-radius: 14px;
+      background: rgba(29, 143, 243, 0.04);
+    }
+    .\30 4-metodo-portal-sat-url {
+      position: absolute;
+      left: 22px;
+      top: 22px;
+      width: 493px;
+      height: 56px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 0 22px;
+      border: 1.5px solid rgba(29, 143, 243, 0.2);
+      border-radius: 100px;
+      background: #ffffff;
+      color: #5a5a5a;
+      font-size: 24px;
+      font-weight: 400;
+      line-height: 30px;
+    }
+    .\30 4-metodo-portal-sat-url svg {
+      flex: none;
+      width: 22px;
+      height: 22px;
+    }
+    .\30 4-metodo-portal-sat-urltext {
+      display: flex;
+      align-items: center;
+      flex: 1;
+      min-width: 0;
+      height: 30px;
+      color: #1a1a1a;
+      white-space: pre;
+    }
+    .\30 4-metodo-portal-sat-urlsuggest {
+      border-radius: 3px;
+    }
+    .\30 4-metodo-portal-sat-caret {
+      display: inline-block;
+      flex: none;
+      width: 2px;
+      height: 28px;
+      margin: 0 -4px 0 2px;
+      background: #1a1a1a;
+      opacity: 0;
+    }
+    .\30 4-metodo-portal-sat-divider {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 100px;
+      height: 1.5px;
+      background: rgba(29, 143, 243, 0.2);
+    }
+    .\30 4-metodo-portal-sat-load {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 99px;
+      height: 4px;
+    }
+    .\30 4-metodo-portal-sat-loadfill {
+      width: 100%;
+      height: 100%;
+      background: #1d8ff3;
+      transform-origin: 0 50%;
+    }
+    .\30 4-metodo-portal-sat-screen {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 102px;
+      bottom: 0;
+      overflow: hidden;
+    }
+    .\30 4-metodo-portal-sat-layer {
+      position: absolute;
+      inset: 0;
+    }
+
+    /* shared UI atoms inside the browser */
+    .\30 4-metodo-portal-sat-btn {
+      position: absolute;
+      left: 36px;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      border-radius: 100px;
+      background: #1d8ff3;
+      color: #ffffff;
+      font-size: 26px;
+      font-weight: 600;
+      line-height: 32px;
+      white-space: nowrap;
+    }
+    .\30 4-metodo-portal-sat-btn svg {
+      flex: none;
+      width: 24px;
+      height: 24px;
+    }
+    .\30 4-metodo-portal-sat-skel {
+      position: absolute;
+      left: 36px;
+      height: 12px;
+      border-radius: 6px;
+      background: rgba(26, 26, 26, 0.07);
+    }
+
+    /* page A: trámite landing */
+    .\30 4-metodo-portal-sat-kicker {
+      position: absolute;
+      left: 36px;
+      top: 44px;
+      font-size: 24px;
+      font-weight: 600;
+      line-height: 30px;
+      letter-spacing: 0.08em;
+      color: #1772c2;
+      white-space: nowrap;
+    }
+    .\30 4-metodo-portal-sat-pageh {
+      position: absolute;
+      left: 36px;
+      top: 86px;
+      width: 465px;
+      margin: 0;
+      font-size: 42px;
+      font-weight: 600;
+      line-height: 1.15;
+      letter-spacing: -0.02em;
+      color: #1a1a1a;
+    }
+
+    /* page B: login */
+    .\30 4-metodo-portal-sat-tabs {
+      position: absolute;
+      left: 36px;
+      top: 34px;
+      width: 465px;
+      display: flex;
+      gap: 34px;
+      border-bottom: 1.5px solid rgba(29, 143, 243, 0.2);
+    }
+    .\30 4-metodo-portal-sat-tab {
+      display: block;
+      margin-bottom: -1.5px;
+      padding-bottom: 10px;
+      border-bottom: 3px solid transparent;
+      color: #767676;
+      font-size: 24px;
+      font-weight: 500;
+      line-height: 30px;
+      white-space: nowrap;
+    }
+    .\30 4-metodo-portal-sat-tabon {
+      border-bottom-color: #1d8ff3;
+      color: #1a1a1a;
+      font-weight: 600;
+    }
+    .\30 4-metodo-portal-sat-label {
+      position: absolute;
+      left: 36px;
+      color: #5a5a5a;
+      font-size: 24px;
+      font-weight: 500;
+      line-height: 30px;
+      white-space: nowrap;
+    }
+    .\30 4-metodo-portal-sat-field {
+      position: absolute;
+      left: 36px;
+      width: 465px;
+      height: 58px;
+      display: flex;
+      align-items: center;
+      padding: 0 18px;
+      border: 1.5px solid rgba(29, 143, 243, 0.2);
+      border-radius: 10px;
+      background: #ffffff;
+      color: #1a1a1a;
+      font-size: 26px;
+      font-weight: 500;
+      line-height: 30px;
+      letter-spacing: 0.02em;
+      font-variant-numeric: tabular-nums;
+      white-space: pre;
+    }
+    .\30 4-metodo-portal-sat-fieldtext {
+      display: block;
+      white-space: pre;
+    }
+    .\30 4-metodo-portal-sat-dots {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      height: 30px;
+    }
+    .\30 4-metodo-portal-sat-dot {
+      display: none;
+      flex: none;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: #1a1a1a;
+    }
+    .\30 4-metodo-portal-sat-dots .\30 4-metodo-portal-sat-caret {
+      margin: 0 0 0 -3px;
+    }
+    .\30 4-metodo-portal-sat-fieldtext + .\30 4-metodo-portal-sat-caret {
+      margin: 0 -5px 0 3px;
+    }
+
+    /* page C: generate + download */
+    .\30 4-metodo-portal-sat-spin {
+      position: absolute;
+      left: 228.5px;
+      top: 229px;
+      width: 80px;
+      height: 80px;
+      color: #1d8ff3;
+    }
+    .\30 4-metodo-portal-sat-spin svg {
+      display: block;
+      width: 80px;
+      height: 80px;
+    }
+    .\30 4-metodo-portal-sat-spintrack {
+      opacity: 0.15;
+    }
+    .\30 4-metodo-portal-sat-spinarc {
+      position: absolute;
+      inset: 0;
+    }
+    .\30 4-metodo-portal-sat-doc {
+      position: absolute;
+      left: 36px;
+      top: 112px;
+      width: 465px;
+      height: 314px;
+      border: 1.5px solid rgba(29, 143, 243, 0.2);
+      border-radius: 12px;
+      background: #ffffff;
+      filter: blur(0px);
+      transform-origin: 50% 0%;
+    }
+    .\30 4-metodo-portal-sat-dochead {
+      position: absolute;
+      left: 22px;
+      right: 22px;
+      top: 20px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .\30 4-metodo-portal-sat-dochead svg {
+      flex: none;
+      width: 30px;
+      height: 30px;
+      color: #1d8ff3;
+    }
+    .\30 4-metodo-portal-sat-doctitle {
+      display: block;
+      flex: 1;
+      min-width: 0;
+      color: #1772c2;
+      font-size: 24px;
+      font-weight: 600;
+      line-height: 1.2;
+      letter-spacing: 0.06em;
+    }
+    .\30 4-metodo-portal-sat-pdf {
+      flex: none;
+      padding: 3px 14px;
+      border-radius: 100px;
+      background: #1d8ff3;
+      color: #ffffff;
+      font-size: 24px;
+      font-weight: 700;
+      line-height: 30px;
+      letter-spacing: 0.04em;
+    }
+    .\30 4-metodo-portal-sat-rows {
+      position: absolute;
+      left: 22px;
+      right: 22px;
+      top: 96px;
+    }
+    .\30 4-metodo-portal-sat-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 52px;
+      border-top: 1.5px solid rgba(29, 143, 243, 0.2);
+      color: #1a1a1a;
+      font-size: 24px;
+      font-weight: 500;
+      line-height: 30px;
+      white-space: nowrap;
+    }
+    .\30 4-metodo-portal-sat-val {
+      display: block;
+      padding: 3px 14px;
+      border-radius: 100px;
+      background: rgba(29, 143, 243, 0.08);
+      color: #1772c2;
+      font-size: 24px;
+      font-weight: 600;
+      line-height: 30px;
+      letter-spacing: 0.02em;
+      font-variant-numeric: tabular-nums;
+    }
+    .\30 4-metodo-portal-sat-valok {
+      background: rgba(4, 120, 87, 0.08);
+      color: #047857;
+      letter-spacing: 0;
+    }
+    .\30 4-metodo-portal-sat-bar {
+      display: block;
+      height: 10px;
+      border-radius: 6px;
+      background: rgba(26, 26, 26, 0.08);
+    }
+    .\30 4-metodo-portal-sat-file {
+      position: absolute;
+      left: 36px;
+      top: 112px;
+      width: 465px;
+      height: 172px;
+      border: 1.5px solid rgba(29, 143, 243, 0.2);
+      border-radius: 12px;
+      background: #ffffff;
+    }
+    .\30 4-metodo-portal-sat-fi {
+      position: absolute;
+      left: 24px;
+      top: 26px;
+      width: 86px;
+      height: 114px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 10px;
+      background: rgba(29, 143, 243, 0.08);
+      color: #1d8ff3;
+    }
+    .\30 4-metodo-portal-sat-fi svg {
+      width: 50px;
+      height: 50px;
+    }
+    .\30 4-metodo-portal-sat-fn {
+      position: absolute;
+      left: 136px;
+      top: 28px;
+      color: #1a1a1a;
+      font-size: 28px;
+      font-weight: 600;
+      line-height: 34px;
+      white-space: nowrap;
+    }
+    .\30 4-metodo-portal-sat-ftrack {
+      position: absolute;
+      left: 136px;
+      right: 24px;
+      top: 78px;
+      height: 10px;
+      overflow: hidden;
+      border-radius: 6px;
+      background: rgba(29, 143, 243, 0.08);
+    }
+    .\30 4-metodo-portal-sat-ffill {
+      width: 100%;
+      height: 100%;
+      border-radius: 6px;
+      background: #1d8ff3;
+      transform-origin: 0 50%;
+    }
+    .\30 4-metodo-portal-sat-fst {
+      position: absolute;
+      left: 136px;
+      top: 106px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: #047857;
+      font-size: 24px;
+      font-weight: 600;
+      line-height: 30px;
+      white-space: nowrap;
+    }
+    .\30 4-metodo-portal-sat-fst svg {
+      flex: none;
+      width: 26px;
+      height: 26px;
+    }
+    .\30 4-metodo-portal-sat-fstlabel {
+      display: block;
+    }
+
+    /* ---------- closing seal ---------- */
+    .\30 4-metodo-portal-sat-badgewrap {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 818px;
+      display: flex;
+      justify-content: center;
+    }
+    .\30 4-metodo-portal-sat-badge {
+      display: block;
+      padding: 13px 32px;
+      border: 1.5px solid rgba(29, 143, 243, 0.2);
+      border-radius: 100px;
+      background: rgba(29, 143, 243, 0.08);
+      color: #1772c2;
+      font-size: 30px;
+      font-weight: 600;
+      line-height: 38px;
+      white-space: nowrap;
+    }
+
+    /* ---------- cursor actor + click ripples ---------- */
+    .\30 4-metodo-portal-sat-ripple {
+      position: absolute;
+      width: 44px;
+      height: 44px;
+      margin: -22px 0 0 -22px;
+      border: 2px solid rgba(29, 143, 243, 0.6);
+      border-radius: 50%;
+      opacity: 0;
+      pointer-events: none;
+    }
+    .\30 4-metodo-portal-sat-cursor {
+      position: absolute;
+      left: -17.5px;
+      top: -10.5px;
+      width: 84px;
+      height: 84px;
+      transform-origin: 20.83% 12.5%;
+      pointer-events: none;
+    }
+    .\30 4-metodo-portal-sat-cursor svg {
+      display: block;
+      width: 100%;
+      height: 100%;
+      overflow: visible;
+      fill: #ffffff;
+      stroke: #1a1a1a;
+      stroke-width: 1.25;
+      stroke-linejoin: round;
+      stroke-linecap: round;
+    }
+  </style>
+
+  <div
+    id="root"
+    data-composition-id="04-metodo-portal-sat"
+    data-width="1080"
+    data-height="1080"
+    data-duration="12.5"
+  >
+    <!-- track 0: full-bleed ground -->
+    <div id="04-metodo-portal-sat-bg" class="clip 04-metodo-portal-sat-bg" data-start="0" data-duration="12.5" data-track-index="0"></div>
+
+    <!-- track 1: the shot -->
+    <div id="04-metodo-portal-sat-stage" class="clip 04-metodo-portal-sat-stage" data-start="0" data-duration="12.5" data-track-index="1">
+      <!-- slide-header -->
+      <div id="04-metodo-portal-sat-eyebrow" class="04-metodo-portal-sat-eyebrow">MÉTODO 1</div>
+      <div id="04-metodo-portal-sat-tag" class="04-metodo-portal-sat-tag">El más rápido</div>
+      <h2 id="04-metodo-portal-sat-title" class="04-metodo-portal-sat-title"><span class="04-metodo-portal-sat-word">Desde</span> <span class="04-metodo-portal-sat-word">el</span> <span class="04-metodo-portal-sat-word">portal</span> <span class="04-metodo-portal-sat-word">del</span> <span class="04-metodo-portal-sat-word">SAT</span></h2>
+
+      <!-- 4-step rail (supporting) -->
+      <div id="04-metodo-portal-sat-rail" class="04-metodo-portal-sat-rail">
+        <div id="04-metodo-portal-sat-step-1" class="04-metodo-portal-sat-step">
+          <span id="04-metodo-portal-sat-num-1" class="04-metodo-portal-sat-num">1</span>
+          <span id="04-metodo-portal-sat-tx-1" class="04-metodo-portal-sat-tx">Entra a sat.gob.mx</span>
+        </div>
+        <div id="04-metodo-portal-sat-step-2" class="04-metodo-portal-sat-step">
+          <span id="04-metodo-portal-sat-num-2" class="04-metodo-portal-sat-num">2</span>
+          <span id="04-metodo-portal-sat-tx-2" class="04-metodo-portal-sat-tx">Inicia sesión con tu RFC y contraseña (o&nbsp;e.firma)</span>
+        </div>
+        <div id="04-metodo-portal-sat-step-3" class="04-metodo-portal-sat-step">
+          <span id="04-metodo-portal-sat-num-3" class="04-metodo-portal-sat-num">3</span>
+          <span id="04-metodo-portal-sat-tx-3" class="04-metodo-portal-sat-tx">Genera tu constancia</span>
+        </div>
+        <div id="04-metodo-portal-sat-step-4" class="04-metodo-portal-sat-step">
+          <span id="04-metodo-portal-sat-num-4" class="04-metodo-portal-sat-num">4</span>
+          <span id="04-metodo-portal-sat-tx-4" class="04-metodo-portal-sat-tx">Descarga el PDF</span>
+        </div>
+      </div>
+
+      <!-- schematic browser (foreground subject) -->
+      <div id="04-metodo-portal-sat-browser" class="04-metodo-portal-sat-browser">
+        <div id="04-metodo-portal-sat-url" class="04-metodo-portal-sat-url">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="18" height="11" x="3" y="11" rx="2" ry="2" /><path d="M7 11V7a5 5 0 0 1 10 0v4" /></svg>
+          <span id="04-metodo-portal-sat-urltext" class="04-metodo-portal-sat-urltext"><span id="04-metodo-portal-sat-urltyped"></span><span id="04-metodo-portal-sat-urlcaret" class="04-metodo-portal-sat-caret"></span><span id="04-metodo-portal-sat-urlsuggest" class="04-metodo-portal-sat-urlsuggest"></span></span>
+        </div>
+        <div class="04-metodo-portal-sat-divider"></div>
+        <div id="04-metodo-portal-sat-load" class="04-metodo-portal-sat-load"><div id="04-metodo-portal-sat-loadfill" class="04-metodo-portal-sat-loadfill"></div></div>
+
+        <div class="04-metodo-portal-sat-screen" data-layout-allow-overflow>
+          <!-- A · trámite landing -->
+          <div id="04-metodo-portal-sat-pageA" class="04-metodo-portal-sat-layer">
+            <div id="04-metodo-portal-sat-kicker" class="04-metodo-portal-sat-kicker">TRÁMITES DEL SAT</div>
+            <h3 id="04-metodo-portal-sat-pageh" class="04-metodo-portal-sat-pageh">Genera tu Constancia de Situación Fiscal</h3>
+            <div id="04-metodo-portal-sat-skel-1" class="04-metodo-portal-sat-skel" style="top: 204px; width: 420px"></div>
+            <div id="04-metodo-portal-sat-skel-2" class="04-metodo-portal-sat-skel" style="top: 228px; width: 300px"></div>
+            <div id="04-metodo-portal-sat-btn-iniciar" class="04-metodo-portal-sat-btn" style="top: 272px; width: 176px">Iniciar</div>
+          </div>
+
+          <!-- B · inicio de sesión -->
+          <div id="04-metodo-portal-sat-pageB" class="04-metodo-portal-sat-layer">
+            <div class="04-metodo-portal-sat-tabs">
+              <span class="04-metodo-portal-sat-tab 04-metodo-portal-sat-tabon">Contraseña</span>
+              <span class="04-metodo-portal-sat-tab">e.firma</span>
+            </div>
+            <div class="04-metodo-portal-sat-label" style="top: 102px">RFC</div>
+            <div id="04-metodo-portal-sat-field-rfc" class="04-metodo-portal-sat-field" style="top: 138px">
+              <span id="04-metodo-portal-sat-rfctext" class="04-metodo-portal-sat-fieldtext"></span><span id="04-metodo-portal-sat-rfccaret" class="04-metodo-portal-sat-caret"></span>
+            </div>
+            <div class="04-metodo-portal-sat-label" style="top: 214px">Contraseña</div>
+            <div id="04-metodo-portal-sat-field-pw" class="04-metodo-portal-sat-field" style="top: 250px">
+              <span class="04-metodo-portal-sat-dots">
+                <i class="04-metodo-portal-sat-dot"></i><i class="04-metodo-portal-sat-dot"></i><i class="04-metodo-portal-sat-dot"></i><i class="04-metodo-portal-sat-dot"></i><i class="04-metodo-portal-sat-dot"></i><i class="04-metodo-portal-sat-dot"></i><i class="04-metodo-portal-sat-dot"></i><i class="04-metodo-portal-sat-dot"></i><span id="04-metodo-portal-sat-pwcaret" class="04-metodo-portal-sat-caret"></span>
+              </span>
+            </div>
+            <div id="04-metodo-portal-sat-btn-enviar" class="04-metodo-portal-sat-btn" style="top: 334px; width: 176px">Enviar</div>
+          </div>
+
+          <!-- C · genera y descarga -->
+          <div id="04-metodo-portal-sat-pageC" class="04-metodo-portal-sat-layer">
+            <div id="04-metodo-portal-sat-spin" class="04-metodo-portal-sat-spin">
+              <svg class="04-metodo-portal-sat-spintrack" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="6" aria-hidden="true"><circle cx="32" cy="32" r="26" /></svg>
+              <div id="04-metodo-portal-sat-spinarc" class="04-metodo-portal-sat-spinarc">
+                <svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="6" stroke-linecap="round" aria-hidden="true"><path d="M32 6 A26 26 0 0 1 58 32" /></svg>
+              </div>
+            </div>
+
+            <div id="04-metodo-portal-sat-btn-descargar" class="04-metodo-portal-sat-btn" style="top: 24px; width: 300px">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 15V3" /><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" /><path d="m7 10 5 5 5-5" /></svg>
+              <span>Descargar PDF</span>
+            </div>
+
+            <div id="04-metodo-portal-sat-doc" class="04-metodo-portal-sat-doc">
+              <div id="04-metodo-portal-sat-dochead" class="04-metodo-portal-sat-dochead">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z" /><path d="M14 2v5a1 1 0 0 0 1 1h5" /><path d="M10 9H8" /><path d="M16 13H8" /><path d="M16 17H8" /></svg>
+                <span class="04-metodo-portal-sat-doctitle">CONSTANCIA DE SITUACIÓN FISCAL</span>
+                <span class="04-metodo-portal-sat-pdf">PDF</span>
+              </div>
+              <div class="04-metodo-portal-sat-rows">
+                <div id="04-metodo-portal-sat-row-1" class="04-metodo-portal-sat-row"><span>RFC</span><span id="04-metodo-portal-sat-val-rfc" class="04-metodo-portal-sat-val">ABCD850101XY1</span></div>
+                <div id="04-metodo-portal-sat-row-2" class="04-metodo-portal-sat-row"><span>Régimen</span><i class="04-metodo-portal-sat-bar" style="width: 150px"></i></div>
+                <div id="04-metodo-portal-sat-row-3" class="04-metodo-portal-sat-row"><span>Domicilio</span><i class="04-metodo-portal-sat-bar" style="width: 196px"></i></div>
+                <div id="04-metodo-portal-sat-row-4" class="04-metodo-portal-sat-row"><span>Estatus</span><span id="04-metodo-portal-sat-val-ok" class="04-metodo-portal-sat-val 04-metodo-portal-sat-valok">Activo</span></div>
+              </div>
+            </div>
+
+            <div id="04-metodo-portal-sat-file" class="04-metodo-portal-sat-file">
+              <div class="04-metodo-portal-sat-fi">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z" /><path d="M14 2v5a1 1 0 0 0 1 1h5" /><path d="M10 9H8" /><path d="M16 13H8" /><path d="M16 17H8" /></svg>
+              </div>
+              <div class="04-metodo-portal-sat-fn">Constancia.pdf</div>
+              <div class="04-metodo-portal-sat-ftrack"><div id="04-metodo-portal-sat-ffill" class="04-metodo-portal-sat-ffill"></div></div>
+              <div class="04-metodo-portal-sat-fst">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path id="04-metodo-portal-sat-check" d="M4 12l5 5L20 6" /></svg>
+                <span id="04-metodo-portal-sat-fstlabel" class="04-metodo-portal-sat-fstlabel">Descargado</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- closing seal -->
+      <div class="04-metodo-portal-sat-badgewrap"><div id="04-metodo-portal-sat-badge" class="04-metodo-portal-sat-badge">Listo en 2 a 5 minutos</div></div>
+
+      <!-- click ripples (live in DOM from t=0 at each click point, hidden) -->
+      <div id="04-metodo-portal-sat-rip-1a" class="04-metodo-portal-sat-ripple" style="left: 968px; top: 276px" data-layout-ignore></div>
+      <div id="04-metodo-portal-sat-rip-1b" class="04-metodo-portal-sat-ripple" style="left: 968px; top: 276px" data-layout-ignore></div>
+      <div id="04-metodo-portal-sat-rip-2a" class="04-metodo-portal-sat-ripple" style="left: 681px; top: 629px" data-layout-ignore></div>
+      <div id="04-metodo-portal-sat-rip-2b" class="04-metodo-portal-sat-ripple" style="left: 681px; top: 629px" data-layout-ignore></div>
+      <div id="04-metodo-portal-sat-rip-3a" class="04-metodo-portal-sat-ripple" style="left: 681px; top: 691px" data-layout-ignore></div>
+      <div id="04-metodo-portal-sat-rip-3b" class="04-metodo-portal-sat-ripple" style="left: 681px; top: 691px" data-layout-ignore></div>
+      <div id="04-metodo-portal-sat-rip-4a" class="04-metodo-portal-sat-ripple" style="left: 805px; top: 381px" data-layout-ignore></div>
+      <div id="04-metodo-portal-sat-rip-4b" class="04-metodo-portal-sat-ripple" style="left: 805px; top: 381px" data-layout-ignore></div>
+
+      <!-- oversized arrow cursor (the actor) -->
+      <div id="04-metodo-portal-sat-cursor" class="04-metodo-portal-sat-cursor" data-layout-ignore>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 3 L5 19 L9 15 L12 22 L15 20.5 L11.5 14 L18 14 Z" /></svg>
+      </div>
+    </div>
+
+    <!-- track 2: persistent progress strip (frame 4 of 8: 37.5% -> 50%) -->
+    <div id="04-metodo-portal-sat-progress-clip" class="clip 04-metodo-portal-sat-progressclip" data-start="0" data-duration="12.5" data-track-index="2">
+      <div id="04-metodo-portal-sat-progress" class="04-metodo-portal-sat-progress" data-layout-allow-caption-zone></div>
+    </div>
+  </div>
+
+  <script src="assets/vendor/gsap.min.js"></script>
+  <script>
+    (function () {
+      "use strict";
+
+      var P = "04-metodo-portal-sat-";
+      var root =
+        document.getElementById("root") ||
+        document.querySelector('[data-composition-id="04-metodo-portal-sat"]') ||
+        document.documentElement;
+      function $(name) {
+        return document.getElementById(P + name);
+      }
+      function byClass(name) {
+        return Array.prototype.slice.call(root.getElementsByClassName(P + name));
+      }
+
+      // ---------------------------------------------------------------
+      // Beat map (seconds). Silent frame: each reveal is paced to reading
+      // cadence inside the Scene windows of the storyboard block.
+      //   S1 0.0–1.2  header + browser + dimmed rail
+      //   S2 1.2–3.6  step 1: click URL bar, type, load, page appears
+      //   S3 3.6–6.2  step 2: login, type RFC + password, click "Enviar"
+      //   S4 6.2–8.6  step 3: spinner 1.5 turns, document assembles
+      //   S5 8.6–10.6 step 4: click "Descargar PDF", file fills, "Descargado"
+      //   S6 10.6–12  seal settles, then stillness to the seam
+      // ---------------------------------------------------------------
+      var DUR = 12;
+      var LIGHT = [1.2, 3.6, 6.2, 8.6];
+
+      // Cursor tip targets in frame px (browser inner origin = 487.5, 217.5;
+      // screen origin = 487.5, 319.5). Tips land at each button's RIGHT end
+      // so the label stays readable.
+      var TIP_START = { x: 1130, y: 560 };
+      var TIP_URL = { x: 968, y: 276 };
+      var TIP_INICIAR = { x: 681, y: 629 };
+      var PARK_LOGIN = { x: 960, y: 652 };
+      var TIP_ENVIAR = { x: 681, y: 691 };
+      var PARK_DOC = { x: 905, y: 365 };
+      var TIP_DESCARGAR = { x: 805, y: 381 };
+
+      var CLICK_URL = 1.64;
+      var CLICK_INICIAR = 3.48;
+      var CLICK_ENVIAR = 5.84;
+      var CLICK_DESCARGAR = 8.88;
+
+      // Typing schedules (discrete-text-sequence: sparse {t, text} states,
+      // reverse-searched every frame; clusters + a pause at word breaks).
+      var URL_SEQ = [
+        [1.72, "s"],
+        [1.78, "sa"],
+        [1.84, "sat"],
+        [1.94, "sat."],
+        [2.0, "sat.g"],
+        [2.06, "sat.go"],
+        [2.12, "sat.gob"],
+        [2.21, "sat.gob."],
+        [2.27, "sat.gob.m"],
+        [2.33, "sat.gob.mx"]
+      ];
+      var URL_SUGGEST = "/aplicacion/53027"; // inline autocomplete = bulk paste
+      var T_URL_FOCUS = 1.66;
+      var T_SUGGEST = 2.42;
+      var T_ENTER = 2.58;
+
+      var RFC_SEQ = [
+        [4.32, "A"],
+        [4.37, "AB"],
+        [4.42, "ABC"],
+        [4.47, "ABCD"],
+        [4.57, "ABCD8"],
+        [4.62, "ABCD85"],
+        [4.67, "ABCD850"],
+        [4.72, "ABCD8501"],
+        [4.77, "ABCD85010"],
+        [4.82, "ABCD850101"],
+        [4.92, "ABCD850101X"],
+        [4.97, "ABCD850101XY"],
+        [5.02, "ABCD850101XY1"]
+      ];
+      var T_RFC_FOCUS = 3.92; // autofocus as the login lands: the caret blinks before typing
+      var T_TAB = 5.1;
+      var PW_SEQ = [5.16, 5.21, 5.26, 5.32, 5.37, 5.43, 5.48, 5.54];
+      var T_PW_BLUR = CLICK_ENVIAR + 0.02;
+
+      // ---------- elements ----------
+      var eyebrow = $("eyebrow");
+      var tag = $("tag");
+      var words = byClass("word");
+      var steps = [$("step-1"), $("step-2"), $("step-3"), $("step-4")];
+      var nums = [$("num-1"), $("num-2"), $("num-3"), $("num-4")];
+      var txs = [$("tx-1"), $("tx-2"), $("tx-3"), $("tx-4")];
+      var browser = $("browser");
+      var url = $("url");
+      var urlText = $("urltext");
+      var urlTyped = $("urltyped");
+      var urlSuggest = $("urlsuggest");
+      var urlCaret = $("urlcaret");
+      var load = $("load");
+      var loadFill = $("loadfill");
+      var pageA = $("pageA");
+      var pageB = $("pageB");
+      var pageC = $("pageC");
+      var kicker = $("kicker");
+      var pageH = $("pageh");
+      var skel1 = $("skel-1");
+      var skel2 = $("skel-2");
+      var btnIniciar = $("btn-iniciar");
+      var fieldRfc = $("field-rfc");
+      var fieldPw = $("field-pw");
+      var rfcText = $("rfctext");
+      var rfcCaret = $("rfccaret");
+      var pwCaret = $("pwcaret");
+      var dots = byClass("dot");
+      var btnEnviar = $("btn-enviar");
+      var spin = $("spin");
+      var spinArc = $("spinarc");
+      var btnDescargar = $("btn-descargar");
+      var doc = $("doc");
+      var docHead = $("dochead");
+      var rows = [$("row-1"), $("row-2"), $("row-3"), $("row-4")];
+      var valRfc = $("val-rfc");
+      var valOk = $("val-ok");
+      var file = $("file");
+      var fileFill = $("ffill");
+      var check = $("check");
+      var fileStatus = $("fstlabel");
+      var badge = $("badge");
+      var cursor = $("cursor");
+      var progress = $("progress");
+      var ripples = {
+        url: [$("rip-1a"), $("rip-1b")],
+        iniciar: [$("rip-2a"), $("rip-2b")],
+        enviar: [$("rip-3a"), $("rip-3b")],
+        descargar: [$("rip-4a"), $("rip-4b")]
+      };
+
+      // Hidden supporting effects: explicit resting state before the timeline.
+      Object.keys(ripples).forEach(function (k) {
+        gsap.set(ripples[k], { scale: 0.3, opacity: 0 });
+      });
+      var checkLen = 23;
+      try {
+        checkLen = check.getTotalLength() || checkLen;
+      } catch (e) {
+        /* keep fallback */
+      }
+      gsap.set(check, { strokeDasharray: checkLen + " " + (checkLen + 12), strokeDashoffset: checkLen + 6 });
+
+      var tl = gsap.timeline({ paused: true });
+
+      // ---------- persistent progress strip: linear 37.5% -> 50% ----------
+      tl.fromTo(progress, { scaleX: 0.375 }, { scaleX: 0.5, duration: DUR, ease: "none" }, 0);
+
+      // ================= S1 (0.0–1.2): establish =================
+      tl.fromTo(eyebrow, { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: 0.5, ease: "power3.out" }, 0);
+      tl.fromTo(tag, { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: 0.5, ease: "power3.out" }, 0.06);
+      tl.fromTo(
+        words,
+        { opacity: 0, y: 34 },
+        { opacity: 1, y: 0, duration: 0.62, ease: "power3.out", stagger: 0.07 },
+        0.1
+      );
+      // the browser rises into the right column (hero visible by ~0.4s)
+      tl.fromTo(browser, { opacity: 0, y: 60 }, { opacity: 1, y: 0, duration: 0.9, ease: "power3.out" }, 0.08);
+      // rail arrives dimmed (~35%)
+      tl.fromTo(
+        steps,
+        { opacity: 0, x: -16 },
+        { opacity: 0.35, x: 0, duration: 0.5, ease: "power3.out", stagger: 0.08 },
+        0.32
+      );
+
+      // ---------- step rail state machine (idle -> now -> done) ----------
+      function lightStep(i, at) {
+        tl.to(steps[i], { opacity: 1, duration: 0.3, ease: "power2.out" }, at);
+        tl.to(nums[i], { backgroundColor: "#1d8ff3", color: "#ffffff", duration: 0.3, ease: "power2.out" }, at);
+        tl.to(txs[i], { fontWeight: 600, duration: 0.3, ease: "power2.out" }, at);
+      }
+      function doneStep(i, at) {
+        tl.to(nums[i], { backgroundColor: "rgba(29,143,243,0.08)", color: "#1772c2", duration: 0.35, ease: "power2.out" }, at);
+        tl.to(txs[i], { color: "#5a5a5a", fontWeight: 500, duration: 0.35, ease: "power2.out" }, at);
+      }
+      lightStep(0, LIGHT[0]);
+      doneStep(0, LIGHT[1]);
+      lightStep(1, LIGHT[1]);
+      doneStep(1, LIGHT[2]);
+      lightStep(2, LIGHT[2]);
+      doneStep(2, LIGHT[3]);
+      lightStep(3, LIGHT[3]);
+
+      // ---------- cursor actor (cursor-click-ripple) ----------
+      function moveCursor(to, at, dur) {
+        tl.to(cursor, { x: to.x, y: to.y, duration: dur, ease: "power3.inOut" }, at);
+      }
+      function click(at, target, rings) {
+        // cursor compresses more than the target; both recover, no overshoot
+        tl.to(cursor, { scale: 0.86, duration: 0.08, ease: "power2.in" }, at);
+        tl.to(cursor, { scale: 1, duration: 0.18, ease: "power2.out" }, at + 0.08);
+        if (target) {
+          tl.to(target, { scale: 0.95, duration: 0.08, ease: "power2.in" }, at);
+          tl.to(target, { scale: 1, duration: 0.2, ease: "power2.out" }, at + 0.08);
+        }
+        rings.forEach(function (ring, r) {
+          var t0 = at + 0.01 + r * 0.09;
+          tl.to(ring, { scale: 3.4, duration: 0.62, ease: "power2.out" }, t0);
+          tl.to(ring, { opacity: 0.9, duration: 0.04, ease: "none" }, t0);
+          tl.to(ring, { opacity: 0, duration: 0.5, ease: "power1.out" }, t0 + 0.05);
+        });
+      }
+
+      // enters from the right edge and glides onto the address bar
+      tl.fromTo(
+        cursor,
+        { x: TIP_START.x, y: TIP_START.y },
+        { x: TIP_URL.x, y: TIP_URL.y, duration: 0.36, ease: "power3.out" },
+        LIGHT[0]
+      );
+
+      // ================= S2 (1.2–3.6): step 1 — sat.gob.mx =================
+      click(CLICK_URL, null, ripples.url);
+      tl.to(url, { borderColor: "rgba(29,143,243,0.55)", duration: 0.2, ease: "power2.out" }, T_URL_FOCUS);
+      // Enter: the URL commits (muted), focus ring releases, thin loading bar fills
+      tl.to(url, { borderColor: "rgba(29,143,243,0.2)", duration: 0.25, ease: "power2.out" }, T_ENTER + 0.02);
+      tl.to(urlText, { color: "#5a5a5a", duration: 0.3, ease: "power2.out" }, T_ENTER + 0.02);
+      tl.fromTo(loadFill, { scaleX: 0 }, { scaleX: 1, duration: 0.5, ease: "power2.inOut" }, T_ENTER + 0.02);
+      tl.to(load, { opacity: 0, duration: 0.18, ease: "power1.in" }, T_ENTER + 0.54);
+      // the page renders progressively while the bar finishes
+      tl.fromTo(kicker, { opacity: 0, y: 18 }, { opacity: 1, y: 0, duration: 0.5, ease: "power3.out" }, 2.72);
+      tl.fromTo(pageH, { opacity: 0, y: 18 }, { opacity: 1, y: 0, duration: 0.5, ease: "power3.out" }, 2.78);
+      tl.fromTo([skel1, skel2], { opacity: 0, y: 18 }, { opacity: 1, y: 0, duration: 0.5, ease: "power3.out", stagger: 0.04 }, 2.86);
+      tl.fromTo(btnIniciar, { opacity: 0, y: 18 }, { opacity: 1, y: 0, duration: 0.5, ease: "power3.out" }, 2.94);
+
+      // cursor heads to "Iniciar" and clicks
+      moveCursor(TIP_INICIAR, 2.98, 0.4);
+      click(CLICK_INICIAR, btnIniciar, ripples.iniciar);
+
+      // ================= S3 (3.6–6.2): step 2 — inicio de sesión =================
+      // screen swap A -> B: cut-the-curve, leftward (the film's one direction)
+      tl.to(pageA, { x: -64, duration: 0.22, ease: "power4.in" }, 3.62);
+      tl.to(pageA, { opacity: 0, duration: 0.2, ease: "power1.in" }, 3.62);
+      tl.fromTo(pageB, { x: 64, opacity: 0 }, { x: 0, opacity: 1, duration: 0.32, ease: "power4.out" }, 3.84);
+      moveCursor(PARK_LOGIN, 3.7, 0.44);
+      // RFC field focus, then Tab to the password field
+      tl.to(fieldRfc, { borderColor: "rgba(29,143,243,0.55)", duration: 0.2, ease: "power2.out" }, T_RFC_FOCUS);
+      tl.to(fieldRfc, { borderColor: "rgba(29,143,243,0.2)", duration: 0.2, ease: "power2.out" }, T_TAB);
+      tl.to(fieldPw, { borderColor: "rgba(29,143,243,0.55)", duration: 0.2, ease: "power2.out" }, T_TAB);
+      // the cursor arrives at "Enviar" decelerating, clicks with a ripple
+      moveCursor(TIP_ENVIAR, 5.32, 0.42);
+      click(CLICK_ENVIAR, btnEnviar, ripples.enviar);
+      tl.to(fieldPw, { borderColor: "rgba(29,143,243,0.2)", duration: 0.2, ease: "power2.out" }, T_PW_BLUR);
+
+      // ================= S4 (6.2–8.6): step 3 — genera tu constancia =================
+      tl.to(pageB, { x: -64, duration: 0.22, ease: "power4.in" }, 6.02);
+      tl.to(pageB, { opacity: 0, duration: 0.2, ease: "power1.in" }, 6.02);
+      tl.fromTo(pageC, { x: 64, opacity: 0 }, { x: 0, opacity: 1, duration: 0.32, ease: "power4.out" }, 6.24);
+      // finite spinner: one and a half turns, then it clears before the document lands
+      tl.fromTo(spinArc, { rotation: 0 }, { rotation: 540, duration: 0.74, ease: "power1.inOut" }, 6.24);
+      tl.to(spin, { opacity: 0, scale: 0.7, duration: 0.12, ease: "power2.in" }, 6.96);
+      moveCursor(PARK_DOC, 6.34, 0.46);
+      // the document assembles row by row (waterfall)
+      tl.fromTo(doc, { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: 0.5, ease: "power3.out" }, 7.08);
+      tl.fromTo(docHead, { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.4, ease: "power3.out" }, 7.14);
+      tl.fromTo(rows, { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: 0.42, ease: "power3.out", stagger: 0.14 }, 7.26);
+      tl.fromTo(valRfc, { opacity: 0, scale: 0.9 }, { opacity: 1, scale: 1, duration: 0.36, ease: "power3.out" }, 7.36);
+      tl.fromTo(valOk, { opacity: 0, scale: 0.9 }, { opacity: 1, scale: 1, duration: 0.36, ease: "power3.out" }, 7.78);
+      tl.fromTo(btnDescargar, { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: 0.45, ease: "power3.out" }, 8.02);
+
+      // ================= S5 (8.6–10.6): step 4 — descarga el PDF =================
+      moveCursor(TIP_DESCARGAR, 8.4, 0.38);
+      click(CLICK_DESCARGAR, btnDescargar, ripples.descargar);
+      // doc -> file: inverse zoom-through (recede, hard cut at peak blur, arrive)
+      tl.to(doc, { scale: 0.94, filter: "blur(8px)", duration: 0.2, ease: "power3.in" }, 8.98);
+      tl.to(doc, { opacity: 0, duration: 0.18, ease: "none" }, 8.98);
+      tl.fromTo(
+        file,
+        { opacity: 0, scale: 1.06, filter: "blur(8px)" },
+        { opacity: 1, scale: 1, filter: "blur(0px)", duration: 0.5, ease: "expo.out" },
+        9.18
+      );
+      // progress fill to 100% (stat-bars-and-fills, scaleX from a left origin)
+      tl.fromTo(fileFill, { scaleX: 0 }, { scaleX: 1, duration: 0.8, ease: "power2.out" }, 9.34);
+      // "Descargado": the check draws in positive green
+      tl.to(check, { strokeDashoffset: 0, duration: 0.34, ease: "power2.out" }, 10.1);
+      tl.fromTo(fileStatus, { opacity: 0, x: -10 }, { opacity: 1, x: 0, duration: 0.4, ease: "power3.out" }, 10.14);
+
+      // ================= S6 (10.6–12.0): the seal settles, then stillness =================
+      tl.fromTo(
+        badge,
+        { opacity: 0, y: 26, scale: 0.97 },
+        { opacity: 1, y: 0, scale: 1, duration: 1.1, ease: "power3.out" },
+        10.64
+      );
+
+      // ---------- typed text + carets: one driver, reverse-searched each frame ----------
+      function stateIndex(seq, t, getT) {
+        for (var i = seq.length - 1; i >= 0; i--) {
+          if (t >= getT(seq[i])) return i;
+        }
+        return -1;
+      }
+      function first(entry) {
+        return entry[0];
+      }
+      function self(entry) {
+        return entry;
+      }
+      // solid while keys land, then a stepped blink (0.28s off / 0.28s on)
+      var CARET_HOLD = 0.12;
+      var CARET_HALF = 0.28;
+      function caretOn(t, focusOn, focusOff, lastKey) {
+        if (t < focusOn || t >= focusOff) return false;
+        var since = t - Math.max(focusOn, lastKey);
+        if (since < CARET_HOLD) return true;
+        return Math.floor((since - CARET_HOLD) / CARET_HALF) % 2 === 1;
+      }
+      var lastDots = -1;
+      function render(t) {
+        // address bar
+        var u = stateIndex(URL_SEQ, t, first);
+        urlTyped.textContent = u >= 0 ? URL_SEQ[u][1] : "";
+        var suggesting = t >= T_SUGGEST;
+        urlSuggest.textContent = suggesting ? URL_SUGGEST : "";
+        urlSuggest.style.backgroundColor = suggesting && t < T_ENTER ? "rgba(29,143,243,0.2)" : "rgba(29,143,243,0)";
+        urlCaret.style.opacity = caretOn(t, T_URL_FOCUS, T_SUGGEST, u >= 0 ? URL_SEQ[u][0] : -1) ? "1" : "0";
+        // RFC field
+        var r = stateIndex(RFC_SEQ, t, first);
+        rfcText.textContent = r >= 0 ? RFC_SEQ[r][1] : "";
+        rfcCaret.style.opacity = caretOn(t, T_RFC_FOCUS, T_TAB, r >= 0 ? RFC_SEQ[r][0] : -1) ? "1" : "0";
+        // password field
+        var p = stateIndex(PW_SEQ, t, self);
+        var shown = p + 1;
+        if (shown !== lastDots) {
+          for (var d = 0; d < dots.length; d++) {
+            dots[d].style.display = d < shown ? "block" : "none";
+          }
+          lastDots = shown;
+        }
+        pwCaret.style.opacity = caretOn(t, T_TAB, T_PW_BLUR, p >= 0 ? PW_SEQ[p] : -1) ? "1" : "0";
+      }
+      var driver = { t: 0 };
+      tl.to(
+        driver,
+        {
+          t: DUR,
+          duration: DUR,
+          ease: "none",
+          onUpdate: function () {
+            render(driver.t);
+          }
+        },
+        0
+      );
+      render(0);
+
+      window.__timelines = window.__timelines || {};
+      window.__timelines["04-metodo-portal-sat"] = tl;
+    })();
+  </script>
+</template>
